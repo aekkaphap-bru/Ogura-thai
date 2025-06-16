@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OCTIIS_WEBAPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acc_Bank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankName_EN" Type="varchar" MaxLength="100" />
+          <Property Name="Address_EN" Type="varchar" MaxLength="3000" />
+          <Property Name="BankName_Thi" Type="varchar" MaxLength="100" />
+          <Property Name="Address_Thi" Type="varchar" MaxLength="3000" />
+          <Property Name="AccOn" Type="varchar" MaxLength="100" />
+          <Property Name="Branch" Type="varchar" MaxLength="200" />
+          <Property Name="SwiftCode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Acc_BillingDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentDate" Type="date" Nullable="false" />
+          <Property Name="DocumentNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoiceNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoiceDate" Type="date" Nullable="false" />
+          <Property Name="CustomerCode" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="300" />
+          <Property Name="DueDate" Type="date" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="Vat" Type="float" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+          <Property Name="MasterAccBankId" Type="int" Nullable="false" />
+          <Property Name="Payment" Type="int" Nullable="false" />
+          <Property Name="Currency" Type="varchar" MaxLength="20" />
+          <Property Name="Acc_BillingHeaderId" Type="int" />
+        </EntityType>
+        <EntityContainer Name="OCTIIS_WEBAPPModelStoreContainer">
+          <EntitySet Name="Acc_Bank" EntityType="Self.Acc_Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Acc_BillingDetails" EntityType="Self.Acc_BillingDetails" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OCTIIS_WEBAPPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Acc_Bank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankName_EN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address_EN" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="BankName_Thi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address_Thi" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="AccOn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Branch" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SwiftCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="OCTIIS_WEBAPPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Acc_Bank" EntityType="Self.Acc_Bank" />
+          <EntitySet Name="Acc_BillingDetails" EntityType="OCTIIS_WEBAPPModel.Acc_BillingDetails" />
+        </EntityContainer>
+        <EntityType Name="Acc_BillingDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DocumentNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
+          <Property Name="Vat" Type="Double" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <Property Name="MasterAccBankId" Type="Int32" Nullable="false" />
+          <Property Name="Payment" Type="Int32" Nullable="false" />
+          <Property Name="Currency" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Acc_BillingHeaderId" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OCTIIS_WEBAPPModelStoreContainer" CdmEntityContainer="OCTIIS_WEBAPPEntities">
+          <EntitySetMapping Name="Acc_Bank">
+            <EntityTypeMapping TypeName="OCTIIS_WEBAPPModel.Acc_Bank">
+              <MappingFragment StoreEntitySet="Acc_Bank">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BankName_EN" ColumnName="BankName_EN" />
+                <ScalarProperty Name="Address_EN" ColumnName="Address_EN" />
+                <ScalarProperty Name="BankName_Thi" ColumnName="BankName_Thi" />
+                <ScalarProperty Name="Address_Thi" ColumnName="Address_Thi" />
+                <ScalarProperty Name="AccOn" ColumnName="AccOn" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="SwiftCode" ColumnName="SwiftCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Acc_BillingDetails">
+            <EntityTypeMapping TypeName="OCTIIS_WEBAPPModel.Acc_BillingDetails">
+              <MappingFragment StoreEntitySet="Acc_BillingDetails">
+                <ScalarProperty Name="Acc_BillingHeaderId" ColumnName="Acc_BillingHeaderId" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="MasterAccBankId" ColumnName="MasterAccBankId" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Vat" ColumnName="Vat" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="DocumentDate" ColumnName="DocumentDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,249 @@
+﻿@model OCTWEB_NET45.Models.WSR_WorkingStandardProcessEditModel
+@{
+    ViewBag.Title = "Edit Working Standard Process";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/WorkingStandardProcess/WSProcessSetList" class="btn-outline-secondary">WS Process List <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Edit Working Standard Process</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Edit", "WorkingStandardProcess", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true)
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m => m.WSP_Id, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Department: </label>
+                                    @Html.DropDownList("searchDepartmentId", Model.SelectDepartmentId, "Select ", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.searchDepartmentId, "", new { @class = "text-danger" })
+                                    <input type="hidden" name="submit_var" id="submit_var" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Working Standard Type: </label>
+                                    @Html.DropDownList("WST_Id", Model.SelectWorkingStandardTypeId, "Select", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.WST_Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Working Standard Process: </label>
+                                    @Html.TextBoxFor(m => m.WSP_ProcessName, new { @class = "form-control form-control-sm", onkeyup = "this.value=this.value.toUpperCase()",maxlength = "30" })
+                                    @Html.ValidationMessageFor(m => m.WSP_ProcessName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Note: </label>
+                                    @Html.TextAreaFor(m => m.WSP_Note, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.WSP_Note, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="button" value="Edit" id="edited" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+
+    });
+
+    $(function () {
+
+        $('#searchDepartmentId').on("change", function () {
+            var department = $('#searchDepartmentId').val();
+            var obj = { department: department };
+            AjaxCall('/WorkingStandardProcess/GetWSTypeCreate', JSON.stringify(obj), 'POST').done(function (response) {
+                if (response.length > 0) {
+                    $('#WST_Id').html('');
+                    var options = '';
+                    options += '<option value=""></option>';
+                    for (var i = 0; i < response.length; i++) {
+                        options += '<option value="' + response[i].val + '">' + response[i].label + '</option>';
+                    }
+                    $('#WST_Id').append(options);
+                }
+                else {
+                    $('#WST_Id').html('');
+                }
+            }).fail(function (error) {
+                //alert(error.StatusText);
+                $('#WST_Id').html('');
+            });
+        });
+
+
+    });
+
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
+
+    $("#edited").click(function (event) {
+        event.preventDefault();
+
+        let isValid = true;
+
+        if ($("#searchDepartmentId").val() === "") {
+            isValid = false;
+            $("#searchDepartmentId").next(".text-danger").text("Please select a dapartment.");
+        } else {
+            $("#searchDepartmentId").next(".text-danger").text("");
+        }
+
+        if ($("#WST_Id").val() === "" && $("#WST_Id").val() == 0) {
+            isValid = false;
+            $("#WST_Id").next(".text-danger").text("Please select a Working Standard Type.");
+        } else {
+            $("#WST_Id").next(".text-danger").text("");
+        }
+
+        if ($("#WSP_ProcessName").val().trim() === "") {
+            isValid = false;
+            $("#WSP_ProcessName").next(".text-danger").text("Working Standard Process is required.");
+        } else {
+            $("#WSP_ProcessName").next(".text-danger").text("");
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to edit this Working Standard Type?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes "
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: $("#Form1").attr("action"),
+                    type: "POST",
+                    data: $("#Form1").serialize(),
+                    success: function (response) {
+                        //if (result.isConfirmed) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: "Edit",
+                                text: response.message,
+                                icon: "success",
+                                timer: 2000,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                didClose: function () {
+                                    window.location.href = response.redirecUrl;
+                                }
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: response.message,
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    //$("#edited").click(function () {
+    //    Swal.fire({
+    //        title: "Are you sure?",
+    //        text: "Do you want to edit this Working Standard Type?",
+    //        icon: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#3085d6",
+    //        cancelButtonColor: "#d33",
+    //        confirmButtonText: "Yes "
+    //    }).then(function (result) {
+    //        if (result.isConfirmed) {
+    //            $.ajax({
+    //                url: $("#Form1").attr("action"),
+    //                type: "POST",
+    //                data: $("#Form1").serialize(),
+    //                success: function (response) {
+    //                    //if (result.isConfirmed) {
+    //                    if (response.success) {
+    //                        Swal.fire({
+    //                            title: "Edit",
+    //                            text: response.message,
+    //                            icon: "success",
+    //                            timer: 2000,
+    //                            showCancelButton: false,
+    //                            showConfirmButton: false,
+    //                            timerProgressBar: true,
+    //                            didClose: function () {
+    //                                window.location.href = response.redirecUrl;
+    //                            }
+    //                        });
+    //                    }
+    //                    else {
+    //                        Swal.fire({
+    //                            icon: "error",
+    //                            title: 'Error',
+    //                            text: response.message,
+    //                        });
+    //                    }
+    //                }
+    //            });
+    //        }
+    //    });
+    //});
+
+</script>

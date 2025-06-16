@@ -1,0 +1,194 @@
+﻿@model OCTWEB_NET45.Models.ManageCourseModel
+@{
+    ViewBag.Title = "Course";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="margin-bottom: 50px;">
+    <div style="display: inline-block; margin-right: 10px;">
+        <a href="/TrainingCourseManagement/CourseReport" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Training Course Reports </a>
+        <a href="/TrainingCourseReport/CourseList" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Training Course Report </a>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4 text-center">
+                    <h4 class="page-title ">Training Course <span style="color:green;">Report</span></h4>
+                    <p class="text-success">@ViewBag.Message</p>                    
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    @{
+                        var status_style_body = "background: linear-gradient(to right, #ede6d6, #c1c8bc, #9da9a5, #81898a, #686a6c);";
+                        var status_style_head = "background: linear-gradient(to right, #ede6d6, #c1c8bc, #9da9a5, #81898a, #686a6c);";
+                        var status_style_foot = "background: linear-gradient(to right, #ede6d6, #c1c8bc, #9da9a5, #81898a, #686a6c);";
+                    }
+                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                        <div class="card-header justify-content-center" style="@status_style_head">
+                            <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                                <p class="font-weight-bold text-dark my-1 text-center ">
+                                    @Model.CourseModel.CourseHeader <br />
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-body" style="@status_style_body">
+                            <div class="form-row">
+                                <div class="col">
+                                    <p style="color:black">
+                                        <span style="font-weight:bold">Topic:</span> @Model.CourseModel.CourseHeader <br />
+                                        <span style="font-weight:bold">Location:</span> @Model.CourseModel.Location <br />
+                                        <span style="font-weight:bold">Date:</span> @Model.CourseModel.DateOfTrainingStart.ToString("yyyy-MM-dd") To @Model.CourseModel.DateOfTrainingEnd.ToString("yyyy-MM-dd") <br />
+                                        <span style="font-weight:bold">Time:</span> @Model.CourseModel.time_str <br />
+                                        <span style="font-weight:bold">Hours:</span> @Model.CourseModel.difftime_str <br />
+                                        <span style="font-weight:bold">Cognitive Levels:</span> @Model.CourseModel.cognitive % <br />
+                                        <span style="font-weight:bold">Trainer:</span> @Model.CourseModel.TrainerName <br />
+                                        <span style="font-weight:bold">Price:</span> @String.Format("{0:N0} Bath", @Model.CourseModel.TotalPrice)
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    @if (Model.CourseModel.ImportFilePdf != null)
+                                    {
+                                        <a href="@Url.Action(actionName: "DownloadFile"
+                                            , controllerName: "TrainingCourseReport"
+                                            , routeValues: new {filename=Model.CourseModel.ImportFilePdf })" class="btn btn-sm btn-info">
+                                            <i class="fas fa-download "></i> Download File
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="@status_style_foot">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container-fluid">
+            @using (Html.BeginForm("Course", "TrainingCourseReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(m => m.CourseModel.course_header_id)
+                @Html.HiddenFor(m => m.CourseModel.CourseHeader)
+                @Html.HiddenFor(m => m.CourseModel.CoursePrice)
+                @Html.HiddenFor(m => m.CourseModel.cognitive)
+                @Html.HiddenFor(m => m.CourseModel.BreakTime)
+                @Html.HiddenFor(m => m.CourseModel.DateOfTrainingEnd)
+                @Html.HiddenFor(m => m.CourseModel.DateOfTrainingStart)
+                @Html.HiddenFor(m => m.CourseModel.difftime_str)
+                @Html.HiddenFor(m => m.CourseModel.TrainerName)
+                @Html.HiddenFor(m => m.CourseModel.ImportFilePdf)
+                @Html.HiddenFor(m => m.CourseModel.Location)
+
+                <div class="row">
+                    <div class="col">
+                        <table class="tablecustom " id="table1" style="font-size:14px">
+                            <thead>
+                                @if (@Model.TraineeList.Any())
+                                {
+                                    <tr>
+                                        <th style="text-align:center">
+                                            Items
+                                        </th>
+                                        <th style="text-align:center">
+                                            Emp Id
+                                        </th>
+                                        <th style="text-align:center">
+                                            First Name
+                                        </th>
+                                        <th style="text-align:center">
+                                            Last Name
+                                        </th>
+                                        <th style="text-align:center">
+                                            Nation
+                                        </th>
+                                        <th style="text-align:center">
+                                            Department
+                                        </th>
+                                        <th style="text-align:center">
+                                            Position
+                                        </th>
+                                        <th style="text-align:center">
+                                            Assessment
+                                        </th>
+                                    </tr>
+                                }
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.TraineeList.Select((value, i) => new { i, value }))
+                                {
+                                    <tr>
+                                        <td>
+                                            @(item.i + 1)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.emp_id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.fname)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.lname)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.nation)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.dept)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.value.position)
+                                        </td>
+                                        <td>
+                                            @{
+                                    var assessment = item.value.assessment;
+                                    string showtext = "";
+                                    if (assessment <= 1) { showtext = "Not Good (ไม่ดี)"; }
+                                    else if (assessment == 2) { showtext = "Fair (พอใช้)"; }
+                                    else if (assessment == 3) { showtext = "Good (ดี)"; }
+                                    else { showtext = "Excellent (ดีมาก)"; }
+                                            }
+                                            <p>@showtext</p>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-row justify-content-center">
+
+                            <button type="button" onclick="history.back()" class="btn btn-outline-primary"><i class="fa fa-undo"></i> Back</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+
+    });
+</script>

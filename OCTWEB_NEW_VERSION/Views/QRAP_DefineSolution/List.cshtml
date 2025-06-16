@@ -1,0 +1,361 @@
+﻿@model OCTWEB_NET45.Models.DefineSolutionListModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <h4 class="page-title ">2. Define Solution <span style="color:red;"></span></h4>
+                    <p class="text-success">@ViewBag.Message</p>
+                    <p class="text-danger">@ViewBag.errorMessage</p>
+                    @Html.ValidationSummary(true)
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    @using (Html.BeginForm("List", "QRAP_DefineSolution", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+                    {
+                        <fieldset>
+                            <div class="form-row justify-content-center">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Occur Date: </label>
+                                        @{
+                                            var start_date = Model.start_date.HasValue ? Model.start_date.Value.ToString("yyyy-MM-dd") : null;
+                                        }
+                                        <input type="date" name="start_date" id="start_date" class="form-control form-control-sm" value="@start_date" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>To: </label>
+                                        @{
+                                            var end_date = Model.end_date.HasValue ? Model.end_date.Value.ToString("yyyy-MM-dd") : null;
+                                        }
+                                        <input type="date" name="end_date" id="end_date" class="form-control form-control-sm" value="@end_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Department: </label>
+                                        @Html.DropDownList("department_id", Model.SelectDepartmet, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Status: </label>
+                                        @Html.DropDownList("status", Model.SelectStatus, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Problem No: </label>
+                                        @Html.TextBoxFor(m => m.problem_no, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Problem Detail: </label>
+                                        @Html.TextBoxFor(m => m.detail, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Owner: </label>
+                                        @Html.TextBoxFor(m => m.owner, new { @class = "form-control form-control-sm" })
+                                    </div>
+                                </div>
+                                <div class="col-md-8 align-self-end">
+                                    <div class="form-group">
+                                        <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                            <i class="fas fa-search"></i> Search
+                                        </button>
+
+                                        <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                        <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                            <i class="fas fa-eraser"></i> Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("Delete", "QRAP_DefineSolution", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+    {       
+        <div class="row">
+            <table class="tablecustom" id="table1" style="font-size:14px;">
+                <thead>
+                    <tr>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Solution
+                        </th>
+
+                        <th>
+                            Items
+                        </th>
+
+                        <th>
+                            Problem No.
+                        </th>
+                        <th>
+                            Occur
+                        </th>
+                        <th>
+                            Problem
+                        </th>
+                        <th>
+                            Reason
+                        </th>
+                        <th>
+                            Response Dept.
+                        </th>
+                        <th>
+                            Owner
+                        </th>
+                        <th>
+                            Detail
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.problemPagedListModel.Select((value, i) => new { i, value }))
+                    {
+                        string status_style = "";
+                        if (item.value.status == 1)
+                        {
+                            status_style = " background-image: linear-gradient(to left, #ffffed, #ffffc4, #ffff99, #ffff69, #fffe23);";
+                        }
+                        if (item.value.status == 0)
+                        {
+                            status_style = "background: linear-gradient(to right, #f05757, #fc81a0, #f6afd7, #f1daf6, #ffffff); ";              
+                        }
+                        if (item.value.status == 2)
+                        {
+                            status_style = " background-image: linear-gradient(to left, #efffed, #ccffc6, #a5ff9e, #77ff73, #23ff3f);";
+                        }
+                        <tr>
+                            <td style="@status_style ">
+                                <div class="col">
+                                    @if (item.value.status == 1)
+                                    {
+                                        <span class="badge badge-warning"> Operating </span>
+                                    }
+                                    @if (item.value.status == 0)
+                                    {
+                                        <span class="badge badge-danger"> None operate </span>
+                                    }
+                                    @if (item.value.status == 2)
+                                    {
+                                        <span class="badge badge-success"> Completed </span>
+                                    }
+                                </div>
+                            </td>     
+                            <td class="text-center">
+                                    <a href="@Url.Action(actionName: "DefineSolution"
+                                         , controllerName: "QRAP_DefineSolution"
+                                         , routeValues: new {id = item.value.id })" class="btn btn-sm btn-warning">
+                                        <i class="far fa-lightbulb"></i><strong> Solution </strong>
+                                    </a>
+                            </td>
+                            <td>
+                                @((item.i + 1) + (30 * (Model.problemPagedListModel.PageNumber - 1)))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.problem_no)
+                            </td>
+                            <td>
+                                @{
+                                    var date_str = item.value.date.ToString("yyyy-MM-dd");
+                                }
+                                @date_str
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.detail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.department)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.owner)
+                            </td>
+                            <td>
+                                @if (!String.IsNullOrEmpty(item.value.file))
+                                {
+                                    <a href="@Url.Action(actionName: "DownloadFile"
+                                        , controllerName: "QRAP_DefineSolution"
+                                        , routeValues: new {filename = item.value.file })" class="btn btn-sm link-info">
+                                        <i class="fas fa-download"></i><strong> Download File</strong>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div class="row justify-content-center">
+        Page @(Model.problemPagedListModel.PageCount < Model.problemPagedListModel.PageNumber ? 0 : Model.problemPagedListModel.PageNumber) of @Model.problemPagedListModel.PageCount
+    </div>
+    <div class="row justify-content-center">
+        @Html.PagedListPager(Model.problemPagedListModel, page => Url.Action("List", new RouteValueDictionary()
+        {
+            {"Page",page},
+            {"start_date",Model.start_date},
+            {"end_date",Model.end_date},
+            {"department_id",Model.department_id},
+            {"problem_no",Model.problem_no},
+            {"detail",Model.detail},
+            {"owner",Model.owner},
+            {"status",Model.status},
+
+        }))
+    </div>
+</div>
+
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+    $("#deleteall").click(function () {
+        $("#ExportToCsv").val("");
+        if (confirm('Delete all selected elements?')) {
+            document.forms["Form2"].submit();
+        }
+    })
+
+
+    $("#clear").click(function () {
+        $('#start_date').val(null).trigger('change');
+        $('#end_date').val(null).trigger('change');
+        $('#problem_no').val(null).trigger('change');
+        $('#department_id').val(null).trigger('change');
+        $('#detail').val(null).trigger('change');
+        $('#owner').val(null).trigger('change');
+        $('#status').val(null).trigger('change');
+
+    });
+
+    $(document).ready(function () {
+
+        $("#department_id").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#status").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+    });
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $(document).ready(function () {
+        $("#problem_no").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/QRAP_DefineSolution/GetProblemNo",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#owner").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/QRAP_DefineSolution/GetNickName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+    })
+
+
+</script>

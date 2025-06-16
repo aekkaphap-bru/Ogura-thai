@@ -1,0 +1,571 @@
+<div class="oct-sidebar">
+    <!-- Sidebar Brand -->
+    <div class="sidebar-brand">
+        <h2>OCT WEB</h2>
+        <div class="brand-icon"  id="Close-sidebar">
+            <i class="fas fa-th-large" background-color: #b9b9b9;"></i>
+        </div>
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu">
+        @if (Session["MenuModels"] != null)
+        {
+            var mm = (OCTWEB_NET45.Models.MenuModels)Session["MenuModels"];
+            
+            <!-- Administration Menu -->
+            if (mm.admin_setup)
+            {
+                <li>
+                    <a href="#admin-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="menu-text">Administration</span>
+                    </a>
+                    <ul class="collapse list-unstyled submenu-bg" id="admin-submenu">
+                        @if (mm.UserDetail_4)
+                        {
+                            <li>
+                                <a href="/UserDetail/userDetailList">
+                                    <i class="fas fa-user"></i>
+                                    <span class="menu-text">User Detail</span>
+                                </a>
+                            </li>
+                        }
+                        @if (mm.ChangePassword_6)
+                        {
+                            <li>
+                                <a href="/Account/Manage">
+                                    <i class="fas fa-key"></i>
+                                    <span class="menu-text">Change Password</span>
+                                </a>
+                            </li>
+                        }
+                        @if (mm.UserGroup_8)
+                        {
+                            <li>
+                                <a href="/UserGroup/UserGroupList">
+                                    <i class="fas fa-users"></i>
+                                    <span class="menu-text">User Groups</span>
+                                </a>
+                            </li>
+                        }
+                        @if (mm.LogReport_10)
+                        {
+                            <li>
+                                <a href="/LogsReport/logDetailsList">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <span class="menu-text">Log Report</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            
+            <!-- Drawing Menu -->
+            if (mm.drawing)
+            {
+                <li>
+                    <a href="#drawing-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-folder-open"></i>
+                        <span class="menu-text">Drawing</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="drawing-submenu">
+                        <!-- Drawing Reports -->
+                        @if (mm.drawing_report)
+                        {
+                            <li>
+                                <a href="#drawing-reports"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="drawing-reports">
+                                    @if (mm.DrawingSearch_12)
+                                    {
+                                        <li>
+                                            <a href="/DW_DrawingReport/DList">
+                                                <i class="fas fa-search"></i>
+                                                <span class="menu-text">Drawing Search</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.FileShare_24)
+                                    {
+                                        <li>
+                                            <a href="/DW_FileShareReport/FileList">
+                                                <i class="fas fa-share-alt"></i>
+                                                <span class="menu-text">File Share</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        
+                        <!-- Drawing Setup -->
+                        @if (mm.drawing_setup)
+                        {
+                            <li>
+                                <a href="#drawing-setup"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-cogs"></i>
+                                    <span class="menu-text">Setup</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="drawing-setup">
+                                    @if (mm.EngineerDrawing_15)
+                                    {
+                                        <li>
+                                            <a href="/DW_EngineerDrawingSetup/EDList">
+                                                <i class="fas fa-drafting-compass"></i>
+                                                <span class="menu-text">Engineer Drawing</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.PartName_14)
+                                    {
+                                        <li>
+                                            <a href="/DW_PartName/PartNameList">
+                                                <i class="fas fa-tools"></i>
+                                                <span class="menu-text">Part Name</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.Process_13)
+                                    {
+                                        <li>
+                                            <a href="/DW_ProcessSetup/ProcessList">
+                                                <i class="fas fa-project-diagram"></i>
+                                                <span class="menu-text">Process</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.ProcessDrawing_16)
+                                    {
+                                        <li>
+                                            <a href="/DW_ProcessDrawingSetup/PDList">
+                                                <i class="fas fa-file-alt"></i>
+                                                <span class="menu-text">Process Drawing</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.UploadFileShare_25)
+                                    {
+                                        <li>
+                                            <a href="/DW_FileShareSetup/FileList">
+                                                <i class="fas fa-upload"></i>
+                                                <span class="menu-text">Upload File Share</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            
+            <!------HR------>
+            if (mm.hr)
+            {
+                <li>
+                    <a href="#hr-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-users"></i>
+                        <span class="menu-text">HR</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="hr-submenu">
+
+                        <!-- HR Management Setup -->
+                        @if (mm.hr_manage)
+                        {
+                            <li>
+                                <a href="#hr-management-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-cogs"></i>
+                                    <span class="menu-text">Management Setup</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="hr-management-submenu">
+                                    @if (mm.EmployeeListSetup_32)
+                                    {
+                                        <li>
+                                            <a href="/EmployeeMaster/EmpList">
+                                                <i class="fas fa-id-badge"></i>
+                                                <span class="menu-text">Employee List Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.FormerEmpListSetup_37)
+                                    {
+                                        <li>
+                                            <a href="/EmployeeFormer/EmpList">
+                                                <i class="fas fa-user-slash"></i>
+                                                <span class="menu-text">Former Emp List Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.MistakesSetup_34)
+                                    {
+                                        <li>
+                                            <a href="/MistakesSetup/EmpList">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                <span class="menu-text">Mistakes Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.BenefitSetup_71)
+                                    {
+                                        <li>
+                                            <a href="/Benefit/BenList">
+                                                <i class="fas fa-gift"></i>
+                                                <span class="menu-text">Benefit Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.TrainingCoursesManagement_33)
+                                    {
+                                        <li>
+                                            <a href="/TrainingCourseManagement/SubTrainingCourseManagementList">
+                                                <i class="fas fa-chalkboard-teacher"></i>
+                                                <span class="menu-text">Training Courses Management</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.TrainingCoursesSetup_61)
+                                    {
+                                        <li>
+                                            <a href="/TrainingCourseManagement/CourseSetup">
+                                                <i class="fas fa-sliders-h"></i>
+                                                <span class="menu-text">Training Courses Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.TrainingCoursesWSSetup_57)
+                                    {
+                                        <li>
+                                            <a href="/TrainingCourseManageWS/ManageWSList">
+                                                <i class="fas fa-warehouse"></i>
+                                                <span class="menu-text">Training Courses WS Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.LeaveSetup_69)
+                                    {
+                                        <li>
+                                            <a href="/Leave/LeaveList">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                <span class="menu-text">Leave Setup</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        <!-- HR Report -->
+                        @if (mm.hr_report)
+                        {
+                            <li>
+                                <a href="#hr-report-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="hr-report-submenu">
+                                    @if (mm.EmployeeListReport_53)
+                                    {
+                                        <li>
+                                            <a href="/EmployeeMasterReport/EmpList">
+                                                <i class="fas fa-id-card"></i>
+                                                <span class="menu-text">Employee List Report</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.FormerEmpListReport_54)
+                                    {
+                                        <li>
+                                            <a href="/EmployeeFormerReport/EmpList">
+                                                <i class="fas fa-user-times"></i>
+                                                <span class="menu-text">Former Emp List Report</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.MistakesReport_55)
+                                    {
+                                        <li>
+                                            <a href="/MistakesReport/EmpList">
+                                                <i class="fas fa-bug"></i>
+                                                <span class="menu-text">Mistakes Report</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.TrainingCourses_56)
+                                    {
+                                        <li>
+                                            <a href="/TrainingCourseManagement/CourseReport">
+                                                <i class="fas fa-book-open"></i>
+                                                <span class="menu-text">Training Courses Report</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.LeaveReport_64)
+                                    {
+                                        <li>
+                                            <a href="/LeaveReport/LeaveList">
+                                                <i class="fas fa-calendar-check"></i>
+                                                <span class="menu-text">Leave Report</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </li>
+            }
+
+            <!------QRAP------>
+            if (mm.qrap)
+            {
+                <li>
+                    <a href="#qrap-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-check-circle"></i>
+                        <span class="menu-text">QRAP</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="qrap-submenu">
+
+                        <!-- QRAP Report -->
+                        @if (mm.qrap_report)
+                        {
+                            <li>
+                                <a href="#qrap-report-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="qrap-report-submenu">
+                                    @if (mm.ProblemGraph_9)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_Graph/Graph">
+                                                <i class="fas fa-chart-line"></i>
+                                                <span class="menu-text">Problem Graph</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.QRAPDetail_3)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_Detail/List">
+                                                <i class="fas fa-info-circle"></i>
+                                                <span class="menu-text">QRAP Detail</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        <!-- QRAP Setup -->
+                        @if (mm.qrap_update)
+                        {
+                            <li>
+                                <a href="#qrap-setup-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-tools"></i>
+                                    <span class="menu-text">Update and Modify</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="qrap-setup-submenu">
+                                    @if (mm.InformProblem_5)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_InformProblem/List">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                                <span class="menu-text">1 Inform Problem</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.DefineSolution_2)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_DefineSolution/List">
+                                                <i class="fas fa-lightbulb"></i>
+                                                <span class="menu-text">2 Define Solution</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.Answers_1)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_Answer/List">
+                                                <i class="fas fa-comments"></i>
+                                                <span class="menu-text">3 Answers</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.Approve_7)
+                                    {
+                                        <li>
+                                            <a href="/QRAP_Approve/List">
+                                                <i class="fas fa-thumbs-up"></i>
+                                                <span class="menu-text">4 Approve</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </li>
+            }
+
+            <!------WS & Rule------>
+            if (mm.ws)
+            {
+                <li>
+                    <a href="#ws-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i class="fas fa-cogs"></i>
+                        <span class="menu-text">WS & Rule</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="ws-submenu">
+
+                        @* WS Report *@
+                        @if (mm.ws_report)
+                        {
+                            <li>
+                                <a href="#ws-report-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span class="menu-text">Report</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="ws-report-submenu">
+                                    @if (mm.CompanyRuleSearch_19)
+                                    {
+                                        <li>
+                                            <a href="/CompanyRuleSearch/CompanyRuleList">
+                                                <i class="fas fa-search"></i>
+                                                <span class="menu-text">Company Rule Search</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.WorkingStandardSearch_22)
+                                    {
+                                        <li>
+                                            <a href="/WorkingStandardSearch/WorkingStandardList">
+                                                <i class="fas fa-file-alt"></i>
+                                                <span class="menu-text">Working Standard Search</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @* Setup Rule *@
+                        @if (mm.ws_setuprule)
+                        {
+                            <li>
+                                <a href="#ws-setuprule-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <span class="menu-text">Setup Rule</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="ws-setuprule-submenu">
+                                    @if (mm.CompanyRuleType_17)
+                                    {
+                                        <li>
+                                            <a href="/CompanyRuleTypeSet/CompanyRuleTypeSetList">
+                                                <i class="fas fa-tags"></i>
+                                                <span class="menu-text">1 Company Rule Type</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.CompanyRule_18)
+                                    {
+                                        <li>
+                                            <a href="/CompanyRuleSet/CompanyRuleSetList">
+                                                <i class="fas fa-gavel"></i>
+                                                <span class="menu-text">2 Company Rule</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @* Setup WS *@
+                        @if (mm.ws_setupws)
+                        {
+                            <li>
+                                <a href="#ws-setupws-submenu"data-bs-toggle="collapse" class="dropdown-toggle">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <span class="menu-text">Setup WS</span>
+                                </a>
+                                <ul class="collapse list-unstyled" id="ws-setupws-submenu">
+                                    @if (mm.WorkingStandardType_20)
+                                    {
+                                        <li>
+                                            <a href="/WorkingStandardTypeSet/WSTypeSetList">
+                                                <i class="fas fa-cube"></i>
+                                                <span class="menu-text">1 Working Standard Type</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.WorkingStandardProcess_23)
+                                    {
+                                        <li>
+                                            <a href="/WorkingStandardProcess/WSProcessSetList">
+                                                <i class="fas fa-cogs"></i>
+                                                <span class="menu-text">2 Working Standard Process</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (mm.WorkingStandard_21)
+                                    {
+                                        <li>
+                                            <a href="/WorkingStandardSet/WSSetList">
+                                                <i class="fas fa-clipboard-list"></i>
+                                                <span class="menu-text">3 Working Standard</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </li>
+            }
+
+            <!------System Support------>
+            if (mm.system_support)
+                {
+                    <li class="nav-item dropdown" id="dropdown-systemsupport">
+                        <a class="nav-link dropdown-toggle"data-bs-toggle="collapse" href="#dropdown-systemsupport-lv1">
+                            <i class="fas fa-fw fa-dollar-sign" aria-hidden="true"></i>
+                            <span class="text-white">
+                                System Support
+                            </span>
+                        </a>
+                        <!-- Dropdown System Support level 1 -->
+                        <div id="dropdown-systemsupport-lv1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <!--if (mm.APBillingNote_65)
+                                    {
+                                        <li>
+                                            <a class="collapse-item " href="/BillingNote/BList">
+                                                <span class="text-dark font-weight-bold">AP Billing Note</span>
+                                            </a>
+                                        </li>
+                                    }-->
+                                    @if (mm.ALBillingNote_66)
+                                    {
+                                        <li>
+                                            <a class="collapse-item" href="/BillingNote/BList">
+                                                <span class="text-dark font-weight-bold">AR Billing Note</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                }
+
+        }
+    </ul>
+</div>

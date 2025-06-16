@@ -1,0 +1,185 @@
+﻿@model OCTWEB_NET45.Models.CourseListModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "CourseList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/css/ModifyTrainingCourseMainList.css")
+}
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <!-- Page Header -->
+                <div class="col-md-12 text-center">
+                    <h4 class="header-title">Training Course <span style="color: var(--secondary-color);">Report</span></h4>
+                    <p class="text-success">@ViewBag.Message</p>
+                </div>
+            </div>
+        <!-- Search Form -->
+        @using (Html.BeginForm("CourseList", "TrainingCourseReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+        {
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Topic: </label>
+                            <select id="search_topic" name="search_topic" class="form-control form-control-sm" style="width: 100%;">
+
+                                <option value="">Select Topic</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Location: </label>
+                            <select id="search_location" name="search_location" class="form-control form-control-sm" style="width: 100%;">
+                                <option value="">Select Location</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Start Date:</label>
+                            @{
+                                string startdate = Model.search_startdate.HasValue ?
+                                Model.search_startdate.Value.ToString("yyyy-MM-dd") : "";
+                            }
+                            <input type="date" name="search_startdate" class="form-control date" value="@startdate" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>End Date:</label>
+                            @{
+                                string enddate = Model.search_enddate.HasValue ?
+                                Model.search_enddate.Value.ToString("yyyy-MM-dd") : "";
+                            }
+                            <input type="date" name="search_enddate" class="form-control date" value="@enddate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <button type="submit" id="SearchBtn" name="SearchBtn" value="Search" class="btn btn-search">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <button type="button" id="ExportToCsvBtn" name="ExportToCsvBtn" class="btn btn-export" value="null">
+                            <i class="fas fa-file"></i> Export
+                        </button>
+                        @* <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" /> *@
+                        <button id="clear" type="button" name="clear" class="btn btn-clear">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+        <!-- Course Cards -->
+            <div class="row">
+                @foreach (var item in Model.CourseModelPagedList.Select((value, i) => new { i, value }))
+                {
+                    <div class="col-12">
+                        <div class="course-card">
+                            <div class="card-header-custom">
+                                <div class="course-title">@item.value.CourseHeader</div>
+                            </div>
+                            <div class="card-body-custom">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="course-detail">
+                                            <div class="detail-label">Topic:</div>
+                                            <div class="detail-value">@item.value.CourseHeader</div>
+                                        </div>
+                                        <div class="course-detail">
+                                            <div class="detail-label">Location:</div>
+                                            <div class="detail-value">@item.value.Location</div>
+                                        </div>
+                                        <div class="course-detail">
+                                            <div class="detail-label">Date:</div>
+                                            <div class="detail-value">@item.value.DateOfTrainingStart.ToString("yyyy-MM-dd") To @item.value.DateOfTrainingEnd.ToString("yyyy-MM-dd")</div>
+                                        </div>
+                                        <div class="course-detail">
+                                            <div class="detail-label">Time:</div>
+                                            <div class="detail-value">@item.value.time_str</div>
+                                        </div>
+                                        <div class="course-detail">
+                                            <div class="detail-label">Trainer:</div>
+                                            <div class="detail-value">@item.value.TrainerName</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <a href="@Url.Action(actionName: "Course", controllerName: "TrainingCourseReport", routeValues: new {id = @item.value.course_header_id })" class="btn btn-detail mb-2 btn-block">
+                                                <i class="fas fa-tasks"></i> Detail
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        <!-- Pagination -->
+        <div class="row pagination-container">
+            <div class="col-12 text-center">
+                <div>Page @(Model.CourseModelPagedList.PageCount < Model.CourseModelPagedList.PageNumber ? 0 : Model.CourseModelPagedList.PageNumber) of @Model.CourseModelPagedList.PageCount</div>
+                @Html.PagedListPager(Model.CourseModelPagedList, page => Url.Action("CourseList", new RouteValueDictionary()
+                {
+                  {"Page",page},
+                  {"search_topic",Model.search_topic},
+                  {"search_location",Model.search_location},
+                  {"search_startdate",Model.search_startdate},
+                  {"search_enddate",Model.search_enddate},
+                }))
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+        $.getJSON("/TrainingCourseAddAndManage/GetAllTopics", function (data) {
+            $.each(data, function (index, item) {
+                $("#search_topic").append($("<option></option>").val(item.Value).text(item.Text));
+            });
+        });
+
+        $.getJSON("/TrainingCourseAddAndManage/GetAllLocations", function (data) {
+            $.each(data, function (index, item) {
+                $("#search_location").append($("<option></option>").val(item.Value).text(item.Text));
+            });
+        });
+    });
+
+   
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+    $("#clear").click(function () {
+        // $('#selected_status').val(null).trigger('change');
+        $('#search_topic').val(null).trigger('change');
+        $('#search_location').val(null).trigger('change');
+        $('input[type=date]').val(null).trigger('change');
+    });
+
+
+</script>

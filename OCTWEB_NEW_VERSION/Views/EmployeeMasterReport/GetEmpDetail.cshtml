@@ -1,0 +1,407 @@
+﻿@model OCTWEB_NET45.Models.EmployeeModel
+
+<script src="~/static/jspdf-customfonts/dist/jspdf.customfonts.debug.js"></script>
+<script src="~/static/jspdf-customfonts/dist/jspdf.customfonts.min.js"></script>
+<script src="~/static/jspdf-customfonts/defaultvfs.js"></script>
+
+
+
+<div class="modal-body">
+     <div class="row">
+        <div class="col">
+            @Html.HiddenFor(m => m.id)
+            @Html.HiddenFor(m => m.EmpID)
+            @Html.HiddenFor(m => m.emp_profile)
+            @Html.HiddenFor(m => m.Title_EN)
+            @Html.HiddenFor(m => m.FName_EN)
+            @Html.HiddenFor(m => m.LName_EN)
+            @Html.HiddenFor(m => m.NName_EN)
+            @Html.HiddenFor(m => m.Title_TH)
+            @Html.HiddenFor(m => m.FName_TH)
+            @Html.HiddenFor(m => m.LName_TH)
+            @Html.HiddenFor(m => m.NName_TH)
+            @Html.HiddenFor(m => m.Gender)
+            @Html.HiddenFor(m => m.Nation)
+            @Html.HiddenFor(m => m.DeptDesc)
+            @Html.HiddenFor(m => m.Position)
+            @Html.HiddenFor(m => m.CostCenterName)
+            @Html.HiddenFor(m => m.In_Email)
+            @Html.HiddenFor(m => m.StartDate)
+            @Html.HiddenFor(m => m.StartPosition)
+            @Html.HiddenFor(m => m.PassDate)
+            @Html.HiddenFor(m => m.working_period)
+            @Html.HiddenFor(m => m.logo)
+            @Html.HiddenFor(m => m.pvd1_start_date)
+            @Html.HiddenFor(m => m.pvd1_end_date)
+            @Html.HiddenFor(m => m.pvd2_start_date)
+            @Html.HiddenFor(m => m.pvd2_end_date)
+        </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <div class="row">
+        <div class="col">
+            <div class="btn-group border-0 rounded-lg mt-0 mb-2">
+                <a href="@Url.Action(actionName: "EmpDetail"
+                        , controllerName: "EmployeeMasterReport"
+                        , routeValues: new { id = @Model.id })" class="btn btn-sm btn-secondary active">
+                    <i class="fas fa-list"></i> Employee
+                </a>
+                @if (Model.rights_see_training)
+                {
+                    <a href="javascript:void(0);" class="anchorEmpCourse btn btn-sm btn-secondary" data-id="@Model.id">
+                        <i class="fas fa-book-reader"></i> Training
+                    </a>
+                }
+                @if (Model.rights_see_leave)
+                {
+                    <a href="@Url.Action(actionName: "LeaveList"
+                            , controllerName: "LeaveReport"
+                            , routeValues: new OCTWEB_NET45.Models.SearchLeave { emp_id = @Model.id,Page=1,start_date=@Model.leave_start_date,end_date=@Model.leave_end_date })" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-house-user"></i> Leave
+                    </a>
+                }
+                @if (!String.IsNullOrEmpty(Model.jobdes_path))
+                {
+                    <a href="@Url.Action(actionName: "DownloadFile"
+                            , controllerName: "EmployeeMasterReport"
+                            , routeValues: new { fileName = Model.jobdes_path })" class="btn btn-sm btn-info">
+                        <i class="fas fa-download"></i> Job Desc
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="row">
+        <div class="col border">
+            <div class="form-row">
+                <div class="col">
+                    <h4 class="page-title">Personal Information</h4>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-3 col-md-2">
+                    <div class="form-group text-center">
+                        <div class="image-upload">
+                            <label for="imgfile">
+                                <img class="img-profile border-0 rounded-lg" src="@Model.emp_profile" alt="Profile" height="100" width="100">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 col-md-10">
+                    <div class="row">
+                         <div class="col-10">
+                            <p class="mb-2"><strong>Emp ID:</strong> <span class="data-value">@Model.EmpID</span></p>
+                         </div>     
+                        <div class="col-12 col-md-6">
+                            <p class="mb-2"><strong>First Name (EN):</strong> <span class="data-value">@Model.Title_EN @Model.FName_EN @Model.LName_EN (@Model.NName_EN)</span></p>
+                            <p class="mb-2"><strong>Gender:</strong> <span class="data-value">@Model.Gender</span></p>
+                            <p class="mb-2"><strong>Cost Center:</strong> <span class="data-value">@Model.CostCenterName</span></p>
+                            <p class="mb-2"><strong>Department:</strong> <span class="data-value">@Model.DeptDesc</span></p>
+                            @{
+                                var start_working_date = Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd-MM-yyyy") : null;
+                                <p class="mb-2"><strong>Start Working Date:</strong> <span class="data-value">@start_working_date</span></p>
+                            }
+                            <p class="mb-2"><strong>Working period:</strong> <span class="data-value">@Model.working_period</span></p>
+                             @{
+                                var pass_working_date = Model.PassDate.HasValue ? Model.PassDate.Value.ToString("dd-MM-yyyy") : null;
+                                <p class="mb-2"><strong>Probation pass Date:</strong><span class="data-value">@pass_working_date</span></p>
+                            }
+                            
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <p class="mb-2"><strong>First Name (TH):</strong> <span class="data-value">@Model.Title_TH @Model.FName_TH @Model.LName_TH (@Model.NName_TH)</span></p>
+                            <p class="mb-2"><strong>Nationality:</strong> <span class="data-value">@Model.Nation</span></p>
+                            <p class="mb-2"><strong>Disabled:</strong> <span class="data-value">@Html.CheckBoxFor(m => m.Disabled_stat, new { id = "disable_id", disabled = "true" })</span></p>
+                            <p class="mb-2"><strong>Position:</strong> <span class="data-value">@Model.Position</span></p>
+                             @{
+                                var start_position = Model.StartPosition.HasValue ? Model.StartPosition.Value.ToString("dd-MM-yyyy") : null;
+                                <p class="mb-2"><strong>Start this Position:</strong> <span class="data-value">@start_position</span></p>
+                            }
+                            <p class="mb-2"><strong>Prosition period:</strong><span class="data-value">@Model.position_period</span></p>
+                            <p class="mb-2"><strong>Email:</strong> <span class="data-value">@Model.In_Email</span></p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Provident Fund Section -->
+    <div class="row">
+        <div class="col border">
+            <div class="form-row">
+                <div class="col">
+                    <h4 class="page-title">Provident Fund</h4>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">1st registration:</label>
+                        <input type="date" name="pvd1_start_date" id="pvd1_start_date" class="form-control form-control-sm date" value="2020-07-01" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">Resignation date:</label>
+                        <input type="date" name="pvd1_end_date" id="pvd1_end_date" class="form-control form-control-sm date" value="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">Membership period:</label>
+                        <input type="text" name="pvd1_period" id="pvd1_period" class="form-control form-control-sm" value="4 years, 10 months" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">2nd registration:</label>
+                        <input type="date" name="pvd2_start_date" id="pvd2_start_date" class="form-control form-control-sm date" value="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">Resignation date:</label>
+                        <input type="date" name="pvd2_end_date" id="pvd2_end_date" class="form-control form-control-sm date" value="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="mb-0">Membership period:</label>
+                        <input type="text" name="pvd2_period" id="pvd2_period" class="form-control form-control-sm" value="" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mt-2">
+        <div class="col-6 text-left">
+            <button class="btn btn-sm btn-info" onclick="printpdf()">
+                <i class="fa fa-print"></i> Print
+            </button>
+        </div>
+        <div class="col-6 text-right">
+           <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Close</button>
+
+
+        </div>
+    </div>
+</div>
+
+ <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script> *@
+
+<script language="JavaScript">  
+    $(function () {
+        $(".anchorEmpCourse").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: "/EmployeeMasterReport/GetEmpCourse",
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#empCourseModalContent').html(data);
+                    $('#empCourseModal').modal(options);
+                    $('#empCourseModal').modal('show');
+                    $('#empDetailModal').modal('hide');
+                },
+                error: function () {
+                    alert("Get employee course content load failed.");
+                }
+            });
+        });
+        //$("#closebtn").on('click',function(){  
+        //    $('#empCourseModal').modal('hide');    
+
+        $("#closbtn").click(function () {
+            $('#empCourseModal').modal('hide');
+        });
+    });
+
+    function printpdf() {
+
+        var title_th = $("#FName_TH").val();
+        var emp_id = "EmpID: " + $("#EmpID").val();
+        var name_eng = "Name (EN): " + $("#Title_EN").val() + " " + $("#FName_EN").val() + " " + $("#LName_EN").val() + " (" + $("#NName_EN").val() + ")"
+        let name_th = "Name (TH): ".concat($("#Title_TH").val(), " ", $("#FName_TH").val(), " ", $("#LName_TH").val(), " (", $("#NName_TH").val(), ")");
+        var gender = "Gender: " + $("#Gender").val();
+        var nation = " Nationality: " + $("#Nation").val();
+        var department = "Department: " + $("#DeptDesc").val();
+        var position = " Position: " + $("#Position").val();
+        var costcenter = " CostCenter Name: " + $("#CostCenterName").val();
+        var in_email = "Internal Email: " + $("#In_Email").val();
+
+        var startdate = formatDate($("#StartDate").val());
+        var startposition = formatDate($("#StartPosition").val());
+        var passdate = formatDate($("#PassDate").val());
+
+        var start_working_date = "Start working date: " + startdate;
+        var start_position = " Start this position: " + startposition;
+        var working_period = "Working period: " + $("#working_period").val();
+        var pass_date = " Probation pass: " + passdate;
+
+        var pic = $("#emp_profile").val();
+        var imgData = $("#logo").val();
+
+        var doc = new jsPDF();
+        doc.addFont('THSarabun.ttf', 'THSarabun', 'normal');
+        doc.addFont('THSarabunNew-Bold.ttf', 'THSarabunNew-Bold', 'normal');
+        doc.addFont('THSarabunNew-BoldItalic.ttf', 'THSarabunNew-BoldItalic', 'normal');
+        doc.addFont('THSarabunNew-Italic.ttf', 'THSarabunNew-Italic', 'normal');
+        doc.addFont('THSarabunNew.ttf', 'THSarabunNew', 'normal');
+
+        if (imgData) {
+            var logo = new Image();
+            logo = imgData;
+            doc.addImage(logo, 'JPEG', 10, 10, 50, 15);
+        }
+        doc.setFont('THSarabunNew');
+        doc.setFontSize(18);
+        doc.text(10, 30, 'OGURA CLUTCH (THAILAND) CO.,LTD')
+
+        if (pic != "") {
+            var img = new Image();
+            img = pic;
+            doc.addImage(img, 'png', 170, 20, 20, 20);
+        }
+
+        doc.setFont('THSarabunNew-Bold');
+        doc.setFontSize(18);
+        doc.text(10, 40, 'Information Employee')
+        doc.rect(10, 45, 190, 50); // empty square
+
+        doc.setFont('THSarabunNew');
+        doc.setFontSize(16);
+        doc.text(15, 50, emp_id);
+        doc.text(15, 58, name_eng);
+        doc.setFont('THSarabun');
+        doc.setFontSize(16);
+        doc.text(15, 66, name_th);
+        doc.setFont('THSarabunNew');
+        doc.setFontSize(16);
+        doc.text(15, 74, gender + nation);
+        doc.text(15, 82, department + position);
+        doc.text(15, 90, in_email + costcenter);
+
+        doc.setFont('THSarabunNew-Bold');
+        doc.setFontSize(18);
+        doc.text(10, 110, 'Experience Information')
+        doc.rect(10, 115, 190, 25); // empty square
+
+        doc.setFont('THSarabunNew');
+        doc.setFontSize(16);
+        doc.text(15, 125, start_working_date + start_position);
+        doc.text(15, 133, working_period + pass_date);
+
+        doc.save('Employee_Detail.pdf');
+
+    }
+
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        if (month.length < 2) {
+            month = '0' + month;
+        }
+        if (day.lenght < 2) {
+            day = '0' + day;
+        }
+
+        return [year, month, day].join('-');
+    }
+
+    $(document).ready(function () {
+        //PVD1
+        var startdate1 = $("#pvd1_start_date").val();
+        var enddate1 = $("#pvd1_end_date").val();
+        var result1 = calPvdPeriod(startdate1, enddate1);
+        $("#pvd1_period").val(result1);
+        //PVD2
+        var startdate2 = $("#pvd2_start_date").val();
+        var enddate2 = $("#pvd2_end_date").val();
+        var result2 = calPvdPeriod(startdate2, enddate2);
+        $("#pvd2_period").val(result2);
+    });
+
+    function calPvdPeriod(startdate, enddate) {
+        var start_date = new Date();
+        var end_date = new Date();
+        if (startdate) {
+            start_date = new Date(startdate);
+        }
+        if (enddate) {
+            end_date = new Date(enddate);
+        }
+        var born = start_date;
+        var today = end_date,
+            month = '' + (today.getMonth() + 1),
+            day = '' + today.getDate(),
+            year = today.getFullYear();
+        var now = ([month, day, year].join('/'));
+        var nowdate = new Date(now) || new Date();
+
+        var calYear = new Date(nowdate.getTime() - born.getTime()).getUTCFullYear() - 1970;
+        var calMonth = new Date(nowdate.getTime() - born.getTime()).getMonth();
+        var calDay = new Date(nowdate.getTime() - born.getTime()).getDate();
+        //calDay = calDay - 1 ;
+        var yearMeter;
+        if (calYear > 1) {
+            yearMeter = ' years ';
+        }
+        else if (calYear <= 0) {
+            calYear = '';
+            yearMeter = '';
+        }
+        else {
+            yearMeter = ' year ';
+        }
+        var monthMeter;
+        if (calMonth > 1) {
+            monthMeter = ' months ';
+        }
+        else if (calMonth <= 0) {
+            calMonth = '';
+            monthMeter = '';
+        }
+        else {
+            monthMeter = ' month ';
+        }
+        var dayMeter;
+        if (calDay > 1) {
+            dayMeter = ' days ';
+        }
+        else if (calDay <= 0) {
+            calDay = '';
+            dayMeter = '';
+        }
+        else {
+            dayMeter = ' day ';
+        }
+        if (startdate && start_date <= end_date) {
+            return calYear + yearMeter + calMonth + monthMeter + calDay + dayMeter;
+        }
+        return '';
+    }
+
+
+</script>
+

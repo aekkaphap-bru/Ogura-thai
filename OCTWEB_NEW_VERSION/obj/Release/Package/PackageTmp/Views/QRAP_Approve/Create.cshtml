@@ -1,0 +1,238 @@
+﻿@model OCTWEB_NET45.Models.ApproveModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/QRAP_Approve/List" class="btn-outline-secondary">Approve List <i class="fa fa-angle-right"></i> </a>&nbsp;
+        <a href="@Url.Action("Solutions", "QRAP_Approve", new {id = Model.problem_id })" class="btn-outline-secondary">Approve <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <br />
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Approve</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "QRAP_Approve", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true)
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m => m.solution_id)
+                                    @Html.HiddenFor(m => m.answer_id)
+                                    @Html.HiddenFor(m => m.file_evidence)
+                                    @Html.HiddenFor(m => m.answer)
+                                    @Html.HiddenFor(m => m.approver_date)
+                                    @Html.HiddenFor(m => m.status)
+                                    @Html.HiddenFor(m => m.problem_id)
+                                    @Html.HiddenFor(m => m.problem_no)
+                                    @Html.HiddenFor(m => m.problem_detail)
+                                    @Html.HiddenFor(m => m.problem_reason)
+                                    @Html.HiddenFor(m => m.problem_department)
+                                    @Html.HiddenFor(m => m.problem_date)
+                                    @Html.HiddenFor(m => m.solution_id)
+                                    @Html.HiddenFor(m => m.solution_detail)
+                                    @Html.HiddenFor(m => m.solution_department)
+                                    @Html.HiddenFor(m => m.solution_response_name)
+                                    @Html.HiddenFor(m => m.solution_date)
+                                    @Html.HiddenFor(m => m.need_evidence)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <fieldset>
+                                    <legend>1. Problem</legend>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Problem No: </strong></label>
+                                                @Html.DisplayFor(m => m.problem_no)
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Problem file: </strong></label>
+                                                @if (!String.IsNullOrEmpty(Model.problem_file))
+                                                {
+                                                    <a href="@Url.Action(actionName: "DownloadFile"
+                                                        , controllerName: "QRAP_Approve"
+                                                        , routeValues: new {filename = Model.problem_file })" class="btn link-info">
+                                                        <i class="fas fa-download"></i>  @Model.problem_file
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Problem Name: </strong></label>
+                                                @Html.DisplayFor(m => m.problem_detail)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Problem Reason: </strong></label>
+                                                @Html.DisplayFor(m => m.problem_reason)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <fieldset>
+                                    <legend>2. Solution</legend>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Solution Detail: </strong></label>
+                                                @Html.DisplayFor(m => m.solution_detail)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Department:</strong></label>
+                                                @Html.DisplayFor(m => m.solution_department)
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Response Name:</strong></label>
+                                                @Html.DisplayFor(m => m.solution_response_name)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Plan Date: </strong></label>
+                                                @Model.solution_date.ToString("yyyy-MM-dd")
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                @Html.CheckBoxFor(m => m.need_evidence, new { disabled = "true" })
+                                                <label for="need_evidence">Need Evidence </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <fieldset>
+                                    <legend>3. Answer</legend>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Evidence File: </strong></label>
+                                                @if (!String.IsNullOrEmpty(Model.file_evidence))
+                                                {
+                                                    <a href="@Url.Action(actionName: "DownloadFileEvidence"
+                                                        , controllerName: "QRAP_Approve"
+                                                        , routeValues: new { filename = Model.file_evidence })" class="btn link-info">
+                                                        <i class="fas fa-download"></i>  @Model.file_evidence
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Answer: </strong></label>
+                                                @Html.DisplayFor(m => m.answer)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <fieldset>
+                                    <legend>4. Approve</legend>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Approved Date:</strong></label>
+                                                @{var approve_date = Model.approver_date.HasValue ?
+                                                      Model.approver_date.Value.ToString("yyyy-MM-dd") : ""; 
+                                                }
+                                                @approve_date
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Approver:</strong></label>
+                                                @Html.DisplayFor(m=>m.approver)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label><strong>Comment:</strong></label>
+                                                @Html.TextAreaFor(m => m.comment, new {@class="form-control" })
+                                                @Html.ValidationMessageFor(m => m.comment, "", new {@class="text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    @{
+                                         var approve_str = Model.status.Trim() == "2" ? "UN-APPROVE" : "APPROVE";
+                                    }
+                                    <button type="submit" value="Create" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-save"></i> @approve_str
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#department_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+    });
+
+
+</script>

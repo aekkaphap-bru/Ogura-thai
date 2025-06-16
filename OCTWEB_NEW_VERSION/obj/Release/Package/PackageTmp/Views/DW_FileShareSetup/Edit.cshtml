@@ -1,0 +1,91 @@
+﻿@model OCTWEB_NET45.Models.FileShareModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/DW_FileShareSetup/FileList" class="btn-outline-secondary">File Shared Setup <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Edit File Share</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Edit", "DW_FileShareSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true)
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m=>m.id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>File share name : </label>
+                                    @Html.TextBoxFor(m => m.name, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Rev : </label>
+                                    @Html.TextBoxFor(m => m.rev, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.rev, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Upload File : </label>
+                                    @Html.TextBoxFor(m => m.file, "", new {@class="form-control form-control-sm",@readonly="true" })
+                                    @Html.TextBox("file", "", new { @class = "form-control form-control-sm", type = "file" })
+                                    @Html.ValidationMessageFor(m => m.file, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Date : </label>
+                                    <input type="date" name="date" class="form-control form-control-sm date" value="@Model.date.ToString("yyyy-MM-dd")" />
+                                    @Html.ValidationMessageFor(m => m.date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Note: </label>
+                                    @Html.TextAreaFor(m => m.note, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.note, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="submit" value="Create" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

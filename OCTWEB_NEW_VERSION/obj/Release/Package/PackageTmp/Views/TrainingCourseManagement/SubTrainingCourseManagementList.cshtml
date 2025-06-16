@@ -1,0 +1,115 @@
+﻿@model OCTWEB_NET45.Models.TrainingCourseManagementModel
+@{
+    ViewBag.Title = "Training Course Management List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var style_head_1 = " background: linear-gradient(to right, #ede6d6, #e3ebc9, #c7f2c9, #9bf9dc, #57feff);"; //max-width: 30rem;
+    var style_body_1 = " background: linear-gradient(to right, #ede6d6, #e3ebc9, #c7f2c9, #9bf9dc, #57feff);";
+    var style_foot_1 = " background: linear-gradient(to right, #ede6d6, #e3ebc9, #c7f2c9, #9bf9dc, #57feff);";
+
+    var style_head_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+    var style_body_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+    var style_foot_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <h4 class="font-weight-bolder my-1 text-center">Training Course <span style="color:gold;">Management</span></h4>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_1">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Add [WS] Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_1">
+                    <p style="color:black">Create to send Upload Training Working Standard</p>
+                    <p style="color:black">(สำหรับทำการส่งหัวข้อ ให้อัพโหลดการฝึกอบรม [WS])</p>
+                    <p style="color:black">
+                        *Have new request working standard
+                        <span class="badge badge-danger badge-counter">@Model.CountRequest</span>
+                    </p>
+                </div>
+                <div class="card-footer" style="@style_foot_1">
+                    <a href="@Url.Action(actionName: "WSTrainingList"
+                            , controllerName: "TrainingCourseAddWS")" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Mail
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_1">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Manage [WS] Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_1">
+                    <p style="color:black;">Edit or Delete Working Standard Training Course</p>
+                    <p style="color:black;">(แก้ไขรายละเอียด เพิ่ม/ลบ ข้อมูลหลักสูตรการฝึกอบรม [WS])</p>
+                </div>
+                <div class="card-footer" style="@style_foot_1">
+                    <a href="@Url.Action(actionName: "ManageWSList"
+                        , controllerName: "TrainingCourseManageWS"
+                        , routeValues: new OCTWEB_NET45.Models.ManageWSListModel { showall = true })" class="btn btn-primary">
+                        <i class="fas fa-tasks"></i> Manage
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_2">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Add Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_2">
+                    <p style="color:black;">Create New Training</p>
+                    <p style="color:black;">(เพิ่มหัวข้อหลักสูตรการฝึกอบรม)</p>
+                </div>
+                <div class="card-footer" style="@style_foot_2">
+                    <a href="@Url.Action(actionName: "AddCourse"
+                            , controllerName: "TrainingCourseAddAndManage")" class="btn btn-success">
+                        <i class="fas fa-folder-plus"></i> Create
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_2">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Manage Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_2">
+                    <p style="color:black;">Edit or Delete Training Course</p>
+                    <p style="color:black;">(แก้ไขรายละเอียด เพิ่ม/ลบ ข้อมูลหลักสูตรการฝึกอบรม)</p>
+                </div>
+                <div class="card-footer" style="@style_foot_2">
+                    <a href="@Url.Action(actionName: "CourseList"
+                            ,controllerName:"TrainingCourseAddAndManage")" class="btn btn-success">
+                        <i class="fas fa-tasks"></i> Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

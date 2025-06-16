@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OCTIIS_WEBAPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Acc_Bank">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BankName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="Address_EN" Type="varchar" MaxLength="3000" />
+    <Property Name="BankName_Thi" Type="varchar" MaxLength="100" />
+    <Property Name="Address_Thi" Type="varchar" MaxLength="3000" />
+    <Property Name="AccOn" Type="varchar" MaxLength="100" />
+    <Property Name="Branch" Type="varchar" MaxLength="200" />
+    <Property Name="SwiftCode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Acc_BillingDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocumentDate" Type="date" Nullable="false" />
+    <Property Name="DocumentNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="InvoiceNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="InvoiceDate" Type="date" Nullable="false" />
+    <Property Name="CustomerCode" Type="varchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="300" />
+    <Property Name="DueDate" Type="date" Nullable="false" />
+    <Property Name="Amount" Type="float" Nullable="false" />
+    <Property Name="Vat" Type="float" Nullable="false" />
+    <Property Name="Total" Type="float" Nullable="false" />
+    <Property Name="MasterAccBankId" Type="int" Nullable="false" />
+    <Property Name="Payment" Type="int" Nullable="false" />
+    <Property Name="Currency" Type="varchar" MaxLength="20" />
+    <Property Name="Acc_BillingHeaderId" Type="int" />
+  </EntityType>
+  <EntityContainer Name="OCTIIS_WEBAPPModelStoreContainer">
+    <EntitySet Name="Acc_Bank" EntityType="Self.Acc_Bank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Acc_BillingDetails" EntityType="Self.Acc_BillingDetails" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

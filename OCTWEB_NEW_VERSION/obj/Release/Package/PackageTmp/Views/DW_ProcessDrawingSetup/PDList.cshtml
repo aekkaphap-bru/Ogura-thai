@@ -1,0 +1,430 @@
+﻿@model OCTWEB_NET45.Models.ProcessDrawingListModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Process Drawing Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4 class="font-weight-bolder my-1 text-center">Process Drawing <span style="color:red;">Setup</span></h4>
+            <p class="text-success">@ViewBag.Message</p>
+            @Html.ValidationSummary(true)
+        </div>
+    </div>
+    @using (Html.BeginForm("PDList", "DW_ProcessDrawingSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="row">
+            <div class="col">
+                <fieldset>
+                    <legend>Enter condition for search process drawing data</legend>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Group Line: </label>
+                                @Html.DropDownList("groupLine_id", Model.SelectGroupLine, "All", new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Part Name: </label>
+                                @Html.TextBoxFor(m => m.partName, "", new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Line Name: </label>
+                                @Html.TextBoxFor(m => m.lineName, "", new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Drawing No.: </label>
+                                @Html.TextBoxFor(m => m.drawingNo, "", new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Model No.: </label>
+                                @Html.TextBoxFor(m => m.modelNo, "", new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center"> 
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                                <button type="button" name="ExportToCsvBtn" id="ExportToCsvBtn" class="btn btn-sm btn-outline-primary" value="Export">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    }
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("Delete", "DW_ProcessDrawingSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+    {
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <a href="@Url.Action(actionName:"Create"
+                        , controllerName: "DW_ProcessDrawingSetup")" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Add
+                    </a>
+
+                    <button type="button" id="deleteall" name="deleteall" value="Delete" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <table class="tablecustom" id="table1" style="font-size:14px; width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="select-all" id="select-all" />
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                        <th>
+                            Items
+                        </th>
+                        <th>
+                            Drawing_File
+                        </th>
+                        <th>
+                            Group_Line
+                        </th>
+                        <th>
+                            Line_Name
+                        </th>
+                        <th>
+                            Drawing_No.
+                        </th>
+                        <th>
+                            Rev
+                        </th>
+                        <th>
+                            Part_Name
+                        </th>
+                        <th>
+                            Model_No.
+                        </th>
+                        <th>
+                            Remark
+                        </th>
+                    </tr>
+                </thead>
+                <!--<tbody>
+                    foreach (var item in Model.ProcessDrawingPagedList.Select((value, i) => new { i, value }))
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedItem" value="(item.value.id)" />
+                            </td>
+                            <td class="text-center">
+                                <a href="Url.Action(actionName: "Edit"
+                                     , controllerName: "DW_ProcessDrawingSetup"
+                                     , routeValues: new {id = item.value.id })" class="btn btn-sm btn-success">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                ((item.i + 1) + (30 * (Model.ProcessDrawingPagedList.PageNumber - 1)))
+                            </td>
+                            <td>
+                                <a href="Url.Action(actionName: "DownloadFile"
+                                , controllerName: "DW_ProcessDrawingSetup"
+                                , routeValues: new {filename = item.value.file })" class="btn btn-sm link-info">
+                                    <i class="fas fa-drafting-compass"></i> Drawing File
+                                </a>
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.groupLine)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.lineName)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.drawingNumber)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.rev)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.partName)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.modelNo)
+                            </td>
+                            <td>
+                                Html.DisplayFor(m => item.value.remark)
+                            </td>
+                        </tr>
+                    }
+                </tbody>-->
+            </table>
+        </div>
+    </div>
+    }
+    <!--<div class="row justify-content-center">
+        Page (Model.ProcessDrawingPagedList.PageCount < Model.ProcessDrawingPagedList.PageNumber ? 0 : Model.ProcessDrawingPagedList.PageNumber) of Model.ProcessDrawingPagedList.PageCount
+    </div>
+    <div class="row justify-content-center">
+        Html.PagedListPager(Model.ProcessDrawingPagedList, page => Url.Action("PDList", new RouteValueDictionary()
+        {
+            {"Page",page},
+            {"groupLine_id",Model.groupLine_id},
+            {"partName",Model.partName},
+            {"lineName",Model.lineName},
+            {"drawingNo",Model.drawingNo},
+            {"modelNo",Model.modelNo},
+        }))
+    </div>-->
+</div>
+
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+    $("#deleteall").click(function () {
+        $("#ExportToCsv").val("");
+        if (confirm('Delete all selected elements?')) {
+            document.forms["Form2"].submit();
+        }
+    })
+
+
+    $("#clear").click(function () {
+        $('#groupLine_id').val(null).trigger('change');
+        $('#partName').val(null).trigger('change');
+        $('#lineName').val(null).trigger('change');
+        $('#drawingNo').val(null).trigger('change');
+        $('#modelNo').val(null).trigger('change');
+
+    });
+
+    
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $(document).ready(function () {
+        $("#partName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_ProcessDrawingSetup/GetPartName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+        $("#lineName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_ProcessDrawingSetup/GetLineName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#drawingNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_ProcessDrawingSetup/GetDrawingNo",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#modelNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_ProcessDrawingSetup/GetModelNo",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+    })
+
+    $(document).ready(function () {
+        /*
+        $("#groupLine_id").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });*/
+
+        //-------------------------------------------Table1-------------------------------------------------------//
+        var dt = $("#table1").DataTable({
+            "data":@Html.Raw(Json.Encode(Model.ProcessDrawingList)),
+            "columns": [
+                { "data": "id", "autowidth":true },
+                { "data": "id", "autowidth":true
+                        ,"render": function(data, type, row){
+                            return '<div><a href="/DW_ProcessDrawingSetup/Edit?id='+data+'" class="btn btn-sm btn-success"><i class="fas fa-edit"></i>Edit</a></div>';
+                        }
+                },
+                { "data": "id", "autowidth":true },
+                {
+                    "data": "file", "autowidth":true
+                    ,"render": function(data, type, row){
+                        if(data != "" && data != null){
+                            return '<div><a href="/DW_ProcessDrawingSetup/DownloadFile?filename='+data+'" class="btn btn-sm link-info"><i class="fas fa-drafting-compass"></i>Drawing File</a></div>';
+                        }
+                        else{
+                            return '<div><span class="text-danger">ไม่พบไฟล์</span></div>';
+                        }
+                    }
+                },
+                { "data": "groupLine", "autowidth":true},
+                { "data": "lineName", "autowidth":true},
+                { "data": "drawingNumber","autowidth":true},
+                { "data": "rev", "autowidth":true},
+                { "data": "partName", "autowidth":true},
+                { "data": "modelNo", "autowidth":true},
+                { "data": "remark", "autowidth":true},
+
+            ],
+            select: true,
+            buttons: [],
+            "pageLength": 30,
+            "lengthMenu": [[30,50,100,-1],[30,50,100,"All"]],
+            columnDefs: [
+                          {sortable: false,targets: 1 , width:100} ,
+                          {sortable: false,targets: 2 , width:50} , 
+                          {sortable: false,targets: 3 , width:120} , 
+                          {sortable: true,targets: 4 , width:100} ,  
+                          {sortable: true,targets: 5 , width:100} ,  
+                          {sortable: true,targets: 6 , width:100} ,  
+                          {sortable: true,targets: 7 , width:50} ,
+                          {sortable: true,targets: 8 , width:100} ,  
+                          {sortable: true,targets: 9 , width:150} ,  
+                          {sortable: false,targets: 10 ,width:100 } ,     
+                         
+                          {targets: 0 , orderable: false, className: 'select-checkbox',
+                              'render': function(data, type,full,meta){
+                                  return '<input type="checkbox" name="selectedItem" value="'+data+'">';
+                              }
+                          }
+            ],
+            "ordering": true,
+            order: [[ 4, 'asc' ]],
+            fixedColumns: true
+
+        })
+        dt.on('order.dt search.dt', function () {
+            let i = 1;
+            dt.cells(null, 2, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+    });
+
+
+</script>

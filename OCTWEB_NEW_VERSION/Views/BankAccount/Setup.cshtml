@@ -1,0 +1,129 @@
+﻿@model OCTWEB_NET45.Models.BankAccountListModel
+@{
+    ViewBag.Title = "Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+      <div class="card">
+         <div class="card-header">
+             <div class="btn-group btn-sm shadow-sm border-0 rounded-lg mt-0 mb-3">
+                <a href="@Url.Action(actionName: "Setup"
+                            , controllerName: "BankAccount"
+                            )" class="btn btn-sm btn-outline-secondary active">
+                    <i class="fas fa-cog"></i> Setup
+                </a>
+                <a href="@Url.Action(actionName: "BList"
+                            , controllerName: "BillingNote"
+                            )" class="btn btn-sm btn-secondary ">
+                    <i class="fas fa-print"></i> Billing Note
+                </a>
+                <a href="@Url.Action(actionName: "BList"
+                            , controllerName: "BillingNoteReprint"
+                            )" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-list"></i> Results
+                </a>
+                <a href="@Url.Action(actionName: "BList"
+                            , controllerName: "CollectionStatement"
+                            )" class="btn btn-sm btn-warning ">
+                    <i class="fas fa-print"></i> Collection Statement
+                </a>
+                <a href="@Url.Action(actionName: "BList"
+                            , controllerName: "CollectionStatementReprint"
+                            )" class="btn btn-sm btn-warning ">
+                    <i class="fas fa-list"></i> Results
+                </a>
+            </div>
+         </div>
+      </div>
+       
+    <div class="card-body">
+        @using (Html.BeginForm("Setup", "BankAccount", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+        {
+            <div class="form-row">
+                <div class="col-md-12 align-self-center">
+                    <h4 class="page-title ">Bank Account <span style="color:red;">Setup</span></h4>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <p class="text-success">@ViewBag.Message</p>
+                    @Html.ValidationSummary(true)
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <a href="@Url.Action(actionName: "Create"
+                                , controllerName: "BankAccount"
+                                )" class="btn btn-sm btn-primary ">
+                        <i class="fas fa-plus"></i> Create
+                    </a>
+                </div>
+            </div>
+            <div class="form-row">
+                <table class="tablecustom" id="table1" style="font-size:14px;">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>No.</th>
+                            <th>Branch</th>
+                            <th>Swift Code</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BankAccountList.Select((value, i) => new { i, value }))
+                        {
+                            <tr>
+                                <td>
+                                    @(item.i + 1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.BankName_EN)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.Address_EN)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.Acc_No)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.Branch)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.SwiftCode)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action(actionName: "Edit"
+                                        , controllerName: "BankAccount"
+                                        , routeValues: new { id = item.value.id })" 
+                                    class="btn btn-sm btn-success">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action(actionName: "Delete"
+                                                , controllerName: "BankAccount"
+                                                , routeValues: new {id = item.value.id})"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure to delete this bill?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>    
+                            
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+<script language="JavaScript">
+    document.getElementById("sidemenubar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+</script>

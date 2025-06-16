@@ -1,0 +1,1821 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Thomas_Ogura_TESTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CustomerOrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerOrderTemporaryDataId" Type="int" />
+    <Property Name="CustomerOrderHeaderId" Type="int" Nullable="false" />
+    <Property Name="OrderLineNo" Type="int" Nullable="false" />
+    <Property Name="Seiban" Type="varchar" MaxLength="25" />
+    <Property Name="MasterCustomerItemId" Type="int" />
+    <Property Name="CustomerItemShortName" Type="nvarchar" MaxLength="40" />
+    <Property Name="CustomerItemName" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="OrderQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitOrderUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="ItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="AltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitAltItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="numeric" Precision="16" Scale="4" Nullable="false" />
+    <Property Name="Amount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="DiscountRate" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="DiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="TotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="VatRate" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="Vat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="GrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+    <Property Name="EnumCustomerOrderTypeId" Type="int" Nullable="false" />
+    <Property Name="EnumCustomerOrderDetailStatusId" Type="int" Nullable="false" />
+    <Property Name="RequestDueDate" Type="date" />
+    <Property Name="AnswerDueDate" Type="date" />
+    <Property Name="OriginalShippingDate" Type="date" Nullable="false" />
+    <Property Name="OffsetShippingDate" Type="date" />
+    <Property Name="ArrivalPlanDate" Type="date" />
+    <Property Name="ShippingTotalCount" Type="int" Nullable="false" />
+    <Property Name="ShippingTotalQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="ShippingRestQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalOkQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalNgQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="EnumReturnTypeId" Type="int" Nullable="false" />
+    <Property Name="ReplyDueDate" Type="date" />
+    <Property Name="LastShippingDate" Type="date" />
+    <Property Name="PickUpTime" Type="datetime" />
+    <Property Name="DeliveryTime" Type="datetime" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ItemSpec" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsShippingOrderCreated" Type="bit" Nullable="false" />
+    <Property Name="IsCustomerInsp" Type="bit" Nullable="false" />
+    <Property Name="IsDirectOrder" Type="bit" Nullable="false" />
+    <Property Name="PurchaseRequestDetailId" Type="int" />
+    <Property Name="MasterVendorId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerOrderHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="OrderDate" Type="date" Nullable="false" />
+    <Property Name="MasterCustomerId" Type="int" Nullable="false" />
+    <Property Name="CustomerOrderNo" Type="nvarchar" MaxLength="300" />
+    <Property Name="ContractNo" Type="varchar" MaxLength="30" />
+    <Property Name="PersonInCharge" Type="nvarchar" MaxLength="40" />
+    <Property Name="MasterDestinationId" Type="int" Nullable="false" />
+    <Property Name="Note1" Type="nvarchar" MaxLength="100" />
+    <Property Name="Note2" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterInvoiceId" Type="int" Nullable="false" />
+    <Property Name="MasterIncotermId" Type="int" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="IsComplete" Type="bit" Nullable="false" />
+    <Property Name="EnumCustomerOrderHeaderStatusId" Type="int" Nullable="false" />
+    <Property Name="EnumOrderStatusId" Type="int" Nullable="false" />
+    <Property Name="MasterDepartmentId" Type="int" Nullable="false" />
+    <Property Name="MasterUserId" Type="int" Nullable="false" />
+    <Property Name="TrackingCode" Type="nvarchar" MaxLength="25" />
+    <Property Name="OriginalPONo" Type="nvarchar" MaxLength="25" />
+    <Property Name="Amount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="DiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="TotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Vat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="GrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="IsDocumentAttached" Type="bit" Nullable="false" />
+    <Property Name="IsProjectAssigned" Type="bit" Nullable="false" />
+    <Property Name="MasterUserPersonInChargeId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EnumLocationType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="TextEnum" Type="varchar" MaxLength="40" />
+    <Property Name="TextEnus" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="TextJajp" Type="nvarchar" MaxLength="40" />
+    <Property Name="TextThth" Type="nvarchar" MaxLength="40" />
+    <Property Name="TextZhch" Type="nvarchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="InventoryRecord">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionDate" Type="date" Nullable="false" />
+    <Property Name="TransactionNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="TransactionLineNo" Type="int" Nullable="false" />
+    <Property Name="TransactionCount" Type="int" Nullable="false" />
+    <Property Name="EnumTransactionTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="Length" Type="numeric" Precision="6" Scale="2" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="LotNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="LotSubNo" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="ProjectCodeHeaderId" Type="int" />
+    <Property Name="ProjectCodeDetailId" Type="int" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="AltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="OriginalNoteNo" Type="varchar" MaxLength="15" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceDebitCreditNoteHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceCreditDebitNoteNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="EnumDebitCreditTypeId" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="date" Nullable="false" />
+    <Property Name="PaymentDueDate" Type="date" Nullable="false" />
+    <Property Name="IssueReason" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterCustomerId" Type="int" Nullable="false" />
+    <Property Name="MasterInvoiceId" Type="int" Nullable="false" />
+    <Property Name="InvoiceName" Type="varchar" MaxLength="80" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo" Type="varchar" MaxLength="20" />
+    <Property Name="EnumRoundTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="EnumExchangeRateTypeId" Type="int" Nullable="false" />
+    <Property Name="EnumAccDocTypeId" Type="int" />
+    <Property Name="ClosingDate" Type="date" />
+    <Property Name="PaymentMonth" Type="int" />
+    <Property Name="PaymentDate" Type="date" />
+    <Property Name="Amount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="DiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="TotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Vat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="SubTotalAmountNative" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="ExchangeRate" Type="numeric" Precision="9" Scale="6" Nullable="false" />
+    <Property Name="MasterCurrencyNativeCurrencyId" Type="int" Nullable="false" />
+    <Property Name="DomesticPpn" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="GrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="GrandTotalNative" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="IsInvoiceIssued" Type="bit" Nullable="false" />
+    <Property Name="InvoiceIssuedDate" Type="date" />
+    <Property Name="IsInvoiceExportedToAcc" Type="bit" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="IsPrinted" Type="bit" Nullable="false" />
+    <Property Name="PrintedDate" Type="date" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="Remark2" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="WithholdingTax" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="PaymentAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="IsVoucherPrinted" Type="bit" Nullable="false" />
+    <Property Name="VoucherPrintedDate" Type="date" />
+    <Property Name="PaymentTotalCount" Type="int" Nullable="false" />
+    <Property Name="TotalClearingBillingAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="RestBillingAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="EnumPaymentStatusId" Type="int" Nullable="false" />
+    <Property Name="MasterVatHeaderId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="InvoiceCreateDate" Type="date" Nullable="false" />
+    <Property Name="PaymentDueDate" Type="date" Nullable="false" />
+    <Property Name="MasterCustomerId" Type="int" Nullable="false" />
+    <Property Name="MasterInvoiceId" Type="int" Nullable="false" />
+    <Property Name="InvoiceName" Type="nvarchar" MaxLength="80" />
+    <Property Name="InvoiceApproverName" Type="nvarchar" MaxLength="30" />
+    <Property Name="InvoiceApproverPosition" Type="nvarchar" MaxLength="30" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="Remark2" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterAccHeaderForAccId" Type="int" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo" Type="varchar" MaxLength="20" />
+    <Property Name="Attn" Type="nvarchar" MaxLength="40" />
+    <Property Name="EnumRoundTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="EnumExchangeRateTypeId" Type="int" Nullable="false" />
+    <Property Name="ClosingDate" Type="date" />
+    <Property Name="PaymentTerm" Type="nvarchar" MaxLength="50" />
+    <Property Name="PaymentMonth" Type="int" />
+    <Property Name="PaymentDate" Type="date" />
+    <Property Name="Amount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="DiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="SubTotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="AdvanceReceiptAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="AdvanceReceiptVat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="TotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Vat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="SubTotalAmountNative" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="ExchangeRate" Type="numeric" Precision="9" Scale="6" Nullable="false" />
+    <Property Name="MasterCurrencyNativeCurrencyId" Type="int" Nullable="false" />
+    <Property Name="GrandTotalNative" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="DomesticPpn" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="GrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="IsInvoiceIssued" Type="bit" Nullable="false" />
+    <Property Name="InvoiceIssuedDate" Type="date" />
+    <Property Name="IsInvoiceExportedToAcc" Type="bit" Nullable="false" />
+    <Property Name="IsCancelled" Type="bit" Nullable="false" />
+    <Property Name="CancelReason" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="IsPrinted" Type="bit" Nullable="false" />
+    <Property Name="PrintedDate" Type="date" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="EnumAccDocTypeId" Type="int" Nullable="false" />
+    <Property Name="TaxId" Type="nvarchar" MaxLength="20" />
+    <Property Name="CompanyBranchName" Type="nvarchar" MaxLength="50" />
+    <Property Name="EnumBranchTypeId" Type="int" Nullable="false" />
+    <Property Name="CustomerBranchName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerTaxId" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsDetailEditable" Type="bit" Nullable="false" />
+    <Property Name="IsRecalculate" Type="bit" Nullable="false" />
+    <Property Name="IsVoucherPrinted" Type="bit" Nullable="false" />
+    <Property Name="VoucherPrintedDate" Type="date" />
+    <Property Name="WithholdingTax" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="PaymentAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="IsDocumentAttached" Type="bit" Nullable="false" />
+    <Property Name="IsSendToCustomer" Type="bit" Nullable="false" />
+    <Property Name="LCNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="ETD" Type="date" />
+    <Property Name="Source" Type="nvarchar" MaxLength="30" />
+    <Property Name="DestinationEx" Type="nvarchar" MaxLength="30" />
+    <Property Name="ShippingTerms" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReferenceEx" Type="nvarchar" MaxLength="50" />
+    <Property Name="ETA" Type="date" />
+    <Property Name="ShippingMarks" Type="nvarchar" MaxLength="350" />
+    <Property Name="CountryOfOrigin" Type="nvarchar" MaxLength="80" />
+    <Property Name="Freight" Type="nvarchar" MaxLength="20" />
+    <Property Name="PaymentTotalCount" Type="int" Nullable="false" />
+    <Property Name="TotalClearingBillingAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="RestBillingAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="EnumPaymentStatusId" Type="int" Nullable="false" />
+    <Property Name="BLDate" Type="date" />
+    <Property Name="RemarkPONo" Type="nvarchar" MaxLength="100" />
+    <Property Name="DONo" Type="nvarchar" MaxLength="30" />
+    <Property Name="MasterIncotermId" Type="int" />
+    <Property Name="CountryOfConsignee" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShippedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="VesselFlightNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="EnumInvoiceRemarkId" Type="int" />
+    <Property Name="DestinationName" Type="nvarchar" MaxLength="80" />
+    <Property Name="DestinationAddress1" Type="nvarchar" MaxLength="150" />
+    <Property Name="DestinationAddress2" Type="nvarchar" MaxLength="150" />
+    <Property Name="DestinationPostalCode" Type="varchar" MaxLength="10" />
+    <Property Name="DestinationTelephoneNo1" Type="varchar" MaxLength="20" />
+    <Property Name="DestinationTelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="DestinationFaxNo" Type="varchar" MaxLength="20" />
+    <Property Name="DestinationAttn" Type="nvarchar" MaxLength="40" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterBusinessPartner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BusinessPartnerCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BusinessPartnerName" Type="nvarchar" MaxLength="80" Nullable="false" />
+    <Property Name="BusinessPartnerShortName" Type="nvarchar" MaxLength="20" />
+    <Property Name="EnumBusinessPartnerTypeId" Type="int" Nullable="false" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="ParentCompanyName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentCompanyLocation" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterCompany">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyCode" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="CompanyName1" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="CompanyName2" Type="nvarchar" MaxLength="100" />
+    <Property Name="CompanyShortName" Type="nvarchar" MaxLength="20" />
+    <Property Name="EstDate" Type="datetime" Nullable="false" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="AddressTH1" Type="nvarchar" MaxLength="150" />
+    <Property Name="AddressTH2" Type="nvarchar" MaxLength="150" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo1" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="FaxNo2" Type="varchar" MaxLength="20" />
+    <Property Name="Logo" Type="image" />
+    <Property Name="BankAccountNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TaxId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="BranchCodeForAcc" Type="varchar" MaxLength="25" />
+    <Property Name="EnumBranchTypeId" Type="int" Nullable="false" />
+    <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BankBranch" Type="nvarchar" MaxLength="50" />
+    <Property Name="BankSwiftCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="BankAddress1" Type="nvarchar" MaxLength="150" />
+    <Property Name="BankAddress2" Type="nvarchar" MaxLength="150" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterCustomer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MasterInvoiceId" Type="int" Nullable="false" />
+    <Property Name="PersonInCharge" Type="nvarchar" MaxLength="40" />
+    <Property Name="TelInside" Type="varchar" MaxLength="20" />
+    <Property Name="TelOutside" Type="varchar" MaxLength="20" />
+    <Property Name="EnumReturnTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterIncotermId" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="MasterBusinessPartnerId" Type="int" Nullable="false" />
+    <Property Name="IsOversea" Type="bit" Nullable="false" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterInvoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="InvoiceName" Type="nvarchar" MaxLength="80" Nullable="false" />
+    <Property Name="InvoiceShortName" Type="nvarchar" MaxLength="20" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="PaymentTerm" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="PaymentCondition" Type="nvarchar" MaxLength="50" />
+    <Property Name="MasterVatHeaderId" Type="int" Nullable="false" />
+    <Property Name="EnumRoundTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="EnumExchangeRateTypeId" Type="int" Nullable="false" />
+    <Property Name="TaxId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="EnumBranchTypeId" Type="int" Nullable="false" />
+    <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="MasterAccHeaderForAccId" Type="int" />
+    <Property Name="MasterInvoiceGroupId" Type="int" />
+    <Property Name="PersonInCharge" Type="nvarchar" MaxLength="40" />
+    <Property Name="EmailTo" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC1" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC2" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC3" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC4" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC5" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC6" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC7" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC8" Type="varchar" MaxLength="100" />
+    <Property Name="CreditLimit" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="OutStandingBalance" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="AvailableCreditLimit" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="MasterPaymentInformationId" Type="int" />
+    <Property Name="Attn" Type="nvarchar" MaxLength="40" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ModelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="RevisionNo" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="ItemShortName" Type="nvarchar" MaxLength="40" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ItemSpec" Type="nvarchar" MaxLength="100" />
+    <Property Name="OriginalLength" Type="varchar" MaxLength="15" />
+    <Property Name="ItemGroup" Type="nvarchar" MaxLength="100" />
+    <Property Name="MakerName" Type="nvarchar" MaxLength="80" />
+    <Property Name="EnumItemTypeId" Type="int" Nullable="false" />
+    <Property Name="EnumMfgTypeId" Type="int" />
+    <Property Name="EnumPurTypeId" Type="int" />
+    <Property Name="EnumAbcClassId" Type="int" />
+    <Property Name="MasterUnitId" Type="int" Nullable="false" />
+    <Property Name="MasterUnitAltItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="EnumIssueTypeId" Type="int" Nullable="false" />
+    <Property Name="EnumStockControlTypeId" Type="int" Nullable="false" />
+    <Property Name="IsLotControl" Type="bit" Nullable="false" />
+    <Property Name="IsCyclicCounting" Type="bit" Nullable="false" />
+    <Property Name="CyclicCountingPeriod" Type="numeric" Precision="3" Scale="0" />
+    <Property Name="IsOeStockBooking" Type="bit" Nullable="false" />
+    <Property Name="IsRecycle" Type="bit" Nullable="false" />
+    <Property Name="IsMfgInsp" Type="bit" Nullable="false" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="LowLevelCode" Type="numeric" Precision="2" Scale="0" />
+    <Property Name="IsCustomGsp" Type="bit" Nullable="false" />
+    <Property Name="MasterCustomGspId" Type="int" />
+    <Property Name="MasterAccCodeId" Type="int" Nullable="false" />
+    <Property Name="MasterAccCodeAssetId" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="IsSales" Type="bit" Nullable="false" />
+    <Property Name="EvaluatedUnitCost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterAccGroupForAccId" Type="int" />
+    <Property Name="MasterVatItemGroupId" Type="int" Nullable="false" />
+    <Property Name="MasterItemDiscountGroupId" Type="int" />
+    <Property Name="LotSize" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="NumberOfLabelPrint" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="NumberOfPalette" Type="numeric" Precision="6" Scale="0" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" />
+    <Property Name="ShelfLife" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="IsDirectOrder" Type="bit" Nullable="false" />
+    <Property Name="IsAllowPriceChange" Type="bit" Nullable="false" />
+    <Property Name="IsAllowSalesPriceChange" Type="bit" Nullable="false" />
+    <Property Name="NetWeight" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="GrossWeight" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="Height" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="Width" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="Depth" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterJobId" Type="int" />
+    <Property Name="IsSupply" Type="bit" Nullable="false" />
+    <Property Name="BIGroup1Id" Type="int" />
+    <Property Name="BIGroup2Id" Type="int" />
+    <Property Name="BIGroup3Id" Type="int" />
+    <Property Name="IsNotAllowCalculate" Type="bit" Nullable="false" />
+    <Property Name="IsFinishInsp" Type="bit" Nullable="false" />
+    <Property Name="PurchaseLeadTime" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="ShippingLeadTime" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="ProductionLeadTime" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+    <Property Name="MasterCustomerId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterLocation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LocationCode" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="LocationName" Type="nvarchar" MaxLength="40" />
+    <Property Name="EnumLocationTypeId" Type="int" Nullable="false" />
+    <Property Name="IsMrpTarget" Type="bit" Nullable="false" />
+    <Property Name="MasterDepartmentId" Type="int" />
+    <Property Name="MasterVendorId" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterStructure2">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PId" Type="int" Nullable="false" />
+    <Property Name="DisplayIndex" Type="int" Nullable="false" />
+    <Property Name="MasterParentItemId" Type="int" Nullable="false" />
+    <Property Name="MasterChildItemId" Type="int" Nullable="false" />
+    <Property Name="EffectFromDate" Type="date" Nullable="false" />
+    <Property Name="EffectToDate" Type="date" />
+    <Property Name="NumeratorQty" Type="numeric" Precision="10" Scale="3" Nullable="false" />
+    <Property Name="DenominatorQty" Type="numeric" Precision="10" Scale="3" Nullable="false" />
+    <Property Name="StructureLossFillRate" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="EnumSupplyTypeId" Type="int" />
+    <Property Name="IsSubstitution" Type="bit" Nullable="false" />
+    <Property Name="MasterItemSubstitutionId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterUnit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UnitCode" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="UnitName1" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="UnitName2" Type="nvarchar" MaxLength="40" />
+    <Property Name="RoundPlace" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+    <Property Name="Note" Type="nvarchar" MaxLength="40" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MasterVendor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VendorCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PersonInCharge" Type="nvarchar" MaxLength="40" />
+    <Property Name="EmailTo" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC1" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC2" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC3" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC4" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC5" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC6" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC7" Type="varchar" MaxLength="100" />
+    <Property Name="EmailCC8" Type="varchar" MaxLength="100" />
+    <Property Name="EnumRoundTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="PaymentTerm" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+    <Property Name="PaymentPeriod" Type="nvarchar" MaxLength="15" />
+    <Property Name="PaymentCondition" Type="nvarchar" MaxLength="50" />
+    <Property Name="EnumExchangeRateTypeId" Type="int" Nullable="false" />
+    <Property Name="MasterVatHeaderId" Type="int" Nullable="false" />
+    <Property Name="EnumReturnTypeId" Type="int" Nullable="false" />
+    <Property Name="DeliveryLt" Type="numeric" Precision="3" Scale="0" />
+    <Property Name="MasterBusinessPartnerId" Type="int" Nullable="false" />
+    <Property Name="TaxId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="MasterAccHeaderForAccId" Type="int" />
+    <Property Name="MasterIncotermId" Type="int" />
+    <Property Name="EnumBranchTypeId" Type="int" Nullable="false" />
+    <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
+    <Property Name="MasterVendorGroupId" Type="int" />
+    <Property Name="IsPOExcel" Type="bit" Nullable="false" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MfgMaterialsIssueDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MfgResultDetailId" Type="int" Nullable="false" />
+    <Property Name="IssueLineNo" Type="int" Nullable="false" />
+    <Property Name="IssueDate" Type="date" Nullable="false" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="StockBookId" Type="int" Nullable="false" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="AltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterUnitCostTypeId" Type="int" Nullable="false" />
+    <Property Name="EvaluatedUnitCost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="EvaluatedAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="MfgStartId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReceivingActualDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReceivingActualHeaderId" Type="int" Nullable="false" />
+    <Property Name="ReceivingLineNo" Type="int" Nullable="false" />
+    <Property Name="PurchaseOrderDetailId" Type="int" Nullable="false" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="Length" Type="numeric" Precision="6" Scale="2" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" />
+    <Property Name="LotNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="LotSubNo" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ReceivingQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitReceivingUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="RcvItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitRcvItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="RcvAltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitRcvAltItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="IsPurchaseInsp" Type="bit" Nullable="false" />
+    <Property Name="InspOkQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="InspNgQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="InspUnitPrice" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspDiscountRate" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="InspDiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspTotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspVat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspGrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="MasterPurchaseItemId" Type="int" />
+    <Property Name="ReceivingCount" Type="int" Nullable="false" />
+    <Property Name="EnumReturnTypeId" Type="int" Nullable="false" />
+    <Property Name="IsInspected" Type="bit" Nullable="false" />
+    <Property Name="ReceivingInspHeaderId" Type="int" />
+    <Property Name="EvaluatedUnitCost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsSupplyPartsIssued" Type="bit" Nullable="false" />
+    <Property Name="MasterAccCodeForAccId" Type="int" />
+    <Property Name="QTYperCarton" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="NumberOfCarton" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="NetWeightPerCarton" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalNetWeight" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="GrossWeightPerCarton" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalGrossWeight" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MeasurementPerCarton" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalMeasurement" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="InspNgQtyBuy" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalBuyingItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterAccGroupForAccId" Type="int" />
+    <Property Name="IsLabelPrint" Type="bit" Nullable="false" />
+    <Property Name="LabelPrintDate" Type="datetime" />
+    <Property Name="MfgDate" Type="date" />
+    <Property Name="ExpDate" Type="date" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReceivingActualHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReceivingNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="ReceivingDate" Type="date" Nullable="false" />
+    <Property Name="MasterVendorId" Type="int" Nullable="false" />
+    <Property Name="DeliveryNoteNo" Type="varchar" MaxLength="20" />
+    <Property Name="PurchaseOrderNo" Type="varchar" MaxLength="30" />
+    <Property Name="RequestDueDate" Type="date" />
+    <Property Name="IsInvoiceRegistered" Type="bit" Nullable="false" />
+    <Property Name="VendorInvoiceHeaderId" Type="int" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="IsInspectedComplete" Type="bit" Nullable="false" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsSupplyPartsIssuedComplete" Type="bit" Nullable="false" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShippingActualDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShippingActualHeaderId" Type="int" Nullable="false" />
+    <Property Name="ShippingActualLineNo" Type="int" Nullable="false" />
+    <Property Name="CustomerOrderDetailId" Type="int" Nullable="false" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="Length" Type="numeric" Precision="6" Scale="2" />
+    <Property Name="StockBookId" Type="int" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterLocationId" Type="int" />
+    <Property Name="LotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="LotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ShpItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitShpItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="ShpAltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitShpAltItemUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="ShippingQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterUnitShippingUnitCodeId" Type="int" Nullable="false" />
+    <Property Name="ShippingCount" Type="int" Nullable="false" />
+    <Property Name="IsCustomerInsp" Type="bit" Nullable="false" />
+    <Property Name="IsInspected" Type="bit" Nullable="false" />
+    <Property Name="CustomerInspHeaderId" Type="int" />
+    <Property Name="InspOkQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="InspNgQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="InspUnitPrice" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+    <Property Name="InspAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspDiscountRate" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="InspDiscountAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspTotalAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspVat" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="InspGrandTotal" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="MasterUnitCostTypeId" Type="int" Nullable="false" />
+    <Property Name="EvaluatedUnitCost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="EvaluatedAmount" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" Nullable="false" />
+    <Property Name="MasterAccGroupForAccId" Type="int" />
+    <Property Name="MasterAccCodeForAccId" Type="int" />
+    <Property Name="MasterNativeCurrencyId" Type="int" Nullable="false" />
+    <Property Name="EnumReturnTypeId" Type="int" Nullable="false" />
+    <Property Name="IsNgOrderCreated" Type="bit" Nullable="false" />
+    <Property Name="InspNgQtySell" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="TotalSellingItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MfgDate" Type="date" />
+    <Property Name="ExpDate" Type="date" />
+    <Property Name="MasterJobId" Type="int" />
+    <Property Name="CustomerPoNo" Type="nvarchar" MaxLength="300" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShippingActualHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeliveryNoteNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="DeliveryNoteCreateDate" Type="date" Nullable="false" />
+    <Property Name="ShippingDate" Type="date" Nullable="false" />
+    <Property Name="ShippingDueDate" Type="date" />
+    <Property Name="CustomerPONo" Type="nvarchar" MaxLength="300" />
+    <Property Name="DeliveryBillNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="MasterCustomerId" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="80" Nullable="false" />
+    <Property Name="MasterDestinationId" Type="int" Nullable="false" />
+    <Property Name="DestinationName" Type="nvarchar" MaxLength="80" />
+    <Property Name="MasterInvoiceId" Type="int" Nullable="false" />
+    <Property Name="IsInspected" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="150" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="150" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" />
+    <Property Name="TelephoneNo1" Type="varchar" MaxLength="20" />
+    <Property Name="TelephoneNo2" Type="varchar" MaxLength="20" />
+    <Property Name="FaxNo" Type="varchar" MaxLength="20" />
+    <Property Name="DeliveryLT" Type="int" Nullable="false" />
+    <Property Name="IsDeliveryNoteIssued" Type="bit" Nullable="false" />
+    <Property Name="DeliveryNoteIssuedDate" Type="date" />
+    <Property Name="IsInvoiceCreated" Type="bit" Nullable="false" />
+    <Property Name="InvoiceHeaderId" Type="int" />
+    <Property Name="IsPrinted" Type="bit" Nullable="false" />
+    <Property Name="PrintedDate" Type="date" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="IsDocumentAttached" Type="bit" Nullable="false" />
+    <Property Name="EnumHandyTransactionTypeId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StockBook">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="Length" Type="numeric" Precision="6" Scale="2" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="LotNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="LotSubNo" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="ProjectCodeHeaderId" Type="int" />
+    <Property Name="ProjectCodeDetailId" Type="int" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="StockItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="StockAltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="ReservedItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="MasterCurrencyId" Type="int" />
+    <Property Name="MasterUnitUcTypeId" Type="int" />
+    <Property Name="EvaluatedUnitCost" Type="numeric" Precision="14" Scale="4" Nullable="false" />
+    <Property Name="EvaluatedAmount" Type="numeric" Precision="16" Scale="4" Nullable="false" />
+    <Property Name="MfgDate" Type="date" />
+    <Property Name="ExpDate" Type="date" />
+    <Property Name="ShelfLife" Type="numeric" Precision="3" Scale="0" />
+    <Property Name="ProductAging" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StocktakingActualDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StocktakingActualHeaderId" Type="int" Nullable="false" />
+    <Property Name="StocktakingActualLineNo" Type="int" Nullable="false" />
+    <Property Name="DocumentNo" Type="varchar" MaxLength="15" />
+    <Property Name="MasterItemId" Type="int" Nullable="false" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="StocktakingDetailId" Type="int" Nullable="false" />
+    <Property Name="StockBookId" Type="int" Nullable="false" />
+    <Property Name="UserLotNo" Type="nvarchar" MaxLength="15" />
+    <Property Name="UserLotSubNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ActualStockItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="ActualStockAltItemQty" Type="numeric" Precision="13" Scale="3" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProjectCodeHeaderId" Type="int" />
+    <Property Name="ProjectCodeDetailId" Type="int" />
+    <Property Name="SendingTimestemp" Type="nvarchar" MaxLength="20" />
+    <Property Name="TagId" Type="int" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StocktakingActualHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StocktakingActualNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MasterNumberingRuleId" Type="int" Nullable="false" />
+    <Property Name="RegisterDate" Type="date" Nullable="false" />
+    <Property Name="StocktakingHeaderId" Type="int" Nullable="false" />
+    <Property Name="StocktakingDate" Type="date" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDelete" Type="bit" Nullable="false" />
+    <Property Name="CreatedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedUser" Type="nvarchar" MaxLength="80" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Thomas_Ogura.dbo.StockBook_Structure_FccAssy_View2023' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="StockBook_Structure_FccAssy_View2023">
+    <Key>
+      <PropertyRef Name="StockItemQty" />
+      <PropertyRef Name="MasterLocationId" />
+      <PropertyRef Name="EnumLocationTypeId" />
+    </Key>
+    <Property Name="MasterChildItemId" Type="int" />
+    <Property Name="ChildItemNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="ChildModelNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="ChildItemShortName" Type="nvarchar" MaxLength="40" />
+    <Property Name="ItemGroup" Type="nvarchar" MaxLength="100" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+    <Property Name="StockItemQty" Type="numeric" Precision="38" Scale="3" Nullable="false" />
+    <Property Name="LocationCode" Type="varchar" MaxLength="8" />
+    <Property Name="LocationName" Type="nvarchar" MaxLength="40" />
+    <Property Name="MasterLocationId" Type="int" Nullable="false" />
+    <Property Name="EnumLocationTypeId" Type="int" Nullable="false" />
+    <Property Name="TransactionDate" Type="date" />
+  </EntityType>
+  <Association Name="FK_Customer_Order_Detail_Customer_Order_Header">
+    <End Role="CustomerOrderHeader" Type="Self.CustomerOrderHeader" Multiplicity="1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerOrderHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="CustomerOrderHeaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderDetail_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderDetail_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="MasterUnitOrderUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderDetail_MasterUnit1">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="MasterUnitItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderDetail_MasterUnit2">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="MasterUnitAltItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderDetail_MasterVendor">
+    <End Role="MasterVendor" Type="Self.MasterVendor" Multiplicity="0..1" />
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterVendor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderDetail">
+        <PropertyRef Name="MasterVendorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderHeader_MasterCustomer">
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="1" />
+    <End Role="CustomerOrderHeader" Type="Self.CustomerOrderHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderHeader">
+        <PropertyRef Name="MasterCustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOrderHeader_MasterInvoice">
+    <End Role="MasterInvoice" Type="Self.MasterInvoice" Multiplicity="1" />
+    <End Role="CustomerOrderHeader" Type="Self.CustomerOrderHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOrderHeader">
+        <PropertyRef Name="MasterInvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InventoryRecord_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="InventoryRecord" Type="Self.InventoryRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InventoryRecord">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InventoryRecord_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="InventoryRecord" Type="Self.InventoryRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InventoryRecord">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvoiceDebitCreditNoteHeader_MasterCustomer">
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="1" />
+    <End Role="InvoiceDebitCreditNoteHeader" Type="Self.InvoiceDebitCreditNoteHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceDebitCreditNoteHeader">
+        <PropertyRef Name="MasterCustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvoiceDebitCreditNoteHeader_MasterInvoice">
+    <End Role="MasterInvoice" Type="Self.MasterInvoice" Multiplicity="1" />
+    <End Role="InvoiceDebitCreditNoteHeader" Type="Self.InvoiceDebitCreditNoteHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceDebitCreditNoteHeader">
+        <PropertyRef Name="MasterInvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvoiceHeader_MasterCustomer">
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="1" />
+    <End Role="InvoiceHeader" Type="Self.InvoiceHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceHeader">
+        <PropertyRef Name="MasterCustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvoiceHeader_MasterInvoice">
+    <End Role="MasterInvoice" Type="Self.MasterInvoice" Multiplicity="1" />
+    <End Role="InvoiceHeader" Type="Self.InvoiceHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvoiceHeader">
+        <PropertyRef Name="MasterInvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_Location_Define_LocationType">
+    <End Role="EnumLocationType" Type="Self.EnumLocationType" Multiplicity="1" />
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EnumLocationType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterLocation">
+        <PropertyRef Name="EnumLocationTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterCustomer_MasterBusinessPartner">
+    <End Role="MasterBusinessPartner" Type="Self.MasterBusinessPartner" Multiplicity="1" />
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterBusinessPartner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterCustomer">
+        <PropertyRef Name="MasterBusinessPartnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterCustomer_MasterInvoice">
+    <End Role="MasterInvoice" Type="Self.MasterInvoice" Multiplicity="1" />
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterCustomer">
+        <PropertyRef Name="MasterInvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterItem_MasterCustomer">
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="0..1" />
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterItem">
+        <PropertyRef Name="MasterCustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterItem_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterItem">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterItem_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterItem">
+        <PropertyRef Name="MasterUnitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterItem_MasterUnit1">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterItem">
+        <PropertyRef Name="MasterUnitAltItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterLocation_MasterVendor">
+    <End Role="MasterVendor" Type="Self.MasterVendor" Multiplicity="0..1" />
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterVendor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterLocation">
+        <PropertyRef Name="MasterVendorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterStructure2_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="MasterStructure2" Type="Self.MasterStructure2" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterStructure2">
+        <PropertyRef Name="MasterParentItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterStructure2_MasterItem1">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="MasterStructure2" Type="Self.MasterStructure2" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterStructure2">
+        <PropertyRef Name="MasterChildItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterStructure2_MasterItem2">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="0..1" />
+    <End Role="MasterStructure2" Type="Self.MasterStructure2" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterStructure2">
+        <PropertyRef Name="MasterItemSubstitutionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MasterVendor_MasterBusinessPartner">
+    <End Role="MasterBusinessPartner" Type="Self.MasterBusinessPartner" Multiplicity="1" />
+    <End Role="MasterVendor" Type="Self.MasterVendor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterBusinessPartner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MasterVendor">
+        <PropertyRef Name="MasterBusinessPartnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MfgMaterialsIssueDetail_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="MfgMaterialsIssueDetail" Type="Self.MfgMaterialsIssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MfgMaterialsIssueDetail">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MfgMaterialsIssueDetail_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="MfgMaterialsIssueDetail" Type="Self.MfgMaterialsIssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MfgMaterialsIssueDetail">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MfgMaterialsIssueDetail_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="MfgMaterialsIssueDetail" Type="Self.MfgMaterialsIssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MfgMaterialsIssueDetail">
+        <PropertyRef Name="MasterUnitCostTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MfgMaterialsIssueDetail_StockBook">
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="1" />
+    <End Role="MfgMaterialsIssueDetail" Type="Self.MfgMaterialsIssueDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StockBook">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MfgMaterialsIssueDetail">
+        <PropertyRef Name="StockBookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Receiving_Actual_Detail_Receiving_Actual_Header">
+    <End Role="ReceivingActualHeader" Type="Self.ReceivingActualHeader" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReceivingActualHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="ReceivingActualHeaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualDetail_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualDetail_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualDetail_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="MasterUnitReceivingUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualDetail_MasterUnit1">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="MasterUnitRcvItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualDetail_MasterUnit2">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ReceivingActualDetail" Type="Self.ReceivingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualDetail">
+        <PropertyRef Name="MasterUnitRcvAltItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReceivingActualHeader_MasterVendor">
+    <End Role="MasterVendor" Type="Self.MasterVendor" Multiplicity="1" />
+    <End Role="ReceivingActualHeader" Type="Self.ReceivingActualHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterVendor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReceivingActualHeader">
+        <PropertyRef Name="MasterVendorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_CustomerOrderDetail">
+    <End Role="CustomerOrderDetail" Type="Self.CustomerOrderDetail" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomerOrderDetail">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="CustomerOrderDetailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="0..1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterUnitShippingUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterUnit1">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterUnitShpItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterUnit2">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterUnitShpAltItemUnitCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_MasterUnit3">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="MasterUnitCostTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_ShippingActualHeader">
+    <End Role="ShippingActualHeader" Type="Self.ShippingActualHeader" Multiplicity="1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingActualHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="ShippingActualHeaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualDetail_StockBook">
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="0..1" />
+    <End Role="ShippingActualDetail" Type="Self.ShippingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StockBook">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualDetail">
+        <PropertyRef Name="StockBookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualHeader_InvoiceHeader">
+    <End Role="InvoiceHeader" Type="Self.InvoiceHeader" Multiplicity="0..1" />
+    <End Role="ShippingActualHeader" Type="Self.ShippingActualHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvoiceHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualHeader">
+        <PropertyRef Name="InvoiceHeaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualHeader_MasterCustomer">
+    <End Role="MasterCustomer" Type="Self.MasterCustomer" Multiplicity="1" />
+    <End Role="ShippingActualHeader" Type="Self.ShippingActualHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualHeader">
+        <PropertyRef Name="MasterCustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingActualHeader_MasterInvoice1">
+    <End Role="MasterInvoice" Type="Self.MasterInvoice" Multiplicity="1" />
+    <End Role="ShippingActualHeader" Type="Self.ShippingActualHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterInvoice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShippingActualHeader">
+        <PropertyRef Name="MasterInvoiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockBook_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StockBook">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockBook_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StockBook">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockBook_MasterUnit">
+    <End Role="MasterUnit" Type="Self.MasterUnit" Multiplicity="0..1" />
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StockBook">
+        <PropertyRef Name="MasterUnitUcTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StocktakingActualDetail_MasterItem">
+    <End Role="MasterItem" Type="Self.MasterItem" Multiplicity="1" />
+    <End Role="StocktakingActualDetail" Type="Self.StocktakingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StocktakingActualDetail">
+        <PropertyRef Name="MasterItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StocktakingActualDetail_MasterLocation">
+    <End Role="MasterLocation" Type="Self.MasterLocation" Multiplicity="1" />
+    <End Role="StocktakingActualDetail" Type="Self.StocktakingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterLocation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StocktakingActualDetail">
+        <PropertyRef Name="MasterLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StocktakingActualDetail_StockBook">
+    <End Role="StockBook" Type="Self.StockBook" Multiplicity="1" />
+    <End Role="StocktakingActualDetail" Type="Self.StocktakingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StockBook">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StocktakingActualDetail">
+        <PropertyRef Name="StockBookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StocktakingActualDetail_StocktakingActualHeader">
+    <End Role="StocktakingActualHeader" Type="Self.StocktakingActualHeader" Multiplicity="1" />
+    <End Role="StocktakingActualDetail" Type="Self.StocktakingActualDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StocktakingActualHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StocktakingActualDetail">
+        <PropertyRef Name="StocktakingActualHeaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Thomas_Ogura_TESTDBModelStoreContainer">
+    <EntitySet Name="CustomerOrderDetail" EntityType="Self.CustomerOrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CustomerOrderHeader" EntityType="Self.CustomerOrderHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EnumLocationType" EntityType="Self.EnumLocationType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InventoryRecord" EntityType="Self.InventoryRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoiceDebitCreditNoteHeader" EntityType="Self.InvoiceDebitCreditNoteHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoiceHeader" EntityType="Self.InvoiceHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterBusinessPartner" EntityType="Self.MasterBusinessPartner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterCompany" EntityType="Self.MasterCompany" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterCustomer" EntityType="Self.MasterCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterInvoice" EntityType="Self.MasterInvoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterItem" EntityType="Self.MasterItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterLocation" EntityType="Self.MasterLocation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterStructure2" EntityType="Self.MasterStructure2" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterUnit" EntityType="Self.MasterUnit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MasterVendor" EntityType="Self.MasterVendor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MfgMaterialsIssueDetail" EntityType="Self.MfgMaterialsIssueDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReceivingActualDetail" EntityType="Self.ReceivingActualDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReceivingActualHeader" EntityType="Self.ReceivingActualHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingActualDetail" EntityType="Self.ShippingActualDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingActualHeader" EntityType="Self.ShippingActualHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StockBook" EntityType="Self.StockBook" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StocktakingActualDetail" EntityType="Self.StocktakingActualDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StocktakingActualHeader" EntityType="Self.StocktakingActualHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StockBook_Structure_FccAssy_View2023" EntityType="Self.StockBook_Structure_FccAssy_View2023" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [StockBook_Structure_FccAssy_View2023].[MasterChildItemId] AS [MasterChildItemId], 
+    [StockBook_Structure_FccAssy_View2023].[ChildItemNo] AS [ChildItemNo], 
+    [StockBook_Structure_FccAssy_View2023].[ChildModelNo] AS [ChildModelNo], 
+    [StockBook_Structure_FccAssy_View2023].[ChildItemShortName] AS [ChildItemShortName], 
+    [StockBook_Structure_FccAssy_View2023].[ItemGroup] AS [ItemGroup], 
+    [StockBook_Structure_FccAssy_View2023].[ItemName] AS [ItemName], 
+    [StockBook_Structure_FccAssy_View2023].[StockItemQty] AS [StockItemQty], 
+    [StockBook_Structure_FccAssy_View2023].[LocationCode] AS [LocationCode], 
+    [StockBook_Structure_FccAssy_View2023].[LocationName] AS [LocationName], 
+    [StockBook_Structure_FccAssy_View2023].[MasterLocationId] AS [MasterLocationId], 
+    [StockBook_Structure_FccAssy_View2023].[EnumLocationTypeId] AS [EnumLocationTypeId], 
+    [StockBook_Structure_FccAssy_View2023].[TransactionDate] AS [TransactionDate]
+    FROM [dbo].[StockBook_Structure_FccAssy_View2023] AS [StockBook_Structure_FccAssy_View2023]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Customer_Order_Detail_Customer_Order_Header" Association="Self.FK_Customer_Order_Detail_Customer_Order_Header">
+      <End Role="CustomerOrderHeader" EntitySet="CustomerOrderHeader" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderDetail_MasterItem" Association="Self.FK_CustomerOrderDetail_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderDetail_MasterUnit" Association="Self.FK_CustomerOrderDetail_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderDetail_MasterUnit1" Association="Self.FK_CustomerOrderDetail_MasterUnit1">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderDetail_MasterUnit2" Association="Self.FK_CustomerOrderDetail_MasterUnit2">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderDetail_MasterVendor" Association="Self.FK_CustomerOrderDetail_MasterVendor">
+      <End Role="MasterVendor" EntitySet="MasterVendor" />
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderHeader_MasterCustomer" Association="Self.FK_CustomerOrderHeader_MasterCustomer">
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+      <End Role="CustomerOrderHeader" EntitySet="CustomerOrderHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOrderHeader_MasterInvoice" Association="Self.FK_CustomerOrderHeader_MasterInvoice">
+      <End Role="MasterInvoice" EntitySet="MasterInvoice" />
+      <End Role="CustomerOrderHeader" EntitySet="CustomerOrderHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InventoryRecord_MasterItem" Association="Self.FK_InventoryRecord_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="InventoryRecord" EntitySet="InventoryRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InventoryRecord_MasterLocation" Association="Self.FK_InventoryRecord_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="InventoryRecord" EntitySet="InventoryRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvoiceDebitCreditNoteHeader_MasterCustomer" Association="Self.FK_InvoiceDebitCreditNoteHeader_MasterCustomer">
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+      <End Role="InvoiceDebitCreditNoteHeader" EntitySet="InvoiceDebitCreditNoteHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvoiceDebitCreditNoteHeader_MasterInvoice" Association="Self.FK_InvoiceDebitCreditNoteHeader_MasterInvoice">
+      <End Role="MasterInvoice" EntitySet="MasterInvoice" />
+      <End Role="InvoiceDebitCreditNoteHeader" EntitySet="InvoiceDebitCreditNoteHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvoiceHeader_MasterCustomer" Association="Self.FK_InvoiceHeader_MasterCustomer">
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+      <End Role="InvoiceHeader" EntitySet="InvoiceHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvoiceHeader_MasterInvoice" Association="Self.FK_InvoiceHeader_MasterInvoice">
+      <End Role="MasterInvoice" EntitySet="MasterInvoice" />
+      <End Role="InvoiceHeader" EntitySet="InvoiceHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_Location_Define_LocationType" Association="Self.FK_Master_Location_Define_LocationType">
+      <End Role="EnumLocationType" EntitySet="EnumLocationType" />
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterCustomer_MasterBusinessPartner" Association="Self.FK_MasterCustomer_MasterBusinessPartner">
+      <End Role="MasterBusinessPartner" EntitySet="MasterBusinessPartner" />
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterCustomer_MasterInvoice" Association="Self.FK_MasterCustomer_MasterInvoice">
+      <End Role="MasterInvoice" EntitySet="MasterInvoice" />
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterItem_MasterCustomer" Association="Self.FK_MasterItem_MasterCustomer">
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+      <End Role="MasterItem" EntitySet="MasterItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterItem_MasterLocation" Association="Self.FK_MasterItem_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="MasterItem" EntitySet="MasterItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterItem_MasterUnit" Association="Self.FK_MasterItem_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="MasterItem" EntitySet="MasterItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterItem_MasterUnit1" Association="Self.FK_MasterItem_MasterUnit1">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="MasterItem" EntitySet="MasterItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterLocation_MasterVendor" Association="Self.FK_MasterLocation_MasterVendor">
+      <End Role="MasterVendor" EntitySet="MasterVendor" />
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterStructure2_MasterItem" Association="Self.FK_MasterStructure2_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="MasterStructure2" EntitySet="MasterStructure2" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterStructure2_MasterItem1" Association="Self.FK_MasterStructure2_MasterItem1">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="MasterStructure2" EntitySet="MasterStructure2" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterStructure2_MasterItem2" Association="Self.FK_MasterStructure2_MasterItem2">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="MasterStructure2" EntitySet="MasterStructure2" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MasterVendor_MasterBusinessPartner" Association="Self.FK_MasterVendor_MasterBusinessPartner">
+      <End Role="MasterBusinessPartner" EntitySet="MasterBusinessPartner" />
+      <End Role="MasterVendor" EntitySet="MasterVendor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MfgMaterialsIssueDetail_MasterItem" Association="Self.FK_MfgMaterialsIssueDetail_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="MfgMaterialsIssueDetail" EntitySet="MfgMaterialsIssueDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MfgMaterialsIssueDetail_MasterLocation" Association="Self.FK_MfgMaterialsIssueDetail_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="MfgMaterialsIssueDetail" EntitySet="MfgMaterialsIssueDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MfgMaterialsIssueDetail_MasterUnit" Association="Self.FK_MfgMaterialsIssueDetail_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="MfgMaterialsIssueDetail" EntitySet="MfgMaterialsIssueDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MfgMaterialsIssueDetail_StockBook" Association="Self.FK_MfgMaterialsIssueDetail_StockBook">
+      <End Role="StockBook" EntitySet="StockBook" />
+      <End Role="MfgMaterialsIssueDetail" EntitySet="MfgMaterialsIssueDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Receiving_Actual_Detail_Receiving_Actual_Header" Association="Self.FK_Receiving_Actual_Detail_Receiving_Actual_Header">
+      <End Role="ReceivingActualHeader" EntitySet="ReceivingActualHeader" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualDetail_MasterItem" Association="Self.FK_ReceivingActualDetail_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualDetail_MasterLocation" Association="Self.FK_ReceivingActualDetail_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualDetail_MasterUnit" Association="Self.FK_ReceivingActualDetail_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualDetail_MasterUnit1" Association="Self.FK_ReceivingActualDetail_MasterUnit1">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualDetail_MasterUnit2" Association="Self.FK_ReceivingActualDetail_MasterUnit2">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ReceivingActualDetail" EntitySet="ReceivingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReceivingActualHeader_MasterVendor" Association="Self.FK_ReceivingActualHeader_MasterVendor">
+      <End Role="MasterVendor" EntitySet="MasterVendor" />
+      <End Role="ReceivingActualHeader" EntitySet="ReceivingActualHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_CustomerOrderDetail" Association="Self.FK_ShippingActualDetail_CustomerOrderDetail">
+      <End Role="CustomerOrderDetail" EntitySet="CustomerOrderDetail" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterItem" Association="Self.FK_ShippingActualDetail_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterLocation" Association="Self.FK_ShippingActualDetail_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterUnit" Association="Self.FK_ShippingActualDetail_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterUnit1" Association="Self.FK_ShippingActualDetail_MasterUnit1">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterUnit2" Association="Self.FK_ShippingActualDetail_MasterUnit2">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_MasterUnit3" Association="Self.FK_ShippingActualDetail_MasterUnit3">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_ShippingActualHeader" Association="Self.FK_ShippingActualDetail_ShippingActualHeader">
+      <End Role="ShippingActualHeader" EntitySet="ShippingActualHeader" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualDetail_StockBook" Association="Self.FK_ShippingActualDetail_StockBook">
+      <End Role="StockBook" EntitySet="StockBook" />
+      <End Role="ShippingActualDetail" EntitySet="ShippingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualHeader_InvoiceHeader" Association="Self.FK_ShippingActualHeader_InvoiceHeader">
+      <End Role="InvoiceHeader" EntitySet="InvoiceHeader" />
+      <End Role="ShippingActualHeader" EntitySet="ShippingActualHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualHeader_MasterCustomer" Association="Self.FK_ShippingActualHeader_MasterCustomer">
+      <End Role="MasterCustomer" EntitySet="MasterCustomer" />
+      <End Role="ShippingActualHeader" EntitySet="ShippingActualHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingActualHeader_MasterInvoice1" Association="Self.FK_ShippingActualHeader_MasterInvoice1">
+      <End Role="MasterInvoice" EntitySet="MasterInvoice" />
+      <End Role="ShippingActualHeader" EntitySet="ShippingActualHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockBook_MasterItem" Association="Self.FK_StockBook_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="StockBook" EntitySet="StockBook" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockBook_MasterLocation" Association="Self.FK_StockBook_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="StockBook" EntitySet="StockBook" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockBook_MasterUnit" Association="Self.FK_StockBook_MasterUnit">
+      <End Role="MasterUnit" EntitySet="MasterUnit" />
+      <End Role="StockBook" EntitySet="StockBook" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StocktakingActualDetail_MasterItem" Association="Self.FK_StocktakingActualDetail_MasterItem">
+      <End Role="MasterItem" EntitySet="MasterItem" />
+      <End Role="StocktakingActualDetail" EntitySet="StocktakingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StocktakingActualDetail_MasterLocation" Association="Self.FK_StocktakingActualDetail_MasterLocation">
+      <End Role="MasterLocation" EntitySet="MasterLocation" />
+      <End Role="StocktakingActualDetail" EntitySet="StocktakingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StocktakingActualDetail_StockBook" Association="Self.FK_StocktakingActualDetail_StockBook">
+      <End Role="StockBook" EntitySet="StockBook" />
+      <End Role="StocktakingActualDetail" EntitySet="StocktakingActualDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StocktakingActualDetail_StocktakingActualHeader" Association="Self.FK_StocktakingActualDetail_StocktakingActualHeader">
+      <End Role="StocktakingActualHeader" EntitySet="StocktakingActualHeader" />
+      <End Role="StocktakingActualDetail" EntitySet="StocktakingActualDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

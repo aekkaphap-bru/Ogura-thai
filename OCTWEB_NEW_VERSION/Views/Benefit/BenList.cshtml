@@ -1,0 +1,298 @@
+﻿@{
+    ViewBag.Title = "BenList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model OCTWEB_NET45.Models.BenefitRequestViewModel
+@using PagedList.Mvc;
+@using PagedList;
+
+
+<div class="container-fluid">
+    <div class="form-row">
+        <div class="col">
+            <div class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scorllable">
+                    <div class="modal-content">
+                        <div id="myModalContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="page-title ">Benefit Employee List <span style="color:red;">Setup</span></h4>
+
+@using (Html.BeginForm("BenList", "Benefit", FormMethod.Post))
+{
+    <div class="container mt-3">
+        @*<p class="text-success text-center">------(View message)------</p>
+            @Html.ValidationSummary(true)*@
+
+        <fieldset class="border p-3">
+            <legend class="w-auto px-2">Enter condition for search benefit employee data</legend>
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="EmpId">EmpID (รหัสพนักงาน)</label>
+                        @Html.TextBoxFor(m => m.EmpId, new { @class = "form-control form-control-sm", id = "EmpId" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Department">Department (แผนก)</label>
+                        @Html.DropDownListFor(m => m.Department, Model.DepartmentsList, "-- เลือกแผนก --", new { @class = "form-control form-control-sm", id = "Department" })
+                        @* Dropdown will be populated via AJAX *@
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="RequestType">Benefit Type (ประเภทการเบิก)</label>
+                        @Html.DropDownListFor(m => m.RequestType, Model.RequestTypesList, "-- เลือกประเภทการเบิก --", new { @class = "form-control form-control-sm", id = "RequestType" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Months">Select Month (เลือกเดือน)</label>
+                        @{
+                            var months = new List<SelectListItem>
+                                                                                                                                                    {
+                                new SelectListItem { Value = "มกราคม", Text = "มกราคม" },
+                                new SelectListItem { Value = "กุมภาพันธ์", Text = "กุมภาพันธ์" },
+                                new SelectListItem { Value = "มีนาคม", Text = "มีนาคม" },
+                                new SelectListItem { Value = "เมษายน", Text = "เมษายน" },
+                                new SelectListItem { Value = "พฤษภาคม", Text = "พฤษภาคม" },
+                                new SelectListItem { Value = "มิถุนายน", Text = "มิถุนายน" },
+                                new SelectListItem { Value = "กรกฎาคม", Text = "กรกฎาคม" },
+                                new SelectListItem { Value = "สิงหาคม", Text = "สิงหาคม" },
+                                new SelectListItem { Value = "กันยายน", Text = "กันยายน" },
+                                new SelectListItem { Value = "ตุลาคม", Text = "ตุลาคม" },
+                                new SelectListItem { Value = "พฤศจิกายน", Text = "พฤศจิกายน" },
+                                new SelectListItem { Value = "ธันวาคม", Text = "ธันวาคม" }
+                            };
+                        }
+                        @Html.DropDownListFor(m => m.Months, months, "-- เลือกเดือน --", new { @class = "form-control form-control-sm", id = "Months" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Years">Select Year (เลือกปี)</label>
+
+                        @Html.DropDownListFor(m => m.Years, Model.YearsList, "-- เลือกปี --", new { @class = "form-control form-control-sm", id = "Years" })
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-search"></i> Search
+                        </button>
+                        <button type="reset" class="btn btn-sm btn-outline-dark">
+                            <i class="fa fa-eraser"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-sm btn-success" id="btnExport">
+                            <i class="fa fa-download"></i> Export Csv
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-success btn-sm" id="btnAddBenefit">
+                <i class="fa fa-plus"></i> Add Benefit
+            </button>
+
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <div class="table-responsive col-md-12" style="margin-top:10px;">
+            <div style="font-size:12px; margin-top:10px;" class="table-responsive" id="resultTable">
+                <table class="table table-bordered">
+                    <thead class="text-center" style="color:#fff">
+                        <tr class="bg-primary">
+                            <th>#</th>
+                            <th>EmpID</th>
+                            <th>EmpName</th>
+                            <th>Department</th>
+                            <th>Benefit Type</th>
+                            <th>Salary Cycle</th>
+                            <th>Document</th>
+                            <th style="text-align:center">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BenefitRequestList)
+                        {
+                            <tr>
+                                <td>@item.RowNumber</td>
+                                <td>@item.EmpId</td>
+                                <td>@item.EmpName @item.EmpLastname</td>
+                                <td>@item.Dep</td>
+                                <td>@item.TypeBenef</td>
+                                <td>@item.SalaryCycle</td>
+                                @if (!string.IsNullOrWhiteSpace(item.Document))
+                                {
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("Viewfile", "Benefit", new { PDF = item.Document })" target="_blank">
+                                            <img src="~/static/img/pdf.png" alt="pdf" width="30" height="30" />
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td style="text-align:center">
+                                    <a type="button" href="@Url.Action("Edit", "Benefit")/@item.Id" class="btn-edit-benefit" data-id="@item.Id">
+                                        <img src="~/static/img/icondoc.png" alt="edit" width="30" height="30" />
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="text-center">
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("BenList", new { page = i })">@i</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<!-- CREATE MODAL CONTAINER -->
+<div class="modal fade" id="benefitCreateModal" tabindex="-1" aria-labelledby="benefitCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" id="createModalContent">
+            <!-- AJAX will load form here -->
+        </div>
+    </div>
+</div>
+
+<!-- EDIT MODAL CONTAINER -->
+<div class="modal fade" id="benefitEditModal" tabindex="-1" aria-labelledby="benefitEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" id="editModalContent">
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+    // โหลดข้อมูลใหม่ หรือแจ้งเตือน
+    $(document).on('click', '#btnAddBenefit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/Benefit/Create',
+            type: 'GET',
+            success: function (data) {
+                $('#createModalContent').html(data);
+                var modal = new bootstrap.Modal(document.getElementById('benefitCreateModal'));
+                modal.show();
+            },
+            error: function () {
+                alert('ไม่สามารถโหลดฟอร์มได้');
+            }
+        });
+    });
+
+    // โหลดข้อมูลใหม่ หรือแจ้งเตือน
+    $('#editForm').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    $('#benefitEditModal').modal('hide');
+                    // โหลดข้อมูลใหม่ หรือแจ้งเตือน
+                    alert(response.message);
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.btn-edit-benefit').click(function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            $.ajax({
+                url: '/Benefit/Edit/' + id,
+                type: 'GET',
+                success: function (data) {
+                    $('#editModalContent').html(data);
+                    var modal = new bootstrap.Modal(document.getElementById('benefitEditModal'));
+                    modal.show();
+                },
+                error: function () {
+                    alert('ไม่สามารถโหลดข้อมูลได้');
+                }
+            });
+        });
+    });
+
+    $(document).on("click", ".pagination a", function (e) {
+        e.preventDefault();
+        var url = $(this).attr("href");
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("form").serialize(), // ส่ง filter ทั้งหมด
+            success: function (result) {
+                $("#resultTable").html($(result).find("#resultTable").html());
+            }
+        });
+    });
+
+
+   $(document).ready(function () {
+        $("#btnExport").click(function () {
+            var $form = $('<form>', {
+                action: '@Url.Action("ExportToCsv", "Benefit")',
+                method: 'post'
+            });
+
+            // Clone input และ select จากฟอร์มที่มีอยู่
+            $("form").find("input, select").each(function () {
+                var $input = $(this).clone();
+                $form.append($input);
+            });
+
+            $form.appendTo('body');
+
+            setTimeout(() => {
+                $form.submit();
+                $form.remove();
+            }, 10);
+        });
+    });
+</script>

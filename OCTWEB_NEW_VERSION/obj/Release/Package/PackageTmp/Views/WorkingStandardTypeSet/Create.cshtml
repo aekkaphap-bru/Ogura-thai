@@ -1,0 +1,160 @@
+﻿@model OCTWEB_NET45.Models.WSR_WorkingStandardTypeEditModel
+@{
+    ViewBag.Title = "Create Working Standard Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/WorkingStandardTypeSet/WSTypeSetList" class="btn-outline-secondary">Working Standard Type List <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Create Working Standard Type</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "WorkingStandardTypeSet", FormMethod.Post, new { @class = "form-horizontal", role = "form" , id = "fromcreate" }))
+                    {
+                        @*<div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                </div>
+
+                            </div>
+                        </div>*@
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Department: </label>
+                                    @Html.DropDownList("WST_Dept", Model.SelectDepartmentId, "Select Department", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    <p class="text-danger">@Html.ValidationMessageFor(m => m.WST_Dept)</p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Working Standard Type: </label>
+                                    @Html.TextBoxFor(m => m.WST_Type, new { @class = "form-control form-control-sm", onkeyup = "this.value=this.value.toUpperCase()"  , maxlength = "30"})
+                                    <p class="text-danger">@Html.ValidationMessageFor(m => m.WST_Type)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Note: </label>
+                                    @Html.TextAreaFor(m => m.WST_Note, new { @class = "form-control form-control-sm" })
+                                    <p class="text-danger">@Html.ValidationMessageFor(m => m.WST_Note)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="button" value="Save" id="save" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    &nbsp;
+                                    <!-- ย้อยกลับไปเรื่่อยๆ -->
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script language="JavaScript">
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+
+    $("#save").click(function (event) {
+        event.preventDefault(); // ป้องกันการส่งฟอร์มอัตโนมัติ
+
+        let isValid = true;
+
+        // ตรวจสอบค่า Department
+        if ($("#WST_Dept").val() === "") {
+            isValid = false;
+            $("#WST_Dept").next(".text-danger").text("Please select a department.");
+        } else {
+            $("#WST_Dept").next(".text-danger").text("");
+        }
+
+        // ตรวจสอบค่า Working Standard Type
+        if ($("#WST_Type").val().trim() === "") {
+            isValid = false;
+            $("#WST_Type").next(".text-danger").text("Working Standard Type is required.");
+        } else {
+            $("#WST_Type").next(".text-danger").text("");
+        }
+
+        // ถ้ามีข้อผิดพลาด ไม่ส่งข้อมูล
+        if (!isValid) {
+            return;
+        }
+
+        // ถ้าข้อมูลถูกต้อง ส่ง AJAX
+        $.ajax({
+            url: $("#fromcreate").attr("action"),
+            type: "POST",
+            data: $("#fromcreate").serialize(),
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Successfully created the Working Standard Type.",
+                        icon: "success",
+                        timer: 2000,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                    }).then(function () {
+                        window.location.href = response.redirectUrl;
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error!",
+                        text: response.message || "Validation failed.",
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    title: "Unexpected Error!",
+                    text: "An error occurred while processing your request. Please try again later.",
+                    icon: "error",
+                });
+            }
+        });
+    });
+
+    /*
+    $(document).ready(function () {
+
+        $("#WST_Dept").select2({
+            placeholder: "Select Department",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+    });
+    */
+</script>

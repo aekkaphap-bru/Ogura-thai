@@ -1,0 +1,208 @@
+﻿@model OCTWEB_NET45.Models.CourseModel
+@{
+    ViewBag.Title = "AddCourse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/content/bootstrap-duallistbox.css" rel="stylesheet" />
+<link href="~/content/bootstrap-duallistbox.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery.bootstrap-duallistbox.min.js"></script>
+
+<style>
+    .customFontSize {
+        font-size: 10px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <a href="/TrainingCourseManagement/CourseSetup" class="btn-outline-secondary">  <i class="fa fa-angle-left"></i> Training Course Setup </a>&nbsp;
+    </div>
+    <br />
+    <div class="row">
+        <div class="container">
+            @using (Html.BeginForm("AddCourse", "TrainingCourseAddAndManage", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="container">
+                        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                            <div class="card-header justify-content-center">
+                                <h3 class="page-title ">Training Course Setup</h3>
+                                <p class="text-danger">@ViewBag.Message</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        @Html.ValidationSummary()
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1">Training Name: </label>
+                                            @Html.TextBoxFor(m => m.CourseHeader, new { @class = "form-control" })
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.CourseHeader)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1">Location Name: </label>
+                                            @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.Location)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1">Trainer Name: </label>
+                                            @Html.TextBoxFor(m => m.TrainerName, new { @class = "form-control" })
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.TrainerName)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1">Course Price: </label>
+                                            @Html.TextBoxFor(m => m.CoursePrice, new { @class = "form-control" })
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.CoursePrice)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Date Of Training (Start): </label>
+                                            <input type="date" name="DateOfTrainingStart" class="form-control date" value="@Model.DateOfTrainingStart.ToString("yyyy-MM-dd")" />
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.DateOfTrainingStart)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Start Time: </label>
+                                            <input type="time" name="StartTime" class="form-control" value="@Model.StartTime.ToString("HH:mm")" />
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.StartTime)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Break Time: </label>
+                                            <input type="number" name="BreakTime" class="form-control" value="@Model.BreakTime" />
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.BreakTime)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Date Of Training (End): </label>
+                                            <input type="date" name="DateOfTrainingEnd" class="form-control date" value="@Model.DateOfTrainingEnd.ToString("yyyy-MM-dd")" />
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.DateOfTrainingEnd)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">End Time: </label>
+                                            <input type="time" name="EndTime" class="form-control" value="@Model.EndTime.ToString("HH:mm")" />
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.EndTime)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Import File PDF: </label>
+                                            @Html.TextBox("file", "", new { @class = "form-control", type = "file" })
+                                            <p class="text-danger">@Html.ValidationMessageFor(m => m.ImportFilePdf)</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3 ">
+                            <!--style="width: 65rem;"-->
+                            <div class="card-header justify-content-center">
+                                <h4 class="page-title ">Insert Employee</h4>
+                            </div>
+                            <div class="card-body" style="font-size:14px;">
+                                @Html.ListBox("selectedEmp", Model.EmployeeList, new { @size = "20", @class = "customFontSize" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-row justify-content-center">
+                            <button type="submit" class="btn btn-primary" value="Save">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            &nbsp;
+                            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#DateOfTrainingStart').datepicker({
+            showOptions: { speed: 'fast' },
+            changeMonth: false,
+            changeYear: false,
+            dateFormat: 'dd/mm/yy',
+            gotoCurrent: true
+        });
+        /*
+        $('#StartTime').timepicker({
+
+        });
+        */
+        
+    });
+
+    window.onload = function () {
+
+        $('#selectedEmp').bootstrapDualListbox({
+            nonSelectedListLabel: 'Employee List',
+            selectedListLabel: 'Selected',
+            moveOnSelect: true,
+
+
+        });
+
+        // CustomizeDuallistbox('selectedEmp');
+
+        var customSettings = $('select[name="selectedEmp"]').bootstrapDualListbox('getContainer');
+        customSettings.find('.moveall i').removeClass().addClass('fa fa-angle-double-right').next().remove();
+        customSettings.find('.removeall i').removeClass().addClass('fa fa-angle-double-left').next().remove();
+    };
+
+
+
+    function CustomizeDuallistbox(listboxID) {
+        var customSettings = $('#' + listboxID).bootstrapDualListbox('getContainer');
+        var buttons = customSettings.find('.btn.moveall, .btn.move, .btn.remove, .btn.removeall');
+
+        customSettings.find('.box1, .box2').removeClass('col-md-6').addClass('col-md-5');
+        customSettings.find('.box1').after('<div class="customButtonBox col-md-2 text-center"></div>');
+        customSettings.find('.customButtonBox').append(buttons);
+
+        customSettings.find('.btn-group.buttons').remove();
+    }
+
+</script>
+

@@ -1,0 +1,619 @@
+﻿@model OCTWEB_NET45.Models.FormulasModel
+@{
+    ViewBag.Title = "DefineFormulas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/DW_EngineerDrawingSetup/EDList" class="btn-outline-secondary">Process Drawing Setup <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h4 class="font-weight-bolder my-1 text-center">Add Child Model</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("DefineFormulas", "DW_EngineerDrawingSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary("", new {@class="text-danger" })
+                                    <p class="text-danger">@ViewBag.errorMessage</p>
+                                    <p class="text-success">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m=>m.id_parent)
+                                    @Html.HiddenFor(m => m.drawing_parent)
+                                    @Html.HiddenFor(m =>m.model_parent)
+                                    @Html.HiddenFor(m => m.partName_parent)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                           <div class="col">
+                               <div class="form-group">
+                                   <p>
+                                       <span class="badge badge-info"  style="font-size: 18px;"><strong>Main Model</strong></span> &nbsp;
+                                       <span style="color:#0b4ea0 ">
+                                           <strong>Drawning Number: </strong>@Model.drawing_parent, &nbsp;
+                                           <strong>Model: </strong>@Model.model_parent,  &nbsp;
+                                           <strong>Part Name: </strong>@Model.partName_parent
+                                       </span>
+                                   </p>
+                               </div> 
+                           </div>
+                       </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <fieldset>
+                                    <legend>Enter condition for search child model</legend>
+                                    <div class="form-row justify-content-center" >
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Drawing No.:</label>
+                                                @Html.TextBoxFor(m => m.searchDrawingNo_child, "", new {@class="form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Model No.:</label>
+                                                @Html.TextBoxFor(m => m.searchModelNo_child, "", new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Part Name:</label>
+                                                @Html.TextBoxFor(m => m.searchPartName_child, "", new { @class = "form-control form-control-sm" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 align-self-end">
+                                            <div class="form-group">
+                                                <button type="button" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                                    <i class="fas fa-search"></i> Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-10" style="box-shadow:initial">
+                                <table class="table table-bordered table-striped" id="tableSearch" 
+                                       style="font-size: 12px; background: linear-gradient(to left, #f9f8de, #eefbe3, #e4fdea, #dcfff3, #d8fffd);">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Select
+                                            </th>
+                                            <th>
+                                                Items
+                                            </th>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Drawing No.
+                                            </th>
+                                            <th>
+                                                Model
+                                            </th>
+                                            <th>
+                                                Part Name
+                                            </th>
+                                            <th>
+                                                Level
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.SelectChildModelList.Select((value, i) => new { i, value }))
+                                        {
+                                            <tr id="@(item.value.id_child)">
+                                                <td>
+                                                    <!--Html.RadioButton("check_select", item.value.id_child)-->
+                                                    <input type="radio" id="check_select" name="check_select" value="@item.value.id_child" />
+                                                </td> 
+                                                <td>
+                                                    @(item.i + 1)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.value.id_child)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.value.drawingNo_child)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.value.model_child)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.value.partName_child)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(m => item.value.level_child)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>                         
+                         </div>
+                         <div class="form-row justify-content-center">
+                           <div class="col">
+                               <div class="form-group">
+                                   <p>
+                                       <span class="badge badge-dark"  style="font-size: 18px;"><strong>Child Model</strong></span> &nbsp;
+                                   </p>
+                               </div> 
+                           </div>
+                       </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Id:</label>
+                                    <input type="text" id="id_child" name="id_child" value="@Model.id_child" class="form-control form-control-sm" readonly="readonly"/>
+                                </div>
+                            </div>  
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Drawing:</label>
+                                    <input type="text" id="drawingNo_child" name="drawingNo_child" value="@Model.drawingNo_child" class="form-control form-control-sm" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Model:</label>
+                                    <input type="text" id="model_child" name="model_child" value="@Model.model_child" class="form-control form-control-sm" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Part Name:</label>
+                                    <input type="text" id="partName_child" name="partName_child" value="@Model.partName_child" class="form-control form-control-sm" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-row justify-content-center">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Level:</label>
+                                    <input type="text" id="level_child" name="level_child" value="@Model.level_child" class="form-control form-control-sm" readonly="readonly" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Quantity:</label>
+                                    <input type="text" id="quantity_child" name="quantity_child" value="@Model.quantity_child" class="form-control form-control-sm" />
+                                    @Html.ValidationMessageFor(m => m.quantity_child, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Unit Name:</label>
+                                    @Html.TextBoxFor(m => m.unit_child, "", new {@class="form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.unit_child, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Note:</label>
+                                     @Html.TextAreaFor(m => m.note_child, new { @class = "form-control form-control-sm" })
+                                     @Html.ValidationMessageFor(m => m.note_child, "", new {@class="text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="button" name="AddNewBtn" id="AddNewBtn" class="btn btn-primary" value="Add">
+                                        <i class="fas fa-plus"></i> Add New Child
+                                    </button>
+                                    <input hidden="hidden" id="AddNew" name="AddNew" value="null" />
+                                </div>
+                            </div>
+                        </div>
+                    
+                       
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Manage Formulas</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("DeleteChild", "DW_EngineerDrawingSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                   @Html.HiddenFor(m => m.id_parent)
+                                    <button type="button" id="deleteall" name="deleteall" value="Delete" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                    <input hidden="hidden" id="DeleteSelect" name="DeleteSelect" value="null" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <table class="tablecustom" id="table1" style="font-size:14px;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" name="select-all" id="select-all" />
+                                        </th>
+                                        <th>
+                                            Items
+                                        </th>
+                                        <th>
+                                            Id
+                                        </th>
+                                        <th>
+                                            Model
+                                        </th>
+                                        <th>
+                                            Drawing No.
+                                        </th>
+                                        <th>
+                                            Part Name
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                        <th>
+                                            Unit
+                                        </th>
+                                        <th>
+                                            Note
+                                        </th>
+                                        <th>
+                                            Level
+                                        </th>
+                                        <th>
+                                            Move
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ChildModelList.Select((value, i) => new { i, value }))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="selectedItem" value="@(item.value.id)" />
+                                            </td>
+                                            <td>
+                                                @(item.i + 1)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.model)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.drawingNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.partName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.quantity)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.unit)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.note)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => item.value.level)
+                                            </td>
+                                            <td class="text-right">
+                                               <button type="button" class="up btn btn-sm btn-dark">
+                                                   <i class="fas fa-arrow-up"></i> Up
+                                                </button>
+                                               <button type="button" class="down btn btn-sm btn-dark">
+                                                   <i class="fas fa-arrow-down"></i> Down
+                                               </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-right">
+                                    <button type="button" value="SaveMoved" id="SaveMovedBtn" name="SaveMovedBtn" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save Moved
+                                    </button>
+                                    <input hidden="hidden" id="SaveMoved" name="SaveMoved" value="null" />
+                                    <input hidden="hidden" id="moved_id_list" name="moved_id_list" value="null" />
+                                   
+                                </div>
+                            </div>                           
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="form-group">
+            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                <i class="fas fa-undo"></i> Back
+            </button>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    /*
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+    */
+    $(document).ready(function () {
+        $("input:radio[name=check_select]:first").attr('checked', 'checked');
+        /*
+        $("#groupLine_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#process_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#partName_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });*/
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#AddNew").val("");
+        
+        $('#check_select').val(0).trigger('change');
+        $('#id_child').val(0).trigger('change');
+        $('#drawingNo_child').val(null).trigger('change');
+        $('#model_child').val(null).trigger('change');
+        $('#partName_child').val(null).trigger('change');
+        $('#level_child').val(null).trigger('change');
+        $('#quantity_child').val(0).trigger('change');
+        $('#unit_child').val(null).trigger('change');
+        $('#note_child').val(null).trigger('change');
+        document.forms["Form1"].submit();
+    })
+
+    $("#AddNewBtn").click(function () {
+        $("#AddNew").val("AddNew");
+        document.forms["Form1"].submit();
+    })
+
+    $("#deleteall").click(function () {
+        $("#SaveMoved").val("");
+        $("#DeleteSelect").val("DeleteSelect");
+        if (confirm('Delete all selected elements?')) {
+            document.forms["Form2"].submit();
+        }
+    })
+
+    $("#SaveMovedBtn").click(function () {
+        $("#DeleteSelect").val("");
+        $("#SaveMoved").val("SaveMoved");
+
+        var id_list = [];
+        var grid = document.getElementById("table1");
+        for (var i = 1; i < grid.rows.length; i++)
+        {
+            var id = grid.rows[i].cells[2].innerText;
+            id_list.push(id);
+        }
+        document.getElementById("moved_id_list").value = id_list;
+
+        if (confirm('Confirm order of elements :' + id_list))
+        {
+            document.forms["Form2"].submit();
+        }     
+    })
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $(document).ready(function () {
+        $(".up,.down").click(function () {
+            var row = $(this).parents("tr:first");
+            if ($(this).is(".up")) {
+                row.insertBefore(row.prev());
+            } else {
+                row.insertAfter(row.next());
+            }
+        });
+    });
+
+    $('input:radio[name=check_select]').click(function (event) { 
+      
+        var row = $(this).closest('tr');    
+        var id = row.find("td:eq(2)").html().trim();
+        var drawing = row.find("td:eq(3)").html().trim();
+        var model = row.find("td:eq(4)").html().trim();
+        var partname = row.find("td:eq(5)").html().trim();
+        var level = row.find("td:eq(6)").html().trim();
+       
+        var id_box = document.getElementById("id_child");
+        var drawing_box = document.getElementById("drawingNo_child");
+        var model_box = document.getElementById("model_child");
+        var partName_box = document.getElementById("partName_child");
+        var level_box = document.getElementById("level_child");
+        
+        id_box.value = id;
+        drawing_box.value = drawing;
+        model_box.value = model;
+        partName_box.value = partname;
+        level_box.value = level;
+
+    });
+
+    $(document).ready(function () {
+        $("#searchPartName_child").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_EngineerDrawingSetup/GetPartName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#searchDrawingNo_child").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_EngineerDrawingSetup/GetDrawingNo",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#searchModelNo_child").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_EngineerDrawingSetup/GetModelNo",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#unit_child").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_EngineerDrawingSetup/GetUnitName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+    })
+
+
+
+    $(function () {
+        /*
+        AjaxCall('/DW_ProcessDrawingSetup/GetSelectGroupLine', null).done(function (response) {
+            if (response.length > 0) {
+                $('#groupLine_id').html('');
+                var options = '';
+                options += '<option value="Select">Select Group Line</option>';
+                for (var i = 0; i < response.length; i++) {
+                    options += '<option value="' + response[i].val + '">' + response[i].label + '</option>';
+                }
+                $('#groupLine_id').append(options);
+
+            }
+        }).fail(function (error) {
+            alert(error.StatusText);
+        });
+        */
+        $('#groupLine_id').on("change", function () {
+            var groupLine_id = $('#groupLine_id').val();
+            var obj = { groupLine_id: groupLine_id };
+            AjaxCall('/DW_ProcessDrawingSetup/GetSelectLineName', JSON.stringify(obj), 'POST').done(function (response) {
+                if (response.length > 0) {
+                    $('#process_id').html('');
+                    var options = '';
+                    options += '<option value="Select">Select Line Name</option>';
+                    for (var i = 0; i < response.length; i++) {
+                        options += '<option value="' + response[i].val + '">' + response[i].label + '</option>';
+                    }
+                    $('#process_id').append(options);
+                }
+                else {
+                    $('#process_id').html('');
+                }
+            }).fail(function (error) {
+                //alert(error.StatusText);
+                $('#process_id').html('');
+            });
+        });
+
+    });
+
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
+</script>
+

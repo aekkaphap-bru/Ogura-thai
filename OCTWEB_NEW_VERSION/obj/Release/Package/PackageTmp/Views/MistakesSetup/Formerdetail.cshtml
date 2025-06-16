@@ -1,0 +1,321 @@
+﻿@model OCTWEB_NET45.Models.SearchMistModel
+@{
+    ViewBag.Title = "Former Employee Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/MistakesSetup/Formerlist" class="btn-outline-secondary"> <i class="fa fa-angle-left"></i> Former Mistakes List</a>&nbsp;
+    </div>
+    @using (Html.BeginForm("Formerdetail", "MistakesSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="row">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    <div class="card-header justify-content-center">
+                        <h4 class="font-weight-bolder my-1 text-center">Detail Employee (รายละเอียดข้อมูลพนักงาน)<span style="color:red;"></span></h4>
+                        <p class="text-success">@ViewBag.Message</p>
+                        @Html.ValidationSummary(true)
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row justify-content-center">
+                            @Html.HiddenFor(m => m.emp_profile)
+                            @Html.HiddenFor(m => m.emp_id)
+                            @Html.HiddenFor(m => m.fname)
+                            @Html.HiddenFor(m => m.lname)
+                            @Html.HiddenFor(m => m.nickname)
+                            @Html.HiddenFor(m => m.department)
+                            @Html.HiddenFor(m => m.position)
+                            @Html.HiddenFor(m => m.costcenter)
+                            @Html.HiddenFor(m => m.count_total)
+                            @Html.HiddenFor(m => m.count_card_blue)
+                            @Html.HiddenFor(m => m.count_card_white)
+                            @Html.HiddenFor(m => m.count_card_yellow)
+                            @Html.HiddenFor(m => m.count_card_orange)
+                            @Html.HiddenFor(m => m.count_card_red)
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4 text-left">
+                                <div class="form-group">
+                                    <label class="mb-0">Emp ID: </label>
+                                    @Html.TextBoxFor(m => m.emp_id, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <div class="image-upload">
+                                        <label for="imgfile">
+                                            <img class="img-profile border-0 rounded-lg" id="emp_pic" src="@Model.emp_profile" height="100" width="100" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-right">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">First Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.fname, new { @class = "form-control form-control-sm", @readonly = "true" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Last Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.lname, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Nick Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.nickname, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Department: </label>
+                                    @Html.TextBoxFor(m => m.department, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Position: </label>
+                                    @Html.TextBoxFor(m => m.position, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Cost Center: </label>
+                                    @Html.TextBoxFor(m => m.costcenter, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col text-right">
+                    <div class="form-group">
+                        <p>
+                            <span>Status Warning Card </span>
+                            @if (Model.count_card_blue > 0)
+                            {
+                                <img src="~/static/img/card_blue.png" height="30" /><span style="color:darkblue">:(@Model.count_card_blue) </span>
+                            }
+                            @if (Model.count_card_white > 0)
+                            {
+                                <img src="~/static/img/card_white.png" height="30" /><span style="color:#848B79">:(@Model.count_card_white) </span>
+                            }
+                            @if (Model.count_card_yellow > 0)
+                            {
+                                <img src="~/static/img/card_yellow.png" height="30" /><span style="color:#FFD801">:(@Model.count_card_yellow) </span>
+                            }
+                            @if (Model.count_card_orange > 0)
+                            {
+                                <img src="~/static/img/card_orange.png" height="30" /><span style="color:#ff6a00">:(@Model.count_card_orange) </span>
+                            }
+                            @if (Model.count_card_red > 0)
+                            {
+                                <img src="~/static/img/card_red.png" height="30" /><span style="color:red">:(@Model.count_card_red) </span>
+                            }
+                            | All: @Model.count_total
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="tablecustom " id="table1" style="font-size:14px">
+                    <thead>
+                        <tr>
+                            <th>
+                                No.
+                            </th>
+                            <th>
+                                Date <br> (วันที่)
+                            </th>
+                            <th>
+                                Type Mistake <br> (ประเภทการเตือน)
+                            </th>
+                            <th>
+                                Detail <br> (เหตุผลที่ทำผิด)
+                            </th>
+                            <th>
+                                Level Of Mistake <br> (ระดับการลงโทษ)
+                            </th>
+                            <th>
+                                Expired Date <br>  (วันหมดอายุความผิด)
+                            </th>
+                            <th>
+                                Date <br> (วันที่เหลือ)
+                            </th>
+                            <th>
+                                Shift <br> (กะ)
+                            </th>
+                            <th>
+                                Work Break <br> (วันที่พักงาน)
+                            </th>
+                            <th>
+                                Work Break End <br> (สิ้นสุดวันพักงาน)
+                            </th>
+                            <th>
+                                Number of the Day <br> (จำนวนวัน)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.EmpMistakesList.Select((value, i) => new { i, value }))
+                        {
+                            <tr>
+                                <td>
+                                    @(item.i + 1)
+                                </td>
+                                <td>
+                                    @{
+                                        var mistake_date_str = item.value.mistake_date.HasValue ? item.value.mistake_date.Value.ToString("dd/MM/yyyy") : null;
+                                    }
+                                    @mistake_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.reason)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.detail_reason)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.levelwarning)
+                                </td>
+                                <td>
+                                    @{
+                                        var expire_date_str = item.value.expire_date.HasValue ? item.value.expire_date.Value.ToString("dd/MM/yyyy") : null;
+                                    }
+                                    @expire_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.amount_expire_date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.shift)
+                                </td>
+                                <td>
+                                    @{
+                                        string stopwork_start_date_str = item.value.stopwork_start_date.HasValue ? item.value.stopwork_start_date.Value.ToString("dd/MM/yyyy") : "";
+                                    }
+                                    @stopwork_start_date_str
+                                </td>
+                                <td>
+                                    @{
+                                        string stopwork_end_date_str = item.value.stopwork_end_date.HasValue ? item.value.stopwork_end_date.Value.ToString("dd/MM/yyyy") : "";
+                                    }
+                                    @stopwork_end_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.value.amount_stopwork_date)
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-row justify-content-center">
+                        <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                            <i class="fas fa-undo"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("button[name='deleteall']").click(function () {
+            //return confirm('Delete all selected elements?');
+            return confirm('Are you sure delete this data?')
+        });
+        /*
+        $("#reason_str").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#levelwarning_id").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        */
+    });
+
+
+    $("#ExportToCsv").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+
+
+    $("#clear").click(function () {
+        $('#reason_str').val(null).trigger('change');
+        $('#levelwarning_id').val(null).trigger('change');
+
+        $("input[type=date]").val("");
+
+    });
+
+
+    $("#table1 tbody tr").click(function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+
+
+
+</script>

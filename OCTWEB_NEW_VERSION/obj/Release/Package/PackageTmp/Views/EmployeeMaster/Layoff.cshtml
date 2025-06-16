@@ -1,0 +1,127 @@
+﻿@model OCTWEB_NET45.Models.LayoffModel
+@{
+    ViewBag.Title = "Layoff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var style_1 = " background: linear-gradient(to right, #ede6d6, #e3ebc9, #c7f2c9, #9bf9dc, #57feff);";
+}
+<div class="container-fluid">
+    <div class="row">
+        <a href="/EmployeeMaster/EmpList" class="btn-outline-secondary"><i class="fa fa-angle-left"></i>Employee List </a>&nbsp;
+        <a href="/EmployeeMaster/EmpDetail/@Model.id" class="btn-outline-secondary"><i class="fa fa-angle-left"></i>Employee Detail </a>&nbsp;
+    </div>
+    <br />
+    <div class="row">
+        <div class="container">
+            <!--
+            <div class="btn-group shadow-lg border-0 rounded-lg mt-0 mb-3">
+                Html.ActionLink(linkText: "Employee Data",
+                                    actionName: "EmpDetail",
+                                    controllerName: "EmployeeMaster",
+                                    routeValues: new { id = Model.id },
+                                    htmlAttributes: new { class = "btn btn-secondary active" })
+                Html.ActionLink(linkText: " Course Training",
+                                    actionName: "EmpCourse",
+                                    controllerName: "EmployeeMaster",
+                                    routeValues: new { id = Model.id },
+                                     htmlAttributes: new { class = "btn btn-secondary " })
+            </div>-->
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="container">
+            @using (Html.BeginForm("Layoff", "EmployeeMaster", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+            {
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h4 class="font-weight-bolder my-1 text-center">
+                         Layoff Employee <span style="color:red;"> Setup</span>
+                    </h4>
+                    @Html.HiddenFor(m=>m.id)
+                    <p class="text-danger">@ViewBag.Message</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Date Resign (ระบุวันที่ออก):</label>
+                                @{
+                                    var datelayoff = Model.layoff_date.HasValue ? Model.layoff_date.Value.ToString("yyyy-MM-dd") : null;
+                                }
+                                <input type="date" name="layoff_date" class="form-control date" value="@datelayoff" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Layoff Reason:</label>
+                                @Html.DropDownList("reasonlayoff", Model.SelectReasonLayoff, new { style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Layoff Detail (เลือกรายละเอียด):</label>
+                                @Html.DropDownList("typelayoff", Model.SelectTypeLayoff, "", new { style = "width:100%" })
+                            </div>
+                        </div>
+                      
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Can't specify time/ไม่สามารถระบุวันที่ได้ :</label>
+                                @Html.CheckBoxFor(m => m.notime)
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Other (อื่นๆ):</label>
+                                @Html.TextBoxFor(m => m.other_type, new { @class = "form-control" })
+                                <p class="text-danger">@Html.ValidationMessageFor(m => m.other_type)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col text-center">
+                            <button type="submit" name="Save" value="Save" class="btn btn-danger" onclick="return confirm('Are you sure to layoff this employee?')" >
+                                <i class="fas fa-save"></i> Save
+                            </button> |
+                            <button type="button" onclick="history.back()" class="btn btn-outline-primary">
+                                <i class="fa fa-ban" aria-hidden="true"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer" style="@style_1">
+                    <div class="form-row">
+                        <div class="col">
+                            <p style="color:black"><span style="font-weight: bold">Employee ID @Model.id</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+<script >
+    $(document).ready(function () {
+        $("#reasonlayoff").select2({
+            placeholder: "Select Reason",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#typelayoff").select2({
+            placeholder: "Select Type",
+            allowClear: true,
+            width: 'resolve'
+        });
+    })
+</script>

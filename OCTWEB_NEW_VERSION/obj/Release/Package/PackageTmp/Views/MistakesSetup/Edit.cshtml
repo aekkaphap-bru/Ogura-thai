@@ -1,0 +1,379 @@
+﻿@model OCTWEB_NET45.Models.EmpMistakesModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/MistakesSetup/EmpList" class="btn-outline-secondary"><i class="fa fa-angle-left"></i>  Mistake List </a>&nbsp;
+        <a href="/MistakesSetup/Detail/@Model.emp_id" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Detail Employee </a>&nbsp;
+    </div>
+
+    @using (Html.BeginForm("Edit", "MistakesSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col">
+                @Html.HiddenFor(m => m.emp_profile)
+                @Html.HiddenFor(m => m.mistake_id)
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    <div class="card-header justify-content-center">
+                        <p class="text-danger">@ViewBag.ErrorMessage</p>
+                        <p class="text-success">@ViewBag.Message</p>
+                        <h4 class="font-weight-bolder my-1 text-center">Employee details (ข้อมูลพนักงาน)</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4 text-left">
+                                <div class="form-group">
+                                    <label class="mb-0">Emp ID: </label>
+                                    @Html.TextBoxFor(m => m.emp_id, new { @class = "form-control form-control-sm", @readonly="true" })
+                                    <p class="text-danger">@Html.ValidationMessageFor(m => m.emp_id)</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group text-center">
+                                    <div class="image-upload">
+                                        <label for="imgfile">
+                                            <img class="img-profile border-0 rounded-lg" id="emp_pic" src="@Model.emp_profile" height="100" width="100" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group text-right">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">First Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.fname, new { @class = "form-control form-control-sm", @readonly = "true" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Last Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.lname, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Nick Name(EN): </label>
+                                    @Html.TextBoxFor(m => m.nickname, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Department: </label>
+                                    @Html.TextBoxFor(m => m.department, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Position: </label>
+                                    @Html.TextBoxFor(m => m.position, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Cost Center: </label>
+                                    @Html.TextBoxFor(m => m.costcenter, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    <div class="card-header justify-content-center">
+                        <h4 class="font-weight-bolder my-1 text-center">Edit mistake (แก้ไขข้อมูลความผิดพนักงาน) </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    @{
+                                        var mistake_date = Model.mistake_date.HasValue ? Model.mistake_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    <label class="mb-0">Mistake Date: </label><br />
+                                    <label class="mb-0">(วันที่) </label>
+                                    <input type="date" id="mistake_date" name="mistake_date" class="form-control form-control-sm date" value="@mistake_date" />
+                                    @Html.ValidationMessageFor(m => m.mistake_date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="mb-0">Shift:</label><br />
+                                    <label class="mb-0">(กะ)</label>
+                                    @Html.DropDownList("shift", Model.SelectShift, "select shift", new { style = "width:100%",@class="form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.shift, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">Type for mistake employee:</label><br />
+                                    <label class="mb-0">(ประเภทของการเตือน)</label>
+                                    @Html.DropDownList("reason", Model.SelectReason, "", new { style = "width:100%",@class="form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.reason, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="mb-0">level of warning:</label><br />
+                                    <label class="mb-0">(ระดับของการแจ้งเตือน)</label>
+                                    @Html.DropDownList("levelwarning_id", Model.SelectLevalWarning, " ", new { style = "width:100%",@class="form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.levelwarning_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="mb-0">Expire Date: </label><br/>
+                                    <label class="mb-0">(วันสิ้นสุด) </label>
+                                    @Html.TextBoxFor(m => m.expire_date_str, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="mb-0">Days:</label><br />
+                                    <label class="mb-0">(จำนวนวัน):</label>
+                                    @Html.TextBoxFor(m => m.amount_mistake_date, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="mb-0">Detail: </label><br />
+                                    <label class="mb-0">(เหตุผลที่ทำผิด) </label>
+                                    @Html.TextAreaFor(m => m.detail_reason, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.detail_reason, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <h4><span style="color:red">*เฉพาะกรณีที่พนักงานที่โดนพักงาน</span></h4>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @{
+                                        var stop_start_date = Model.stopwork_start_date.HasValue ? Model.stopwork_start_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    <label class="mb-0">Stop Working:</label><br />
+                                    <label class="mb-0">(วันเริ่มต้นการพักงาน)</label>
+                                    <input type="date" id="stopwork_start_date" name="stopwork_start_date" class="form-control form-control-sm date" value="@stop_start_date" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @{
+                                        var stop_end_date = Model.stopwork_end_date.HasValue ? Model.stopwork_end_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    <label class="mb-0">To: </label><br />
+                                    <label class="mb-0">(ถึง) </label>
+                                    <input type="date" id="stopwork_end_date" name="stopwork_end_date" class="form-control form-control-sm date" value="@stop_end_date" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="mb-0">Days:</label><br />
+                                    <label class="mb-0">(จำนวนวัน)</label>
+                                    @Html.TextBoxFor(m => m.amount_stopwork_date, new { @class = "form-control form-control-sm", @readonly = "true" })
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-row justify-content-center">
+                    <button type="submit" class="btn btn-primary" value="Save">
+                        <i class="fas fa-save" aria-hidden="true"></i> Save
+                    </button>
+                    &nbsp;
+                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                        <i class="fas fa-ban" ></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+
+    $(document).ready(function () {
+        /*
+        $("#reason").select2({
+            placeholder: "select type for mistake",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#levelwarning_id").select2({
+            placeholder: "select level warning",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#shift").select2({
+            placeholder: "select shift",
+            allowClear: true,
+            width: 'resolve'
+        });
+        */
+    });
+
+    $(document).ready(function () {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+
+        function formatDate(date) {
+            return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function updateExpirationInfo() {
+            const mistakeDateInput = $('#mistake_date').val();
+            if (!mistakeDateInput) {
+                $('#expire_date_str').val('');
+                $('#amount_mistake_date').val('');
+                return;
+            }
+
+            const originalMistakeDate = new Date(mistakeDateInput);
+            const extendedMistakeDate = new Date(originalMistakeDate); // clone
+            extendedMistakeDate.setMonth(extendedMistakeDate.getMonth() + 12);
+
+            const formattedExpirationDate = formatDate(extendedMistakeDate);
+            document.getElementById("expire_date_str").value = formattedExpirationDate;
+
+            // Recalculate days difference based on the updated expire date
+            const currentExpireDateInput = $('#expire_date_str').val();
+            const currentExpireDate = new Date(currentExpireDateInput);
+
+            const timeDifferenceMs = currentExpireDate - originalMistakeDate;
+            const daysDifference = Math.round(timeDifferenceMs / (1000 * 60 * 60 * 24));
+
+            document.getElementById("amount_mistake_date").value = daysDifference;
+        }
+
+        $("#mistake_date").change(updateExpirationInfo);
+        updateExpirationInfo(); // Call on page load to initialize values
+    });
+
+    //$("#mistake_date").change(function () {
+    //    const monthNames = ["January", "February", "March", "April", "May", "June",
+    //                        "July", "August", "September", "October", "November", "December"
+    //    ];
+    //    var date_t = new Date($('#mistake_date').val());
+    //    var ppxDate = new Date(date_t.setMonth(date_t.getMonth() + 12));
+
+    //    document.getElementById("expire_date_str").value = ppxDate.getDate()
+    //        + " " + monthNames[ppxDate.getMonth()] + " " + ppxDate.getFullYear();
+
+    //    var diff = ppxDate - new Date();
+    //    var days = diff / 1000 / 60 / 60 / 24;
+    //    document.getElementById("amount_mistake_date").value = Math.round(days);
+    //});
+
+    $("#stopwork_end_date").change(function () {
+        var startDate = document.getElementById("stopwork_start_date").value;
+        var endDate = document.getElementById("stopwork_end_date").value;
+
+        if ((Date.parse(endDate) < Date.parse(startDate))) {
+            alert("To date should be greater than Start date");
+            //document.getElementById("stopwork_end_date").value = startDate;
+        }
+        var diff = new Date(endDate) - new Date(startDate);
+        var days = diff / 1000 / 60 / 60 / 24;
+        document.getElementById("amount_stopwork_date").value = days + 1;
+
+    });
+    $("#stopwork_start_date").change(function () {
+        var startDate = document.getElementById("stopwork_start_date").value;
+        var endDate = document.getElementById("stopwork_end_date").value;
+
+        if ((Date.parse(endDate) < Date.parse(startDate))) {
+            alert("To date should be greater than Start date");
+           // document.getElementById("stopwork_end_date").value = startDate;
+        }
+        var diff = new Date(endDate) - new Date(startDate);
+        var days = diff / 1000 / 60 / 60 / 24;
+        document.getElementById("amount_stopwork_date").value = days + 1;
+
+    });
+
+
+    $(function () {
+        $('input[name=emp_id]').on("keyup", function () {
+            var emp_id = $(this).val();
+            var obj = { emp_id: emp_id };
+            AjaxCall('/MistakesSetup/GetEmpDetail', JSON.stringify(obj), 'POST').done(function (response) {
+
+                var pic = response["pic"];
+                var empid = response["empid"];
+                var fname = response["fname"];
+                var lname = response["lname"];
+                var nickname = response["nickname"];
+                var department = response["department"];
+                var position = response["position"];
+                var costcenter = response["costcenter"];
+
+                if (pic != null) {
+                    $('#emp_pic').attr("src", pic);
+                }
+                else {
+                    var nopic = $('#emp_profile').val();
+                    $('#emp_pic').attr("src", nopic);
+                }
+
+                $('#fname').val(fname);
+                $('#lname').val(lname);
+                $('#nickname').val(nickname);
+                $('#department').val(department);
+                $('#position').val(position);
+                $('#costcenter').val(costcenter);
+
+            }).fail(function (error) {
+                //alert(error.StatusText);
+            });
+        });
+    });
+
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
+</script>

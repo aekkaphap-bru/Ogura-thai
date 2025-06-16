@@ -1,0 +1,256 @@
+﻿@model OCTWEB_NET45.Models.ProblemModel
+@{
+    ViewBag.Title = "Solutions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="margin-bottom: 50px;">
+    <div style="display: inline-block; margin-right: 10px;">
+         <a href="/QRAP_Approve/List" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Approve List</a>
+    </div>
+</div>     
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <h3 class="page-title ">4. Approve </h3>
+    </div>
+    @using (Html.BeginForm("Solutions", "QRAP_Approve", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+    {
+        <div class="form-row justify-content-center">
+            <div class="col">
+                <div class="form-group">
+                    @Html.ValidationSummary(true)
+                    <p class="text-success">@ViewBag.Message</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-row ">
+            <div class="col">
+                <fieldset>
+                    <legend>1. Problem</legend>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Problem No: </strong></label>
+                                @Html.DisplayFor(m => m.problem_no)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Problem: </strong></label>
+                                @Html.DisplayFor(m => m.detail)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Occur Date: </strong></label>
+                                @Model.date.ToString("yyyy-MM-dd")
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Department: </strong></label>
+                                @Model.department
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Detail File: </strong></label>
+                                <a href="@Url.Action("DownloadFile", new {filename = Model.file })" class="btn link-info">
+                                    <i class="fas fa-download"></i> @Model.file
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><strong>Reason: </strong></label>
+                                @Model.reason
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    }
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("Delete", "QRAP_Approve", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+    {
+        <div class="row">
+            <table class="tablecustom" id="table1" style="font-size:14px;">
+                <thead>
+
+                    <tr>
+                        <!--Status Items Detail Plan Department Approver Approved Answer Evidence Revision Comment-->
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Approve
+                        </th>
+                        <th>
+                            Items
+                        </th>
+                        <th>
+                            Solution
+                        </th>
+                        <th>
+                            Response Dept.
+                        </th>
+                        <th>
+                            Response Name
+                        </th>
+                        <th>
+                            Need Evidence
+                        </th>
+                        <th>
+                            Plan Date
+                        </th>
+                        <th>
+                            MDT Name
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.SolutionList.Select((value, i) => new { i, value }))
+                    {
+                        string status_style = "";
+                        if (item.value.status == "1")
+                        {
+                            status_style = " background-image: linear-gradient(to left, #ffffed, #ffffc4, #ffff99, #ffff69, #fffe23);";
+                        }
+                        if (String.IsNullOrEmpty(item.value.status) || item.value.status == "0")
+                        {
+                            status_style = "background: linear-gradient(to right, #f05757, #fc81a0, #f6afd7, #f1daf6, #ffffff); ";
+                        }
+                        if (item.value.status == "2")
+                        {
+                            status_style = " background-image: linear-gradient(to left, #efffed, #ccffc6, #a5ff9e, #77ff73, #23ff3f);";
+                        }
+                        <tr>
+                            <td style="@status_style ">
+                                <div class="col">
+                                    @if (item.value.status == "1")
+                                    {
+                                        <span class="badge badge-warning"> Answered </span>
+                                    }
+                                    @if (String.IsNullOrEmpty(item.value.status) || item.value.status == "0")
+                                    {
+                                        <span class="badge badge-danger"> No Answer </span>
+                                    }
+                                    @if (item.value.status == "2")
+                                    {
+                                        <span class="badge badge-success"> Approved </span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                @if (!String.IsNullOrEmpty(item.value.status) && item.value.status != "0")
+                                { 
+                                    <a href="@Url.Action(actionName: "Create"
+                                             , controllerName: "QRAP_Approve"
+                                             , routeValues: new {id = item.value.solution_id })" class="btn btn-sm btn-info">
+                                        <i class="fas fa-check-circle"></i> Approve
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @(item.i + 1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.department)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.response_owner)
+                            </td>
+                            <td>
+                                @{
+                                    string need_str = item.value.need_evidence ? "Yes" : "No";
+                                }
+                                @need_str
+                            </td>
+                            <td>
+                                @{
+                                    string date_str = item.value.date.ToString("yyyy-MM-dd");
+                                }
+                                @date_str
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.value.define_by)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="form-group text-center">
+                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                        <i class="fas fa-undo"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#deleteall").click(function () {
+        $("#ExportToCsv").val("");
+        if (confirm('Delete all selected elements?')) {
+            document.forms["Form2"].submit();
+        }
+    })
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $(document).ready(function () {
+
+        $("#department_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+    });
+
+
+</script>

@@ -1,0 +1,147 @@
+﻿@model OCTWEB_NET45.Models.UserDetailModel
+@{
+    ViewBag.Title = "Create user detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+        <div class="card-header justify-content-center">
+            <h4 class="font-weight-bolder my-1 text-center">Create User Detail</h4>
+            <p class="text-success">@ViewBag.Message</p>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("createUserDetail", "UserDetail", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+                <div class="form-row justify-content-center">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(m => m.USE_Id, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.USE_Password, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">User Code: </label>
+                            @Html.TextBoxFor(m => m.USE_Usercode, new { @class = "form-control", @readonly = "true" })
+                            <p class="text-danger">@Html.ValidationMessageFor(m => m.USE_Usercode)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">User Account: </label>
+                            @Html.TextBoxFor(m => m.USE_Account, new { @class = "form-control", @readonly = "true" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">Email: </label>
+                            @Html.TextBoxFor(m => m.USE_Email, new { @class = "form-control", @readonly = "true" })
+                            <p class="text-danger">@Html.ValidationMessageFor(m => m.USE_Email)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">First Name: </label>
+                            @Html.TextBoxFor(m => m.USE_FName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">Last Name: </label>
+                            @Html.TextBoxFor(m => m.USE_LName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="mb-1">Nick Name: </label>
+                            @Html.TextBoxFor(m => m.USE_NickName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">              
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="mb-1">Tel: </label>
+                            @Html.TextBoxFor(m => m.USE_TelNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="mb-1">Department: </label>
+                            @Html.DropDownListFor(x => x.Dep_Id, new SelectList(Model.Departments, "Value", "Text"), "Departments", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Dep_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="mb-1">Nationality: </label>
+                            @Html.DropDownListFor(x => x.USE_Nationality, new SelectList(Model.National, "Value", "Text"), "Nationality", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.USE_Nationality, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="mb-1">Status: </label>
+                            @Html.CheckBoxFor(m => m.BoolStatus, new { @class = "checkbox" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="col ">
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" value="Save" >
+                                <i class="fas fa-save"></i> Save
+                            </button> 
+                            &nbsp;
+                            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    
+    $(document).ready(function () {
+
+        $("#Dep_Id").select2({
+            placeholder: "Select Department",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#USE_Nationality").select2({
+            placeholder: "Select Nationality",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+    });
+
+</script>
+
+<!--
+section Scripts {
+    Scripts.Render("~/bundles/jqueryval")
+}
+-->

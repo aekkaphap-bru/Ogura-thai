@@ -1,0 +1,160 @@
+﻿@model OCTWEB_NET45.Models.WSTrainingListModel
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "WS Training Course List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/TrainingCourseManagement/SubTrainingCourseManagementList" class="btn-outline-secondary"> <i class="fa fa-angle-left"></i> Training Course Management</a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            @using (Html.BeginForm("WSTrainingList", "TrainingCourseAddWS", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+            {
+                <div class="form-row">
+                    <div class="col">
+                        <div class="text-center">
+                            <h4 class="font-weight-bolder my-1 text-center">Training Course [WS] <span style="color:red;">Setup</span></h4>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Status: </label>
+                            @Html.DropDownList("selected_status", Model.SelectStatusId, "All", new { @class = "form-control", style = "width:100%" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <div class="form-group ">
+                            <button type="button" name="ExportToCsvBtn" id="ExportToCsvBtn" class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm"
+                                    value="null">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    @foreach (var item in Model.WSTrainingModelPagedList.Select((value, i) => new { i, value }))
+                    {
+                        var status_style_head = "";
+                        var status_style_body = "";
+                        var status_style_foot = "";
+                        if (item.value.Train_Status == 1)
+                        {
+                            status_style_body = "background: linear-gradient(to right, #ede6d6, #f1ddab, #f4d37f, #f5c951, #f6be00);";
+                            status_style_head = "background: linear-gradient(to right, #ede6d6, #f1ddab, #f4d37f, #f5c951, #f6be00);";
+                            status_style_foot = "background: linear-gradient(to right, #ede6d6, #f1ddab, #f4d37f, #f5c951, #f6be00);";
+                        }
+                        else if (item.value.Train_Status == 0)
+                        {
+                            status_style_foot = "background: linear-gradient(to left, #e42217, #f15244, #f9776d, #fd9a94, #fbbbb9);";
+                            status_style_body = "background: linear-gradient(to left, #e42217, #f15244, #f9776d, #fd9a94, #fbbbb9);";
+                            status_style_head = "background: linear-gradient(to left, #e42217, #f15244, #f9776d, #fd9a94, #fbbbb9);";
+                        }
+                        else
+                        {
+                            status_style_body = "background: linear-gradient(to right, #ede6d6, #d8d4a0, #b3c570, #7db948, #12ad2b);";
+                            status_style_head = "background: linear-gradient(to right, #ede6d6, #d8d4a0, #b3c570, #7db948, #12ad2b);";
+                            status_style_foot = "background: linear-gradient(to right, #ede6d6, #d8d4a0, #b3c570, #7db948, #12ad2b);";
+                        }
+                        <div class="col-md-4">
+                            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                                <div class="card-header" style="@status_style_head">
+                                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                                        <h4 class="font-weight-bold text-dark my-1 text-center ">@item.value.Train_NumberWS</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="@status_style_body">
+                                    <p style="color:black">Rev: @item.value.Trai_Rev</p>
+                                    <p style="color:black">Name: @item.value.Train_Header</p>
+                                    <p style="color:black">Line: @item.value.Trai_NameArea</p>
+                                    <p style="color:black">Date: @item.value.Train_DateWS</p>
+
+                                    <a href="@Url.Action(actionName: "WSTrainingSendMail",
+                                                            controllerName: "TrainingCourseAddWS",
+                                                            routeValues: new { id = @item.value.Id })" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i><span> Send Mail</span>
+                                    </a>
+                                </div>
+                                <div class="card-footer" style="@status_style_foot">
+                                    @if (item.value.Train_Status == 0)
+                                    {
+                                        <p style="color:black;">
+                                            <span class="badge badge-danger badge-pill">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Pending
+                                            </span> (มีการลงทะเบียนฝึก/อบรมWS)
+                                        </p>
+                                    }
+                                    else if (item.value.Train_Status == 1)
+                                    {
+                                        <p style="color:black;">
+                                            <span class="badge badge-warning badge-pill">
+                                                <i class="fa fa-spinner" aria-hidden="true"></i> In progress
+                                            </span> (แจ้งอีเมลแล้ว)
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="color:black;">
+                                            <span class="badge badge-success badge-pill">
+                                                <i class="fa fa-check-circle" aria-hidden="true"></i> Complete
+                                            </span> (อัพโหลดเรียบร้อย)
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            <div class="row justify-content-center">
+                Page @(Model.WSTrainingModelPagedList.PageCount < Model.WSTrainingModelPagedList.PageNumber ? 0 : Model.WSTrainingModelPagedList.PageNumber) of @Model.WSTrainingModelPagedList.PageCount
+            </div>
+            <div class="row justify-content-center">
+                @Html.PagedListPager(Model.WSTrainingModelPagedList, page => Url.Action("WSTrainingList", new RouteValueDictionary()
+                    {
+                        {"Page",page},
+                        {"selected_status",Model.selected_status},
+
+                    }))
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <script language="JavaScript">
+            $(document).on('select2:open', function (e) {
+                const selectId = e.target.id;
+                $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+                    value.focus();
+                });
+            });
+
+            $(document).ready(function () {
+
+                $("#selected_status").select2({
+                    placeholder: "All",
+                    allowClear: true,
+                    width: 'resolve'
+                });
+
+            });
+
+            $("#ExportToCsvBtn").click(function () {
+                $("#ExportToCsv").val("ExportToCsv");
+                document.forms["Form1"].submit();
+            })
+
+            $("body").on("change", "#selected_status", function () {
+                $("#ExportToCsv").val("");
+                document.forms["Form1"].submit();
+            });
+
+        </script>

@@ -1,0 +1,38 @@
+﻿
+    label {
+        font-size: 12px;
+        font-family: sans-serif;
+    }
+    .tablesearch thead tr {
+        background-color: #004780 ;
+        color: #ffffff;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 28px;
+        font-family: sans-serif;
+    }
+    .tablesearch tbody tr {
+        background-color: #f3f3f3;
+    }
+   
+    .tablesearch {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0px 0;
+        font-size: 1em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .tablesearch th, .tablesearch td {
+        padding: 8px 8px;
+        text-align: right;
+        vertical-align: middle;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .tablesearch tbody tr td:hover {
+        background-color: #d5f5e3 ;
+    }

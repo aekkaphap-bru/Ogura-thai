@@ -1,0 +1,59 @@
+﻿@model OCTWEB_NET45.Models.UserGroupModel
+@{
+    ViewBag.Title = "Edit User Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+        <div class="card-header justify-content-center">
+            <h3 class="page-title ">Edit User Group</h3>
+            <p class="text-danger">@ViewBag.Message</p>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("editUserGroup", "UserGroup", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(m => m.USG_Id, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>User Group Name: </label>
+                            @Html.TextBoxFor(m => m.USG_Name, new { @class = "form-control", @readonly="true" })
+                            @Html.ValidationMessageFor(m => m.USG_Name, "", new {@class="text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Memo: </label>
+                            @Html.TextAreaFor(m => m.USG_Memo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.USG_Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="submit" value="Edit" class="btn btn-success" >
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            &nbsp;
+                            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

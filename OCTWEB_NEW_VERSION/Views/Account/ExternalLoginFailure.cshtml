@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Login Failure";
+}
+
+<h2>@ViewBag.Title.</h2>
+<h3 class="text-error">Unsuccessful login with service.</h3>
+
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="heading0">
+            <h3 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse0" aria-expanded="false" aria-controls="collapse0">textMain</button>
+            </h3>
+        </div>
+        <div id="collapse0" class="collapse" aria-labelledby="heading0" data-parent="#accordion">
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header" id="heading0_1">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse0_1" aria-expanded="false" aria-controls="collapse0_1">sub-collapse text</button>
+                        </h3>
+                    </div>
+                    <!-- remove data-parent here or set to "#collapse0" -->
+                    <div id="collapse0_1" class="collapse" aria-labelledby="heading0_1">
+                        <div class="card-body">
+                            <p>text</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

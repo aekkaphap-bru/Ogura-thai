@@ -1,0 +1,188 @@
+﻿@model OCTWEB_NET45.Models.ProcessDrawingModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/DW_ProcessDrawingSetup/PDList" class="btn-outline-secondary">Process Drawing Setup <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-bolder my-1 text-center">Edit Process Drawing</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Edit", "DW_ProcessDrawingSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true)
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m=>m.id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Group Line Name: </label>
+                                    @Html.DropDownList("groupLine_id", Model.SelectGroupLine, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.groupLine_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Line Name: </label>
+                                    @Html.DropDownList("process_id", Model.SelectLineName, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.process_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Part Name: </label>
+                                    @Html.DropDownList("partName_id", Model.SelectPartName, " ", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.partName_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Drawing No.:</label>
+                                    @Html.TextBoxFor(m => m.drawingNumber, new { @class = "form-control form-control-sm", onkeyup = "this.value=this.value.toUpperCase()", @readonly="true" })
+                                    @Html.ValidationMessageFor(m => m.drawingNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Revision:</label>
+                                    @Html.TextBoxFor(m => m.rev, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.rev, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Model No.:</label>
+                                    @Html.TextBoxFor(m => m.modelNo, new { @class = "form-control form-control-sm", onkeyup = "this.value=this.value.toUpperCase()" })
+                                    @Html.ValidationMessageFor(m => m.modelNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Drawing File:</label>
+                                    @Html.TextBoxFor(m => m.file, new {@class="form-control form-control-sm",@readonly="true" })
+                                    @Html.TextBox("file", "", new { @class = "form-control form-control-sm", type = "file" })
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Remark:</label>
+                                    @Html.TextAreaFor(m => m.remark, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.remark, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="submit" value="Create" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+        /*
+        $("#groupLine_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#process_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#partName_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });*/
+    });
+
+
+    $(function () {
+        /*
+        AjaxCall('/DW_ProcessDrawingSetup/GetSelectGroupLine', null).done(function (response) {
+            if (response.length > 0) {
+                $('#groupLine_id').html('');
+                var options = '';
+                options += '<option value="Select">Select Group Line</option>';
+                for (var i = 0; i < response.length; i++) {
+                    options += '<option value="' + response[i].val + '">' + response[i].label + '</option>';
+                }
+                $('#groupLine_id').append(options);
+
+            }
+        }).fail(function (error) {
+            alert(error.StatusText);
+        });
+        */
+        $('#groupLine_id').on("change", function () {
+            var groupLine_id = $('#groupLine_id').val();
+            var obj = { groupLine_id: groupLine_id };
+            AjaxCall('/DW_ProcessDrawingSetup/GetSelectLineName', JSON.stringify(obj), 'POST').done(function (response) {
+                if (response.length > 0) {
+                    $('#process_id').html('');
+                    var options = '';
+                    options += '<option value="Select">Select Line Name</option>';
+                    for (var i = 0; i < response.length; i++) {
+                        options += '<option value="' + response[i].val + '">' + response[i].label + '</option>';
+                    }
+                    $('#process_id').append(options);
+                }
+                else {
+                    $('#process_id').html('');
+                }
+            }).fail(function (error) {
+                //alert(error.StatusText);
+                $('#process_id').html('');
+            });
+        });
+
+    });
+
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
+</script>
+

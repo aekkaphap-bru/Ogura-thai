@@ -1,0 +1,194 @@
+﻿@model OCTWEB_NET45.Models.AddTraineeModel
+@{
+    ViewBag.Title = "EditDateTimeTrainee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/content/bootstrap-duallistbox.css" rel="stylesheet" />
+<link href="~/content/bootstrap-duallistbox.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery.bootstrap-duallistbox.min.js"></script>
+
+<div class="container-fluid">
+    <!--<div class="row">
+        <a href="/TrainingCourseManageWS/ManageWSList" class="btn-outline-secondary">Training Course [WS] Setup <i class="fa fa-angle-right"></i> </a>&nbsp;
+
+    </div>-->
+    <div class="row">
+        <div class="container">
+
+            @using (Html.BeginForm("EditDateTimeTrainee", "TrainingCourseManageWS", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+            {
+                <div class="form-row justify-content-center">
+                    <div class="col">
+                        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                            <div class="card-header justify-content-center">
+                                <h3 class="font-weight-bolder my-1 text-center">Training Record Input</h3>
+                                <p class="text-danger">@ViewBag.Message</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        @Html.ValidationSummary()
+                                    </div>
+                                    @*<div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.Id)
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.CourseHeader)
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.area)
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.Trai_Temporary_Id)
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.Train_DateWS)
+                                                @Html.HiddenFor(m => m.TWSHeaderModel.Train_Name)
+                                            </div>
+                                        </div>*@
+                                </div>
+
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Date Of Training (Start): </label>
+                                            <input type="date" name="DateOfTrainingStart" class="form-control date" value="@Model.DateOfTrainingStart.ToString("yyyy-MM-dd")" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Start Time: </label>
+                                            <input type="time" name="StartTime" class="form-control" value="@Model.StartTime.ToString("HH:mm")" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Break Time: </label>
+                                            <input type="number" name="BreakTime" class="form-control" value="@Model.BreakTime" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">Date Of Training (End): </label>
+                                            <input type="date" name="DateOfTrainingEnd" class="form-control date" value="@Model.DateOfTrainingEnd.ToString("yyyy-MM-dd")" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="mb-1">End Time: </label>
+                                            <input type="time" name="EndTime" class="form-control" value="@Model.EndTime.ToString("HH:mm")" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Import File PDF: </label>
+                                            @Html.TextBoxFor(m => m.ImportFilePdf, new { @class = "form-control", @readonly = "true" })
+                                            @Html.TextBox("file", "", new { @class = "form-control", type = "file" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div>
+                        @Model.WstrainDateModel.Id
+                    </div>*@
+                <div class="form-row justify-content-center">
+                    <div class="col-md-12 text-center">
+                        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3 ">
+                            <div class="card-header justify-content-center">
+                                <h4 class="font-weight-bolder my-1 text-center">Insert Employee</h4>
+                            </div>
+                            <div class="card-body" style="font-size:14px;">
+                                @Html.ListBox("selectedEmp", Model.EmployeeList, new { @size = "20", @class = "customFontSize" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="col">
+                        <div class="form-row justify-content-center">
+                            <button type="submit" class="btn btn-primary" value="Save">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            &nbsp;
+                            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    $(document).ready(function () {
+        $('#DateOfTrainingStart').datepicker({
+            showOptions: { speed: 'fast' },
+            changeMonth: false,
+            changeYear: false,
+            dateFormat: 'dd/mm/yy',
+            gotoCurrent: true
+        });
+        /*
+        $('#StartTime').timepicker({
+
+        });
+        */
+        $('#t_EndTime_').timepicker({
+            /*
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '6:00pm',
+            defaultTime: '11',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+            */
+        });
+
+
+    });
+
+    window.onload = function () {
+        /* $('#myListbox').bootstrapDualListbox({
+             nonSelectedListLabel: 'Available',
+             selectedListLabel: 'Selected',
+             moveOnSelect: false,
+         });
+         */
+        $('#selectedEmp').bootstrapDualListbox({
+            nonSelectedListLabel: 'Employee List',
+            selectedListLabel: 'Selected',
+            moveOnSelect: true,
+
+
+        });
+
+        // CustomizeDuallistbox('selectedEmp');
+
+        var customSettings = $('select[name="selectedEmp"]').bootstrapDualListbox('getContainer');
+        customSettings.find('.moveall i').removeClass().addClass('fa fa-angle-double-right').next().remove();
+        customSettings.find('.removeall i').removeClass().addClass('fa fa-angle-double-left').next().remove();
+    };
+
+
+
+    function CustomizeDuallistbox(listboxID) {
+        var customSettings = $('#' + listboxID).bootstrapDualListbox('getContainer');
+        var buttons = customSettings.find('.btn.moveall, .btn.move, .btn.remove, .btn.removeall');
+
+        customSettings.find('.box1, .box2').removeClass('col-md-6').addClass('col-md-5');
+        customSettings.find('.box1').after('<div class="customButtonBox col-md-2 text-center"></div>');
+        customSettings.find('.customButtonBox').append(buttons);
+
+        customSettings.find('.btn-group.buttons').remove();
+    }
+
+</script>

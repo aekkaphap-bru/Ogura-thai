@@ -1,0 +1,198 @@
+﻿@model OCTWEB_NET45.Models.WSTrainingSendMailModel
+@{
+    ViewBag.Title = "TestSendMailDataTable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/static/vendor/datatables/jquery.datatables.min.js"></script>
+<script src="~/static/vendor/datatables/datatables.bootstrap4.min.js"></script>
+<link href="~/static/vendor/datatables/datatables.bootstrap4.min.css" rel="stylesheet" />
+
+
+@using (Html.BeginForm("WSTrainingSendMail", "TrainingCourseManagement", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+{
+<div class="row">
+    <div class="col">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group">
+                    <label class="mb-1">Department: </label>
+                    @Html.DropDownList("searchDepartmentId", Model.SelectDepartmentId, "All")
+                    <input type="hidden" name="submit_var" id="submit_var" value="">
+                </div>
+            </div>
+            <div class="row">
+                <table class="tablecustom" id="table1" width="100" style="font-size:14px;">
+                    <thead>
+                        <tr>
+                            <th width="20px">
+                                Id 
+                            </th>
+                            <th width="85px">
+                                Name
+                            </th>
+                            <th width="95px">
+                                Sur Name
+                            </th>
+                            <th width="150px">
+                                E-mail
+                            </th>
+
+                        </tr>
+                    </thead>
+                   
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
+
+<!--
+<script language="JavaScript">
+    $(document).ready(function () {
+        $("#table1").DataTable({
+
+            "processing": true, // for show progress bar  
+            "serverSide": true, // for process server side  
+            "filter": true, // this is for disable filter (search box)  
+            "orderMulti": false, // for disable multiple column at once  
+            "pageLength": 5,
+
+            "ajax": {
+                "url": "/TrainingCourseManagement/GetDataTable",
+                "type": "POST",
+                "datatype": "json"
+            },
+
+            "columnDefs":
+            [{
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [7],
+                "searchable": false,
+                "orderable": false
+            },
+            {
+                "targets": [8],
+                "searchable": false,
+                "orderable": false
+            },
+            {
+                "targets": [9],
+                "searchable": false,
+                "orderable": false
+            }],
+          
+            "columns": [
+                  { "data": "Id", "name": "Id", "autoWidth": true },
+                  { "data": "Items", "name": "Items", "autoWidth": true },
+                  { "data": "Name", "title": "Name", "name": "Name", "autoWidth": true },
+                  { "data": "SurName", "name": "SurName", "autoWidth": true },
+                  { "data": "Email", "name": "Email", "autoWidth": true },
+                  {
+                      "render": function (data, type, full, meta)
+                      { return '<a class="btn btn-info" href="/TrainingCourseManagement/TestSendMailDataTable/' + full.CustomerID + '">Edit</a>'; }
+                  },
+                   {
+                       data: null, render: function (data, type, row) {
+                           return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+                       }
+                   },
+
+            ]
+
+        });
+    });
+</script>
+    -->
+
+<script language="JavaScript">
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+        $("#searchDepartmentId").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "/TrainingCourseManagement/GetDataInitialUser",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        }); 
+
+    });
+
+    $('#searchDepartmentId').on("change", function () {
+        var department = $('#searchDepartmentId').val();
+        $('#table1').DataTable().destroy();
+        $.ajax({
+            type: "POST",
+            url: "/TrainingCourseManagement/GetDataUser",
+            data: {department:department},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    });
+
+    function OnSuccess(response) {
+        $("#table1").DataTable(
+        {          
+            bLengthChange: true,
+            lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            data: response,
+            columns: [{ 'data': 'Id' },
+                      { 'data': 'Name' },
+                      { 'data': 'SurName' },
+                      { 'data': 'Email' }]
+
+          
+
+        });
+    };
+</script>

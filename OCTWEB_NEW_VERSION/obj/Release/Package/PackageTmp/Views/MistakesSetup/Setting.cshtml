@@ -1,0 +1,201 @@
+﻿@model OCTWEB_NET45.Models.MistaksSettingModel
+@{
+    ViewBag.Title = "Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/content/bootstrap-duallistbox.css" rel="stylesheet" />
+<link href="~/content/bootstrap-duallistbox.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery.bootstrap-duallistbox.min.js"></script>
+
+
+<div class="container-fluid justify-content-center">
+    <div class="row">
+        <a href="/MistakesSetup/EmpList" class="btn-outline-secondary"> <i class="fa fa-angle-left"></i> Mistake List</a>&nbsp;
+    </div>
+    <br />
+@using (Html.BeginForm("Setting", "MistakesSetup", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+{
+    <div class="row justify-content-center">
+        <div class="row justify-content-center">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3 ">
+                    <!--style="width: 65rem;"-->
+                    <div class="card-header justify-content-center" style="width: 45rem;">
+                        <h4 class="font-weight-bolder my-1 text-center">Setting Level of warning <br />(ตั้งค่าการทำงานของการเตือน)</h4>
+                        <p class="text-success">@ViewBag.Message</p>
+                        <p class="text-danger">@ViewBag.ReasonMessage</p>
+                        <p class="text-danger">@ViewBag.LevelMessage</p>
+                        @Html.HiddenFor(m => m.check)
+                    </div>
+                    <div class="card-body" style="font-size:14px;">
+                        <div class="form-row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Level of warning:</label>
+                                    @Html.TextBoxFor(m => m.levelwarning, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.levelwarning, "", new { @class = "text-danger" })
+                                    <p class="text-danger">@ViewBag.LevelMessage</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 align-self-end">
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="button" name="level_add" id="level_add">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Add 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    @Html.ListBox("levelwarning_id", Model.SelectLevelwarning, new { @class = "form-control", @size = "8" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 align-self-center">
+                                <div class="form-group">
+                                    <button class="btn btn-danger" type="button" name="level_delete" id="level_delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3 ">
+                    <!--style="width: 65rem;"-->
+                    <div class="card-header justify-content-center" style="width: 45rem;">
+                        <h4 class="font-weight-bolder my-1 text-center">Setting Type for mistake employee <br />(ประเภทของการเตือน)</h4>
+                    </div>
+                    <div class="card-body" style="font-size:14px;">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Type for mistake employee:</label>
+                                    @Html.TextBoxFor(m => m.reason, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.reason, "", new { @class = "text-danger" })
+                                    <p class="text-danger">@ViewBag.ReasonMessage</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 align-self-end">
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="button" name="reason_add" id="reason_add">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Add 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row ">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    @Html.ListBox("reason_id", Model.SelectReason, new { @size = "8", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-2 align-self-center">
+                                <div class="form-group  justify-content-between">
+                                    <button class="btn btn-danger" type="button" name="reason_delete" id="reason_delete">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="form-row justify-content-center">
+                    <button type="button" onclick="history.back()" class="btn btn-outline-primary">
+                        <i class="fas fa-undo"> Back</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<script language="JavaScript">
+   /*
+    $(document).ready(function () {
+        
+        $("button[name='level_delete']").click(function () {
+            return confirm('Delete all selected elements?');
+        });
+
+        $("button[name='reason_delete']").click(function () {
+            return confirm('Delete all selected elements?');
+        });
+        
+    });
+    */
+
+    $("#level_add").click(function () {
+        $("#check").val("level_add_check");
+        document.forms["Form1"].submit();
+    });
+
+    $("#level_delete").click(function () {
+        //if (confirm('Delete all selected elements?'))
+        if(confirm('Are you sure delete this data?'))
+        {
+            $("#check").val("level_delete_check");
+            document.forms["Form1"].submit();
+        }
+    })
+
+    $("#reason_add").click(function () {
+        $("#check").val("reason_add_check");
+        document.forms["Form1"].submit();
+    })
+
+    $("#reason_delete").click(function () {
+        if (confirm('Are you sure delete this data?')) 
+        {
+            $("#check").val("reason_delete_check");
+            document.forms["Form1"].submit();
+        }
+    })
+
+    /*
+    window.onload = function () {
+
+         $('#levelwarning_id').bootstrapDualListbox({
+            nonSelectedListLabel: 'Employee List',
+            selectedListLabel: 'Selected',
+            moveOnSelect: true,
+         });
+        
+        $('#reason_id').bootstrapDualListbox({
+            nonSelectedListLabel: 'Employee List',
+            selectedListLabel: 'Selected',
+            moveOnSelect: true,
+        });
+
+        // CustomizeDuallistbox('selectedEmp');
+
+        var customSettings = $('select[name="levelwarning_id"]').bootstrapDualListbox('getContainer');
+        customSettings.find('.moveall i').removeClass().addClass('fa fa-angle-double-right').next().remove();
+        customSettings.find('.removeall i').removeClass().addClass('fa fa-angle-double-left').next().remove();
+    };
+
+    function CustomizeDuallistbox(listboxID) {
+        var customSettings = $('#' + listboxID).bootstrapDualListbox('getContainer');
+        var buttons = customSettings.find('.btn.moveall, .btn.move, .btn.remove, .btn.removeall');
+
+        customSettings.find('.box1, .box2').removeClass('col-md-6').addClass('col-md-5');
+        customSettings.find('.box1').after('<div class="customButtonBox col-md-2 text-center"></div>');
+        customSettings.find('.customButtonBox').append(buttons);
+
+        customSettings.find('.btn-group.buttons').remove();
+    }
+    */
+</script>

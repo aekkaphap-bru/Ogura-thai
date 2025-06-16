@@ -1,0 +1,474 @@
+﻿@model OCTWEB_NET45.Models.MasterStructureItemListModel
+@{
+    ViewBag.Title = "Item Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/static/datatables/datatables.min.css" rel="stylesheet" />
+<script src="~/static/datatables/datatables.min.js"></script>
+
+
+<div class="container-fluid">
+    <div class="form-row">
+        <div class="col">
+            <!--Show dialog GetCommonDetail Model-->
+            <div id="getCommonDetailModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable " style="max-width:80%">
+                    <div class="modal-content">
+                        <div id="getCommonDetailModalContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <!--Show dialog GetCommonBackDetail Model-->
+            <div id="getCommonBackDetailModal" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable " style="max-width:80%">
+                    <div class="modal-content">
+                        <div id="getCommonBackDetailModalContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <div class="btn-group btn-sm shadow-sm border-0 rounded-lg mt-0 mb-3">
+                <a href="@Url.Action(actionName: "HBarChart"
+                            , controllerName: "FccAssy"
+                            )" class="btn btn-sm btn-outline-secondary ">
+                    <i class="fas fa-fan"></i> Fcc Assy Graph
+                </a>
+                <a href="@Url.Action(actionName: "StockMovementChart"
+                            , controllerName: "FccAssy"
+                            )" class="btn btn-sm btn-outline-secondary ">
+                    <i class="fas fa-bacon"></i> Stock Movement Chart
+                </a>
+                <a href="@Url.Action(actionName: "ItemList"
+                            , controllerName: "StockItems"
+                            )" class="btn btn-sm btn-secondary active">
+                    <i class="fas fa-list"></i> Stock Item Quantity
+                </a>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("ItemDetail", "StockItems", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="form-row justify-content-center">
+            <div class="col">
+                @Html.HiddenFor(m => m.id_parent)
+                <h4 class="page-title ">Structure<span style="color:red;"> Details </span></h4>
+            </div>
+        </div>
+         <div class="form-row justify-content-end">
+             <div class="col ">
+                 <div class="form-group text-center">
+                     <a href="@Url.Action(actionName: "ExportStructure"
+                         , controllerName: "StockItems", routeValues: new {id = @Model.id_parent })"
+                        class="btn btn-sm btn-info">
+                         <i class="fas fa-download"></i> Export to Excel
+                     </a>
+                     <a href="@Url.Action(actionName: "ItemTreeDetail"
+                         , controllerName: "StockItems", routeValues: new {id = @Model.id_parent })"
+                        class="btn btn-sm btn-outline-success" target="_blank" title="Tree View">
+                         <i class="fas fa-tree text-success"></i>
+                     </a>
+                     <button type="button" onclick="history.back()" name="Cancel" class="btn btn-sm btn-outline-secondary">
+                         <i class="fas fa-undo-alt"></i> Back
+                     </button>
+                 </div>
+             </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <table class="tablecustom" id="table1" style="font-size:14px; width:100%">
+                    <thead>
+                        <tr>
+                            <th width="2%">No.</th>
+                            <th width="7%">Item No</th>
+                            <th width="12%">Model No</th>
+                            <th width="12%">Item Short Name</th>
+                            <th width="3%">Vendor Code</th>
+                            <th width="7%">Vendor Name</th>
+                            <th width="3%">Unit Code</th>
+                            <th width="5%">Max</th>
+                            <th width="5%">Min</th>
+                            <th width="5%">Avg</th>
+                            <th width="8%">StocQty</th>
+                            <th width="3%">Ratio</th>
+                            <th width="7%">StockQty / Ratio</th>
+                            <th width="7%" >Common</th>
+                            <th width="14%">Location Remark</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+             <div class="col">
+                <div class="form-group text-center">
+                   <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                        <i class="fas fa-undo-alt"></i> Back
+                    </button>
+                </div>
+             </div>
+        </div>
+    }
+</div>
+
+
+<script language="JavaScript">
+    document.getElementById("sidemenubar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+
+
+    $("#table1 tbody tr").click(function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+
+    /*
+    $(document).ready(function () {
+        $("#item_short_name").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+    })
+    */
+    $("#clear").click(function () {
+        $('#item_short_name').val(null).trigger('change');
+        $('#item_no').val(null).trigger('change');
+        $('#model_no').val(null).trigger('change');
+        $('#item_name').val(null).trigger('change');
+        //$("input[type=date]").val("");
+
+    });
+
+
+    $("#SearchBtn").click(function () {
+        $("#PrintData").val("");
+        $("#ExportCSV").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#PrintBtn").click(function () {
+        $("#PrintData").val("PrintData");
+        $("#ExportCSV").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportCSVBtn").click(function () {
+        $("#ExportCSV").val("ExportCSV");
+        $("#PrintData").val("");
+        document.forms["Form1"].submit();
+    })
+
+
+
+    $(document).ready(function () {
+        var dt = $("#table1").DataTable({
+            "data": @Html.Raw(Json.Encode(Model.ItemList)),
+            "columns":[
+                    /*{
+                        class: 'details-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: '',
+                        "autowidth": true,
+                    },*/
+                    { "data": "Id", "autowidth": true },
+                    { "data": "ItemNo", "autowidth": true },
+                    { "data": "ModelNo", "autowidth": true },
+                    { "data": "ItemShortName", "autowidth": true },
+                    { "data": "VendorCode", "autowidth": true },
+                    { "data": "BusinessPartnerShortName", "autowidth": true },
+                    { "data": "UnitCode", "autowidth": true },
+                    { "data": "qty_max_str", "autowidth": true },
+                    { "data": "qty_min_str", "autowidth": true },
+                    { "data": "qty_avg_str", "autowidth": true },
+                    { "data": "StockQty_str", "autowidth": true },
+                    { "data": "Ratio_str", "autowidth": true },
+                    { "data": "StockQty_Ratio_str", "autowidth": true },
+                    { "data": "Id"
+                        , "render": function(data,type,row){
+                            return '<span style="display:inline"><button type="button" class="btn btn-sm btn-warning" title="Common Backward" onclick="getCommonBackDetail('+ data +')" ><i class="fas fa-arrow-left"></i></button>'
+                                   + ' <button type="button" class="btn btn-sm btn-warning" title="Common Forward" onclick="getCommonDetail('+ data +')" ><i class="fas fa-arrow-right"></i></button></span>'
+                        } 
+                    },
+                    { "data": "LocationRemark", "autowidth": true },
+
+            ],
+            createdRow: function(row, data, index){
+                //$('td:eq(1)', row).css('background','linear-gradient(to right bottom, #95f9c5, #82f3c7, #6eedca, #59e7cd, #40e0d0)')
+                $('td:eq(10)', row).css('font-weight', 'bold');
+
+                if(data["qty_avg"] >= data["StockQty"])
+                {
+                   // $('td:eq(10)', row).css('color', 'red');
+                   // $('td:eq(9)', row).css('color', 'red');
+                   // $('td:eq(8)', row).css('color', 'red');
+                    // $('td:eq(7)', row).css('color', 'red');
+                    $('td', row).css('color', 'red');
+                }
+
+                if(data["status"] === 1){
+                    $('td', row).css('background','#FAEDCD')
+                }
+                else if(data["status"] === 2){
+                    $('td', row).css('background','#FAEDCD')
+                }
+                else if(data["status"] === 3){
+                    $('td', row).css('background','#FAEDCD')
+                }
+                else if(data["status"] === 4){
+                    $('td', row).css('background','#FAEDCD')
+                }
+                ////
+                else if(data["status"] === 5){
+                    $('td', row).css('background','#B9F3E4')
+                }
+                else if(data["status"] === 6){
+                    $('td', row).css('background','#B9F3E4')
+                }
+                else if(data["status"] === 7){
+                    $('td', row).css('background','#B9F3E4')
+                }
+                ////
+                else if(data["status"] === 8){
+                    $('td', row).css('background','#C9F4AA')
+                }
+                else if(data["status"] === 9){
+                    $('td', row).css('background','#C9F4AA')
+                }
+                ////
+                else if(data["status"] === 10){
+                    $('td', row).css('background','#C9F4AA')
+                }
+                else if(data["status"] === 11){
+                    $('td', row).css('background','#F1F7B5')
+                }
+                else if(data["status"] === 12){
+                    $('td', row).css('background','#F1F7B5')
+                }
+                else if(data["status"] === 15){
+                    $('td', row).css('background','#F1F7B5')
+                }
+                ////
+                else if(data["status"] === 13){
+                    $('td', row).css('background','#FFD1D1')
+                }
+                else if(data["status"] === 14){
+                    $('td', row).css('background','#FFD1D1')
+                }
+                ////
+                else if(data["status"] === 20){
+                    $('td', row).css('background','#40E0D0')
+                    $('td', row).css('font-weight', 'bold')
+                }
+                else{
+                   // $('td', row).css('background','#FFFBF5')
+                }
+               
+
+            },
+            select: true,
+            buttons: [],
+            "pageLength": 50,
+            "lengthMenu": [[10,20,30,50,-1],[10,20,30,50,"All"]],
+            columnDefs: [
+                          {sortable: false,targets: 10 } ,
+                          {searchable: false, orderable: false,targets:  0} ,
+                          {targets: 7 ,className:"text-right"} ,
+                          {targets: 8 ,className:"text-right"} ,
+                          {targets: 9 ,className:"text-right"} ,
+                          {targets: 10 ,className:"text-right"} ,
+                          {targets: 11 ,className:"text-right"} ,
+                          {targets: 12 ,className:"text-right"} ,
+            ],
+            "ordering": false,
+            //order: [[ 3, 'asc' ]],
+            fixedColumns: true
+        })
+
+        dt.on('order.dt search.dt', function () {
+            let i = 0;
+ 
+            dt.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        /*
+        function getDetail(id){
+            return $.ajax({
+                url: "/StockItems/GetDatail",
+                type: "get",
+                data: { id: id},
+                async: false,
+            });
+        }
+
+        function format(d)
+        {
+            var html = "";
+            var id = d.id;
+
+            var request = getDetail(id);
+
+            request.done(function( response ) {
+                html += '<table style="font-size:12px; width:100%; ">'
+                        +'<tr style="background:linear-gradient(to left, #f9f8de, #eefbe3, #e4fdea, #dcfff3, #d8fffd); ">'
+                        +'<th width=2%>No.</th>'
+                        +'<th width=5%>ItemNo</th>'
+                        +'<th width=15%>ModelNo</th>'
+                        +'<th width=25%>ItemShortName</th>'
+                        +'<th width=5%>UnitCode</th>'
+                        +'<th width=9%>StockQty</th>'
+                        +'<th width=5%>Ratio</th>'
+                        +'<th width=9%>StockQty/Ratio</th>'
+                        +'<th width=5%>Common</th>'
+                        +'<th width=20%>Remark</th>'
+                        +'<tr>'
+                for (var i = 0; i < response.length; i++) {
+                    html += '<tr class="ttt" style="background:linear-gradient(to left, #f9f8de, #eefbe3, #e4fdea, #dcfff3, #d8fffd); ">';
+                    html += '<td>' + (i+1) + '</td>';
+
+                    html += '<td>' + response[i].ItemNo + '</td>';
+
+                    html += '<td>' + response[i].ModelNo + '</td>';
+                    html += '<td>' + response[i].ItemShortName + '</td>';
+                    html += '<td>' + response[i].UnitCode + '</td>';
+                    html += '<td class="text-right">' + response[i].StockQty_str + '</td>';
+                    html += '<td class="text-right">' + response[i].Ratio + '</td>';
+                    html += '<td class="text-right">' + response[i].StockQty_Ratio_str + '</td>';
+                    html += '<td><button type="button" class="btn btn-sm btn-warning" onclick="getCommon('+ response[i].Id +')" ><i class="fas fa-list"></i>Common</button></td>';
+                    html += '<td>' + response[i].LocationRemark + '</td>';
+
+
+                    html += '</tr>';
+                }
+                html += '</table>'
+            });
+
+            return html;
+
+        }
+        */
+        /*
+        //Array to track the ids of the details displayed rows
+        var detailRows = [];
+        $('#table1 tbody').on('click', 'tr td.details-control',function(){
+            var tr = $(this).closest('tr');
+            var row = dt.row(tr);
+            var idx = detailRows.indexOf(tr.attr('id'));
+
+            if(row.child.isShown()){
+                tr.removeClass('details');
+                row.child.hide();
+                //Remove form the 'open' array
+                detailRows.splice(idx,1);
+            }else{
+                tr.addClass('details');
+                row.child(format(row.data())).show();
+                //Add to the 'open' array
+                if(idx === -1){
+                    detailRows.push(tr.attr('id'));
+                }
+            }
+        })
+
+        //On each draw, loop over ther 'detailRows' array and show any
+        dt.on('draw', function(){
+            detailRows.forEach(function(id,i){
+                $('#'+ id + 'td.details-control').trigger('click');
+            });
+
+        });
+        */
+    });
+
+    function getCommonDetail(id)
+    {
+        debugger;
+        //var $buttonClicked = $(this);
+        var id = id;//$buttonClicked.attr('data-id');
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: "/StockItems/GetCommon",
+            contentType: "application/json; charset=utf-8",
+            data: { "id": id },
+            datatype: "json",
+            success: function (data) {
+                debugger;
+                $('#getCommonDetailModalContent').html(data);
+                $('#getCommonDetailModal').modal(options);
+                $('#getCommonDetailModal').modal('show');
+
+            },
+            error: function (ex) {
+                alert("Get common content load failed."+ ex);
+            }
+        });
+    };
+
+    function getCommonBackDetail(id)
+    {
+        debugger;
+        //var $buttonClicked = $(this);
+        var id = id;//$buttonClicked.attr('data-id');
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: "/StockItems/GetCommonBack",
+            contentType: "application/json; charset=utf-8",
+            data: { "id": id },
+            datatype: "json",
+            success: function (data) {
+                debugger;
+                $('#getCommonBackDetailModalContent').html(data);
+                $('#getCommonBackDetailModal').modal(options);
+                $('#getCommonBackDetailModal').modal('show');
+
+            },
+            error: function (ex) {
+                alert("Get common backward content load failed"+ ex);
+            }
+        });
+    };
+
+    /*
+    $(document).ready(function () {
+        $('#itemjstree').jstree({
+            'core' : {
+                'data': Html.Raw(Json.Encode(Model.ItemStructureJsTreeModelList))
+            },
+            "types": {
+                "default": {
+                    "icon": "fa fa-file text-primary"
+                },
+                "file": {
+                    "icon": "fa fa-file  text-primary"
+                },
+                "root": {
+                    "icon": "fa fa-folder  text-warning"
+                }
+            },
+            "plugins": ["types"]
+        });
+
+        $('#itemjstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+        });
+
+    });
+    */
+</script>

@@ -1,0 +1,2235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OCTWEBTESTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="Area_id" />
+    </Key>
+    <Property Name="Area_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Area_name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="USE_Usercode" Type="int" />
+  </EntityType>
+  <EntityType Name="cap_Checkby">
+    <Key>
+      <PropertyRef Name="CHK_Id" />
+    </Key>
+    <Property Name="CHK_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PB_Id" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="CHK_Usercode" Type="varchar" MaxLength="10" />
+    <Property Name="CHK_Username" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cap_Line">
+    <Key>
+      <PropertyRef Name="ln_Id" />
+    </Key>
+    <Property Name="ln_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ln_Group" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ln_Name" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="ln_Remark" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cap_LMD">
+    <Key>
+      <PropertyRef Name="lmd_Id" />
+    </Key>
+    <Property Name="lmd_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ln_Id" Type="int" Nullable="false" />
+    <Property Name="md_Id" Type="varchar" MaxLength="60" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cap_Partname">
+    <Key>
+      <PropertyRef Name="pn_Id" />
+    </Key>
+    <Property Name="pn_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pn_Group" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="pn_Name" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="pn_Remark" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cap_PBlist">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pbmID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="pblNo" Type="varchar" MaxLength="25" />
+    <Property Name="pblNameE" Type="varchar" MaxLength="250" />
+    <Property Name="pblNameT" Type="varchar" MaxLength="250" />
+    <Property Name="pblRemark" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cap_PBmain">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pbmId" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="pbmNameE" Type="varchar" MaxLength="250" />
+    <Property Name="pbmNameT" Type="varchar" MaxLength="250" />
+    <Property Name="pbmRemark" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="cap_PNL">
+    <Key>
+      <PropertyRef Name="pnl_Id" />
+    </Key>
+    <Property Name="pnl_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pn_Id" Type="int" Nullable="false" />
+    <Property Name="ln_Id" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cap_PNofPBm">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PNpbmName" Type="varchar" MaxLength="250" />
+    <Property Name="GItems" Type="varchar" MaxLength="20" />
+    <Property Name="pbmID" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <EntityType Name="cap_POM">
+    <Key>
+      <PropertyRef Name="pom_Id" />
+    </Key>
+    <Property Name="pom_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pn_Id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="pbm_Id" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cap_Problemdetail">
+    <Key>
+      <PropertyRef Name="PBD_Id" />
+    </Key>
+    <Property Name="PBD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PB_Id" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PBM_Id" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PBL_No" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cap_Probleminform">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PB_Id" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="PB_Dateinform" Type="datetime" Nullable="false" />
+    <Property Name="PB_Shift" Type="int" Nullable="false" />
+    <Property Name="PB_Partname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PB_Line" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PB_Model" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="PB_LotNo" Type="varchar" MaxLength="18" Nullable="false" />
+    <Property Name="PB_Strtime" Type="datetime" Nullable="false" />
+    <Property Name="PB_Endtime" Type="datetime" Nullable="false" />
+    <Property Name="PB_NGqty" Type="int" Nullable="false" />
+    <Property Name="PB_Totalqty" Type="int" Nullable="false" />
+    <Property Name="PB_Note" Type="varchar" MaxLength="250" />
+    <Property Name="PB_KeyBy" Type="varchar" MaxLength="50" />
+    <Property Name="PB_filePDF" Type="varchar" MaxLength="50" />
+    <Property Name="PB_Line300" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="cap_Problempic">
+    <Key>
+      <PropertyRef Name="Pic_Id" />
+    </Key>
+    <Property Name="Pic_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PB_Id" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Pic_Name" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CM_Problem">
+    <Key>
+      <PropertyRef Name="PRB_Id" />
+    </Key>
+    <Property Name="PRB_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PRB_Description" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="PRB_FileDetail" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="PRB_Reason" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="PRB_PlanDate" Type="datetime" Nullable="false" />
+    <Property Name="PRB_Status" Type="int" Nullable="false" />
+    <Property Name="PRB_Owner" Type="varchar" MaxLength="50" />
+    <Property Name="Dep_Id" Type="int" Nullable="false" />
+    <Property Name="PRB_Number" Type="varchar" MaxLength="7" />
+  </EntityType>
+  <EntityType Name="CM_TodoEvidence">
+    <Key>
+      <PropertyRef Name="TDE_Id" />
+    </Key>
+    <Property Name="TDE_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TDE_Answer" Type="varchar" MaxLength="250" />
+    <Property Name="TDE_Evidence" Type="varchar" MaxLength="250" />
+    <Property Name="TDE_AnswerDate" Type="datetime" />
+    <Property Name="TDE_Approver" Type="varchar" MaxLength="60" />
+    <Property Name="TDE_ApprovedDate" Type="datetime" />
+    <Property Name="TDE_Comment" Type="varchar" MaxLength="250" />
+    <Property Name="TDE_Revision" Type="int" Nullable="false" />
+    <Property Name="TDE_Parent" Type="int" />
+    <Property Name="TDE_ParentDetail" Type="varchar" MaxLength="250" />
+    <Property Name="TDE_Status" Type="nchar" MaxLength="10" />
+    <Property Name="TDO_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CM_TodoList">
+    <Key>
+      <PropertyRef Name="TDO_Id" />
+    </Key>
+    <Property Name="TDO_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TDO_Description" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="TDO_Owner" Type="varchar" MaxLength="50" />
+    <Property Name="TDO_DefineBy" Type="varchar" MaxLength="50" />
+    <Property Name="TDO_PlanDate" Type="datetime" />
+    <Property Name="TDO_NeedEvidence" Type="int" />
+    <Property Name="PRB_Id" Type="int" Nullable="false" />
+    <Property Name="Dep_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="CoursesRecord">
+    <Key>
+      <PropertyRef Name="CrsRecID" />
+    </Key>
+    <Property Name="CrsRecID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CrsGrp" Type="varchar" MaxLength="25" />
+    <Property Name="CrsRecDate_Start" Type="datetime" />
+    <Property Name="CrsRecDate_End" Type="datetime" />
+    <Property Name="CrsRecSubject" Type="varchar" MaxLength="150" />
+    <Property Name="CrsRecDetail" Type="varchar" MaxLength="500" />
+    <Property Name="CrsRecAttach" Type="varchar" MaxLength="250" />
+    <Property Name="CrsRecLocation" Type="varchar" MaxLength="500" />
+    <Property Name="CrsRecAddress" Type="varchar" MaxLength="500" />
+    <Property Name="CrsRecCost" Type="money" />
+    <Property Name="CrsRecAvible" Type="datetime" />
+    <Property Name="CrsRecStatus" Type="varchar" MaxLength="25" />
+    <Property Name="CrsRecNote" Type="varchar(max)" />
+    <Property Name="CrsRecLastEditBy" Type="varchar" MaxLength="50" />
+    <Property Name="CrsRecLastEditDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DeliveryTagPlan">
+    <Key>
+      <PropertyRef Name="DEP_ID" />
+      <PropertyRef Name="DEP_MPDDocid" />
+      <PropertyRef Name="DEP_StkCode" />
+      <PropertyRef Name="DEP_StkDrawingNo" />
+      <PropertyRef Name="DEP_CustomerPartName" />
+      <PropertyRef Name="DEP_CustomerPartNo" />
+      <PropertyRef Name="DEP_PackQty" />
+      <PropertyRef Name="DEP_UnitName" />
+      <PropertyRef Name="DEP_CustomerCode" />
+      <PropertyRef Name="DEP_CustomerName" />
+    </Key>
+    <Property Name="DEP_ID" Type="int" Nullable="false" />
+    <Property Name="DEP_MPDDocid" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="DEP_StkCode" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="DEP_StkDrawingNo" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="DEP_CustomerPartName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="DEP_CustomerPartNo" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="DEP_PackQty" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DEP_UnitName" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="DEP_CustomerCode" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="DEP_CustomerName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="DEP_CountBox" Type="varchar" MaxLength="2" />
+    <Property Name="DEP_FullBox" Type="varchar" MaxLength="2" />
+    <Property Name="DEP_Memo" Type="varchar" MaxLength="250" />
+    <Property Name="DEP_ReceiveStatus" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Dep_Id" />
+    </Key>
+    <Property Name="Dep_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Dep_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="Dep_Memo" Type="varchar" MaxLength="250" />
+    <Property Name="Dep_Type" Type="varchar" MaxLength="10" />
+    <Property Name="RIH_Id" Type="int" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="DepartmentEdit">
+    <Key>
+      <PropertyRef Name="Dep_Id" />
+    </Key>
+    <Property Name="Dep_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Dep_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="Dep_Memo" Type="varchar" MaxLength="250" />
+    <Property Name="Dep_Type" Type="varchar" MaxLength="10" />
+    <Property Name="RIH_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="DocumentActivityLogs">
+    <Key>
+      <PropertyRef Name="log_id" />
+    </Key>
+    <Property Name="log_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Doc_id" Type="int" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="action" Type="varchar" MaxLength="50" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="detail" Type="text" />
+  </EntityType>
+  <EntityType Name="DocumentApprovalSteps">
+    <Key>
+      <PropertyRef Name="AId" />
+    </Key>
+    <Property Name="AId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Doc_id" Type="int" Nullable="false" />
+    <Property Name="Step" Type="int" />
+    <Property Name="Approver_id" Type="int" />
+    <Property Name="Approved_at" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="10" />
+    <Property Name="Comment" Type="text" />
+  </EntityType>
+  <EntityType Name="DocumentDetails">
+    <Key>
+      <PropertyRef Name="DId" />
+    </Key>
+    <Property Name="DId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Doc_id" Type="int" Nullable="false" />
+    <Property Name="WS_number" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="WS_name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Revision" Type="varchar" MaxLength="10" />
+    <Property Name="Num_pages" Type="varchar" MaxLength="10" />
+    <Property Name="Num_copies" Type="int" />
+    <Property Name="File_excel" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="File_pdf" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Change_detail" Type="text" />
+  </EntityType>
+  <EntityType Name="DocumentFormAreas">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Doc_id" Type="int" Nullable="false" />
+    <Property Name="area_name" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="DocumentList">
+    <Key>
+      <PropertyRef Name="LId" />
+    </Key>
+    <Property Name="LId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Request_from" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Request_type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Requester_id" Type="int" Nullable="false" />
+    <Property Name="Document_type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Effective_date" Type="date" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="20" />
+    <Property Name="Created_at" Type="datetime" />
+    <Property Name="Updated_at" Type="datetime" />
+  </EntityType>
+  <EntityType Name="DW_Fileshare">
+    <Key>
+      <PropertyRef Name="SF_Id" />
+    </Key>
+    <Property Name="SF_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SF_name" Type="varchar" MaxLength="80" Nullable="false" />
+    <Property Name="SF_file" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="SF_rev" Type="int" Nullable="false" />
+    <Property Name="SF_date" Type="datetime" Nullable="false" />
+    <Property Name="SF_note" Type="varchar" MaxLength="220" />
+  </EntityType>
+  <EntityType Name="DW_Formulas">
+    <Key>
+      <PropertyRef Name="FOR_ID" />
+    </Key>
+    <Property Name="FOR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FOR_Parent" Type="int" Nullable="false" />
+    <Property Name="FOR_Child" Type="int" Nullable="false" />
+    <Property Name="FOR_Qty" Type="real" Nullable="false" />
+    <Property Name="FOR_UnitName" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="FOR_Note" Type="varchar" MaxLength="200" />
+    <Property Name="FOR_Not2" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="DW_Model">
+    <Key>
+      <PropertyRef Name="MOD_ID" />
+    </Key>
+    <Property Name="MOD_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MOD_Level" Type="varchar" MaxLength="20" />
+    <Property Name="MOD_DrawingNumber" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MOD_Rev" Type="varchar" MaxLength="2" />
+    <Property Name="MOD_Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MOD_SemiAssemblyNo" Type="varchar" MaxLength="150" />
+    <Property Name="MOD_CustomerNo" Type="varchar" MaxLength="150" />
+    <Property Name="MOD_FilePath" Type="varchar" MaxLength="50" />
+    <Property Name="MOD_PartListFilePath" Type="varchar" MaxLength="50" />
+    <Property Name="MOD_Note" Type="varchar" MaxLength="200" />
+    <Property Name="MOD_Note2" Type="varchar" MaxLength="200" />
+    <Property Name="MOD_Hide" Type="int" />
+    <Property Name="MOD_Lock" Type="int" />
+    <Property Name="PAR_ID" Type="int" />
+    <Property Name="MOD_TempPartName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="DW_ModelProcess">
+    <Key>
+      <PropertyRef Name="MOP_ID" />
+    </Key>
+    <Property Name="MOP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MOP_DrawingNumber" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="MOP_Rev" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="MOP_Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="MOP_FilePath" Type="varchar" MaxLength="50" />
+    <Property Name="MOP_Note1" Type="varchar" MaxLength="200" />
+    <Property Name="MOP_Note2" Type="varchar" MaxLength="200" />
+    <Property Name="MOP_Hide" Type="int" />
+    <Property Name="MOP_Lock" Type="int" />
+    <Property Name="PRO_ID" Type="int" />
+    <Property Name="PAR_ID" Type="int" />
+    <Property Name="ProcessName" Type="varchar" MaxLength="50" />
+    <Property Name="PartName" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="DW_PartName">
+    <Key>
+      <PropertyRef Name="PAR_ID" />
+    </Key>
+    <Property Name="PAR_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PAR_Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DW_Process">
+    <Key>
+      <PropertyRef Name="PRO_ID" />
+    </Key>
+    <Property Name="PRO_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PRO_Name" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="PRO_Sequence" Type="int" Nullable="false" />
+    <Property Name="PAR_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.DWPic' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DWPic">
+    <Key>
+      <PropertyRef Name="LogID" />
+      <PropertyRef Name="DWNo" />
+      <PropertyRef Name="PartsNo" />
+      <PropertyRef Name="ModelNo" />
+    </Key>
+    <Property Name="LogID" Type="varchar" MaxLength="14" Nullable="false" />
+    <Property Name="LineName" Type="varchar" MaxLength="30" />
+    <Property Name="DWlevel" Type="varchar" MaxLength="15" />
+    <Property Name="DWNo" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="SemiassemblyNo" Type="varchar" MaxLength="15" />
+    <Property Name="Rev" Type="varchar" MaxLength="2" />
+    <Property Name="PartsNo" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="ModelNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CustomerNo" Type="varchar" MaxLength="30" />
+    <Property Name="PicPart" Type="varchar" MaxLength="50" />
+    <Property Name="PList" Type="varchar" MaxLength="20" />
+    <Property Name="Remark" Type="varchar" MaxLength="250" />
+    <Property Name="DWGDes" Type="varchar" MaxLength="30" />
+    <Property Name="New_PartName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Emp_Benefite">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpId" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Dep" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TypeBenef" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Relation" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="TRName" Type="varchar" MaxLength="20" />
+    <Property Name="FRName" Type="varchar" MaxLength="50" />
+    <Property Name="LRName" Type="varchar" MaxLength="50" />
+    <Property Name="Months" Type="varchar" MaxLength="50" />
+    <Property Name="Years" Type="varchar" MaxLength="50" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="UpdateTime" Type="datetime" />
+    <Property Name="Document" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Emp_CostCenter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="25" />
+    <Property Name="CostCenterName" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <EntityType Name="emp_department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="15" />
+    <Property Name="DeptName" Type="varchar" MaxLength="250" />
+    <Property Name="Dept_Note" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Emp_Holiday_sickleave">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date_start" Type="date" />
+    <Property Name="date_end" Type="date" />
+    <Property Name="Detail" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Emp_ImportChkCol">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpImportExId" Type="int" Nullable="false" />
+    <Property Name="EmpExColCk" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Emp_ImportEx">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpExNamesheet" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmpExColEnd" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Emp_ImportNotUseCol">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpImportExId" Type="int" Nullable="false" />
+    <Property Name="EmpExNotUseCol" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Emp_MasterNationality">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nationality" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Emp_MasterReasonLeave">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Reason" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Emp_Typesick" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Emp_MasterRegion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="province" Type="varchar" MaxLength="150" />
+    <Property Name="district" Type="varchar" MaxLength="150" />
+    <Property Name="parish" Type="varchar" MaxLength="150" />
+    <Property Name="code" Type="varchar" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="Emp_MasterStatusLeave">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusLeaveCode" Type="int" Nullable="false" />
+    <Property Name="StatusLeave" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Emp_MasterTypeLayoff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeLayoff" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Emp_offense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpId" Type="int" Nullable="false" />
+    <Property Name="Warning_Reason" Type="varchar(max)" />
+    <Property Name="Level_warning_Id" Type="int" Nullable="false" />
+    <Property Name="Penalty_Id" Type="int" />
+    <Property Name="Date_mistake" Type="varchar" MaxLength="50" />
+    <Property Name="dateLayoff_emp" Type="date" />
+    <Property Name="Stop_wkStart" Type="date" />
+    <Property Name="Stop_wkEnd" Type="date" />
+    <Property Name="date_Stmistake" Type="date" />
+    <Property Name="date_timenow" Type="date" />
+    <Property Name="day_shift" Type="varchar" MaxLength="50" />
+    <Property Name="Exprie_mt_date" Type="date" />
+    <Property Name="Exprie_mt" Type="int" />
+    <Property Name="Detail_Reason" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Emp_offense_Levelwarning">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="level_warning" Type="nvarchar" MaxLength="150" />
+    <Property Name="level_warning_jp" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Emp_offense_Penalty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Penalty_Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="emp_position">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PositionName" Type="varchar" MaxLength="250" />
+    <Property Name="PositionDesc" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Emp_sendEmailSession' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Emp_sendEmailSession">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="PssExpire" Type="varchar" MaxLength="50" />
+    <Property Name="Date_Input" Type="varchar" MaxLength="50" />
+    <Property Name="Time_Input" Type="varchar" MaxLength="50" />
+    <Property Name="WSnumber" Type="varchar" MaxLength="50" />
+    <Property Name="WSLine" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Emp_SickLeave' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Emp_SickLeave">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="EmpList_Id" />
+      <PropertyRef Name="Type_ReasonId" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpList_Id" Type="int" Nullable="false" />
+    <Property Name="DateSt" Type="varchar" MaxLength="50" />
+    <Property Name="Leave_startdate" Type="varchar" MaxLength="50" />
+    <Property Name="Leave_enddate" Type="varchar" MaxLength="50" />
+    <Property Name="Leave_time" Type="varchar" MaxLength="50" />
+    <Property Name="Leave_timeend" Type="varchar" MaxLength="50" />
+    <Property Name="Shift" Type="varchar" MaxLength="50" />
+    <Property Name="Date_leave" Type="float" />
+    <Property Name="Date_Hour" Type="varchar" MaxLength="50" />
+    <Property Name="Reasons_for_leave" Type="varchar" MaxLength="50" />
+    <Property Name="Type_ReasonId" Type="int" Nullable="false" />
+    <Property Name="Approved_emp" Type="varchar" MaxLength="50" />
+    <Property Name="ReasonnotApEmp" Type="varchar" MaxLength="100" />
+    <Property Name="Approved_hr" Type="varchar" MaxLength="50" />
+    <Property Name="ReasonnotApHr" Type="varchar" MaxLength="100" />
+    <Property Name="Status_pay" Type="varchar" MaxLength="50" />
+    <Property Name="M_certificate" Type="varchar" MaxLength="50" />
+    <Property Name="DT_UpEmpN" Type="varchar" MaxLength="50" />
+    <Property Name="DT_UpHRN" Type="varchar" MaxLength="50" />
+    <Property Name="AddbyEmp" Type="varchar" MaxLength="50" />
+    <Property Name="AddAppbyHr" Type="varchar" MaxLength="50" />
+    <Property Name="Status_SunSat" Type="int" />
+    <Property Name="Note" Type="varchar" MaxLength="50" />
+    <Property Name="Status_SendmailHR" Type="int" />
+    <Property Name="StatusWork" Type="int" />
+    <Property Name="StatusWorkDetail" Type="varchar" MaxLength="1000" />
+    <Property Name="Status_hrchk" Type="varchar" MaxLength="3" />
+    <Property Name="Status_hrchkChar" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="E_TrainHeader" Type="int" Nullable="false" />
+    <Property Name="Emp_Id" Type="varchar" MaxLength="50" />
+    <Property Name="Trian_SkillKnow" Type="int" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseHeader" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Training_dateSt" Type="date" />
+    <Property Name="Trai_Times" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Timess" Type="varchar" MaxLength="50" />
+    <Property Name="Training_dateEnd" Type="date" />
+    <Property Name="Trai_TimendT" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_TimendTs" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_House" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Minutices" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Location" Type="varchar" MaxLength="1000" />
+    <Property Name="Train_Price" Type="int" />
+    <Property Name="Train_Name" Type="varchar" MaxLength="1000" />
+    <Property Name="Train_Date" Type="varchar" MaxLength="10" />
+    <Property Name="Train_Hour" Type="varchar" MaxLength="10" />
+    <Property Name="Train_Min" Type="varchar" MaxLength="10" />
+    <Property Name="Train_WsFileName" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Temporary_Id" Type="int" />
+    <Property Name="Train_DateWS" Type="varchar" MaxLength="30" />
+    <Property Name="Train_EmpId" Type="varchar" MaxLength="30" />
+    <Property Name="Training_Ws_Temp_id" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingWS_temporary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Train_NumberWS" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Header" Type="varchar" MaxLength="100" />
+    <Property Name="Train_HeaderThai" Type="varchar" MaxLength="500" />
+    <Property Name="Train_DateWS" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Status" Type="int" />
+    <Property Name="Trai_NameArea" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Rev" Type="varchar" MaxLength="50" />
+    <Property Name="Train_DateChkSendMail" Type="varchar" MaxLength="50" />
+    <Property Name="SendMail" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingWsDate">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="E_TrainWsHeader_Id" Type="int" Nullable="false" />
+    <Property Name="Date" Type="varchar" MaxLength="50" />
+    <Property Name="Training_dateSt" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Times" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Timess" Type="varchar" MaxLength="50" />
+    <Property Name="Training_dateEnd" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_TimendT" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_TimendTs" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_House" Type="varchar" MaxLength="50" />
+    <Property Name="Trai_Minutices" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Date" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Hour" Type="varchar" MaxLength="50" />
+    <Property Name="Train_Min" Type="varchar" MaxLength="50" />
+    <Property Name="Train_WsName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingWsDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="E_TrainWsDate_Id" Type="int" Nullable="false" />
+    <Property Name="E_TrainWsHeader_Id" Type="int" />
+    <Property Name="Emp_Id" Type="varchar" MaxLength="50" />
+    <Property Name="Trian_SkillKnow" Type="int" />
+  </EntityType>
+  <EntityType Name="Emp_TrainingWsHeader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseHeader" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Trai_Temporary_Id" Type="int" />
+    <Property Name="Train_Location" Type="varchar" MaxLength="1000" />
+    <Property Name="Train_Price" Type="int" />
+    <Property Name="Train_Name" Type="varchar" MaxLength="1000" />
+    <Property Name="Train_Date" Type="varchar" MaxLength="10" />
+    <Property Name="Train_Hour" Type="varchar" MaxLength="10" />
+    <Property Name="Train_Min" Type="varchar" MaxLength="10" />
+    <Property Name="Train_DateWS" Type="varchar" MaxLength="30" />
+    <Property Name="Train_EmpId" Type="varchar" MaxLength="30" />
+    <Property Name="Training_Ws_Temp_id" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Emp_Transection_Leave">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Emp_Id" Type="int" Nullable="false" />
+    <Property Name="DateSt" Type="datetime" Nullable="false" />
+    <Property Name="Leave_startdate" Type="datetime" Nullable="false" />
+    <Property Name="Leave_enddate" Type="datetime" Nullable="false" />
+    <Property Name="Leave_time" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Leave_timeend" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Shift" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_leave" Type="float" Nullable="false" />
+    <Property Name="Date_Hour" Type="float" Nullable="false" />
+    <Property Name="Reasons_for_leave" Type="varchar" MaxLength="50" />
+    <Property Name="Type_ReasonId" Type="int" Nullable="false" />
+    <Property Name="Approved_emp" Type="varchar" MaxLength="50" />
+    <Property Name="ReasonnotApEmp" Type="varchar" MaxLength="100" />
+    <Property Name="Approved_hr" Type="varchar" MaxLength="50" />
+    <Property Name="ReasonnotApHr" Type="varchar" MaxLength="100" />
+    <Property Name="Status_pay" Type="varchar" MaxLength="50" />
+    <Property Name="M_certificate" Type="varchar" MaxLength="50" />
+    <Property Name="DT_UpEmpN" Type="datetime" />
+    <Property Name="DT_UpHRN" Type="datetime" />
+    <Property Name="AddbyEmp" Type="varchar" MaxLength="50" />
+    <Property Name="AddAppbyHr" Type="varchar" MaxLength="50" />
+    <Property Name="Status_SunSat" Type="int" />
+    <Property Name="Note" Type="varchar" MaxLength="50" />
+    <Property Name="Status_SendmailHR" Type="int" />
+    <Property Name="StatusWork" Type="int" />
+    <Property Name="StatusWorkDetail" Type="varchar" MaxLength="1000" />
+    <Property Name="Status_hrchk" Type="varchar" MaxLength="3" />
+    <Property Name="Status_hrchkChar" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Emp_Typesick">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type_Reason" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EmpList">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="int" Nullable="false" />
+    <Property Name="IDcode" Type="varchar" MaxLength="25" />
+    <Property Name="PPID" Type="varchar" MaxLength="25" />
+    <Property Name="TaxID" Type="varchar" MaxLength="25" />
+    <Property Name="SSO" Type="varchar" MaxLength="25" />
+    <Property Name="Title_TH" Type="varchar" MaxLength="25" />
+    <Property Name="FName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="LName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="NName_TH" Type="varchar" MaxLength="25" />
+    <Property Name="Title_EN" Type="varchar" MaxLength="25" />
+    <Property Name="FName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="LName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="NName_EN" Type="varchar" MaxLength="25" />
+    <Property Name="Gender" Type="varchar" MaxLength="15" />
+    <Property Name="Nation" Type="varchar" MaxLength="50" />
+    <Property Name="BDate" Type="date" />
+    <Property Name="Disabled_stat" Type="bit" />
+    <Property Name="Disabled_By" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_Build" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_No" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Alle" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Rd" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Vill" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prsh" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Dtrct" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prvnc" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Post" Type="varchar" MaxLength="100" />
+    <Property Name="Educate" Type="varchar" MaxLength="50" />
+    <Property Name="In_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Ex_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="25" />
+    <Property Name="Tel" Type="varchar" MaxLength="25" />
+    <Property Name="Bank_Acc" Type="varchar" MaxLength="50" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="20" />
+    <Property Name="DeptDesc" Type="varchar" MaxLength="100" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="25" />
+    <Property Name="CostCenterName" Type="varchar" MaxLength="25" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="PassDate" Type="date" />
+    <Property Name="StartPosition" Type="date" />
+    <Property Name="Note" Type="varchar(max)" />
+    <Property Name="EmpStatus" Type="varchar" MaxLength="100" />
+    <Property Name="ReasonPPS" Type="varchar" MaxLength="100" />
+    <Property Name="DatePasSport" Type="date" />
+    <Property Name="DatePasSportExpire" Type="varchar" MaxLength="25" />
+    <Property Name="StartDatePVD1" Type="datetime" />
+    <Property Name="EndDatePVD1" Type="datetime" />
+    <Property Name="StartDatePVD2" Type="datetime" />
+    <Property Name="EndDatePVD2" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Equipment_repair_machine' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Equipment_repair_machine">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Datest" />
+      <PropertyRef Name="Factoy" />
+      <PropertyRef Name="Department" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Datest" Type="datetime" Nullable="false" />
+    <Property Name="Factoy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Department" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Process" Type="varchar" MaxLength="100" />
+    <Property Name="Linename" Type="varchar" MaxLength="100" />
+    <Property Name="Machine" Type="varchar" MaxLength="100" />
+    <Property Name="Title" Type="varchar" MaxLength="100" />
+    <Property Name="StartStopping" Type="datetime" />
+    <Property Name="Finish" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Former_EmpList">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="int" Nullable="false" />
+    <Property Name="IDcode" Type="varchar" MaxLength="25" />
+    <Property Name="PPID" Type="varchar" MaxLength="25" />
+    <Property Name="TaxID" Type="varchar" MaxLength="25" />
+    <Property Name="SSO" Type="varchar" MaxLength="25" />
+    <Property Name="Title_TH" Type="varchar" MaxLength="25" />
+    <Property Name="FName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="LName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="NName_TH" Type="varchar" MaxLength="25" />
+    <Property Name="Title_EN" Type="varchar" MaxLength="25" />
+    <Property Name="FName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="LName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="NName_EN" Type="varchar" MaxLength="25" />
+    <Property Name="Gender" Type="varchar" MaxLength="15" />
+    <Property Name="Nation" Type="varchar" MaxLength="50" />
+    <Property Name="BDate" Type="date" />
+    <Property Name="Disabled_stat" Type="bit" />
+    <Property Name="Disabled_By" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_Build" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_No" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Alle" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Rd" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Vill" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prsh" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Dtrct" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prvnc" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Post" Type="varchar" MaxLength="100" />
+    <Property Name="Educate" Type="varchar" MaxLength="50" />
+    <Property Name="In_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Ex_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="25" />
+    <Property Name="Tel" Type="varchar" MaxLength="25" />
+    <Property Name="Bank_Acc" Type="varchar" MaxLength="50" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="20" />
+    <Property Name="DeptDesc" Type="varchar" MaxLength="100" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="25" />
+    <Property Name="CostCenterName" Type="varchar" MaxLength="25" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="PassDate" Type="date" />
+    <Property Name="StartPosition" Type="date" />
+    <Property Name="LayoffDate" Type="date" />
+    <Property Name="LayoffReas" Type="varchar" MaxLength="250" />
+    <Property Name="LayoffDetail" Type="varchar" MaxLength="250" />
+    <Property Name="Note" Type="varchar(max)" />
+    <Property Name="EmpStatus" Type="varchar" MaxLength="100" />
+    <Property Name="ReasonPPS" Type="varchar" MaxLength="100" />
+    <Property Name="DatePasSport" Type="date" />
+    <Property Name="DatePasSportExpire" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Former_EmpList_Newt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Former_EmpList_Newt">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="int" Nullable="false" />
+    <Property Name="IDcode" Type="varchar" MaxLength="25" />
+    <Property Name="PPID" Type="varchar" MaxLength="25" />
+    <Property Name="TaxID" Type="varchar" MaxLength="25" />
+    <Property Name="SSO" Type="varchar" MaxLength="25" />
+    <Property Name="Title_TH" Type="varchar" MaxLength="25" />
+    <Property Name="FName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="LName_TH" Type="varchar" MaxLength="100" />
+    <Property Name="NName_TH" Type="varchar" MaxLength="25" />
+    <Property Name="Title_EN" Type="varchar" MaxLength="25" />
+    <Property Name="FName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="LName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="NName_EN" Type="varchar" MaxLength="25" />
+    <Property Name="Gender" Type="varchar" MaxLength="15" />
+    <Property Name="Nation" Type="varchar" MaxLength="50" />
+    <Property Name="BDate" Type="date" />
+    <Property Name="Disabled_stat" Type="bit" />
+    <Property Name="Disabled_By" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_Build" Type="varchar" MaxLength="150" />
+    <Property Name="Addr_No" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Alle" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Rd" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Vill" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prsh" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Dtrct" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Prvnc" Type="varchar" MaxLength="100" />
+    <Property Name="Addr_Post" Type="varchar" MaxLength="100" />
+    <Property Name="Educate" Type="varchar" MaxLength="50" />
+    <Property Name="In_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Ex_Email" Type="varchar" MaxLength="100" />
+    <Property Name="Mobile" Type="varchar" MaxLength="25" />
+    <Property Name="Tel" Type="varchar" MaxLength="25" />
+    <Property Name="Bank_Acc" Type="varchar" MaxLength="50" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="20" />
+    <Property Name="DeptDesc" Type="varchar" MaxLength="100" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="25" />
+    <Property Name="CostCenterName" Type="varchar" MaxLength="25" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="PassDate" Type="date" />
+    <Property Name="StartPosition" Type="date" />
+    <Property Name="LayoffDate" Type="date" />
+    <Property Name="LayoffReas" Type="varchar" MaxLength="250" />
+    <Property Name="LayoffDetail" Type="varchar" MaxLength="250" />
+    <Property Name="Note" Type="varchar(max)" />
+    <Property Name="EmpStatus" Type="varchar" MaxLength="100" />
+    <Property Name="ReasonPPS" Type="varchar" MaxLength="100" />
+    <Property Name="DatePasSport" Type="date" />
+    <Property Name="DatePasSportExpire" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="GroupMember">
+    <Key>
+      <PropertyRef Name="GMB_Id" />
+    </Key>
+    <Property Name="GMB_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USG_Id" Type="int" Nullable="false" />
+    <Property Name="USE_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.hr_func_rights' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="hr_func_rights">
+    <Key>
+      <PropertyRef Name="hr_rig_item" />
+    </Key>
+    <Property Name="hr_rig_item" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hr_rig_desc" Type="varchar" MaxLength="150" />
+    <Property Name="RIH_Id" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.hr_LogEmployees' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="hr_LogEmployees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HR_Function_Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="HR_Detail_Work" Type="nvarchar" MaxLength="500" />
+    <Property Name="HR_UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="HR_IdEmp" Type="nvarchar" MaxLength="50" />
+    <Property Name="HR_Department" Type="nvarchar" MaxLength="50" />
+    <Property Name="HR_Position" Type="nvarchar" MaxLength="50" />
+    <Property Name="HR_Date" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Inventory_DefineReport">
+    <Key>
+      <PropertyRef Name="DEF_Id" />
+    </Key>
+    <Property Name="DEF_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LOC_Id" Type="int" Nullable="false" />
+    <Property Name="STO_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Code" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Inventory_Group' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Inventory_Group">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="GMD_DrawingNo" />
+      <PropertyRef Name="GMD_Group" />
+      <PropertyRef Name="GMD_GroupDescription" />
+      <PropertyRef Name="GMD_ModelNo" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="GMD_DrawingNo" Type="varchar" MaxLength="80" Nullable="false" />
+    <Property Name="GMD_Group" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="GMD_GroupDescription" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="GMD_ModelNo" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="GMD_PartName" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Inventory_InputData">
+    <Key>
+      <PropertyRef Name="INP_Id" />
+    </Key>
+    <Property Name="INP_Id" Type="int" Nullable="false" />
+    <Property Name="INP_Year" Type="int" Nullable="false" />
+    <Property Name="INP_Month" Type="int" Nullable="false" />
+    <Property Name="INP_Plant" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="INP_DocumentNo" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="INP_DrawingNo" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="INP_Quantity" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="INP_Memo" Type="varchar" MaxLength="100" />
+    <Property Name="INP_EditDate" Type="datetime" Nullable="false" />
+    <Property Name="INP_EditBy" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="STO_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Code" Type="varchar" MaxLength="25" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Inventory_Location">
+    <Key>
+      <PropertyRef Name="LOC_Id" />
+    </Key>
+    <Property Name="LOC_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LOC_Name" Type="varchar" MaxLength="50" />
+    <Property Name="LOC_Type" Type="varchar" MaxLength="30" />
+    <Property Name="LOC_Group" Type="varchar" MaxLength="45" />
+    <Property Name="LOC_Plant" Type="int" />
+    <Property Name="LOC_Order" Type="int" />
+  </EntityType>
+  <EntityType Name="Inventory_Log">
+    <Key>
+      <PropertyRef Name="IPL_Id" />
+    </Key>
+    <Property Name="IPL_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IPL_Table" Type="varchar" MaxLength="50" />
+    <Property Name="IPL_Detail" Type="varchar" MaxLength="250" />
+    <Property Name="IPL_Mode" Type="varchar" MaxLength="15" />
+    <Property Name="IPL_EditDate" Type="datetime" />
+    <Property Name="IPL_EditBy" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Inventory_StandardCost">
+    <Key>
+      <PropertyRef Name="STD_Id" />
+    </Key>
+    <Property Name="STD_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="STK_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_DrawingNo" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STD_Cost" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="STD_Memo1" Type="varchar" MaxLength="50" />
+    <Property Name="STD_Memo2" Type="varchar" MaxLength="50" />
+    <Property Name="STD_Year" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Inventory_StockCode">
+    <Key>
+      <PropertyRef Name="STK_Code" />
+    </Key>
+    <Property Name="STK_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Code2" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Group" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_PartName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_DrawingNo" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_ModelNo" Type="varchar" MaxLength="250" />
+    <Property Name="STK_DescE1" Type="varchar" MaxLength="250" />
+    <Property Name="STK_DescE2" Type="varchar" MaxLength="250" />
+    <Property Name="STK_DescE3" Type="varchar" MaxLength="250" />
+    <Property Name="STK_UnitName" Type="varchar" MaxLength="40" />
+    <Property Name="STK_Hide" Type="int" />
+    <Property Name="STK_Lock" Type="int" />
+    <Property Name="STK_EditBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="STK_EditDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Inventory_Store">
+    <Key>
+      <PropertyRef Name="STO_Code" />
+    </Key>
+    <Property Name="STO_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STO_Group" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="STO_DescT" Type="varchar" MaxLength="150" />
+    <Property Name="STO_DescE" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="STO_Lock" Type="int" Nullable="false" />
+    <Property Name="STO_Hide" Type="int" Nullable="false" />
+    <Property Name="STO_Memo1" Type="varchar" MaxLength="100" />
+    <Property Name="STO_Memo2" Type="varchar" MaxLength="100" />
+    <Property Name="STO_Memo3" Type="varchar" MaxLength="100" />
+    <Property Name="STO_EditBy" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="STO_EditDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Logs">
+    <Key>
+      <PropertyRef Name="Log_Id" />
+    </Key>
+    <Property Name="Log_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Log_System" Type="varchar" MaxLength="40" />
+    <Property Name="Log_Type" Type="varchar" MaxLength="40" />
+    <Property Name="Log_Detail" Type="varchar" MaxLength="250" />
+    <Property Name="Log_Action" Type="varchar" MaxLength="10" />
+    <Property Name="Log_Date" Type="datetime" />
+    <Property Name="Log_by" Type="varchar" MaxLength="50" />
+    <Property Name="Log_Action_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.LotRunNumber' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="LotRunNumber">
+    <Key>
+      <PropertyRef Name="LOT_Id" />
+    </Key>
+    <Property Name="LOT_Id" Type="int" Nullable="false" />
+    <Property Name="LOT_TagId" Type="varchar" MaxLength="25" />
+    <Property Name="LOT_StockCode" Type="varchar" MaxLength="25" />
+    <Property Name="LOT_Prefix" Type="varchar" MaxLength="15" />
+    <Property Name="LOT_SubFix" Type="int" />
+    <Property Name="LOT_CustomerCode" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <EntityType Name="Mstk_EmpResip">
+    <Key>
+      <PropertyRef Name="MstkID" />
+    </Key>
+    <Property Name="MstkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Emp_Id" Type="int" Nullable="false" />
+    <Property Name="Reason_Id" Type="int" Nullable="false" />
+    <Property Name="Penalty_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Mstk_Penalty">
+    <Key>
+      <PropertyRef Name="PenaltyID" />
+    </Key>
+    <Property Name="PenaltyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Pnlt_EN" Type="varchar" MaxLength="250" />
+    <Property Name="Pnlt_TH" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Mstk_Reason">
+    <Key>
+      <PropertyRef Name="ReasonID" />
+    </Key>
+    <Property Name="ReasonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mstk_Reas_EN" Type="varchar" MaxLength="250" />
+    <Property Name="Mstk_Reas_TH" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="RightGroup">
+    <Key>
+      <PropertyRef Name="RIG_Id" />
+    </Key>
+    <Property Name="RIG_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RIG_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="RIG_Description" Type="varchar" MaxLength="100" />
+    <Property Name="SYS_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rights">
+    <Key>
+      <PropertyRef Name="RIH_Id" />
+    </Key>
+    <Property Name="RIH_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RIH_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="RIH_Description" Type="varchar" MaxLength="100" />
+    <Property Name="RIH_Pages" Type="varchar" MaxLength="100" />
+    <Property Name="RIG_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rights01">
+    <Key>
+      <PropertyRef Name="RIH_Id" />
+    </Key>
+    <Property Name="RIH_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RIH_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="RIH_Description" Type="varchar" MaxLength="100" />
+    <Property Name="RIH_Pages" Type="varchar" MaxLength="100" />
+    <Property Name="RIG_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Systems">
+    <Key>
+      <PropertyRef Name="SYS_Id" />
+    </Key>
+    <Property Name="SYS_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SYS_Name" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="SYS_Description" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.Temp_Inventory_StockCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Temp_Inventory_StockCode">
+    <Key>
+      <PropertyRef Name="STK_Code" />
+      <PropertyRef Name="STK_Code2" />
+      <PropertyRef Name="STK_Group" />
+      <PropertyRef Name="STK_PartName" />
+      <PropertyRef Name="STK_DrawingNo" />
+      <PropertyRef Name="STK_ModelNo" />
+      <PropertyRef Name="STK_DescE1" />
+      <PropertyRef Name="STK_DescE2" />
+      <PropertyRef Name="STK_UnitName" />
+      <PropertyRef Name="STK_EditDate" />
+    </Key>
+    <Property Name="STK_Code" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Code2" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_Group" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="STK_PartName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_DrawingNo" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_ModelNo" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_DescE1" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_DescE2" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="STK_UnitName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="STK_EditDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="USE_Id" />
+    </Key>
+    <Property Name="USE_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USE_Account" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="USE_Password" Type="varchar(max)" Nullable="false" />
+    <Property Name="USE_FName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="USE_LName" Type="varchar" MaxLength="60" />
+    <Property Name="USE_NickName" Type="varchar" MaxLength="25" />
+    <Property Name="USE_TelNo" Type="varchar" MaxLength="15" />
+    <Property Name="USE_Email" Type="varchar" MaxLength="80" />
+    <Property Name="USE_Status" Type="int" Nullable="false" />
+    <Property Name="USE_Nationality" Type="varchar" MaxLength="15" />
+    <Property Name="Dep_Id" Type="int" Nullable="false" />
+    <Property Name="USE_Usercode" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.UserDetailEdit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="UserDetailEdit">
+    <Key>
+      <PropertyRef Name="USE_Id" />
+    </Key>
+    <Property Name="USE_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USE_Account" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="USE_Password" Type="varchar(max)" Nullable="false" />
+    <Property Name="USE_FName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="USE_LName" Type="varchar" MaxLength="60" />
+    <Property Name="USE_NickName" Type="varchar" MaxLength="25" />
+    <Property Name="USE_TelNo" Type="varchar" MaxLength="15" />
+    <Property Name="USE_Email" Type="varchar" MaxLength="80" />
+    <Property Name="USE_Status" Type="int" Nullable="false" />
+    <Property Name="USE_Nationality" Type="varchar" MaxLength="15" />
+    <Property Name="Dep_Id" Type="int" Nullable="false" />
+    <Property Name="USE_Usercode" Type="int" />
+  </EntityType>
+  <EntityType Name="UserGroup">
+    <Key>
+      <PropertyRef Name="USG_Id" />
+    </Key>
+    <Property Name="USG_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USG_Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="USG_Memo" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="UserRight">
+    <Key>
+      <PropertyRef Name="USR_Id" />
+    </Key>
+    <Property Name="USR_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USE_Id" Type="int" Nullable="false" />
+    <Property Name="RIH_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WS_Training_Section">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SectionCode" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="SectionName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="WSR_CompRule">
+    <Key>
+      <PropertyRef Name="CR_Id" />
+    </Key>
+    <Property Name="CR_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CR_Name" Type="varchar" MaxLength="180" Nullable="false" />
+    <Property Name="CR_File" Type="varchar" MaxLength="180" Nullable="false" />
+    <Property Name="CR_Note" Type="varchar" MaxLength="250" />
+    <Property Name="CRT_Id" Type="int" Nullable="false" />
+    <Property Name="CR_Date" Type="datetime" Nullable="false" />
+    <Property Name="CR_Rev" Type="int" Nullable="false" />
+    <Property Name="CR_Update" Type="datetime" Nullable="false" />
+    <Property Name="CR_Number" Type="varchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WSR_CompRuleType">
+    <Key>
+      <PropertyRef Name="CRT_Id" />
+    </Key>
+    <Property Name="CRT_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CRT_Type" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="CRT_Note" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="WSR_WorkingStandardEdit">
+    <Key>
+      <PropertyRef Name="WS_Id" />
+    </Key>
+    <Property Name="WS_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WS_Name" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="WS_Number" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="WS_File" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="WS_Note" Type="varchar" MaxLength="250" />
+    <Property Name="WST_Id" Type="int" Nullable="false" />
+    <Property Name="WS_Date" Type="datetime" Nullable="false" />
+    <Property Name="WS_Update" Type="datetime" Nullable="false" />
+    <Property Name="WSP_Id" Type="int" />
+    <Property Name="WS_Rev" Type="varchar" MaxLength="4" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WSR_WorkingStandardProcessEdit">
+    <Key>
+      <PropertyRef Name="WSP_Id" />
+    </Key>
+    <Property Name="WSP_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WSP_ProcessName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="WST_Id" Type="int" Nullable="false" />
+    <Property Name="WSP_Note" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="WSR_WorkingStandardTypeEdit">
+    <Key>
+      <PropertyRef Name="WST_Id" />
+    </Key>
+    <Property Name="WST_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WST_Type" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="WST_Dept" Type="int" Nullable="false" />
+    <Property Name="WST_Note" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="LeaveEmployee">
+    <Key>
+      <PropertyRef Name="EmpList_Id" />
+    </Key>
+    <Property Name="Leave_startdate" Type="varchar" MaxLength="50" />
+    <Property Name="Leave_enddate" Type="varchar" MaxLength="50" />
+    <Property Name="EmpList_Id" Type="int" Nullable="false" />
+    <Property Name="Title_EN" Type="varchar" MaxLength="25" />
+    <Property Name="FName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="LName_EN" Type="varchar" MaxLength="100" />
+    <Property Name="NName_EN" Type="varchar" MaxLength="25" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="20" />
+    <Property Name="DeptDesc" Type="varchar" MaxLength="100" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="CostCenterName" Type="varchar" MaxLength="25" />
+    <Property Name="Business" Type="float" />
+    <Property Name="SickCert" Type="float" />
+    <Property Name="Vacation" Type="float" />
+    <Property Name="Other" Type="float" />
+    <Property Name="Sick" Type="float" />
+    <Property Name="SVacation" Type="float" />
+    <Property Name="SpecialBusiness" Type="float" />
+  </EntityType>
+  <Association Name="FK_CM_TodoEvidence_CM_TodoList">
+    <End Role="CM_TodoList" Type="Self.CM_TodoList" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CM_TodoEvidence" Type="Self.CM_TodoEvidence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CM_TodoList">
+        <PropertyRef Name="TDO_Id" />
+      </Principal>
+      <Dependent Role="CM_TodoEvidence">
+        <PropertyRef Name="TDO_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CM_TodoList_CM_Problem">
+    <End Role="CM_Problem" Type="Self.CM_Problem" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CM_TodoList" Type="Self.CM_TodoList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CM_Problem">
+        <PropertyRef Name="PRB_Id" />
+      </Principal>
+      <Dependent Role="CM_TodoList">
+        <PropertyRef Name="PRB_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DW_Model_DW_PartName">
+    <End Role="DW_PartName" Type="Self.DW_PartName" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DW_Model" Type="Self.DW_Model" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DW_PartName">
+        <PropertyRef Name="PAR_ID" />
+      </Principal>
+      <Dependent Role="DW_Model">
+        <PropertyRef Name="PAR_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DW_ModelProcess_DW_PartName">
+    <End Role="DW_PartName" Type="Self.DW_PartName" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DW_ModelProcess" Type="Self.DW_ModelProcess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DW_PartName">
+        <PropertyRef Name="PAR_ID" />
+      </Principal>
+      <Dependent Role="DW_ModelProcess">
+        <PropertyRef Name="PAR_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DW_ModelProcess_DW_Process">
+    <End Role="DW_Process" Type="Self.DW_Process" Multiplicity="0..1" />
+    <End Role="DW_ModelProcess" Type="Self.DW_ModelProcess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DW_Process">
+        <PropertyRef Name="PRO_ID" />
+      </Principal>
+      <Dependent Role="DW_ModelProcess">
+        <PropertyRef Name="PRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DW_Process_DW_PartName">
+    <End Role="DW_PartName" Type="Self.DW_PartName" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DW_Process" Type="Self.DW_Process" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DW_PartName">
+        <PropertyRef Name="PAR_ID" />
+      </Principal>
+      <Dependent Role="DW_Process">
+        <PropertyRef Name="PAR_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_ImportChkCol_Emp_ImportEx">
+    <End Role="Emp_ImportEx" Type="Self.Emp_ImportEx" Multiplicity="1" />
+    <End Role="Emp_ImportChkCol" Type="Self.Emp_ImportChkCol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_ImportEx">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_ImportChkCol">
+        <PropertyRef Name="EmpImportExId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_ImportNotUseCol_Emp_ImportEx">
+    <End Role="Emp_ImportEx" Type="Self.Emp_ImportEx" Multiplicity="1" />
+    <End Role="Emp_ImportNotUseCol" Type="Self.Emp_ImportNotUseCol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_ImportEx">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_ImportNotUseCol">
+        <PropertyRef Name="EmpImportExId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_offense_Emp_offense_Levelwarning">
+    <End Role="Emp_offense_Levelwarning" Type="Self.Emp_offense_Levelwarning" Multiplicity="1" />
+    <End Role="Emp_offense" Type="Self.Emp_offense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_offense_Levelwarning">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_offense">
+        <PropertyRef Name="Level_warning_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_offense_Emp_offense_Penalty">
+    <End Role="Emp_offense_Penalty" Type="Self.Emp_offense_Penalty" Multiplicity="0..1" />
+    <End Role="Emp_offense" Type="Self.Emp_offense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_offense_Penalty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_offense">
+        <PropertyRef Name="Penalty_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_SickLeave_Emp_Typesick">
+    <End Role="Emp_Typesick" Type="Self.Emp_Typesick" Multiplicity="1" />
+    <End Role="Emp_SickLeave" Type="Self.Emp_SickLeave" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_Typesick">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_SickLeave">
+        <PropertyRef Name="Type_ReasonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_TrainingDetail_Emp_TrainingHeader">
+    <End Role="Emp_TrainingHeader" Type="Self.Emp_TrainingHeader" Multiplicity="1" />
+    <End Role="Emp_TrainingDetail" Type="Self.Emp_TrainingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp_TrainingHeader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp_TrainingDetail">
+        <PropertyRef Name="E_TrainHeader" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMember_UserDetail">
+    <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GroupMember" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDetail">
+        <PropertyRef Name="USE_Id" />
+      </Principal>
+      <Dependent Role="GroupMember">
+        <PropertyRef Name="USE_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMember_UserGroup">
+    <End Role="UserGroup" Type="Self.UserGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GroupMember" Type="Self.GroupMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroup">
+        <PropertyRef Name="USG_Id" />
+      </Principal>
+      <Dependent Role="GroupMember">
+        <PropertyRef Name="USG_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_DefineReport_Inventory_Location">
+    <End Role="Inventory_Location" Type="Self.Inventory_Location" Multiplicity="1" />
+    <End Role="Inventory_DefineReport" Type="Self.Inventory_DefineReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_Location">
+        <PropertyRef Name="LOC_Id" />
+      </Principal>
+      <Dependent Role="Inventory_DefineReport">
+        <PropertyRef Name="LOC_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_DefineReport_Inventory_StockCode">
+    <End Role="Inventory_StockCode" Type="Self.Inventory_StockCode" Multiplicity="1" />
+    <End Role="Inventory_DefineReport" Type="Self.Inventory_DefineReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_StockCode">
+        <PropertyRef Name="STK_Code" />
+      </Principal>
+      <Dependent Role="Inventory_DefineReport">
+        <PropertyRef Name="STK_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_DefineReport_Inventory_Store">
+    <End Role="Inventory_Store" Type="Self.Inventory_Store" Multiplicity="1" />
+    <End Role="Inventory_DefineReport" Type="Self.Inventory_DefineReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_Store">
+        <PropertyRef Name="STO_Code" />
+      </Principal>
+      <Dependent Role="Inventory_DefineReport">
+        <PropertyRef Name="STO_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_InputData_Inventory_StockCode">
+    <End Role="Inventory_StockCode" Type="Self.Inventory_StockCode" Multiplicity="1" />
+    <End Role="Inventory_InputData" Type="Self.Inventory_InputData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_StockCode">
+        <PropertyRef Name="STK_Code" />
+      </Principal>
+      <Dependent Role="Inventory_InputData">
+        <PropertyRef Name="STK_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_InputData_Inventory_Store">
+    <End Role="Inventory_Store" Type="Self.Inventory_Store" Multiplicity="1" />
+    <End Role="Inventory_InputData" Type="Self.Inventory_InputData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_Store">
+        <PropertyRef Name="STO_Code" />
+      </Principal>
+      <Dependent Role="Inventory_InputData">
+        <PropertyRef Name="STO_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_StandardCost_Inventory_StockCode">
+    <End Role="Inventory_StockCode" Type="Self.Inventory_StockCode" Multiplicity="1" />
+    <End Role="Inventory_StandardCost" Type="Self.Inventory_StandardCost" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Inventory_StockCode">
+        <PropertyRef Name="STK_Code" />
+      </Principal>
+      <Dependent Role="Inventory_StandardCost">
+        <PropertyRef Name="STK_Code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RightGroup_Systems">
+    <End Role="Systems" Type="Self.Systems" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RightGroup" Type="Self.RightGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Systems">
+        <PropertyRef Name="SYS_Id" />
+      </Principal>
+      <Dependent Role="RightGroup">
+        <PropertyRef Name="SYS_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rights_RightGroup">
+    <End Role="RightGroup" Type="Self.RightGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Rights" Type="Self.Rights" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RightGroup">
+        <PropertyRef Name="RIG_Id" />
+      </Principal>
+      <Dependent Role="Rights">
+        <PropertyRef Name="RIG_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rights_RightGroup7">
+    <End Role="RightGroup" Type="Self.RightGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Rights01" Type="Self.Rights01" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RightGroup">
+        <PropertyRef Name="RIG_Id" />
+      </Principal>
+      <Dependent Role="Rights01">
+        <PropertyRef Name="RIG_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserDetail_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Dep_Id" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="Dep_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRight_Rights">
+    <End Role="Rights" Type="Self.Rights" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRight" Type="Self.UserRight" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rights">
+        <PropertyRef Name="RIH_Id" />
+      </Principal>
+      <Dependent Role="UserRight">
+        <PropertyRef Name="RIH_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRight_UserDetail">
+    <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserRight" Type="Self.UserRight" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDetail">
+        <PropertyRef Name="USE_Id" />
+      </Principal>
+      <Dependent Role="UserRight">
+        <PropertyRef Name="USE_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OCTWEBTESTModelStoreContainer">
+    <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Checkby" EntityType="Self.cap_Checkby" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Line" EntityType="Self.cap_Line" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_LMD" EntityType="Self.cap_LMD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Partname" EntityType="Self.cap_Partname" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_PBlist" EntityType="Self.cap_PBlist" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_PBmain" EntityType="Self.cap_PBmain" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_PNL" EntityType="Self.cap_PNL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_PNofPBm" EntityType="Self.cap_PNofPBm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_POM" EntityType="Self.cap_POM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Problemdetail" EntityType="Self.cap_Problemdetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Probleminform" EntityType="Self.cap_Probleminform" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cap_Problempic" EntityType="Self.cap_Problempic" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CM_Problem" EntityType="Self.CM_Problem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CM_TodoEvidence" EntityType="Self.CM_TodoEvidence" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CM_TodoList" EntityType="Self.CM_TodoList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CoursesRecord" EntityType="Self.CoursesRecord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DepartmentEdit" EntityType="Self.DepartmentEdit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentActivityLogs" EntityType="Self.DocumentActivityLogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentApprovalSteps" EntityType="Self.DocumentApprovalSteps" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentDetails" EntityType="Self.DocumentDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentFormAreas" EntityType="Self.DocumentFormAreas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentList" EntityType="Self.DocumentList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_Fileshare" EntityType="Self.DW_Fileshare" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_Formulas" EntityType="Self.DW_Formulas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_Model" EntityType="Self.DW_Model" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_ModelProcess" EntityType="Self.DW_ModelProcess" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_PartName" EntityType="Self.DW_PartName" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DW_Process" EntityType="Self.DW_Process" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_Benefite" EntityType="Self.Emp_Benefite" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_CostCenter" EntityType="Self.Emp_CostCenter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emp_department" EntityType="Self.emp_department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_Holiday_sickleave" EntityType="Self.Emp_Holiday_sickleave" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_ImportChkCol" EntityType="Self.Emp_ImportChkCol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_ImportEx" EntityType="Self.Emp_ImportEx" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_ImportNotUseCol" EntityType="Self.Emp_ImportNotUseCol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_MasterNationality" EntityType="Self.Emp_MasterNationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_MasterReasonLeave" EntityType="Self.Emp_MasterReasonLeave" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_MasterRegion" EntityType="Self.Emp_MasterRegion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_MasterStatusLeave" EntityType="Self.Emp_MasterStatusLeave" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_MasterTypeLayoff" EntityType="Self.Emp_MasterTypeLayoff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_offense" EntityType="Self.Emp_offense" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_offense_Levelwarning" EntityType="Self.Emp_offense_Levelwarning" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_offense_Penalty" EntityType="Self.Emp_offense_Penalty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emp_position" EntityType="Self.emp_position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingDetail" EntityType="Self.Emp_TrainingDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingHeader" EntityType="Self.Emp_TrainingHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingWS_temporary" EntityType="Self.Emp_TrainingWS_temporary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingWsDate" EntityType="Self.Emp_TrainingWsDate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingWsDetail" EntityType="Self.Emp_TrainingWsDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_TrainingWsHeader" EntityType="Self.Emp_TrainingWsHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_Transection_Leave" EntityType="Self.Emp_Transection_Leave" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp_Typesick" EntityType="Self.Emp_Typesick" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmpList" EntityType="Self.EmpList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Former_EmpList" EntityType="Self.Former_EmpList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupMember" EntityType="Self.GroupMember" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_DefineReport" EntityType="Self.Inventory_DefineReport" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_InputData" EntityType="Self.Inventory_InputData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_Location" EntityType="Self.Inventory_Location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_Log" EntityType="Self.Inventory_Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_StandardCost" EntityType="Self.Inventory_StandardCost" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_StockCode" EntityType="Self.Inventory_StockCode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Inventory_Store" EntityType="Self.Inventory_Store" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mstk_EmpResip" EntityType="Self.Mstk_EmpResip" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mstk_Penalty" EntityType="Self.Mstk_Penalty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Mstk_Reason" EntityType="Self.Mstk_Reason" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RightGroup" EntityType="Self.RightGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rights" EntityType="Self.Rights" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rights01" EntityType="Self.Rights01" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Systems" EntityType="Self.Systems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserGroup" EntityType="Self.UserGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRight" EntityType="Self.UserRight" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WS_Training_Section" EntityType="Self.WS_Training_Section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WSR_CompRule" EntityType="Self.WSR_CompRule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WSR_CompRuleType" EntityType="Self.WSR_CompRuleType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WSR_WorkingStandardEdit" EntityType="Self.WSR_WorkingStandardEdit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WSR_WorkingStandardProcessEdit" EntityType="Self.WSR_WorkingStandardProcessEdit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WSR_WorkingStandardTypeEdit" EntityType="Self.WSR_WorkingStandardTypeEdit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DeliveryTagPlan" EntityType="Self.DeliveryTagPlan" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DeliveryTagPlan].[DEP_ID] AS [DEP_ID], 
+    [DeliveryTagPlan].[DEP_MPDDocid] AS [DEP_MPDDocid], 
+    [DeliveryTagPlan].[DEP_StkCode] AS [DEP_StkCode], 
+    [DeliveryTagPlan].[DEP_StkDrawingNo] AS [DEP_StkDrawingNo], 
+    [DeliveryTagPlan].[DEP_CustomerPartName] AS [DEP_CustomerPartName], 
+    [DeliveryTagPlan].[DEP_CustomerPartNo] AS [DEP_CustomerPartNo], 
+    [DeliveryTagPlan].[DEP_PackQty] AS [DEP_PackQty], 
+    [DeliveryTagPlan].[DEP_UnitName] AS [DEP_UnitName], 
+    [DeliveryTagPlan].[DEP_CustomerCode] AS [DEP_CustomerCode], 
+    [DeliveryTagPlan].[DEP_CustomerName] AS [DEP_CustomerName], 
+    [DeliveryTagPlan].[DEP_CountBox] AS [DEP_CountBox], 
+    [DeliveryTagPlan].[DEP_FullBox] AS [DEP_FullBox], 
+    [DeliveryTagPlan].[DEP_Memo] AS [DEP_Memo], 
+    [DeliveryTagPlan].[DEP_ReceiveStatus] AS [DEP_ReceiveStatus]
+    FROM [dbo].[DeliveryTagPlan] AS [DeliveryTagPlan]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="DWPic" EntityType="Self.DWPic" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DWPic].[LogID] AS [LogID], 
+    [DWPic].[LineName] AS [LineName], 
+    [DWPic].[DWlevel] AS [DWlevel], 
+    [DWPic].[DWNo] AS [DWNo], 
+    [DWPic].[SemiassemblyNo] AS [SemiassemblyNo], 
+    [DWPic].[Rev] AS [Rev], 
+    [DWPic].[PartsNo] AS [PartsNo], 
+    [DWPic].[ModelNo] AS [ModelNo], 
+    [DWPic].[CustomerNo] AS [CustomerNo], 
+    [DWPic].[PicPart] AS [PicPart], 
+    [DWPic].[PList] AS [PList], 
+    [DWPic].[Remark] AS [Remark], 
+    [DWPic].[DWGDes] AS [DWGDes], 
+    [DWPic].[New_PartName] AS [New_PartName]
+    FROM [dbo].[DWPic] AS [DWPic]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Emp_sendEmailSession" EntityType="Self.Emp_sendEmailSession" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Emp_sendEmailSession].[Id] AS [Id], 
+    [Emp_sendEmailSession].[Name] AS [Name], 
+    [Emp_sendEmailSession].[Email] AS [Email], 
+    [Emp_sendEmailSession].[PssExpire] AS [PssExpire], 
+    [Emp_sendEmailSession].[Date_Input] AS [Date_Input], 
+    [Emp_sendEmailSession].[Time_Input] AS [Time_Input], 
+    [Emp_sendEmailSession].[WSnumber] AS [WSnumber], 
+    [Emp_sendEmailSession].[WSLine] AS [WSLine]
+    FROM [dbo].[Emp_sendEmailSession] AS [Emp_sendEmailSession]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Emp_SickLeave" EntityType="Self.Emp_SickLeave" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Emp_SickLeave].[Id] AS [Id], 
+    [Emp_SickLeave].[EmpList_Id] AS [EmpList_Id], 
+    [Emp_SickLeave].[DateSt] AS [DateSt], 
+    [Emp_SickLeave].[Leave_startdate] AS [Leave_startdate], 
+    [Emp_SickLeave].[Leave_enddate] AS [Leave_enddate], 
+    [Emp_SickLeave].[Leave_time] AS [Leave_time], 
+    [Emp_SickLeave].[Leave_timeend] AS [Leave_timeend], 
+    [Emp_SickLeave].[Shift] AS [Shift], 
+    [Emp_SickLeave].[Date_leave] AS [Date_leave], 
+    [Emp_SickLeave].[Date_Hour] AS [Date_Hour], 
+    [Emp_SickLeave].[Reasons_for_leave] AS [Reasons_for_leave], 
+    [Emp_SickLeave].[Type_ReasonId] AS [Type_ReasonId], 
+    [Emp_SickLeave].[Approved_emp] AS [Approved_emp], 
+    [Emp_SickLeave].[ReasonnotApEmp] AS [ReasonnotApEmp], 
+    [Emp_SickLeave].[Approved_hr] AS [Approved_hr], 
+    [Emp_SickLeave].[ReasonnotApHr] AS [ReasonnotApHr], 
+    [Emp_SickLeave].[Status_pay] AS [Status_pay], 
+    [Emp_SickLeave].[M_certificate] AS [M_certificate], 
+    [Emp_SickLeave].[DT_UpEmpN] AS [DT_UpEmpN], 
+    [Emp_SickLeave].[DT_UpHRN] AS [DT_UpHRN], 
+    [Emp_SickLeave].[AddbyEmp] AS [AddbyEmp], 
+    [Emp_SickLeave].[AddAppbyHr] AS [AddAppbyHr], 
+    [Emp_SickLeave].[Status_SunSat] AS [Status_SunSat], 
+    [Emp_SickLeave].[Note] AS [Note], 
+    [Emp_SickLeave].[Status_SendmailHR] AS [Status_SendmailHR], 
+    [Emp_SickLeave].[StatusWork] AS [StatusWork], 
+    [Emp_SickLeave].[StatusWorkDetail] AS [StatusWorkDetail], 
+    [Emp_SickLeave].[Status_hrchk] AS [Status_hrchk], 
+    [Emp_SickLeave].[Status_hrchkChar] AS [Status_hrchkChar]
+    FROM [dbo].[Emp_SickLeave] AS [Emp_SickLeave]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Equipment_repair_machine" EntityType="Self.Equipment_repair_machine" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Equipment_repair_machine].[Id] AS [Id], 
+    [Equipment_repair_machine].[Datest] AS [Datest], 
+    [Equipment_repair_machine].[Factoy] AS [Factoy], 
+    [Equipment_repair_machine].[Department] AS [Department], 
+    [Equipment_repair_machine].[Process] AS [Process], 
+    [Equipment_repair_machine].[Linename] AS [Linename], 
+    [Equipment_repair_machine].[Machine] AS [Machine], 
+    [Equipment_repair_machine].[Title] AS [Title], 
+    [Equipment_repair_machine].[StartStopping] AS [StartStopping], 
+    [Equipment_repair_machine].[Finish] AS [Finish]
+    FROM [dbo].[Equipment_repair_machine] AS [Equipment_repair_machine]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Former_EmpList_Newt" EntityType="Self.Former_EmpList_Newt" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Former_EmpList_Newt].[EmpID] AS [EmpID], 
+    [Former_EmpList_Newt].[IDcode] AS [IDcode], 
+    [Former_EmpList_Newt].[PPID] AS [PPID], 
+    [Former_EmpList_Newt].[TaxID] AS [TaxID], 
+    [Former_EmpList_Newt].[SSO] AS [SSO], 
+    [Former_EmpList_Newt].[Title_TH] AS [Title_TH], 
+    [Former_EmpList_Newt].[FName_TH] AS [FName_TH], 
+    [Former_EmpList_Newt].[LName_TH] AS [LName_TH], 
+    [Former_EmpList_Newt].[NName_TH] AS [NName_TH], 
+    [Former_EmpList_Newt].[Title_EN] AS [Title_EN], 
+    [Former_EmpList_Newt].[FName_EN] AS [FName_EN], 
+    [Former_EmpList_Newt].[LName_EN] AS [LName_EN], 
+    [Former_EmpList_Newt].[NName_EN] AS [NName_EN], 
+    [Former_EmpList_Newt].[Gender] AS [Gender], 
+    [Former_EmpList_Newt].[Nation] AS [Nation], 
+    [Former_EmpList_Newt].[BDate] AS [BDate], 
+    [Former_EmpList_Newt].[Disabled_stat] AS [Disabled_stat], 
+    [Former_EmpList_Newt].[Disabled_By] AS [Disabled_By], 
+    [Former_EmpList_Newt].[Addr_Build] AS [Addr_Build], 
+    [Former_EmpList_Newt].[Addr_No] AS [Addr_No], 
+    [Former_EmpList_Newt].[Addr_Alle] AS [Addr_Alle], 
+    [Former_EmpList_Newt].[Addr_Rd] AS [Addr_Rd], 
+    [Former_EmpList_Newt].[Addr_Vill] AS [Addr_Vill], 
+    [Former_EmpList_Newt].[Addr_Prsh] AS [Addr_Prsh], 
+    [Former_EmpList_Newt].[Addr_Dtrct] AS [Addr_Dtrct], 
+    [Former_EmpList_Newt].[Addr_Prvnc] AS [Addr_Prvnc], 
+    [Former_EmpList_Newt].[Addr_Post] AS [Addr_Post], 
+    [Former_EmpList_Newt].[Educate] AS [Educate], 
+    [Former_EmpList_Newt].[In_Email] AS [In_Email], 
+    [Former_EmpList_Newt].[Ex_Email] AS [Ex_Email], 
+    [Former_EmpList_Newt].[Mobile] AS [Mobile], 
+    [Former_EmpList_Newt].[Tel] AS [Tel], 
+    [Former_EmpList_Newt].[Bank_Acc] AS [Bank_Acc], 
+    [Former_EmpList_Newt].[DeptCode] AS [DeptCode], 
+    [Former_EmpList_Newt].[DeptDesc] AS [DeptDesc], 
+    [Former_EmpList_Newt].[Position] AS [Position], 
+    [Former_EmpList_Newt].[CostCenter] AS [CostCenter], 
+    [Former_EmpList_Newt].[CostCenterName] AS [CostCenterName], 
+    [Former_EmpList_Newt].[StartDate] AS [StartDate], 
+    [Former_EmpList_Newt].[PassDate] AS [PassDate], 
+    [Former_EmpList_Newt].[StartPosition] AS [StartPosition], 
+    [Former_EmpList_Newt].[LayoffDate] AS [LayoffDate], 
+    [Former_EmpList_Newt].[LayoffReas] AS [LayoffReas], 
+    [Former_EmpList_Newt].[LayoffDetail] AS [LayoffDetail], 
+    [Former_EmpList_Newt].[Note] AS [Note], 
+    [Former_EmpList_Newt].[EmpStatus] AS [EmpStatus], 
+    [Former_EmpList_Newt].[ReasonPPS] AS [ReasonPPS], 
+    [Former_EmpList_Newt].[DatePasSport] AS [DatePasSport], 
+    [Former_EmpList_Newt].[DatePasSportExpire] AS [DatePasSportExpire]
+    FROM [dbo].[Former_EmpList_Newt] AS [Former_EmpList_Newt]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="hr_func_rights" EntityType="Self.hr_func_rights" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [hr_func_rights].[hr_rig_item] AS [hr_rig_item], 
+    [hr_func_rights].[hr_rig_desc] AS [hr_rig_desc], 
+    [hr_func_rights].[RIH_Id] AS [RIH_Id]
+    FROM [dbo].[hr_func_rights] AS [hr_func_rights]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="hr_LogEmployees" EntityType="Self.hr_LogEmployees" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [hr_LogEmployees].[Id] AS [Id], 
+    [hr_LogEmployees].[HR_Function_Name] AS [HR_Function_Name], 
+    [hr_LogEmployees].[HR_Detail_Work] AS [HR_Detail_Work], 
+    [hr_LogEmployees].[HR_UserName] AS [HR_UserName], 
+    [hr_LogEmployees].[HR_IdEmp] AS [HR_IdEmp], 
+    [hr_LogEmployees].[HR_Department] AS [HR_Department], 
+    [hr_LogEmployees].[HR_Position] AS [HR_Position], 
+    [hr_LogEmployees].[HR_Date] AS [HR_Date]
+    FROM [dbo].[hr_LogEmployees] AS [hr_LogEmployees]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Inventory_Group" EntityType="Self.Inventory_Group" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Inventory_Group].[Id] AS [Id], 
+    [Inventory_Group].[GMD_DrawingNo] AS [GMD_DrawingNo], 
+    [Inventory_Group].[GMD_Group] AS [GMD_Group], 
+    [Inventory_Group].[GMD_GroupDescription] AS [GMD_GroupDescription], 
+    [Inventory_Group].[GMD_ModelNo] AS [GMD_ModelNo], 
+    [Inventory_Group].[GMD_PartName] AS [GMD_PartName]
+    FROM [dbo].[Inventory_Group] AS [Inventory_Group]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="LotRunNumber" EntityType="Self.LotRunNumber" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [LotRunNumber].[LOT_Id] AS [LOT_Id], 
+    [LotRunNumber].[LOT_TagId] AS [LOT_TagId], 
+    [LotRunNumber].[LOT_StockCode] AS [LOT_StockCode], 
+    [LotRunNumber].[LOT_Prefix] AS [LOT_Prefix], 
+    [LotRunNumber].[LOT_SubFix] AS [LOT_SubFix], 
+    [LotRunNumber].[LOT_CustomerCode] AS [LOT_CustomerCode]
+    FROM [dbo].[LotRunNumber] AS [LotRunNumber]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Temp_Inventory_StockCode" EntityType="Self.Temp_Inventory_StockCode" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Temp_Inventory_StockCode].[STK_Code] AS [STK_Code], 
+    [Temp_Inventory_StockCode].[STK_Code2] AS [STK_Code2], 
+    [Temp_Inventory_StockCode].[STK_Group] AS [STK_Group], 
+    [Temp_Inventory_StockCode].[STK_PartName] AS [STK_PartName], 
+    [Temp_Inventory_StockCode].[STK_DrawingNo] AS [STK_DrawingNo], 
+    [Temp_Inventory_StockCode].[STK_ModelNo] AS [STK_ModelNo], 
+    [Temp_Inventory_StockCode].[STK_DescE1] AS [STK_DescE1], 
+    [Temp_Inventory_StockCode].[STK_DescE2] AS [STK_DescE2], 
+    [Temp_Inventory_StockCode].[STK_UnitName] AS [STK_UnitName], 
+    [Temp_Inventory_StockCode].[STK_EditDate] AS [STK_EditDate]
+    FROM [dbo].[Temp_Inventory_StockCode] AS [Temp_Inventory_StockCode]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="UserDetailEdit" EntityType="Self.UserDetailEdit" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [UserDetailEdit].[USE_Id] AS [USE_Id], 
+    [UserDetailEdit].[USE_Account] AS [USE_Account], 
+    [UserDetailEdit].[USE_Password] AS [USE_Password], 
+    [UserDetailEdit].[USE_FName] AS [USE_FName], 
+    [UserDetailEdit].[USE_LName] AS [USE_LName], 
+    [UserDetailEdit].[USE_NickName] AS [USE_NickName], 
+    [UserDetailEdit].[USE_TelNo] AS [USE_TelNo], 
+    [UserDetailEdit].[USE_Email] AS [USE_Email], 
+    [UserDetailEdit].[USE_Status] AS [USE_Status], 
+    [UserDetailEdit].[USE_Nationality] AS [USE_Nationality], 
+    [UserDetailEdit].[Dep_Id] AS [Dep_Id], 
+    [UserDetailEdit].[USE_Usercode] AS [USE_Usercode]
+    FROM [dbo].[UserDetailEdit] AS [UserDetailEdit]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="LeaveEmployee" EntityType="Self.LeaveEmployee" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [LeaveEmployee].[Leave_startdate] AS [Leave_startdate], 
+    [LeaveEmployee].[Leave_enddate] AS [Leave_enddate], 
+    [LeaveEmployee].[EmpList_Id] AS [EmpList_Id], 
+    [LeaveEmployee].[Title_EN] AS [Title_EN], 
+    [LeaveEmployee].[FName_EN] AS [FName_EN], 
+    [LeaveEmployee].[LName_EN] AS [LName_EN], 
+    [LeaveEmployee].[NName_EN] AS [NName_EN], 
+    [LeaveEmployee].[DeptCode] AS [DeptCode], 
+    [LeaveEmployee].[DeptDesc] AS [DeptDesc], 
+    [LeaveEmployee].[Position] AS [Position], 
+    [LeaveEmployee].[CostCenterName] AS [CostCenterName], 
+    [LeaveEmployee].[Business] AS [Business], 
+    [LeaveEmployee].[SickCert] AS [SickCert], 
+    [LeaveEmployee].[Vacation] AS [Vacation], 
+    [LeaveEmployee].[Other] AS [Other], 
+    [LeaveEmployee].[Sick] AS [Sick], 
+    [LeaveEmployee].[SVacation] AS [SVacation], 
+    [LeaveEmployee].[SpecialBusiness] AS [SpecialBusiness]
+    FROM [dbo].[LeaveEmployee] AS [LeaveEmployee]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_CM_TodoEvidence_CM_TodoList" Association="Self.FK_CM_TodoEvidence_CM_TodoList">
+      <End Role="CM_TodoList" EntitySet="CM_TodoList" />
+      <End Role="CM_TodoEvidence" EntitySet="CM_TodoEvidence" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CM_TodoList_CM_Problem" Association="Self.FK_CM_TodoList_CM_Problem">
+      <End Role="CM_Problem" EntitySet="CM_Problem" />
+      <End Role="CM_TodoList" EntitySet="CM_TodoList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DW_Model_DW_PartName" Association="Self.FK_DW_Model_DW_PartName">
+      <End Role="DW_PartName" EntitySet="DW_PartName" />
+      <End Role="DW_Model" EntitySet="DW_Model" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DW_ModelProcess_DW_PartName" Association="Self.FK_DW_ModelProcess_DW_PartName">
+      <End Role="DW_PartName" EntitySet="DW_PartName" />
+      <End Role="DW_ModelProcess" EntitySet="DW_ModelProcess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DW_ModelProcess_DW_Process" Association="Self.FK_DW_ModelProcess_DW_Process">
+      <End Role="DW_Process" EntitySet="DW_Process" />
+      <End Role="DW_ModelProcess" EntitySet="DW_ModelProcess" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DW_Process_DW_PartName" Association="Self.FK_DW_Process_DW_PartName">
+      <End Role="DW_PartName" EntitySet="DW_PartName" />
+      <End Role="DW_Process" EntitySet="DW_Process" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_ImportChkCol_Emp_ImportEx" Association="Self.FK_Emp_ImportChkCol_Emp_ImportEx">
+      <End Role="Emp_ImportEx" EntitySet="Emp_ImportEx" />
+      <End Role="Emp_ImportChkCol" EntitySet="Emp_ImportChkCol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_ImportNotUseCol_Emp_ImportEx" Association="Self.FK_Emp_ImportNotUseCol_Emp_ImportEx">
+      <End Role="Emp_ImportEx" EntitySet="Emp_ImportEx" />
+      <End Role="Emp_ImportNotUseCol" EntitySet="Emp_ImportNotUseCol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_offense_Emp_offense_Levelwarning" Association="Self.FK_Emp_offense_Emp_offense_Levelwarning">
+      <End Role="Emp_offense_Levelwarning" EntitySet="Emp_offense_Levelwarning" />
+      <End Role="Emp_offense" EntitySet="Emp_offense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_offense_Emp_offense_Penalty" Association="Self.FK_Emp_offense_Emp_offense_Penalty">
+      <End Role="Emp_offense_Penalty" EntitySet="Emp_offense_Penalty" />
+      <End Role="Emp_offense" EntitySet="Emp_offense" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_SickLeave_Emp_Typesick" Association="Self.FK_Emp_SickLeave_Emp_Typesick">
+      <End Role="Emp_Typesick" EntitySet="Emp_Typesick" />
+      <End Role="Emp_SickLeave" EntitySet="Emp_SickLeave" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_TrainingDetail_Emp_TrainingHeader" Association="Self.FK_Emp_TrainingDetail_Emp_TrainingHeader">
+      <End Role="Emp_TrainingHeader" EntitySet="Emp_TrainingHeader" />
+      <End Role="Emp_TrainingDetail" EntitySet="Emp_TrainingDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMember_UserDetail" Association="Self.FK_GroupMember_UserDetail">
+      <End Role="UserDetail" EntitySet="UserDetail" />
+      <End Role="GroupMember" EntitySet="GroupMember" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMember_UserGroup" Association="Self.FK_GroupMember_UserGroup">
+      <End Role="UserGroup" EntitySet="UserGroup" />
+      <End Role="GroupMember" EntitySet="GroupMember" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_DefineReport_Inventory_Location" Association="Self.FK_Inventory_DefineReport_Inventory_Location">
+      <End Role="Inventory_Location" EntitySet="Inventory_Location" />
+      <End Role="Inventory_DefineReport" EntitySet="Inventory_DefineReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_DefineReport_Inventory_StockCode" Association="Self.FK_Inventory_DefineReport_Inventory_StockCode">
+      <End Role="Inventory_StockCode" EntitySet="Inventory_StockCode" />
+      <End Role="Inventory_DefineReport" EntitySet="Inventory_DefineReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_DefineReport_Inventory_Store" Association="Self.FK_Inventory_DefineReport_Inventory_Store">
+      <End Role="Inventory_Store" EntitySet="Inventory_Store" />
+      <End Role="Inventory_DefineReport" EntitySet="Inventory_DefineReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_InputData_Inventory_StockCode" Association="Self.FK_Inventory_InputData_Inventory_StockCode">
+      <End Role="Inventory_StockCode" EntitySet="Inventory_StockCode" />
+      <End Role="Inventory_InputData" EntitySet="Inventory_InputData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_InputData_Inventory_Store" Association="Self.FK_Inventory_InputData_Inventory_Store">
+      <End Role="Inventory_Store" EntitySet="Inventory_Store" />
+      <End Role="Inventory_InputData" EntitySet="Inventory_InputData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_StandardCost_Inventory_StockCode" Association="Self.FK_Inventory_StandardCost_Inventory_StockCode">
+      <End Role="Inventory_StockCode" EntitySet="Inventory_StockCode" />
+      <End Role="Inventory_StandardCost" EntitySet="Inventory_StandardCost" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RightGroup_Systems" Association="Self.FK_RightGroup_Systems">
+      <End Role="Systems" EntitySet="Systems" />
+      <End Role="RightGroup" EntitySet="RightGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rights_RightGroup" Association="Self.FK_Rights_RightGroup">
+      <End Role="RightGroup" EntitySet="RightGroup" />
+      <End Role="Rights" EntitySet="Rights" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rights_RightGroup7" Association="Self.FK_Rights_RightGroup7">
+      <End Role="RightGroup" EntitySet="RightGroup" />
+      <End Role="Rights01" EntitySet="Rights01" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserDetail_Department" Association="Self.FK_UserDetail_Department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="UserDetail" EntitySet="UserDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRight_Rights" Association="Self.FK_UserRight_Rights">
+      <End Role="Rights" EntitySet="Rights" />
+      <End Role="UserRight" EntitySet="UserRight" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRight_UserDetail" Association="Self.FK_UserRight_UserDetail">
+      <End Role="UserDetail" EntitySet="UserDetail" />
+      <End Role="UserRight" EntitySet="UserRight" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

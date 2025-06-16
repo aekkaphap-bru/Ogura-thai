@@ -1,0 +1,435 @@
+﻿@model OCTWEB_NET45.Models.ManageWSListModel
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Manage Training Course WS List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/css/ModifyTrainingMainList.css")
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/TrainingCourseManagement/SubTrainingCourseManagementList" class="btn-outline-secondary"> <i class="fa fa-angle-left"></i> Training Course Management </a>&nbsp;
+    </div>
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("ManageWSList", "TrainingCourseManageWS", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="form-row justify-content-center">
+            <div class="col">
+                <h4 class="font-weight-bolder my-1 text-center">Training Course [WS] <span style="color:red;">Setup</span></h4>
+                <p class="text-success">@ViewBag.Message</p>
+                @Html.HiddenFor(m => m.showall)
+                <hr />
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col">
+                <fieldset>
+                    <legend>Enter condition for search course</legend>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Status: </label>
+                                @Html.DropDownList("selected_status", Model.SelectStatusId, "All", new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>WS Number: </label>
+                                @Html.TextBoxFor(m => m.search_wsnumber, new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Area: </label>
+                                @Html.TextBoxFor(m => m.search_area, new { @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 align-self-end">
+                            <div class="form-group">
+                                <button type="submit" name="SearchBtn" value="SearchBtn" class="btn btn-sm btn-success">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+
+                                <button type="button" id="ExportToCsvBtn" name="ExportToCsvBtn" class="btn btn-sm btn-outline-primary" value="null">
+                                    <i class="fas fa-download "></i> Export
+                                </button>
+                                <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form-row">
+            @foreach (var TrainHeader in Model.Emp_TrainingWsHeaderModelPagedList.Select((value, i) => new { i, value }))
+            {
+                var status_style_head = "";
+                if (TrainHeader.value.status > 0)
+                {
+                    status_style_head = "background-color: #6D7B8D;";
+                }
+                else
+                {
+                    status_style_head = "background-color: #922b21;";
+                }
+
+                //------------------------  col-md-4 ------------------------//
+
+
+                <div class="courses-container">
+                    <div class="course">
+                        <div class="course-row">
+                            <div class="course-preview" style="@status_style_head">
+                                <p>Rev: @TrainHeader.value.Train_Min</p>
+                                <p>@TrainHeader.value.Train_Name</p>
+                                @if (TrainHeader.value.status > 0)
+                                {
+                                    <a style="cursor:pointer;" onclick="DateTable('TrainingDate-@TrainHeader.value.Id')">View all chapters <i class="fas fa-chevron-right"></i></a>
+                                }
+                            </div>
+                            <div class="course-info">
+                                <p style="color:black ">
+                                    <span style="font-weight:bold">Topic:</span> @TrainHeader.value.CourseHeader <br />
+                                    <span style="font-weight:bold">Location:</span> @TrainHeader.value.Train_Location <br />
+                                    <span style="font-weight:bold">Date of WS:</span> @TrainHeader.value.Train_DateWS <br />
+                                    <span style="font-weight:bold">TrainingWsHeader ID:</span> @TrainHeader.value.Id
+                                </p>
+                                <a class="btnadd" href="@Url.Action(actionName: "addDateTimeTrainee", controllerName: "TrainingCourseManageWS", routeValues: new { id = TrainHeader.value.Id })">
+                                    <i class="bi bi-person-plus-fill"></i>
+                                    ADD
+                                </a>
+                                @if (Model.showall)
+                                {
+                                    <a href="@Url.Action(actionName: "DeleteCourse"
+                                    , controllerName: "TrainingCourseManageWS"
+                        , routeValues: new { id = TrainHeader.value.Id })"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure to delete this course?');">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </a>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="course-trainingDate">
+                            <div id="TrainingDate-@TrainHeader.value.Id" class="TrainingDate">
+                                @foreach (var date in Model.TrainingDate.Where(x => x.E_TrainWsHeader_Id == TrainHeader.value.Id).OrderByDescending(x => x.Training_dateSt).Select((value, i) => new { i, value }))
+                                {
+                                    <div class="test-all-g">
+                                        <i class='fas fa-angle-right'></i>
+                                        <a class="text-dark" style="cursor:pointer;" onclick="emptable('emplist-@date.value.Id')"> Training Date   @date.value.Training_dateSt - @date.value.Training_dateEnd </a>
+                                        <div class="dropdowns">
+                                            <button type="button" class="btn btn-outline-secondary menumanage-btn" data-id="@date.value.Id">
+                                                <div style="width: 12px; height: 2px; background-color: #98AFC7; margin: 1px 0;"></div>
+                                                <div style="width: 12px; height: 2px; background-color: #98AFC7; margin: 1px 0;"></div>
+                                                <div style="width: 12px; height: 2px; background-color: #98AFC7; margin: 1px 0;"></div>
+                                            </button>
+                                            <div class="dropdown-menu" id="dropdown-menu-@date.value.Id">
+                                                <a href="@Url.Action("EditDateTimeTrainee", "TrainingCourseManageWS", new { Id = date.value.Id })" class="dropdown-item"> <i class="fas fa-clock"></i> Edit Date</a>
+                                                @if (date.value.Train_WsName != null)
+                                                {
+                                                    <a href="@Url.Action(actionName: "DownloadFile", controllerName: "TrainingCourseManageWS", routeValues: new {filename=date.value.Train_WsName })" class="dropdown-item"><i class="fas fa-download"></i> Download File</a>
+                                                }
+                                                @if (Model.showall)
+                                                {
+                                                    <a href="@Url.Action(actionName: "DeleteDateTrainee", controllerName: "TrainingCourseManageWS" , routeValues: new { id = date.value.Id })" class="dropdown-item" onclick="return confirm('Are you sure to delete this course?');"><i class="fas fa-trash-alt"></i> Delete</a>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    // ตรวจสอบว่า TraineeLists มีข้อมูลสำหรับ date.value.Id หรือไม่
+                                    var traineeListForDate = Model.TraineeLists.Where(x => x.e_trainWsdate_id == date.value.Id).ToList();
+
+                                    // ตรวจสอบว่ามีข้อมูลที่กรองแล้วหรือไม่
+                                    var hasTrainees = traineeListForDate.Any();
+
+                                    // คำนวณผลรวมของ assessment และจำนวนของผู้เข้าร่วม
+                                    int totalAssessment = traineeListForDate.Sum(x => x.assessment);
+                                    int totalCount = traineeListForDate.Count();
+                                    int averageAssessment = totalCount > 0 ? (totalAssessment * 100) / (totalCount * 3) : 0;
+
+                                    if (hasTrainees)
+                                    {
+                                        <div class="table-emplist" id="emplist-@date.value.Id">
+                                            <table class="styled-table">
+                                                <caption>
+                                                    เวลา @date.value.Trai_Times:@date.value.Trai_Timess ถึง @date.value.Trai_TimendT:@date.value.Trai_TimendTs
+                                                    เป็นจำนวนเวลาทั้งหมด : @date.value.Train_Hour H @date.value.Train_Min M  ความเข้าใจในการอบรมคิดเป็น : @averageAssessment  %
+                                                </caption>
+                                                <thead>
+                                                    @if (@Model.TraineeLists.Any())
+                                                    {
+                                                        <tr>
+                                                            <th style="text-align:center; width:8%">Items</th>
+                                                            <th style="text-align:center">Emp Id</th>
+                                                            <th style="text-align:center">First Name</th>
+                                                            <th style="text-align:center">Last Name</th>
+                                                            <th style="text-align:center">Nation</th>
+                                                            <th style="text-align:center">Department</th>
+                                                            <th style="text-align:center">Position</th>
+                                                            <th style="text-align:center">
+                                                                Assessment
+                                                                <a href="@Url.Action(actionName: "UpdateAssessment", controllerName: "TrainingCourseManageWS", routeValues: new { id = @date.value.Id })">
+                                                                    <img src="~/static/img/gear.png" alt="Update Assessment" style="width: 20px; height: 20px; cursor: pointer; background: transparent; display: inline-block; animation: rotateImage 2s infinite linear;" />
+                                                                </a>
+                                                            </th>
+                                                            <th style="text-align:center">
+                                                                Delete
+                                                            </th>
+                                                        </tr>
+                                                    }
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var EmpList_Train in Model.TraineeLists.Where(x => x.e_trainWsdate_id == date.value.Id).Select((value, i) => new { i, value }))
+                                                    {
+                                                        <tr>
+                                                            <td style="text-align:center">@(EmpList_Train.i + 1)</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.emp_id</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.fname</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.lname</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.nation</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.dept</td>
+                                                            <td style="text-align:center">@EmpList_Train.value.position</td>
+                                                            <td style="text-align:center">
+                                                                @{
+                                                                    var assessment = EmpList_Train.value.assessment;
+                                                                    string showtext = assessment >= 3 ? "Pass (ผ่าน)" : "No Pass (ไม่ผ่าน)";
+                                                                }
+                                                                <p>@showtext</p>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@Url.Action("DeleteTrainee", "TrainingCourseManageWS", new { id = EmpList_Train.value.e_trainWsdate_id, emp_id = EmpList_Train.value.emp_id })"
+                                                                   class="btn btn-sm btn-danger"
+                                                                   onclick="return confirm('Are you sure to delete this employee?');">
+                                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    }
+    <div class="row justify-content-center">
+        Page @(Model.Emp_TrainingWsHeaderModelPagedList.PageCount < Model.Emp_TrainingWsHeaderModelPagedList.PageNumber ? 0 : Model.Emp_TrainingWsHeaderModelPagedList.PageNumber) of @Model.Emp_TrainingWsHeaderModelPagedList.PageCount
+    </div>
+    <div class="row justify-content-center">
+        @Html.PagedListPager(Model.Emp_TrainingWsHeaderModelPagedList, page => Url.Action("ManageWSList", new RouteValueDictionary()
+            {
+                {"Page",page},
+                {"search_area",Model.search_area},
+                {"search_wsnumber",Model.search_wsnumber},
+                {"selected_status",Model.selected_status},
+                {"showall",Model.showall},
+            }))
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+
+    $(document).ready(function () {
+
+        $("#selected_status").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+        $("#search_wsnumber").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/TrainingCourseManageWS/GetWSTrainName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#search_area").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/TrainingCourseManageWS/GetWSTrainArea",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+    });
+
+    /*
+    $("body").on("change", "#selected_status", function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    });
+    */
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+    $("#clear").click(function () {
+        $('#selected_status').val(null).trigger('change');
+        $('#search_wsnumber').val(null).trigger('change');
+        $('#search_area').val(null).trigger('change');
+    });
+
+
+
+    function DateTable(id) {
+        var element = document.getElementById(id);
+        if (element.style.display === "none" || element.style.display === "") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
+
+    function emptable(tableId) {
+        var table = document.getElementById(tableId);
+        if (table.style.display === "none" || table.style.display === "") {
+            table.style.display = "block";
+        } else {
+            table.style.display = "none";
+        }
+    }
+
+    //--------------------------------------------------------------------------//
+    function toggleMenu(event, id) {
+        event.stopPropagation();  // Prevent click event from propagating to parent elements
+
+        // ปิดเมนูทั้งหมดก่อน
+        var allMenus = document.querySelectorAll('.menuOptions');
+        allMenus.forEach(function (menu) {
+            menu.style.display = 'none';
+        });
+
+        // คำนวณตำแหน่งของ menu-bar.png และแสดงเมนูที่ตำแหน่งนั้น
+        var menu = document.getElementById('menuOptions-' + id);
+        var menuIcon = event.target;
+
+        var rect = menuIcon.getBoundingClientRect();
+        var offsetTop = rect.bottom;  // เมนูจะขึ้นจากตำแหน่งด้านล่างของ menu-bar.png
+        var offsetLeft = rect.left;
+
+        menu.style.top = offsetTop + 'px';
+        menu.style.left = offsetLeft + 'px';
+        menu.style.display = 'block';
+    }
+
+    // ฟังก์ชันที่ใช้ในการปิดเมนูเมื่อคลิกที่พื้นที่อื่นๆ
+    document.addEventListener('click', function (event) {
+        var allMenus = document.querySelectorAll('.menuOptions');
+        allMenus.forEach(function (menu) {
+            menu.style.display = 'none';
+        });
+    });
+
+    // ฟังก์ชันสำหรับแต่ละตัวเลือก
+    function deleteItem() {
+        alert("Delete item clicked");
+        // ใส่โค้ดสำหรับลบข้อมูล
+    }
+
+    function editItem() {
+        alert("Edit item clicked");
+        // ใส่โค้ดสำหรับแก้ไขข้อมูล
+    }
+
+    function downloadItem() {
+        alert("Download item clicked");
+        // ใส่โค้ดสำหรับดาวน์โหลดข้อมูล
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var menuButtons = document.querySelectorAll('.menumanage-btn');
+
+        menuButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                var menuId = button.getAttribute('data-id');
+                var dropdownMenu = document.getElementById('dropdown-menu-' + menuId);
+
+                // Toggle the dropdown menu
+                if (dropdownMenu.style.display === 'block') {
+                    dropdownMenu.style.display = 'none';
+                } else {
+                    // Hide other open menus
+                    document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+                        menu.style.display = 'none';
+                    });
+                    dropdownMenu.style.display = 'block';
+                }
+            });
+        });
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.dropdowns')) {
+                document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+                    menu.style.display = 'none';
+                });
+            }
+        });
+    });
+
+</script>

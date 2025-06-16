@@ -1,0 +1,693 @@
+﻿@model OCTWEB_NET45.Models.SearchLeave
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Leave List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/static/fullcalendar/dist/index.global.js"></script>
+
+<link href="~/content/custom_fullcalendar.css" rel="stylesheet" />
+
+<style>
+    .tablecustom td {
+        padding: 8px 8px;
+        text-align: left;
+        vertical-align: middle;
+        border-bottom: 1px solid black;
+        border-right: 1px solid #ddd;
+    }
+</style>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("LeaveList", "LeaveFormer", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="form-row">
+            <div class="col">
+                <h4 class="font-weight-bolder my-1 text-center">Leave List (Former Employee) <span style="color:red;">Setup</span></h4>
+                <p class="text-success">@ViewBag.Message</p>
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <fieldset>
+                    <legend>Enter condition for search leave data</legend>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Employee ID: </label>
+                                @Html.TextBoxFor(m => m.emp_id, new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">First Name: </label>
+                                @Html.TextBoxFor(m => m.fname, new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Last Name: </label>
+                                @Html.TextBoxFor(m => m.lname, new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Nick Name: </label>
+                                @Html.TextBoxFor(m => m.nickname, new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Position: </label>
+                                @Html.DropDownList("position", Model.SelectPosition, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Cost Center: </label>
+                                @Html.DropDownList("costcenter_code", Model.SelectCostCenter, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Department: </label>
+                                @Html.DropDownList("deptcode", Model.SelectDepartment, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @{
+                                    string startdate_str = null;
+                                }
+                                @if (Model.start_date.HasValue)
+                                {
+                                    startdate_str = Model.start_date.Value.ToString("yyyy-MM-dd");
+                                }
+                                <label class="mb-1">Start Date:  </label>
+                                <input type="date" name="start_date" id="start_date" class="form-control form-control-sm date" value="@startdate_str" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @{
+                                    string enddate_str = null;
+                                }
+                                @if (Model.end_date.HasValue)
+                                {
+                                    enddate_str = Model.end_date.Value.ToString("yyyy-MM-dd");
+                                }
+                                <label class="mb-1">To </label>
+                                <input type="date" name="end_date" id="end_date" class="form-control form-control-sm date" value="@enddate_str" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">เลือกรอบปีที่ต้องการ: </label>
+                                @Html.DropDownList("yearleave", Model.SelectYearLeave, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="mb-1">Type of leave (ประเภทการลา): </label>
+                                @Html.DropDownList("typeleave_id", Model.SelectTypeLeave, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <!--
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label for="former">Former employee:</label>
+
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="form-group">
+
+                                <button type="button" id="ExportToCsvBtn" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-file"></i> Export
+                                </button>
+                                <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                <button type="button" id="ExportToCsvSumBtn" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-file"></i> Export Summary
+                                </button>
+                                <input hidden="hidden" id="ExportToCsvSum" name="ExportToCsvSum" value="null" />
+
+                                <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+
+                                <a href="@Url.Action("Create", "LeaveFormer")" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-plus"></i><span> Create</span>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+
+                                <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    }
+
+    @if (Model.LeavePagedList.Any())
+    {
+        <div class="form-row">
+            <div class="col">
+                <table style=" font-size: 14px; width:100%;" class="tableleave">
+                    <tbody>
+                        @if (Model.emp_id.HasValue)
+                        {
+                            <tr>
+                                <td class="text-center" width="5%">
+                                    <img src="@Model._pic" height="80" />
+                                </td>
+                                <td colspan="6">
+                                    <span>EmpId: </span><strong>@Html.DisplayFor(m => m._emp_id)</strong>  &nbsp; &nbsp;
+                                    <span>Name(TH): </span><strong>@Html.DisplayFor(m => m._nameTh)</strong> &nbsp; &nbsp;
+                                    <span>Name(EN): </span><strong>@Html.DisplayFor(m => m._name)</strong>
+                                    <br />
+                                    <span>Department: </span><strong>@Html.DisplayFor(m => m._department)</strong> &nbsp; &nbsp;
+                                    <span>Position: </span><strong>@Html.DisplayFor(m => m._position)</strong>  &nbsp; &nbsp;
+                                    <span>Cost Name: </span><strong>@Html.DisplayFor(m => m._costname)</strong>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="7">
+                                <span>
+                                    <strong> Status Leave Total </strong>(ผลรวมจำนวนวันลา):<strong> @Model.total_days </strong> Days.
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width=14%>
+                                <span>Business <br /> (ลากิจ) <br /><strong>@Model.business </strong></span>
+                            </td>
+                            <td width=16%>
+                                <span>Sick Cert<br />  (ลาป่วย มีใบรับรองแพทย์)<br /><strong>@Model.sick_cert </strong></span>
+                            </td>
+                            <td width=14%>
+                                <span>Vacation <br />  (ลาพักร้อน) <br /><strong>@Model.vacation </strong></span>
+                            </td>
+                            <td width=11%>
+                                <span>Other <br /> (อื่นๆ) <br /><strong>@Model.other </strong></span>
+                            </td>
+                            <td width=16%>
+                                <span>Sick <br />  (ลาป่วย ไม่มีใบรับรองแพทย์) <br /><strong>@Model.sick </strong></span>
+                            </td>
+                            <td width=14%>
+                                <span>S Vacation <br />  (ลาพักร้อนฉุกเฉิน) <br /> <strong>@Model.s_vacation </strong></span>
+                            </td>
+                            <td width=15%>
+                                <span>Special Business <br /> (ลากิจพิเศษ) <br />  <strong>@Model.special_business </strong></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div id="calendar" class="tableleave"></div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("Delete", "LeaveFormer", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form2" }))
+    {
+        <div class="form-row">
+            <div class="col-md-4 text-left align-self-end">
+                <div class="form-group">
+                  
+                    <button type="submit" id="deleteall" name="deleteall" value="Delete" class="btn btn-sm btn-danger" onclick="return confirm('Delete all selected elements?');">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-8 text-right">
+                <table class="tableleave">
+                    <tbody>
+                        <tr>
+                            <td class="align-self-center">
+                                <span><strong>Status: </strong></span>
+                            </td>
+                            <td style="background-color: #FFE1E5;font-size:12px;">
+                                Post leave application <br /> (แจ้งลาภายหลัง)
+                            </td>
+                            <td style="background-color: #D5F3DB; font-size: 12px;">
+                                Early leave application <br /> (แจ้งลาล่วงหน้า)
+                            </td>
+                            <td style="background-color: #FFEB9C; font-size: 12px;">
+                                Not Approved
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <table class="tablecustom " id="table1" style="font-size:14px; width:100%;">
+                <thead>
+                    <tr>
+                        <th width="2%">
+                            <input type="checkbox" name="select-all" id="select-all" />
+                        </th>
+                        <th width="3%">
+                            No.
+                        </th>
+                        <th width="5%">
+                            Edit
+                        </th>
+                        <!--
+                        <th width="5%">
+                            EmpId
+                        </th>
+                        <th >
+                            Name
+                        </th>
+                        <th >
+                            Department
+                        </th>
+                        <th>
+                            Position
+                        </th>
+                        <th >
+                            CostName
+                        </th>-->
+                        <th width="5%">
+                            Leave Request Date
+                        </th>
+                        <th width="5%">
+                            Date Start
+                        </th>
+                        <th width="5%">
+                            Time Start
+                        </th>
+                        <th width="5%">
+                            Date End
+                        </th>
+                        <th width="5%">
+                            Time End
+                        </th>
+                        <th width="5%">
+                            Days
+                        </th>
+                        <th width="15%">
+                            Reason Leave
+                        </th>
+                        <th width="20%">
+                            Type Leave
+                        </th>
+                        <th width="5%">
+                            Shift
+                        </th>
+                        <!--
+                        <th>
+                            Status Leave
+                        </th>
+                        <th>
+                            Approved
+                        </th>-->
+                        <th width="10%">
+                            Update Data
+                        </th>
+                        <th width="5%">
+                            Create By
+                        </th>
+                         <th width="5%">
+                             Reason not approved
+                         </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.LeavePagedList.Select((value, i) => new { i, value }))
+                    {
+
+                        var status = "background-color:#ffffff;";
+                        if (item.value.approved == "Approved")
+                        {
+                            status = item.value.status_leave_code == 0 ? "background-color:#FFE1E5;" : "background-color:#D5F3DB;";
+                        }
+                        else
+                        {
+                            status = "background-color:#FFEB9C;";
+                        }
+
+                        <tr style="@status">
+                            <td>
+                                <input type="checkbox" name="selectedItem" value="@(item.value.id)" />
+                            </td>
+                            <td>
+                                @((item.i + 1) + (30 * (Model.LeavePagedList.PageNumber - 1)))
+
+                            </td>
+                            <td>
+                                <a href="@Url.Action(actionName: "Edit"
+                                    , controllerName: "LeaveFormer"
+                                    , routeValues: new {id=item.value.id })" class="btn btn-sm btn-success">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <!--
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.emp_id)
+                            </td>
+                            <td>
+                                <span>item.value.titlename item.value.fname&nbsp;item.value.lname&nbsp;(item.value.nickname)</span>
+                            </td>
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.department)
+                            </td>
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.position)
+                            </td>
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.costcenter)
+                            </td>-->
+                            <td>
+                                @{
+                                    string create_date = item.value.create_date.ToString("dd/MM/yyyy");
+                                }
+                                @create_date
+                            </td>
+                            <td>
+                                @{
+                                    string start_date = item.value.start_date.ToString("dd/MM/yyyy");
+                                }
+                                @start_date
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.start_time)
+                            </td>
+                            <td>
+                                @{
+                                    string end_date = item.value.end_date.ToString("dd/MM/yyyy");
+                                }
+                                @end_date
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.end_time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.totalday)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.reason_detail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.typeleave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.shift)
+                            </td>
+                            <!--
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.status_leave)
+                            </td>
+                            <td>
+                                Html.DisplayFor(modelItem => item.value.approved)
+                            </td> -->
+                            <td>
+                                @{
+                                    string transection_date = item.value.transection_date.HasValue ?
+                                    item.value.transection_date.Value.ToString("dd/MM/yyyy HH:mm:ss") : "";
+                                }
+                                @transection_date
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.create_by)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.reason_not_approved)
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div class="row justify-content-center">
+        Page @(Model.LeavePagedList.PageCount < Model.LeavePagedList.PageNumber ? 0 : Model.LeavePagedList.PageNumber) of @Model.LeavePagedList.PageCount
+    </div>
+    <div class="row justify-content-center">
+        @Html.PagedListPager(Model.LeavePagedList, page => Url.Action("LeaveList", new RouteValueDictionary()
+            {
+                {"Page",page},
+                {"emp_id",Model.emp_id},
+                {"nickname",Model.nickname},
+                {"fname",Model.fname},
+                {"lname",Model.lname},
+                {"position",Model.position},
+                {"deptcode",Model.deptcode},
+                {"costcenter_code",Model.costcenter_code},
+                {"start_date",Model.start_date},
+                {"end_date",Model.end_date},
+                {"typeleave_id",Model.typeleave_id},
+                {"yearleave",Model.yearleave},
+
+            }))
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        $("#ExportToCsvSum").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsvSum").val("");
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+    $("#ExportToCsvSumBtn").click(function () {
+        $("#ExportToCsv").val("");
+        $("#ExportToCsvSum").val("ExportToCsvSum");
+        document.forms["Form1"].submit();
+    })
+
+    /*
+    $("#deleteall").click(function () {
+        $("#ExportToCsv").val("");
+        $("#ExportToCsvSum").val("");
+        if (confirm('Delete all selected elements?')) {
+            document.forms["Form2"].submit();
+        }
+    })
+    */
+
+    $("#clear").click(function () {
+        $('#position').val(null).trigger('change');
+        $('#deptcode').val(null).trigger('change');
+        $('#education').val(null).trigger('change');
+        $('#costcenter_code').val(null).trigger('change');
+        $('#typeleave_id').val(null).trigger('change');
+        $('#yearleave').val(null).trigger('change');
+
+        $('#emp_id').val(null).trigger('change');
+        $('#nickname').val(null).trigger('change');
+        $('#fname').val(null).trigger('change');
+        $('#lname').val(null).trigger('change');
+        $("input[type=date]").val("");
+
+    });
+
+
+    $("#table1 tbody tr").click(function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $("#yearleave").change(function () {
+        var yearleave = $("#yearleave").val();
+        if (yearleave != null) {
+            var year_s = yearleave - 1;
+            var d_start = year_s + "-11-21";
+            var d_end = yearleave + "-11-20";
+            $("#start_date").val(d_start);
+            $("#end_date").val(d_end);
+        }
+    });
+    $(document).ready(function () {
+
+        var sd = $("#start_date").val();
+        var ed = $("#end_date").val();
+        if(sd == "" && ed == "")
+        {
+            var yearleave = $("#yearleave").val();
+            var year_s = yearleave - 1;
+            var d_start = year_s + "-11-21";
+            var d_end = yearleave + "-11-20";
+            $("#start_date").val(d_start);
+            $("#end_date").val(d_end);
+        }
+
+        $("#emp_id").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/LeaveFormer/GetEmpId",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#nickname").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/LeaveFormer/GetNName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#fname").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: " /LeaveFormer/GetFName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#lname").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: " /LeaveFormer/GetLName",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+
+    })
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl,
+            {
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth"// right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
+                },
+                initialView: 'dayGridMonth',
+                navLinks: true, // can click day/week names to navigate views
+                businessHours: true, // display business hours
+                // editable: true,
+                selectable: true,
+                contentHeight: 500,
+                dayMaxEventRows: true,
+                events: @Html.Raw(Json.Encode(Model.event_list)),
+                views: {
+                    timeGrid: {
+                        dayMaxEventRows: 5,
+                    }
+                },
+                moreLinkContent:function(args){
+                    return ''+args.num+' items';
+                },
+            });
+        calendar.render();
+    });
+
+</script>

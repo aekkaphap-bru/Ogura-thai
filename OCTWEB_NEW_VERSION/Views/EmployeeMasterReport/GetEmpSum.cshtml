@@ -1,0 +1,49 @@
+﻿@model OCTWEB_NET45.Models.EmpSumListModel
+
+<div class="modal-header" style=" background: linear-gradient(to right, #123456, #2d445f, #445568, #5b6672, #73777b);">
+    <div class="form-group row">
+        <img src="http://octap01/intranet/image/logo2022.png" height="40" alt="OCT WEB"> &nbsp;
+        <h4 class="modal-title" id="myModalLabel" style="color:white;"> @Model.title </h4>
+
+        <!--
+        <div class="col-4 text-right">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>-->
+    </div>
+</div>
+<div class="model-body">
+    <div class="row">
+        <div class="col">
+            <ul>
+                @foreach (var item in Model.EmpSumList.Select((value, i) => new { i, value }))
+                {
+                    <li>
+                        <a style="color:black;" id="@item.i" class="collapse-item dropdown-toggle" href="#" data-toggle="collapse" data-target="#child_@item.i">
+                            <span style="font-size:14px;">@item.value.department: &nbsp;(@item.value.total) </span>
+                        </a>
+                        <div id="child_@item.i" class="collapse">
+                            <span style="font-size:14px;">Male(@item.value.sum_male)</span>
+                            <span style="font-size:14px;">Female(@item.value.sum_female)</span>
+                            <hr />
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="model-footer">
+    <div class="row">
+        <div class="col-md-10">
+            <p>
+                <strong><span style="font-size:14px;">All male: <span style="color:red;"> @Model.sum_male</span></span></strong>
+                &nbsp; <strong><span style="font-size:14px;">All Female: <span style="color:red;">@Model.sum_female</span></span></strong>
+            </p>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+

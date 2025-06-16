@@ -1,0 +1,117 @@
+﻿@model OCTWEB_NET45.Models.LeaveSettingModel
+@{
+    ViewBag.Title = "Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid justify-content-center">
+    <div class="row">
+        <a href="/Leave/LeaveList" class="btn-outline-secondary">Leave List <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    @using (Html.BeginForm("Setting", "Leave", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col">
+                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3 ">
+                        <!--style="width: 65rem;"-->
+                        <div class="card-header justify-content-center" >
+                            <h4 class="font-weight-bolder my-1 text-center">Setting Holiday <br />(ตั้งค่าวันหยุด)</h4>
+                            <p class="text-success">@ViewBag.Message</p>
+                            <p class="text-danger">@ViewBag.errorMessage</p>
+                            @Html.HiddenFor(m => m.check)
+                        </div>
+                        <div class="card-body" style="font-size:14px;">
+                            <div class="form-row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Start Date:</label>
+                                        <input type="date" id="holiday_date" name="holiday_date" class="form-control form-control-sm " value="@Model.holiday_date.ToString("yyyy-MM-dd")"  />
+                                        @Html.ValidationMessageFor(m => m.holiday_date, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>End Date:</label>
+                                        <input type="date" id="holiday_date_end" name="holiday_date_end" class="form-control form-control-sm" value="@Model.holiday_date_end.ToString("yyyy-MM-dd")" />
+                                        @Html.ValidationMessageFor(m => m.holiday_date_end, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Holiday:</label>
+                                        @Html.TextBoxFor(m => m.detail, new { @class = "form-control form-control-sm" })
+                                        @Html.ValidationMessageFor(m => m.detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2 align-self-end">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-primary" type="button" name="add" id="add">
+                                            <i class="fas fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        @Html.ListBox("holiday_id", Model.SelectHoliday, new { @class = "form-control form-control-sm", @size = "12" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2 align-self-center">
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-danger" type="button" name="delete" id="delete">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  
+                </div>
+            </div>
+          
+        </div>
+    }
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="form-row justify-content-center">
+                <button type="button" onclick="history.back()" class="btn btn-outline-primary">
+                 <i class="fas fa-undo"></i> Back
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    /*
+     $(document).ready(function () {
+
+         $("button[name='level_delete']").click(function () {
+             return confirm('Delete all selected elements?');
+         });
+
+         $("button[name='reason_delete']").click(function () {
+             return confirm('Delete all selected elements?');
+         });
+
+     });
+     */
+
+    $("#add").click(function () {
+        $("#check").val("add");
+        document.forms["Form1"].submit();
+    })
+
+    $("#delete").click(function () {
+        if (confirm('Delete all selected elements?')) {
+            $("#check").val("delete");
+            document.forms["Form1"].submit();
+        }
+    })
+
+   
+</script>

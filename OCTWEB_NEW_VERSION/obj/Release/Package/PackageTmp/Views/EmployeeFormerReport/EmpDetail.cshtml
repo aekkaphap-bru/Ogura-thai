@@ -1,0 +1,182 @@
+﻿@model OCTWEB_NET45.Models.EmployeeModel
+@{
+    ViewBag.Title = "EmpDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <a href="/EmployeeFormerReport/EmpList" class="btn-outline-secondary">Employee Former List Report <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <br />
+    @using (Html.BeginForm("EmpDetail", "EmployeeFormerReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col">
+                @Html.HiddenFor(m => m.id)
+                @Html.HiddenFor(m => m.emp_profile)
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="btn-group shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    @if (!String.IsNullOrEmpty(Model.jobdes_path))
+                    {
+                        <a href="@Url.Action(actionName: "DownloadFile"
+                                , controllerName: "EmployeeFormerReport"
+                                , routeValues: new { fileName = Model.jobdes_path })" class="btn btn-info ">
+                            <i class="fas fa-download"> </i> Job Description
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                    <div class="card-header justify-content-center">
+                        <p class="text-danger">@ViewBag.ErrorMessage</p>
+                        <p class="text-success">@ViewBag.Message</p>
+                        <h4 class="font-weight-bolder my-1 text-center">Personal Information </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-2">
+                                <div class="form-group text-center">
+                                    <div class="image-upload">
+                                        <label for="imgfile">
+                                            <img class="img-profile border-0 rounded-lg" src="@Model.emp_profile" height="100" width="100" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p><strong>Emp ID:</strong> @Model.EmpID</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>
+                                                <strong> First Name(EN):</strong> @Model.Title_EN @Model.FName_EN @Model.LName_EN (@Model.NName_EN)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p>
+                                                <strong> First Name (TH): </strong> @Model.Title_TH @Model.FName_TH @Model.LName_TH (@Model.NName_TH)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <p> <strong>Gender:</strong> @Model.Gender</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <p> <strong>Nationality:</strong> @Model.Nation</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <p> <strong>Disabled:</strong> @Html.CheckBoxFor(m => m.Disabled_stat, new { id = "disable_id", disabled = "true" })</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <p> <strong>Department:</strong> @Model.DeptDesc</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <p> <strong>Position:</strong> @Model.Position</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            @{
+                                                var start_working_date = Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd-MM-yyyy") : null;
+                                            }
+                                            <p> <strong>Start Working Date:</strong> @start_working_date</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            @{
+                                                var start_position = Model.StartPosition.HasValue ? Model.StartPosition.Value.ToString("dd-MM-yyyy") : null;
+                                            }
+                                            <p> <strong>Start This Position:</strong> @start_position</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p> <strong>Working Period:</strong> @Model.working_period</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @{
+                                                var pass_working_date = Model.PassDate.HasValue ? Model.PassDate.Value.ToString("dd-MM-yyyy") : null;
+                                            }
+                                            <p> <strong>Probation Pass Date:</strong> @pass_working_date</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p> <strong>Internal E-mail:</strong> @Model.In_Email</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <p> <strong>Cost Center:</strong> @Model.CostCenterName</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-row justify-content-center">
+
+                    <button type="button" onclick="history.back()" class="btn btn-outline-primary">
+                        <i class="fa fa-ban" aria-hidden="true"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script language="JavaScript">
+
+
+
+</script>

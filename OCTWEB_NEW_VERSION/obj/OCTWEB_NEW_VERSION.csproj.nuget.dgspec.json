@@ -1,0 +1,321 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\a-trasri\\Desktop\\#Current_Project_4.5\\OCTWEB_NEW_VERSION\\OCTWEB_NEW_VERSION.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\a-trasri\\Desktop\\#Current_Project_4.5\\OCTWEB_NEW_VERSION\\OCTWEB_NEW_VERSION.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\a-trasri\\Desktop\\#Current_Project_4.5\\OCTWEB_NEW_VERSION\\OCTWEB_NEW_VERSION.csproj",
+        "projectName": "OCTWEB_NET45",
+        "projectPath": "C:\\Users\\a-trasri\\Desktop\\#Current_Project_4.5\\OCTWEB_NEW_VERSION\\OCTWEB_NEW_VERSION.csproj",
+        "packagesPath": "C:\\Users\\a-trasri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\a-trasri\\Desktop\\#Current_Project_4.5\\OCTWEB_NEW_VERSION\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "centralPackageVersionsManagementEnabled": true,
+        "CentralPackageTransitivePinningEnabled": true,
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\a-trasri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net451"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net451": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "noWarn": [
+            "NU1507"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net451": {
+          "dependencies": {
+            "Antlr": {
+              "target": "Package",
+              "version": "[3.5.0.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Common.Logging": {
+              "target": "Package",
+              "version": "[3.4.1, )",
+              "versionCentrallyManaged": true
+            },
+            "Common.Logging.Core": {
+              "target": "Package",
+              "version": "[3.4.1, )",
+              "versionCentrallyManaged": true
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[4.5.3.3, )",
+              "versionCentrallyManaged": true
+            },
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Identity.Core": {
+              "target": "Package",
+              "version": "[2.2.3, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Identity.EntityFramework": {
+              "target": "Package",
+              "version": "[2.2.3, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Identity.Owin": {
+              "target": "Package",
+              "version": "[2.2.4, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.9, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Razor": {
+              "target": "Package",
+              "version": "[3.2.9, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.Web.Optimization": {
+              "target": "Package",
+              "version": "[1.1.3, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.WebHelpers": {
+              "target": "Package",
+              "version": "[3.2.7, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.AspNet.WebPages": {
+              "target": "Package",
+              "version": "[3.2.9, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.0.1, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Host.SystemWeb": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.Cookies": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.Facebook": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.Google": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.MicrosoftAccount": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.OAuth": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Owin.Security.Twitter": {
+              "target": "Package",
+              "version": "[4.2.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.Web.Infrastructure": {
+              "target": "Package",
+              "version": "[2.0.0, )",
+              "versionCentrallyManaged": true
+            },
+            "Microsoft.jQuery.Unobtrusive.Validation": {
+              "target": "Package",
+              "version": "[4.0.0, )",
+              "versionCentrallyManaged": true
+            },
+            "Modernizr": {
+              "target": "Package",
+              "version": "[2.8.3, )",
+              "versionCentrallyManaged": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )",
+              "versionCentrallyManaged": true
+            },
+            "Owin": {
+              "target": "Package",
+              "version": "[1.0.0, )",
+              "versionCentrallyManaged": true
+            },
+            "PagedList": {
+              "target": "Package",
+              "version": "[1.17.0, )",
+              "versionCentrallyManaged": true
+            },
+            "PagedList.Mvc": {
+              "target": "Package",
+              "version": "[4.5.0, )",
+              "versionCentrallyManaged": true
+            },
+            "Portable.BouncyCastle": {
+              "target": "Package",
+              "version": "[1.8.9, )",
+              "versionCentrallyManaged": true
+            },
+            "Respond": {
+              "target": "Package",
+              "version": "[1.4.2, )",
+              "versionCentrallyManaged": true
+            },
+            "Select2.js": {
+              "target": "Package",
+              "version": "[4.0.13, )",
+              "versionCentrallyManaged": true
+            },
+            "WebGrease": {
+              "target": "Package",
+              "version": "[1.6.0, )",
+              "versionCentrallyManaged": true
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[5.3.6, )",
+              "versionCentrallyManaged": true
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[7.1.18, )",
+              "versionCentrallyManaged": true
+            },
+            "itext7.licensekey": {
+              "target": "Package",
+              "version": "[3.1.4, )",
+              "versionCentrallyManaged": true
+            },
+            "itext7.pdfcalligraph": {
+              "target": "Package",
+              "version": "[2.0.9, )",
+              "versionCentrallyManaged": true
+            },
+            "jQuery": {
+              "target": "Package",
+              "version": "[3.6.0, )",
+              "versionCentrallyManaged": true
+            },
+            "jQuery.Validation": {
+              "target": "Package",
+              "version": "[1.19.5, )",
+              "versionCentrallyManaged": true
+            },
+            "jquery-timepicker": {
+              "target": "Package",
+              "version": "[1.0.0, )",
+              "versionCentrallyManaged": true
+            }
+          },
+          "centralPackageVersions": {
+            "Antlr": "3.5.0.2",
+            "bootstrap": "5.3.6",
+            "Common.Logging": "3.4.1",
+            "Common.Logging.Core": "3.4.1",
+            "EntityFramework": "6.4.4",
+            "EPPlus": "4.5.3.3",
+            "itext7": "7.1.18",
+            "itext7.licensekey": "3.1.4",
+            "itext7.pdfcalligraph": "2.0.9",
+            "jQuery": "3.6.0",
+            "jquery-timepicker": "1.0.0",
+            "jQuery.Validation": "1.19.5",
+            "Microsoft.AspNet.Identity.Core": "2.2.3",
+            "Microsoft.AspNet.Identity.EntityFramework": "2.2.3",
+            "Microsoft.AspNet.Identity.Owin": "2.2.4",
+            "Microsoft.AspNet.Mvc": "5.2.9",
+            "Microsoft.AspNet.Razor": "3.2.9",
+            "Microsoft.AspNet.Web.Optimization": "1.1.3",
+            "Microsoft.AspNet.WebHelpers": "3.2.7",
+            "Microsoft.AspNet.WebPages": "3.2.9",
+            "Microsoft.CSharp": "4.0.1",
+            "Microsoft.jQuery.Unobtrusive.Validation": "4.0.0",
+            "Microsoft.Owin": "4.2.2",
+            "Microsoft.Owin.Host.SystemWeb": "4.2.2",
+            "Microsoft.Owin.Security": "4.2.2",
+            "Microsoft.Owin.Security.Cookies": "4.2.2",
+            "Microsoft.Owin.Security.Facebook": "4.2.2",
+            "Microsoft.Owin.Security.Google": "4.2.2",
+            "Microsoft.Owin.Security.MicrosoftAccount": "4.2.2",
+            "Microsoft.Owin.Security.OAuth": "4.2.2",
+            "Microsoft.Owin.Security.Twitter": "4.2.2",
+            "Microsoft.Web.Infrastructure": "2.0.0",
+            "Modernizr": "2.8.3",
+            "Newtonsoft.Json": "13.0.1",
+            "Owin": "1.0",
+            "PagedList": "1.17.0.0",
+            "PagedList.Mvc": "4.5.0.0",
+            "Portable.BouncyCastle": "1.8.9",
+            "Respond": "1.4.2",
+            "Select2.js": "4.0.13",
+            "WebGrease": "1.6.0"
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

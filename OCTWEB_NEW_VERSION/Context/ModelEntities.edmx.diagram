@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d0a3369d1bb7410a91c263ad4db2e069" Name="Diagram1" ZoomLevel="18">
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Checkby" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Line" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_LMD" Width="1.5" PointX="14.125" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Partname" Width="1.5" PointX="7.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_PBlist" Width="1.5" PointX="13.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_PBmain" Width="1.5" PointX="15.875" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_PNL" Width="1.5" PointX="12.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_PNofPBm" Width="1.5" PointX="9.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_POM" Width="1.5" PointX="0.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Problemdetail" Width="1.5" PointX="2.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Probleminform" Width="1.5" PointX="20.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Problempic" Width="1.5" PointX="18.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.CM_Problem" Width="1.5" PointX="15.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.CM_TodoEvidence" Width="1.5" PointX="20.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.CM_TodoList" Width="1.5" PointX="18" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.CoursesRecord" Width="1.5" PointX="20.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Department" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_Fileshare" Width="1.5" PointX="5.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_Formulas" Width="1.5" PointX="7.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_Model" Width="1.5" PointX="16" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_ModelProcess" Width="1.5" PointX="18.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_PartName" Width="1.5" PointX="13.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DW_Process" Width="1.5" PointX="16" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_CostCenter" Width="1.5" PointX="9.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.emp_department" Width="1.5" PointX="15.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_ImportChkCol" Width="1.5" PointX="13" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_ImportEx" Width="1.5" PointX="10.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_ImportNotUseCol" Width="1.5" PointX="13" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_offense" Width="1.5" PointX="10" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_offense_Levelwarning" Width="1.5" PointX="7.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_offense_Penalty" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.emp_position" Width="1.5" PointX="17.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingDetail" Width="1.5" PointX="21" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingHeader" Width="1.5" PointX="18.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingWS_temporary" Width="1.875" PointX="19.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_Typesick" Width="1.5" PointX="0.75" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Former_EmpList" Width="1.5" PointX="22.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.GroupMember" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_DefineReport" Width="1.5" PointX="8" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_InputData" Width="1.5" PointX="11" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_Location" Width="1.5" PointX="5.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_Log" Width="1.5" PointX="11.75" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_StandardCost" Width="1.5" PointX="8" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_StockCode" Width="1.5" PointX="5.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_Store" Width="1.5" PointX="5.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Log" Width="1.5" PointX="22.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Mstk_EmpResip" Width="1.5" PointX="23.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Mstk_Penalty" Width="1.5" PointX="23.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Mstk_Reason" Width="1.5" PointX="24.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.RightGroup" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Right" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.sysdiagram" Width="1.5" PointX="24.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.SystemSys" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.UserDetail" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.UserGroup" Width="1.5" PointX="3" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.UserRight" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_CompRule" Width="1.5" PointX="24.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_CompRuleType" Width="1.5" PointX="24.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandard" Width="1.625" PointX="13.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandardProcess" Width="1.5" PointX="15.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandardProcessEdit" Width="1.5" PointX="24.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandardType" Width="1.5" PointX="23.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandardTypeEdit" Width="1.5" PointX="25.75" PointY="2.125" IsExpanded="true" /> 
+        <EntityTypeShape EntityType="OCTWEBTESTModel.dbo_Emp_SickLeave" Width="1.5" PointX="7.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DeliveryTagPlan" Width="1.5" PointX="9.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DepartmentEdit" Width="1.5" PointX="17.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DWPic" Width="1.5" PointX="25.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_sendEmailSession" Width="1.5" PointX="26.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_SickLeave" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.EmpList_Newt" Width="1.5" PointX="2.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Former_EmpList_Newt" Width="2" PointX="27.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.hr_func_rights" Width="1.5" PointX="27.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.hr_LogEmployees" Width="1.5" PointX="23.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Inventory_Group" Width="1.5" PointX="25.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.LotRunNumber" Width="1.5" PointX="27.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Temp_Inventory_StockCode" Width="1.5" PointX="28.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.UserDetailEdit" Width="1.5" PointX="28.75" PointY="9.125" IsExpanded="true" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_CM_TodoList_CM_Problem" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_CM_TodoEvidence_CM_TodoList" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_UserDetail_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_DW_Model_DW_PartName" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_DW_ModelProcess_DW_PartName" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_DW_ModelProcess_DW_Process" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_DW_Process_DW_PartName" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_ImportChkCol_Emp_ImportEx" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_ImportNotUseCol_Emp_ImportEx" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_offense_Emp_offense_Levelwarning" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_offense_Emp_offense_Penalty" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_TrainingDetail_Emp_TrainingHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Emp_SickLeave_Emp_Typesick" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_GroupMember_UserDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_GroupMember_UserGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_DefineReport_Inventory_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_DefineReport_Inventory_StockCode" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_DefineReport_Inventory_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_InputData_Inventory_StockCode" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_InputData_Inventory_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Inventory_StandardCost_Inventory_StockCode" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_RightGroup_Systems" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Rights_RightGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_UserRight_Rights" ManuallyRouted="false" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_UserRight_UserDetail" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WSR_WorkingStandardEdit" Width="1.5" PointX="30.375" PointY="0.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.WS_Training_Section" Width="1.5" PointX="12.375" PointY="15.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.AspNetRole" Width="1.5" PointX="12.375" PointY="35.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.AspNetUserClaim" Width="1.5" PointX="16.875" PointY="34" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.AspNetUserLogin" Width="1.5" PointX="16.875" PointY="36.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.AspNetUser" Width="1.5" PointX="14.625" PointY="34.125" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="OCTWEBTESTModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingWsHeader" Width="2.375" PointX="30.375" PointY="13.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingWsDate" Width="1.875" PointX="30.375" PointY="18.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_TrainingWsDetail" Width="1.875" PointX="27.375" PointY="13.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_MasterRegion" Width="1.5" PointX="12.375" PointY="30.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_MasterTypeLayoff" Width="1.5" PointX="14.375" PointY="30.875" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_MasterNationality" Width="1.5" PointX="16.375" PointY="30.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_Transection_Leave" Width="1.5" PointX="30.375" PointY="23.875" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_MasterReasonLeave" Width="1.5" PointX="18.375" PointY="30.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_MasterStatusLeave" Width="1.5" PointX="31.375" PointY="4.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_Holiday_sickleave" Width="1.5" PointX="31.375" PointY="7.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.EmpList" Width="1.5" PointX="20.375" PointY="26.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.LeaveEmployee" Width="1.5" PointX="30.375" PointY="31.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Emp_Benefite" Width="1.5" PointX="22.375" PointY="32.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Area" Width="1.5" PointX="31.375" PointY="12.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Rights01" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentActivityLog" Width="1.5" PointX="32.375" PointY="2.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentApprovalStep" Width="1.5" PointX="32.375" PointY="25.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentDetail" Width="1.5" PointX="24.375" PointY="34.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentFormArea" Width="1.5" PointX="26.375" PointY="34.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentList" Width="1.5" PointX="32.375" PointY="29.375" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.Equipment_repair_machine" Width="1.5" PointX="32.375" PointY="33.375" />
+        <AssociationConnector Association="OCTWEBTESTModel.FK_Rights_RightGroup7" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

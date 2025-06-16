@@ -1,0 +1,106 @@
+﻿@model OCTWEB_NET45.Models.ManageWSTrainCourseModel
+@{
+    ViewBag.Title = "UpdateAssessment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="container">
+            @using (Html.BeginForm("UpdateAssessment", "TrainingCourseManageWS", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1", enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="tablecustom " id="table1" style="font-size:14px">
+                            <thead>
+                                @if (@Model.TraineeList.Any())
+                                {
+                                    <tr>
+                                        <th style="text-align:center">
+                                            Item
+                                        </th>
+                                        <th style="text-align:center">
+                                            Emp Id
+                                        </th>
+                                        <th style="text-align:center">
+                                            First Name
+                                        </th>
+                                        <th style="text-align:center">
+                                            Last Name
+                                        </th>
+                                        <th style="text-align:center">
+                                            Department
+                                        </th>
+                                        <th colspan="2" style="text-align:center">
+                                            Assessment
+                                        </th>
+
+                                    </tr>
+                                }
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.TraineeList.Select((value, i) => new { i, value }))
+                                {
+                                    <tr>
+                                        <td>@(item.i + 1)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.value.emp_id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.value.fname)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.value.lname)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.value.dept)</td>
+                                        <td>
+                                            @{
+                                                bool isPass = item.value.detail_id > 0;
+                                            }
+                                            <input type="radio" id="pass-@item.value.emp_id" name="@item.value.emp_id" value="Pass" checked="@(isPass)">
+                                            <label for="pass-@item.value.emp_id">Pass (ผ่าน)</label>
+                                        </td>
+                                        <td>
+                                            <input type="radio" id="nopass-@item.value.emp_id" name="@item.value.emp_id" value="NoPass" checked="@( !isPass )">
+                                            <label for="nopass-@item.value.emp_id">No Pass (ไม่ผ่าน)</label>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-row justify-content-center">
+                            <button type="submit" class="btn btn-success" value="Update Assessment">
+                                <i class="fas fa-save"></i> Update Assessment
+                            </button>
+                            &nbsp;
+                            <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                                <i class="fas fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+
+    });
+</script>

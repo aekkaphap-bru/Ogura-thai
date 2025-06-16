@@ -1,0 +1,509 @@
+﻿
+@{
+    ViewBag.Title = "New Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Styles {
+    <link href="~/Content/oct-documentadd.css" rel="stylesheet" />
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="page-title">
+                <i class="fas fa-plus-circle"></i>
+                New Issue
+            </h4>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="main-content">
+        <div class="form-container">
+            <form id="documentForm" novalidate>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-edit"></i>
+                            แบบฟอร์มคำร้อง
+                        </div>
+                        <div class="form-code">OCT-IS-P0002</div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Progress Indicator -->
+                        <div class="progress-indicator">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+
+                        <!-- Request Type Section -->
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-clipboard-check"></i>
+                                ชนิดการร้องขอ
+                            </div>
+                            <div class="checkbox-grid">
+                                <label>
+                                    <input type="checkbox" name="request_type" value="register">
+                                    ลงทะเบียนครั้งแรก
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="request_type" value="modify">
+                                    แก้ไข/ปรับปรุง
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="request_type" value="external">
+                                    เอกสารภายนอก
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="request_type" value="cancel">
+                                    ขออนุมัติยกเลิก
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="request_type" value="copy">
+                                    ขออนุมัติสำเนา
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Document Details Section -->
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-file-alt"></i>
+                                รายละเอียดเอกสาร (Document Details)
+                            </div>
+
+                            <div id="document-details-list">
+                                <!-- Initial Document Card -->
+                                <div class="document-card fade-in" data-index="1">
+                                    <div class="document-header">
+                                        <span>ลำดับที่ 1</span>
+                                    </div>
+                                    <div class="document-body">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="doc_number_1">หมายเลขเอกสาร</label>
+                                                <input type="text" id="doc_number_1" name="doc_number[]" class="form-input" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="doc_title_1">ชื่อเรื่อง</label>
+                                                <input type="text" id="doc_title_1" name="doc_title[]" class="form-input"
+                                                       value="การควบคุมเอกสาร (Document Control)" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="doc_revision_1">ลำดับการแก้ไข</label>
+                                                <input type="text" id="doc_revision_1" name="doc_revision[]" class="form-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="doc_pages_1">จำนวนหน้า/ชุด</label>
+                                                <input type="number" id="doc_pages_1" name="doc_pages[]" class="form-input" min="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="doc_copies_1">จำนวนสำเนา</label>
+                                                <input type="number" id="doc_copies_1" name="doc_copies[]" class="form-input" min="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="change_detail_1">
+                                                <i class="fas fa-clipboard-list"></i>
+                                                รายละเอียดการเปลี่ยนแปลง
+                                            </label>
+                                            <textarea id="change_detail_1" name="change_detail[]" class="form-input form-textarea" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>
+                                                <i class="fas fa-paperclip"></i>
+                                                เอกสารแนบ
+                                            </label>
+                                            <div class="file-input-group">
+                                                <input type="file" name="attachment_pdf[]" accept=".pdf" class="form-input"
+                                                       title="เลือกไฟล์ PDF">
+                                                <input type="file" name="attachment_excel[]" accept=".xls,.xlsx" class="form-input"
+                                                       title="เลือกไฟล์ Excel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="add-btn-container">
+                                <button type="button" class="btn btn-success" id="addDocumentBtn">
+                                    <i class="fas fa-plus"></i>
+                                    เพิ่มรายละเอียดเอกสาร
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Area Selection Section -->
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-map-marker-alt"></i>
+                                พื้นที่การใช้งาน (Area)
+                            </div>
+                            <div class="checkbox-grid" id="areaCheckboxes">
+                                <!-- Areas will be generated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Document Type Section -->
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fas fa-file-contract"></i>
+                                ประเภทเอกสารที่ร้องขอ
+                            </div>
+                            <div class="checkbox-grid">
+                                <label>
+                                    <input type="radio" name="document_type" value="controlled" required>
+                                    Controlled Copy
+                                </label>
+                                <label>
+                                    <input type="radio" name="document_type" value="uncontrolled" required>
+                                    Uncontrolled Copy
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-section">
+                            <div class="section-title">
+                                <i class="fa fa-calendar-o"></i> วันที่เริ่มใช้/ยกเลิกเอกสาร
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-input" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                                <i class="fas fa-arrow-left"></i>
+                                กลับ
+                            </button>
+                            <button type="button" class="btn btn-primary" id="printBtn">
+                                <i class="fas fa-print"></i>
+                                พิมพ์
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i>
+                                บันทึก
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Approval Flow -->
+            <div class="card" style="margin-bottom: 25px;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-route"></i>
+                        ขั้นตอนการอนุมัติ
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="approval-flow">
+                        <!-- Step 1 -->
+                        <div class="approval-step completed">
+                            <div class="step-header">
+                                <div style="display: flex; align-items: center;">
+                                    <div class="step-number">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="step-info">
+                                        <div class="step-title">ผู้อนุมัติคนที่ 1</div>
+                                        <div class="step-person">
+                                            <i class="fas fa-user"></i>
+                                            หัวหน้าแผนก
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="step-status status-completed">อนุมัติแล้ว</div>
+                            </div>
+                            <div class="comment-section" style="background: rgba(39, 174, 96, 0.05);">
+                                <strong>ความเห็น:</strong> อนุมัติการแก้ไขเอกสารตามที่ร้องขอ
+                                <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                                    <i class="fas fa-clock"></i> อนุมัติเมื่อ: 01/10/2024 09:30
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="approval-step completed">
+                            <div class="step-header">
+                                <div style="display: flex; align-items: center;">
+                                    <div class="step-number">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="step-info">
+                                        <div class="step-title">ผู้อนุมัติคนที่ 2</div>
+                                        <div class="step-person">
+                                            <i class="fas fa-user"></i>
+                                            ผู้จัดการ (ระดับสูง)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="step-status status-completed">อนุมัติแล้ว</div>
+                            </div>
+                            <div class="comment-section" style="background: rgba(39, 174, 96, 0.05);">
+                                <strong>ความเห็น:</strong> เห็นชอบการปรับปรุงเอกสารตามข้อเสนแนะ
+                                <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                                    <i class="fas fa-clock"></i> อนุมัติเมื่อ: 01/10/2024 14:15
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        class DocumentFormManager {
+            constructor() {
+                this.documentCount = 1;
+                this.areas = [
+                    'IS', 'IT', 'QA', 'PP', 'GS', 'FC', 'AB2', 'SE',
+                    'HR', 'PE', 'QC', 'L2', 'BR', 'CA', 'AS', 'FR',
+                    'AD', 'EN', 'PD1', 'L3', 'AB1', 'AF', 'AC', 'ACC',
+                    'PU', 'PC', 'L1', 'RA', 'AT', 'GN', 'PD2'
+                ];
+                this.init();
+            }
+
+            init() {
+                this.generateAreaCheckboxes();
+                this.bindEvents();
+                this.updateProgress();
+            }
+
+            generateAreaCheckboxes() {
+                const container = document.getElementById('areaCheckboxes');
+                this.areas.forEach(area => {
+                    const label = document.createElement('label');
+                    label.innerHTML = `
+                        <input type="checkbox" name="areas" value="${area}">
+                        ${area}
+                    `;
+                    container.appendChild(label);
+                });
+            }
+
+            bindEvents() {
+                // Add document button
+                document.getElementById('addDocumentBtn').addEventListener('click',
+                    () => this.addDocumentDetail());
+
+                // Form submission
+                document.getElementById('documentForm').addEventListener('submit',
+                    (e) => this.handleSubmit(e));
+
+                // Print button
+                document.getElementById('printBtn').addEventListener('click',
+                    () => this.handlePrint());
+
+                // Progress tracking
+                document.addEventListener('input', () => this.updateProgress());
+                document.addEventListener('change', () => this.updateProgress());
+            }
+
+            addDocumentDetail() {
+                this.documentCount++;
+                const container = document.getElementById('document-details-list');
+
+                const card = document.createElement('div');
+                card.className = 'document-card fade-in';
+                card.setAttribute('data-index', this.documentCount);
+
+                card.innerHTML = this.createDocumentCardHTML(this.documentCount);
+
+                container.appendChild(card);
+
+                // Add remove button event
+                card.querySelector('.remove-btn').addEventListener('click',
+                    () => this.removeDocumentDetail(card));
+
+                this.updateProgress();
+            }
+
+            createDocumentCardHTML(index) {
+                return `
+                    <div class="document-header">
+                        <span>ลำดับที่ ${index}</span>
+                        <button type="button" class="btn btn-danger btn-sm remove-btn">
+                            <i class="fas fa-trash"></i>
+                            ลบ
+                        </button>
+                    </div>
+                    <div class="document-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="doc_number_${index}">หมายเลขเอกสาร</label>
+                                <input type="text" id="doc_number_${index}" name="doc_number[]" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doc_title_${index}">ชื่อเรื่อง</label>
+                                <input type="text" id="doc_title_${index}" name="doc_title[]" class="form-input"
+                                       value="การควบคุมเอกสาร (Document Control)" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="doc_revision_${index}">ลำดับการแก้ไข</label>
+                                <input type="text" id="doc_revision_${index}" name="doc_revision[]" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="doc_pages_${index}">จำนวนหน้า/ชุด</label>
+                                <input type="number" id="doc_pages_${index}" name="doc_pages[]" class="form-input" min="1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="doc_copies_${index}">จำนวนสำเนา</label>
+                                <input type="number" id="doc_copies_${index}" name="doc_copies[]" class="form-input" min="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="change_detail_${index}">
+                                <i class="fas fa-clipboard-list"></i>
+                                รายละเอียดการเปลี่ยนแปลง
+                            </label>
+                            <textarea id="change_detail_${index}" name="change_detail[]" class="form-input form-textarea" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-paperclip"></i>
+                                เอกสารแนบ
+                            </label>
+                            <div class="file-input-group">
+                                <input type="file" name="attachment_pdf[]" accept=".pdf" class="form-input" title="เลือกไฟล์ PDF">
+                                <input type="file" name="attachment_excel[]" accept=".xls,.xlsx" class="form-input" title="เลือกไฟล์ Excel">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            removeDocumentDetail(card) {
+                if (document.querySelectorAll('.document-cardtt_1').length > 1) {
+                    card.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(() => {
+                        card.remove();
+                        this.updateProgress();
+                    }, 300);
+                } else {
+                    alert('ต้องมีรายการเอกสารอย่างน้อย 1 รายการ');
+                }
+            }
+
+            updateProgress() {
+                const form = document.getElementById('documentForm');
+                const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+                const filled = Array.from(inputs).filter(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        return form.querySelector(`[name="${input.name}"]:checked`);
+                    }
+                    return input.value.trim() !== '';
+                });
+
+                const progress = (filled.length / inputs.length) * 100;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+            }
+
+            validateForm() {
+                const form = document.getElementById('documentForm');
+                const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    this.clearError(input);
+
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        if (!form.querySelector(`[name="${input.name}"]:checked`)) {
+                            this.showError(input, 'กรุณาเลือกตัวเลือก');
+                            isValid = false;
+                        }
+                    } else if (!input.value.trim()) {
+                        this.showError(input, 'กรุณากรอกข้อมูล');
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            showError(input, message) {
+                input.classList.add('error');
+
+                const errorElement = document.createElement('div');
+                errorElement.className = 'error-message';
+                errorElement.textContent = message;
+
+                input.parentNode.appendChild(errorElement);
+            }
+
+            clearError(input) {
+                input.classList.remove('error');
+                const errorElement = input.parentNode.querySelector('.error-message');
+                if (errorElement) {
+                    errorElement.remove();
+                }
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+
+                if (!this.validateForm()) {
+                    alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+                    return;
+                }
+
+                // Show loading state
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังบันทึก...';
+                submitBtn.disabled = true;
+
+                // Simulate form submission
+                setTimeout(() => {
+                    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            }
+
+            handlePrint() {
+                if (!this.validateForm()) {
+                    alert('กรุณากรอกข้อมูลให้ครบถ้วนก่อนพิมพ์');
+                    return;
+                }
+
+                window.print();
+            }
+        }
+
+        // Initialize the form when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new DocumentFormManager();
+        });
+
+        // Add CSS animation for fade out
+        @*const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);*@
+</script>
+

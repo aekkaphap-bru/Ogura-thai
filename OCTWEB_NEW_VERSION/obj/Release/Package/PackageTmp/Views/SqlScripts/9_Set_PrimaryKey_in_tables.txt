@@ -1,0 +1,9 @@
+dbo.Department
+dbo.DepartmentEdit
+dbo.Emp_Holiday_sickleave
+dbo.Emp_TrainingWsDate
+dbo.Emp_TrainingWsDetail
+dbo.Emp_TrainingWsHeader
+dbo.WSR_WorkingStardartEdit
+dbo.WSR_WorkingStandardProcessEdit
+dbo.WSR_WorkingStandardTypeEdit

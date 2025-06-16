@@ -1,0 +1,267 @@
+﻿@model OCTWEB_NET45.Models.MissionTableDetailModel
+@{
+    ViewBag.Title = "MissionTableDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <a href="/QRAP_Graph/Graph" class="btn-outline-secondary">Problem Graph <i class="fa fa-angle-right"></i> </a>&nbsp;
+    </div>
+    <div class="row justify-content-center">
+        <h4 class="font-weight-bolder my-1 text-center"> Problem Detail<span style="color:red;"></span></h4>
+        <p class="text-success">@ViewBag.Message</p>
+        <p class="text-danger">@ViewBag.errorMessage</p>
+        @Html.ValidationSummary(true)
+    </div>
+    @using (Html.BeginForm("MissionTableDetail", "QRAP_Graph", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+    {
+        <div class="row">
+            <div class="col">
+                <fieldset>
+                    <legend>Enter condition for search problem data</legend>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Occur Date: </label>
+                                @{
+                                    var start_date = Model.start_date.HasValue ? Model.start_date.Value.ToString("yyyy-MM-dd") : null;
+                                }
+                                <input type="date" name="start_date" id="start_date" class="form-control form-control-sm" value="@start_date" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>To: </label>
+                                @{
+                                    var end_date = Model.end_date.HasValue ? Model.end_date.Value.ToString("yyyy-MM-dd") : null;
+                                }
+                                <input type="date" name="end_date" id="end_date" class="form-control form-control-sm" value="@end_date">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Department: </label>
+                                @Html.DropDownList("department_id", Model.SelectDepartment, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Status: </label>
+                                @Html.DropDownList("status", Model.SelectStatus, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-6">
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-success btn-sm" value="Search">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                            <button id="clear" type="button" name="clear" class="btn btn-outline-dark btn-sm">
+                                <i class="fas fa-eraser"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>       
+        <div class="row">
+            <div class="col">
+                <table class="tablecustom" id="table1" style="font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th>
+                                Items
+                            </th>
+                            <th>
+                                Problem No.
+                            </th>
+                            <th>
+                                Occur Date
+                            </th>
+                            <th>
+                                Problem Name
+                            </th>
+                            <th>
+                                Occur Department
+                            </th>
+                            <th>
+                                Solution Detail
+                            </th>
+                            <th>
+                                Plan Date
+                            </th>
+                            <th>
+                                Response Department
+                            </th>
+                            <th>
+                                Owner
+                            </th>
+                            <th>
+                                Answer
+                            </th>
+                            <th>
+                                Answer Date
+                            </th>
+                            <th>
+                                Approver
+                            </th>
+                            <th>
+                                Approved Date
+                            </th>
+                            <th>
+                                Evidence
+                            </th>
+                            <th>
+                                Revision
+                            </th>
+                            <th>
+                                Comment
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DataJoinList.Select((value, i) => new { i, value }))
+                        {
+                            <tr>
+                                <td>
+                                    @(item.i + 1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.pr_problem_no)
+                                </td>
+                                <td>
+                                    @{
+                                        var pr_plan_date_str = item.value.pr_plan_date.ToString("yyyy-MM-dd");
+                                    }
+                                    @pr_plan_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.pr_problem_name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.pr_department)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.so_detail)
+                                </td>
+                                <td>
+                                    @{
+                                        var so_plan_date_str = item.value.so_plan_date.HasValue ? item.value.so_plan_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    @so_plan_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.department_str)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.so_response)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.ev_answer)
+                                </td>
+                                <td>
+                                    @{
+                                        var answer_date_str = item.value.ev_answer_date.HasValue ? item.value.ev_answer_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    @answer_date_str
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.ev_approver)
+                                </td>
+                                <td>
+                                    @{
+                                        var approved_date_str = item.value.ev_approved_date.HasValue ? item.value.ev_approved_date.Value.ToString("yyyy-MM-dd") : null;
+                                    }
+                                    @approved_date_str
+                                </td>
+                                <td>
+                                    @if (!String.IsNullOrEmpty(item.value.ev_evidence_file))
+                                    {
+                                        <a href="@Url.Action(actionName: "DownloadFileEvidence"
+                                        , controllerName: "QRAP_Graph"
+                                        , routeValues: new {filename = item.value.ev_evidence_file })" class="link-info">
+                                            <i class="fas fa-download"></i> @item.value.ev_evidence_file
+                                        </a>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.ev_rev)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.value.ev_comment)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+           <div class="col">
+              <div class="form-group text-center">
+                   <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                        <i class="fas fa-undo-alt"></i> Back
+                   </button>
+              </div>
+           </div>
+       </div>
+    }
+  
+</div>
+
+<script language="JavaScript">
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+   
+    $("#clear").click(function () {
+        $('#start_date').val(null).trigger('change');
+        $('#end_date').val(null).trigger('change');
+        $('#department_id').val(null).trigger('change');   
+        $('#status').val(null).trigger('change');
+    });
+
+    $(document).ready(function () {
+
+        $("#department_id").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#status").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+    });
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+   
+</script>
+
+
+
+

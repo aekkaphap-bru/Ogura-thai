@@ -1,0 +1,260 @@
+﻿@model OCTWEB_NET45.Models.EmployeeCourseReport
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "CourseList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var style_1 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+}
+<div class="container-fluid">
+    <div class="form-row">
+        <a href="/EmployeeMasterReport/EmpList" class="btn-outline-secondary">Employee List <i class="fa fa-angle-right"></i> </a>&nbsp;
+        <a href="/EmployeeMasterReport/EmpDetail/@Model.emp_id" class="btn-outline-secondary">Employee Detail <i class="fa fa-angle-right"></i> </a>&nbsp;
+        <a href="/EmployeeMasterReport/EmpCourse/@Model.emp_id" class="btn-outline-secondary">Training Courses Reports<i class="fa fa-angle-right"></i></a>     
+    </div>
+    <div class="form-row justify-content-center">
+        <div class="col">
+            <h4 class="font-weight-bolder my-1 text-center">
+                Course Traning Data For HR
+                <span style="color:red;"></span><br/>(ข้อมูลการอบรมหลักสูตรทั่วไป)
+            </h4>
+        </div>
+    </div>
+    <div class="form-row justify-content-center">
+        <div class="col">
+            @using (Html.BeginForm("CourseList", "EmployeeCourseReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+            {
+                <fieldset>
+                    <legend>Enter condition for search course data</legend>
+                    <div class="form-row justify-content-center">
+                        <div class="col">
+                            <p class="text-success">@ViewBag.Message</p>
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(m => m.emp_id)
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Topic: </label>
+                                @Html.DropDownList("search_topic", Model.SelectTopic, "All", new { style = "width:100%",@class="form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="mb-1">Locatin: </label>
+                                @Html.DropDownList("search_location", Model.SelectLocation, "All", new { style = "width:100%",@class="form-control form-control-sm" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @{
+                                    var datestart = Model.search_datestart.HasValue ? Model.search_datestart.Value.ToString("yyyy-MM-dd") : null;
+                                }
+                                <label class="mb-1">Start Date: </label>
+                                <input type="date" name="search_datestart" class="form-control form-control-sm date" value="@datestart" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @{
+                                    var enddate = Model.search_dateend.HasValue ? Model.search_dateend.Value.ToString("yyyy-MM-dd") : null;
+                                }
+                                <label class="mb-1">End Date: </label>
+                                <input type="date" name="search_dateend" class="form-control form-control-sm date" value="@enddate" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 align-self-end">
+                            <div class="form-group">
+                                <button type="submit" id="SearchBtn" name="SearchBtn" value="Search" class="btn btn-sm btn-success">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                                <button type="button" id="ExportToCsvBtn" name="ExportToCsvBtn" class="btn btn-sm btn-outline-primary" value="Export">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+    <div class="form-row justify-content-center" style="@style_1">
+        <div class="col">
+            <div class="form-group">
+                <p style="color:black"><span style="font-weight: bold">Employee ID</span> @Model.emp_id</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <p style="color:black"><span style="font-weight: bold">Training hour (ชั่วโมงอบรมทั้งหมด) :</span> @Model.sum_hours Hour @Model.sum_minutes Minutes</p>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+<div class="container-fluid">
+    @using (Html.BeginForm("CourseList", "EmployeeCourseReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        
+        <div class="row">
+            <table class="tablecustom" id="table1" style="font-size:14px;">
+                <thead>
+                    <tr>
+                        <th  width="5%">
+                            No
+                        </th>
+                        <th width="20%">
+                            Course Training Name
+                        </th>
+                        <th width="15%">
+                            Location
+                        </th>
+                        <th width="10%">
+                            Start Date
+                        </th>
+                        <th width="10%">
+                            End Date
+                        </th>
+                        <th width="10%">
+                            Time
+                        </th>
+                        <th width="5%">
+                            Hours
+                        </th>
+                        <th width="5%">
+                            Minutes
+                        </th>
+                        <th width="10%">
+                            Price
+                        </th>
+                        <th width="10%">
+                            Training By
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CourseReportDetailPagedList.Select((value, i) => new { i, value }))
+                    {
+                        <tr> 
+                            <td>
+                                @((item.i + 1) + (30 * (Model.CourseReportDetailPagedList.PageNumber - 1)))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.course_training_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.location)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.start_date_str)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.end_date_str)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.hours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.minutes)
+                            </td>
+                            <td>
+                                @(item.value.price.HasValue ? item.value.price.Value.ToString("N0") + "" : "N/A")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.value.training_by)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div class="row justify-content-center">
+        Page @(Model.CourseReportDetailPagedList.PageCount < Model.CourseReportDetailPagedList.PageNumber ? 0 : Model.CourseReportDetailPagedList.PageNumber) of @Model.CourseReportDetailPagedList.PageCount
+    </div>
+    <div class="row justify-content-center">
+        @Html.PagedListPager(Model.CourseReportDetailPagedList, page => Url.Action("CourseList", new RouteValueDictionary()
+            {
+                {"Page",page},
+                {"search_topic",Model.search_topic},
+                {"search_location",Model.search_location},
+                {"search_datestart",Model.search_datestart},
+                {"search_dateend",Model.search_dateend},
+            }))
+    </div>
+    <div class="row justify-content-center">
+         <button type="button" onclick="history.go(-3)" name="Cancel" class="btn btn-outline-primary">
+                <i class="fas fa-undo"></i> Back
+         </button> 
+    </div>
+</div>
+
+
+<script language="JavaScript">
+   
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#search_topic").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#search_location").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+    });
+
+    $("#clear").click(function () {
+        $('#search_topic').val(null).trigger('change');
+        $('#search_location').val(null).trigger('change');
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+
+    });
+
+
+</script>
+
+
+

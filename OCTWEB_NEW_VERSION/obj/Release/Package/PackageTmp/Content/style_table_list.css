@@ -1,0 +1,55 @@
+﻿
+    label {
+        font-size: 14px;
+        /*font-family: sans-serif;*/
+    }
+    .tablecustom thead tr {
+        background: linear-gradient(to right, #123456, #2d445f, #445568, #5b6672, #73777b);/*#73777B ;*/
+        color: #ffffff;
+        border: solid 1px #DDEEEE;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 14px;
+       /* font-family: 'Open Sans',sans-serif;*/
+    }
+    
+    .tablecustom tbody tr:nth-of-type(even) {
+        background-color: #ffffff;
+    }
+    
+    .tablecustom tbody tr {
+        background-color: #f3f3f3;
+    }
+ 
+    .tablecustom tbody tr:last-of-type {
+        border-bottom: 2px solid #73777B ;
+    }
+
+    .tablecustom {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 5px 0;
+        font-size: 1em;
+        /*font-family: sans-serif;*/
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+    }
+
+    .tablecustom th, .tablecustom td {
+        padding: 8px 8px;
+        text-align: left;
+        vertical-align: middle;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .tablecustom tbody tr:hover {
+        background-color: #d5f5e3;
+    }
+
+    .tablecustom tbody tr.selected {
+        background-color:  #CCCCFF;
+        color:   #1f618d  ;
+    }
+
