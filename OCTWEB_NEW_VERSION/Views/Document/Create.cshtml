@@ -1,16 +1,160 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 @section Scripts {
     <script src="~/Scripts/documentFormManager.js"></script>
     <script>
         $(document).ready(function () {
-            DocumentForm.init();
+            // Initialize DocumentForm if it exists (from external script)
+            if (typeof DocumentForm !== 'undefined' && DocumentForm.init) {
+                DocumentForm.init();
+            }
+
+            // Get the initial number of document sections from the DOM
+            // This ensures documentIndex starts correctly if there are pre-existing documents
+            let documentIndex = $('.document-card').length;
+            if (documentIndex === 0) {
+                documentIndex = 0; // If no initial documents, start index for array from 0
+            } else {
+                documentIndex--; // Adjust to be 0-based index for the next new document
+            }
+
+            // Add new document section
+            $('#addDocumentBtn').click(function () {
+                documentIndex++; // Increment for the new section's 0-based index
+                const documentTemplate = createDocumentSection(documentIndex);
+                $('#document-details-list').append(documentTemplate);
+                updateRemoveButtons();
+            });
+
+            // Remove document section
+            $(document).on('click', '.remove-document', function () {
+                $(this).closest('.document-card').remove();
+                updateDocumentNumbers(); // Re-index after removal
+                updateRemoveButtons();
+            });
+
+            function createDocumentSection(currentIndex) {
+                // currentIndex here refers to the 0-based index for model binding (e.g., DocumentDetails[0], DocumentDetails[1])
+                const displayIndex = currentIndex + 1; // For display purpose (เอกสารลำดับที่ 1, 2, ...)
+
+                return `
+                        <div class="document-card card border-light mb-3" data-index="${displayIndex}">
+                            <div class="card-header bg-light py-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-semibold">เอกสารลำดับที่ ${displayIndex}</span>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-document">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="DocumentDetails_${currentIndex}__WS_number"
+                                                   name="DocumentDetails[${currentIndex}].WS_number" required placeholder="หมายเลขเอกสาร">
+                                            <label for="DocumentDetails_${currentIndex}__WS_number">หมายเลขเอกสาร *</label>
+                                            <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="DocumentDetails_${currentIndex}__WS_name"
+                                                   name="DocumentDetails[${currentIndex}].WS_name" required placeholder="ชื่อเรื่อง">
+                                            <label for="DocumentDetails_${currentIndex}__WS_name">ชื่อเรื่อง *</label>
+                                            <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="text" id="DocumentDetails_${currentIndex}__Revision" name="DocumentDetails[${currentIndex}].Revision"
+                                                   class="form-control" required placeholder="ลำดับการแก้ไข">
+                                            <label for="DocumentDetails_${currentIndex}__Revision">ลำดับการแก้ไข *</label>
+                                            <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="text" id="DocumentDetails_${currentIndex}__Num_pages" name="DocumentDetails[${currentIndex}].Num_pages"
+                                                   class="form-control" required placeholder="จำนวนหน้า">
+                                            <label for="DocumentDetails_${currentIndex}__Num_pages">จำนวนหน้า/ชุด *</label>
+                                            <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="number" id="DocumentDetails_${currentIndex}__Num_copies" name="DocumentDetails[${currentIndex}].Num_copies"
+                                                   class="form-control" min="1" required placeholder="จำนวนสำเนา">
+                                            <label for="DocumentDetails_${currentIndex}__Num_copies">จำนวนสำเนา *</label>
+                                            <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea id="DocumentDetails_${currentIndex}__Change_detail" name="DocumentDetails[${currentIndex}].Change_detail"
+                                                      class="form-control" style="height: 100px"
+                                                      placeholder="รายละเอียดการเปลี่ยนแปลง"></textarea>
+                                            <label for="DocumentDetails_${currentIndex}__Change_detail">
+                                                <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">
+                                            <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
+                                        </label>
+                                        <input type="file" class="form-control" name="DocumentDetails[${currentIndex}].File_pdf" accept=".pdf" required>
+                                        <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">
+                                            <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
+                                        </label>
+                                        <input type="file" class="form-control" name="DocumentDetails[${currentIndex}].File_excel" accept=".xls,.xlsx" required>
+                                        <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            }
+
+            function updateDocumentNumbers() {
+                $('.document-card').each(function (index) {
+                    // Update display number (1-based)
+                    $(this).attr('data-index', index + 1);
+                    $(this).find('.fw-semibold').text('เอกสารลำดับที่ ' + (index + 1));
+
+                    // Update form field names and IDs (0-based for model binding)
+                    const fields = ['WS_number', 'WS_name', 'Revision', 'Num_pages', 'Num_copies', 'Change_detail', 'File_pdf', 'File_excel'];
+                    fields.forEach(field => {
+                        const input = $(this).find(`[name$="${field}"]`); // Use ends-with selector for robustness
+                        const newName = `DocumentDetails[${index}].${field}`;
+                        const newId = `DocumentDetails_${index}__${field}`;
+                        input.attr('name', newName);
+                        input.attr('id', newId);
+                        // Update label 'for' attribute if it exists
+                        $(this).find(`label[for^="DocumentDetails_"][for$="__${field}"]`).attr('for', newId);
+                    });
+                });
+            }
+
+            function updateRemoveButtons() {
+                const documentCards = $('.document-card');
+                // Only show remove button if there is more than one document card
+                documentCards.find('.remove-document').toggle(documentCards.length > 1);
+            }
+
+            // Initialize remove buttons visibility on page load
+            updateRemoveButtons();
+            // Also update document numbers on initial load to ensure correct indexing if model has data
+            updateDocumentNumbers();
         });
     </script>
 }
@@ -18,9 +162,6 @@
 @model OCTWEB_NET45.Models.DocumentFormViewModel
 
 <div class="container-fluid">
-    @*<div style="display: inline-block; margin-right: 10px;">
-            <a href="/EmployeeMaster/EmpList" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Employee List </a>
-        </div>*@
     <div class="container">
         <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
             <div class="card-header justify-content-center">
@@ -29,15 +170,14 @@
                 <i class="fas fa-edit me-2"></i>แบบฟอร์มคำร้อง
             </div>
 
-
             <div class="card-body">
-
                 @using (Html.BeginForm("Create", "Document", FormMethod.Post, new { enctype = "multipart/form-data", id = "documentForm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.Request_from)
                     @Html.HiddenFor(m => m.Status)
-                    <!-- Progress Bar -->
+                    @Html.HiddenFor(m => m.Requester_id)
+
                     <div class="progress mb-4" style="height: 8px;">
                         <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
                              role="progressbar" style="width: 0%;"
@@ -45,7 +185,6 @@
                         </div>
                     </div>
 
-                    <!-- Request Type Section -->
                     <section class="form-section mb-4">
                         <h6 class="section-title">
                             <i class="fas fa-clipboard-check me-2"></i>ชนิดการร้องขอ
@@ -64,22 +203,12 @@
                             @for (int i = 0; i < requestTypes.Length; i++)
                             {
                                 var value = requestTypes[i];
-                                //var isChecked = Model.Request_type == value;
                                 var id = "req-" + i;
+                                var isChecked = Model.Request_type == value;
 
-                                var htmlAttributes = new Dictionary<string, object>
-                                                                                    {
-                                    { "class", "form-check-input" },
-                                    { "id", id }
-                                };
-
-                                //if (isChecked)
-                                //{
-                                //    htmlAttributes.Add("checked", "checked");
-                                //}
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-check form-check-card" title="เลือก @value">
-                                        @Html.RadioButtonFor(model => model.Request_type, value, htmlAttributes)
+                                        @Html.RadioButtonFor(model => model.Request_type, value, new { @class = "form-check-input", @id = id, @checked = isChecked })
                                         <label class="form-check-label" for="@id">
                                             @value
                                         </label>
@@ -90,7 +219,6 @@
                         @Html.ValidationMessageFor(model => model.Request_type, "", new { @class = "text-danger" })
                     </section>
 
-                    <!-- Document Details Section -->
                     <section class="form-section mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h6 class="section-title mb-0">
@@ -102,122 +230,210 @@
                         </div>
 
                         <div id="document-details-list">
-                            <!-- Document Template -->
-                            <div class="document-card card border-light mb-3" data-index="1">
-                                <div class="card-header bg-light py-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="fw-semibold">เอกสารลำดับที่ 1</span>
-                                        <button type="button" class="btn btn-outline-danger btn-sm remove-document" style="display: none;">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row g-3">
-                                        <!-- Basic Info Row -->
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="doc_number_1"
-                                                       name="doc_number[]" required placeholder="หมายเลขเอกสาร">
-                                                <label for="doc_number_1">หมายเลขเอกสาร *</label>
-                                                <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="doc_title_1"
-                                                       name="doc_title[]" required placeholder="ชื่อเรื่อง">
-                                                <label for="doc_title_1">ชื่อเรื่อง *</label>
-                                                <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Details Row -->
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" id="doc_revision_1" name="doc_revision[]"
-                                                       class="form-control" required placeholder="ลำดับการแก้ไข">
-                                                <label for="doc_revision_1">ลำดับการแก้ไข *</label>
-                                                <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" id="doc_pages_1" name="doc_pages[]"
-                                                       class="form-control" min="1" required placeholder="จำนวนหน้า">
-                                                <label for="doc_pages_1">จำนวนหน้า/ชุด *</label>
-                                                <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" id="doc_copies_1" name="doc_copies[]"
-                                                       class="form-control" min="1" required placeholder="จำนวนสำเนา">
-                                                <label for="doc_copies_1">จำนวนสำเนา *</label>
-                                                <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Change Details -->
-                                        <div class="col-12">
-                                            <div class="form-floating">
-                                                <textarea id="change_detail_1" name="change_detail[]"
-                                                          class="form-control" style="height: 100px"
-                                                          placeholder="รายละเอียดการเปลี่ยนแปลง"></textarea>
-                                                <label for="change_detail_1">
-                                                    <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <!-- File Uploads -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">
-                                                <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
-                                            </label>
-                                            <input type="file" class="form-control" name="attachment_pdf[]" accept=".pdf" required>
-                                            <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">
-                                                <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
-                                            </label>
-                                            <input type="file" class="form-control" name="attachment_excel[]" accept=".xls,.xlsx" required>
-                                            <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Area Section -->
-                    <section class="form-section mb-4">
-                        <label class="form-label fw-semibold section-title">
-                            <i class="fas fa-map-marker-alt me-2"></i>พื้นที่การใช้งาน (Area)
-                        </label>
-                        <div id="areaCheckboxe" class="row g-2">
-                            @for (int i = 0; i < Model.AvailableAreas.Count; i++)
+                            @if (Model.DocumentDetails != null && Model.DocumentDetails.Any())
                             {
-                                <div class="col-md-3">
-                                    <!-- เปลี่ยนจาก col-md-2 เป็น col-md-3 -->
-                                    <div class="form-check">
-                                        @Html.CheckBoxFor(m => m.AvailableAreas[i].IsSelected,
-                                        new { @class = "form-check-input", id = "area_" + i })
-                                        <label class="form-check-label" for="area_@i">
-                                            @Model.AvailableAreas[i].SectionCode
-                                        </label>
-                                        @Html.HiddenFor(m => m.AvailableAreas[i].Id)
-                                        @Html.HiddenFor(m => m.AvailableAreas[i].SectionCode)
-                                        @Html.HiddenFor(m => m.AvailableAreas[i].SectionName)
+                                for (int i = 0; i < Model.DocumentDetails.Count; i++)
+                                {
+                                    <div class="document-card card border-light mb-3" data-index="@(i + 1)">
+                                        <div class="card-header bg-light py-2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="fw-semibold">เอกสารลำดับที่ @(i + 1)</span>
+                                                <button type="button" class="btn btn-outline-danger btn-sm remove-document">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_number, new { @class = "form-control", @required = "required", @placeholder = "หมายเลขเอกสาร" })
+                                                        <label for="DocumentDetails_@(i)__WS_number">หมายเลขเอกสาร *</label>
+                                                        <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_name, new { @class = "form-control", @required = "required", @placeholder = "ชื่อเรื่อง" })
+                                                        <label for="DocumentDetails_@(i)__WS_name">ชื่อเรื่อง *</label>
+                                                        <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-floating">
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Revision, new { @class = "form-control", @required = "required", @placeholder = "ลำดับการแก้ไข" })
+                                                        <label for="DocumentDetails_@(i)__Revision">ลำดับการแก้ไข *</label>
+                                                        <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating">
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_pages, new { @class = "form-control", @required = "required", @placeholder = "จำนวนหน้า" })
+                                                        <label for="DocumentDetails_@(i)__Num_pages">จำนวนหน้า/ชุด *</label>
+                                                        <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-floating">
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_copies, new { @class = "form-control", @type = "number", @min = "1", @required = "required", @placeholder = "จำนวนสำเนา" })
+                                                        <label for="DocumentDetails_@(i)__Num_copies">จำนวนสำเนา *</label>
+                                                        <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        @Html.TextAreaFor(m => m.DocumentDetails[i].Change_detail, new { @class = "form-control", @style = "height: 100px", @placeholder = "รายละเอียดการเปลี่ยนแปลง" })
+                                                        <label for="DocumentDetails_@(i)__Change_detail">
+                                                            <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
+                                                    </label>
+                                                    <input type="file" class="form-control" name="DocumentDetails[@i].File_pdf" accept=".pdf" >
+                                                    <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
+                                                    @*@if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_pdf_url))
+                                                    {
+                                                        <div class="form-text mt-1">
+                                                            <a href="@Url.Content(Model.DocumentDetails[i].File_pdf_url)" target="_blank">ไฟล์ PDF เดิม</a>
+                                                        </div>
+                                                    }*@
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
+                                                    </label>
+                                                    <input type="file" class="form-control" name="DocumentDetails[@i].File_excel" accept=".xls,.xlsx" >
+                                                    <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
+                                                    @*@if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_excel_url))
+                                                    {
+                                                        <div class="form-text mt-1">
+                                                            <a href="@Url.Content(Model.DocumentDetails[i].File_excel_url)" target="_blank">ไฟล์ Excel เดิม</a>
+                                                        </div>
+                                                    }*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="document-card card border-light mb-3" data-index="1">
+                                    <div class="card-header bg-light py-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="fw-semibold">เอกสารลำดับที่ 1</span>
+                                            <button type="button" class="btn btn-outline-danger btn-sm remove-document" style="display: none;">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="DocumentDetails_0__WS_number"
+                                                           name="DocumentDetails[0].WS_number" required placeholder="หมายเลขเอกสาร">
+                                                    <label for="DocumentDetails_0__WS_number">หมายเลขเอกสาร *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="DocumentDetails_0__WS_name"
+                                                           name="DocumentDetails[0].WS_name" required placeholder="ชื่อเรื่อง">
+                                                    <label for="DocumentDetails_0__WS_name">ชื่อเรื่อง *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" id="DocumentDetails_0__Revision" name="DocumentDetails[0].Revision"
+                                                           class="form-control" required placeholder="ลำดับการแก้ไข">
+                                                    <label for="DocumentDetails_0__Revision">ลำดับการแก้ไข *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" id="DocumentDetails_0__Num_pages" name="DocumentDetails[0].Num_pages"
+                                                           class="form-control" required placeholder="จำนวนหน้า">
+                                                    <label for="DocumentDetails_0__Num_pages">จำนวนหน้า/ชุด *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="number" id="DocumentDetails_0__Num_copies" name="DocumentDetails[0].Num_copies"
+                                                           class="form-control" min="1" required placeholder="จำนวนสำเนา">
+                                                    <label for="DocumentDetails_0__Num_copies">จำนวนสำเนา *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <textarea id="DocumentDetails_0__Change_detail" name="DocumentDetails[0].Change_detail"
+                                                              class="form-control" style="height: 100px"
+                                                              placeholder="รายละเอียดการเปลี่ยนแปลง"></textarea>
+                                                    <label for="DocumentDetails_0__Change_detail">
+                                                        <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">
+                                                    <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
+                                                </label>
+                                                <input type="file" class="form-control" name="DocumentDetails[0].File_pdf" accept=".pdf" required>
+                                                <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">
+                                                    <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
+                                                </label>
+                                                <input type="file" class="form-control" name="DocumentDetails[0].File_excel" accept=".xls,.xlsx" required>
+                                                <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }
                         </div>
                     </section>
 
+                    <section class="form-section mb-4">
+                        <label class="form-label fw-semibold section-title">
+                            <i class="fas fa-map-marker-alt me-2"></i>พื้นที่การใช้งาน (Area)
+                        </label>
+                        <div id="areaCheckboxe" class="row g-2">
+                            @if (Model.AvailableAreas != null)
+                            {
+                                for (int i = 0; i < Model.AvailableAreas.Count; i++)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(m => m.AvailableAreas[i].IsSelected, new { @class = "form-check-input", id = "area_" + i })
+                                            <label class="form-check-label" for="area_@i">
+                                                @Model.AvailableAreas[i].SectionCode
+                                            </label>
+                                            @Html.HiddenFor(m => m.AvailableAreas[i].Id)
+                                            @Html.HiddenFor(m => m.AvailableAreas[i].SectionCode)
+                                            @Html.HiddenFor(m => m.AvailableAreas[i].SectionName)
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </section>
 
-                    <!-- Document Type Section -->
                     <section class="form-section mb-4">
                         <label class="form-label fw-semibold section-title">
                             <i class="fas fa-file-contract me-2"></i>ประเภทเอกสารที่ร้องขอ *
@@ -225,8 +441,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-check form-check-card">
-                                    <input class="form-check-input" type="radio" name="document_type"
-                                           id="controlledCopy" value="controlled" required>
+                                    @Html.RadioButtonFor(m => m.Document_type, "controlled", new { @class = "form-check-input", @id = "controlledCopy", @required = "required" })
                                     <label class="form-check-label" for="controlledCopy">
                                         <i class="fas fa-lock me-2"></i>Controlled Copy
                                         <small class="d-block text-muted">เอกสารควบคุม</small>
@@ -235,8 +450,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check form-check-card">
-                                    <input class="form-check-input" type="radio" name="document_type"
-                                           id="uncontrolledCopy" value="uncontrolled" required>
+                                    @Html.RadioButtonFor(m => m.Document_type, "uncontrolled", new { @class = "form-check-input", @id = "uncontrolledCopy", @required = "required" })
                                     <label class="form-check-label" for="uncontrolledCopy">
                                         <i class="fas fa-unlock me-2"></i>Uncontrolled Copy
                                         <small class="d-block text-muted">เอกสารไม่ควบคุม</small>
@@ -244,36 +458,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="invalid-feedback d-block" id="documentTypeError" style="display: none;">
-                            กรุณาเลือกประเภทเอกสาร
+                        @Html.ValidationMessageFor(model => model.Document_type, "", new { @class = "text-danger" })
+                    </section>
+
+                    <section class="form-section mb-4">
+                        <label class="form-label fw-semibold section-title" for="Effective_date">
+                            <i class="fas fa-calendar-alt me-2"></i>วันที่เริ่มใช้/ยกเลิกเอกสาร *
+                        </label>
+                        @Html.TextBoxFor(m => m.Effective_date, new { @type = "date", @class = "form-control", @id = "Effective_date", @required = "required" })
+                        <div class="form-text">
                         </div>
                     </section>
 
-                    <!-- Effective Date Section -->
-                    <section class="form-section mb-4">
-                        <label class="form-label fw-semibold section-title" for="effective_date">
-                            <i class="fas fa-calendar-alt me-2"></i>วันที่เริ่มใช้/ยกเลิกเอกสาร
-                        </label>
-                        <input type="date" class="form-control" name="effective_date" id="effective_date">
-                        <div class="form-text">เลือกวันที่ที่ต้องการให้เอกสารมีผลบังคับใช้</div>
-                    </section>
-                }
-                <!-- Form Actions -->
-                <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
-                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
-                        <i class="fas fa-arrow-left me-2"></i>ย้อนกลับ
-                    </button>
-                    <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-outline-primary" id="saveDraftBtn">
-                            <i class="fas fa-save me-2"></i>บันทึกแบบร่าง
-                        </button>
-                        <button type="submit" class="btn btn-success">
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-paper-plane me-2"></i>ส่งคำร้อง
                         </button>
                     </div>
-                </div>
+                }
             </div>
         </div>
-
     </div>
 </div>

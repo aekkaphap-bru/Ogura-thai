@@ -1,21 +1,4 @@
 ﻿class DocumentFormManager {
-    constructor() {
-        this.documentCount = 1;
-        this.maxDocuments = 10; // จำกัดจำนวนเอกสารสูงสุด
-        this.areas = [
-            'IS', 'IT', 'QA', 'PP', 'GS', 'FC', 'AB2', 'SE',
-            'HR', 'PE', 'QC', 'L2', 'BR', 'CA', 'AS', 'FR',
-            'ACC', 'EN', 'PD1', 'L3', 'AB1', 'AF', 'AC', 'ACC',
-            'PU', 'PC', 'L1', 'RA', 'AT', 'GN', 'PD2'
-        ];
-
-        // Cache DOM elements
-        this.elements = {};
-        this.debounceTimer = null;
-        this.isSubmitting = false;
-
-        this.init();
-    }
 
     init() {
         this.cacheElements();
@@ -599,36 +582,6 @@
             }
         }
     }
-
-    // Show notification
-    showNotification(message, type = 'info') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-
-        const icons = {
-            success: 'check-circle',
-            error: 'exclamation-triangle',
-            warning: 'exclamation-circle',
-            info: 'info-circle'
-        };
-
-        notification.innerHTML = `
-            <i class="fas fa-${icons[type] || 'info-circle'} me-2"></i>
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-
-        document.body.appendChild(notification);
-
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 5000);
-    }
 }
 
 // Static method to initialize
@@ -645,3 +598,4 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = DocumentFormManager;
 }
+
