@@ -1,19 +1,19 @@
 ﻿/* --- Typography & Global Styles --- */
-/*body {
-    font-family: 'IBM Plex Sans Thai', sans-serif;*/ /* ใช้ฟอนต์ไทยที่สวยงาม */
-    /*background-color: #f8f9fa;*/ /* สีพื้นหลังอ่อนๆ */
-    /*color: #343a40;*/ /* สีข้อความทั่วไป */
-/*}
+body {
+    font-family: 'IBM Plex Sans Thai', sans-serif; /* ใช้ฟอนต์ไทยที่สวยงาม */
+    background-color: #f8f9fa; /* สีพื้นหลังอ่อนๆ */
+    color: #343a40; /* สีข้อความทั่วไป */
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'IBM Plex Sans Thai', sans-serif;
-    font-weight: 600;*/ /* Semi-bold for headings */
-    /*color: #343a40;*/ /* Darker color for headings */
-/*}
+    font-weight: 600; /* Semi-bold for headings */
+    color: #343a40; /* Darker color for headings */
+}
 
 .text-primary {
-    color: #0056b3 !important;*/ /* ปรับสี primary ให้ดูสุขุมขึ้น */
-/*}
+    color: #0056b3 !important; /* ปรับสี primary ให้ดูสุขุมขึ้น */
+}
 
 .btn-primary {
     background-color: #0056b3;
@@ -26,60 +26,84 @@ h1, h2, h3, h4, h5, h6 {
     }
 
 .btn-success {
-    background-color: #28a745;*/ /* สีเขียวมาตรฐาน */
-    /*border-color: #28a745;
+    background-color: #28a745; /* สีเขียวมาตรฐาน */
+    border-color: #28a745;
 }
 
     .btn-success:hover {
         background-color: #218838;
         border-color: #1e7e34;
-    }*/
+    }
 
+.btn-secondary { /* Added for disabled add button */
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
 
 /* --- Card and Section Styles --- */
-/*.card {
-    border: none;*/ /* ลบ border เดิมของ Bootstrap */
-    /*box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;*/ /* เพิ่มเงาให้ดูมีมิติ */
-/*}
+.card {
+    border: none; /* ลบ border เดิมของ Bootstrap */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important; /* เพิ่มเงาให้ดูมีมิติ */
+}
 
 .card-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);*/ /* เพิ่มเส้นคั่นใต้ header */
-/*}
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* เพิ่มเส้นคั่นใต้ header */
+}
 
 .form-section {
     background-color: #ffffff;
-    border: 1px solid #e9ecef;*/ /* Border สีเทาอ่อน */
-    /*border-radius: 0.5rem;*/ /* มุมโค้งมน */
-    /*padding: 2.5rem;*/ /* เพิ่ม padding ให้แต่ละ section */
-    /*margin-bottom: 2.5rem;*/ /* ระยะห่างระหว่าง section */
-    /*box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.04);*/ /* เงาอ่อนๆ */
-/*}
+    border: 1px solid #e9ecef; /* Border สีเทาอ่อน */
+    border-radius: 0.5rem; /* มุมโค้งมน */
+    padding: 2.5rem; /* เพิ่ม padding ให้แต่ละ section */
+    margin-bottom: 2.5rem; /* ระยะห่างระหว่าง section */
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.04); /* เงาอ่อนๆ */
+}
 
 .section-title {
-    font-size: 1.5rem;*/ /* ขนาดใหญ่ขึ้นสำหรับหัวข้อส่วน */
-    /*color: #0056b3;*/ /* สีหัวข้อ */
-    /*margin-bottom: 1.5rem;
+    font-size: 1.5rem; /* ขนาดใหญ่ขึ้นสำหรับหัวข้อส่วน */
+    color: #0056b3; /* สีหัวข้อ */
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
 }
 
     .section-title i {
-        font-size: 1.8rem;*/ /* ขนาด icon ใหญ่ขึ้น */
-        /*color: #007bff;*/ /* สี icon ที่แตกต่าง */
-    /*}*/
+        font-size: 1.8rem; /* ขนาด icon ใหญ่ขึ้น */
+        color: #007bff; /* สี icon ที่แตกต่าง */
+    }
 
 /* --- Form Elements --- */
-/*.form-floating label {
-    color: #6c757d;*/ /* สี label เมื่อไม่ได้โฟกัส */
-/*}
+.form-floating label {
+    color: #6c757d; /* สี label เมื่อไม่ได้โฟกัส */
+}
 
 .form-control:focus {
-    border-color: #80bdff;*/ /* สี border เมื่อโฟกัส */
-    /*box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);*/ /* Shadow เมื่อโฟกัส */
-/*}*/
+    border-color: #80bdff; /* สี border เมื่อโฟกัส */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow เมื่อโฟกัส */
+}
+
+.form-control.is-invalid, .form-control.is-valid { /* Ensure validation feedback applies */
+    padding-right: calc(1.5em + 0.75rem) !important;
+    background-image: none !important; /* Remove default validation icons if you prefer custom feedback */
+}
+
+.form-floating > .form-control.is-invalid ~ label::after,
+.form-floating > .form-control.is-valid ~ label::after {
+    content: none; /* Remove default floating label validation icons */
+}
+
+.invalid-feedback {
+    display: block; /* Make sure it shows up for custom validation if not using was-validated */
+}
+
 
 /* Custom Checkbox/Radio Cards */
-/*.form-check-card {
+.form-check-card {
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     padding: 1rem 1.25rem;
@@ -88,8 +112,8 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fefefe;
     display: flex;
     align-items: flex-start;
-    position: relative;*/ /* สำหรับตำแหน่งของ input */
-/*}
+    position: relative; /* สำหรับตำแหน่งของ input */
+}
 
     .form-check-card:hover {
         border-color: #007bff;
@@ -97,52 +121,58 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .form-check-card .form-check-input {
-        position: absolute;*/ /* ซ่อน input จริง */
-        /*opacity: 0;
+        position: absolute; /* ซ่อน input จริง */
+        opacity: 0;
         pointer-events: none;
+        z-index: -1; /* Ensure it's behind the label */
     }
 
     .form-check-card label {
-        flex-grow: 1;*/ /* ทำให้ label ขยายเต็มพื้นที่ */
-        /*margin-bottom: 0;*/ /* ลบ margin เดิม */
-        /*color: #343a40;
+        flex-grow: 1; /* ทำให้ label ขยายเต็มพื้นที่ */
+        margin-bottom: 0; /* ลบ margin เดิม */
+        color: #343a40;
         cursor: pointer;
-        padding-left: 0;*/ /* ลบ padding-left เดิมของ bootstrap */
-    /*}*/
+        padding-left: 0; /* ลบ padding-left เดิมของ bootstrap */
+        display: flex; /* For aligning icon and text within label */
+        align-items: flex-start;
+    }
 
     /* Custom icons for radio/checkbox */
-    /*.form-check-card .form-check-label .me-2 i {
+    .form-check-card .form-check-label .me-2 i {
         font-size: 1.2rem;
-        transition: color 0.2s ease-in-out;
+        transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        line-height: 1.5rem; /* Align with text */
     }
 
     .form-check-card .form-check-input:checked + label .me-2 i {
-        color: #007bff;*/ /* สีไอคอนเมื่อถูกเลือก */
-    /*}*/
+        color: #007bff; /* สีไอคอนเมื่อถูกเลือก */
+        transform: scale(1.1); /* Slight animation */
+    }
 
     /* Style for checked state */
-    /*.form-check-card.checked {*/ /* เพิ่ม class .checked ด้วย JS/C# */
-        /*border-color: #007bff;
-        background-color: #e7f0fa;*/ /* สีพื้นหลังอ่อนๆ เมื่อถูกเลือก */
-        /*box-shadow: 0 0.125rem 0.25rem rgba(0, 123, 255, 0.15);
-    }*/
+    .form-check-card.checked { /* Added via JS */
+        border-color: #007bff;
+        background-color: #e7f0fa; /* สีพื้นหลังอ่อนๆ เมื่อถูกเลือก */
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 123, 255, 0.15);
+    }
 
 
 /* File Upload Styles */
-/*.form-label {
-    font-weight: 600;*/ /* ทำให้ label ของไฟล์หนาขึ้น */
-    /*color: #495057;
+.form-label {
+    font-weight: 600; /* ทำให้ label ของไฟล์หนาขึ้น */
+    color: #495057;
 }
 
 .form-text {
     font-size: 0.85rem;
     color: #6c757d;
-}*/
+    margin-top: 0.25rem; /* Add some space */
+}
 
 /* Document Card Specifics */
-/*.document-card .card-header {
-    background-color: #f1f6fc !important;*/ /* สี header ของแต่ละเอกสาร */
-    /*color: #0056b3;
+.document-card .card-header {
+    background-color: #f1f6fc !important; /* สี header ของแต่ละเอกสาร */
+    color: #0056b3;
 }
 
     .document-card .card-header .fw-semibold {
@@ -152,35 +182,4 @@ h1, h2, h3, h4, h5, h6 {
 .document-card .card-body {
     padding-top: 2rem;
     padding-bottom: 2rem;
-}*/
-
-/* Responsive adjustments */
-/*@media (max-width: 767.98px) {
-    .section-title {
-        font-size: 1.3rem;
-    }
-
-    .form-section {
-        padding: 1.5rem;
-    }
-
-    .btn-lg {
-        width: 100%;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-}*/
-
-
-.form-check-card .form-check-input {
-    position: absolute; /* ซ่อน input จริง */
-    opacity: 0;
-    pointer-events: none;
-    z-index: -1; /* Ensure it's behind the label */
-}
-/* Style for checked state */
-.form-check-card.checked { /* Added via JS */
-    border-color: #007bff;
-    background-color: #e7f0fa; /* สีพื้นหลังอ่อนๆ เมื่อถูกเลือก */
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 123, 255, 0.15);
 }

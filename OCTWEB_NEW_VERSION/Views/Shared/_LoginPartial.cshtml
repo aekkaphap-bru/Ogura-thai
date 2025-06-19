@@ -1,4 +1,4 @@
-﻿@* @using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -19,49 +19,4 @@ else
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
-} *@
-
-
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="nav-item dropdown user-menu">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                @* <div class="avatar">@User.Identity.Name.Substring(0, 1).ToUpper()</div> *@
-                <span class="ms-2 d-none d-lg-inline text-nowrap">สวัสดี, @User.Identity.Name</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li>
-                    <a class="dropdown-item" href="@Url.Action("UserProfile", "Account")">
-                        <i class="fas fa-user fa-sm fa-fw me-2 text-primary"></i>
-                        ข้อมูลส่วนตัว
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="@Url.Action("ChangePassword", "Account")">
-                        <i class="fas fa-key fa-sm fa-fw me-2 text-warning"></i>
-                        เปลี่ยนรหัสผ่าน
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-danger"></i>
-                        ออกจากระบบ
-                    </a>
-                </li>
-            </ul>
-        </div>
-    }
-}
-else
-{
-    <div class="login-links">
-        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light me-2">
-            <i class="fas fa-sign-in-alt me-1"></i> เข้าสู่ระบบ
-        </a>
-    </div>
-}
+} 

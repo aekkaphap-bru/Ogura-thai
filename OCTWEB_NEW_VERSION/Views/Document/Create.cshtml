@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 @section Scripts {
@@ -297,12 +298,6 @@
                                                     </label>
                                                     <input type="file" class="form-control" name="DocumentDetails[@i].File_pdf" accept=".pdf" >
                                                     <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
-                                                    @*@if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_pdf_url))
-                                                    {
-                                                        <div class="form-text mt-1">
-                                                            <a href="@Url.Content(Model.DocumentDetails[i].File_pdf_url)" target="_blank">ไฟล์ PDF เดิม</a>
-                                                        </div>
-                                                    }*@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">
@@ -310,12 +305,6 @@
                                                     </label>
                                                     <input type="file" class="form-control" name="DocumentDetails[@i].File_excel" accept=".xls,.xlsx" >
                                                     <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
-                                                    @*@if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_excel_url))
-                                                    {
-                                                        <div class="form-text mt-1">
-                                                            <a href="@Url.Content(Model.DocumentDetails[i].File_excel_url)" target="_blank">ไฟล์ Excel เดิม</a>
-                                                        </div>
-                                                    }*@
                                                 </div>
                                             </div>
                                         </div>
@@ -465,7 +454,9 @@
                         <label class="form-label fw-semibold section-title" for="Effective_date">
                             <i class="fas fa-calendar-alt me-2"></i>วันที่เริ่มใช้/ยกเลิกเอกสาร *
                         </label>
-                        @Html.TextBoxFor(m => m.Effective_date, new { @type = "date", @class = "form-control", @id = "Effective_date", @required = "required" })
+                        @Html.TextBox("Effective_date",
+                            Model.Effective_date.ToString("yyyy-MM-dd"),
+                            new { @type = "date", @class = "form-control", @id = "Effective_date", @required = "required" })
                         <div class="form-text">
                         </div>
                     </section>

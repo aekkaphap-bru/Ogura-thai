@@ -596,6 +596,7 @@
   <ItemGroup>
     <Content Include="Content\css\ModifyTrainingCourseMainList.css" />
     <Content Include="Content\css\ModifyTrainingMainList.css" />
+    <Content Include="Content\login.css" />
     <Content Include="Content\Dtest.css" />
     <Content Include="Content\custom_fullcalendar.css" />
     <Content Include="Content\style_custom_viewpoint.css" />

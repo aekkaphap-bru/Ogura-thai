@@ -43,202 +43,142 @@
                     <option value="rejected">ปฏิเสธ</option>
                 </select>
             </div>
-            <button class="btn-new-request" onclick="showNewRequestModal()">
-                <i class="fas fa-plus"></i>
-                สร้างคำร้องใหม่
-            </button>
+            @Html.ActionLink(
+                "สร้างคำร้องใหม่", // ข้อความที่จะแสดงบนลิงก์
+                "Create",          // Action Method
+                "Document",        // Controller
+                null,              // Route values (ไม่ต้องระบุในกรณีนี้)
+                new { @class = "btn-new-request", @title = "สร้างคำร้องใหม่" } // HTML attributes
+            )
         </div>
 
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Document List -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-list"></i>
-                        รายการคำร้องทั้งหมด
-                    </div>
-                    <div style="font-size: 12px; color: #7f8c8d;">
-                        อัพเดทล่าสุด: วันนี้ 14:30
-                    </div>
+        
+        <!-- Document List -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-list"></i>
+                    รายการคำร้องทั้งหมด
                 </div>
-                <div class="card-body">
-                    <div class="document-list">
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">การควบคุมเอกสาร (Document Control)</div>
-                                <div class="document-meta">
-                                    <span class="document-id">OCT-IS-P0002</span>
-                                    <span><i class="fas fa-user"></i> สิริพร</span>
-                                    <span><i class="fas fa-calendar"></i> 30/09/2024</span>
-                                </div>
-                            </div>
-                            <div class="status-badge status-approved">อนุมัติแล้ว</div>
-                            <div class="document-actions">
-                                <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" title="แก้ไข">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">คำร้องขอแก้ไขข้อมูลพนักงาน</div>
-                                <div class="document-meta">
-                                    <span class="document-id">OCT-HR-0023</span>
-                                    <span><i class="fas fa-user"></i> วิชญา</span>
-                                    <span><i class="fas fa-calendar"></i> 01/10/2024</span>
-                                </div>
-                            </div>
-                            <div class="status-badge status-pending">รอดำเนินการ</div>
-                            <div class="document-actions">
-                                <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" title="แก้ไข">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">คำร้องขอเปลี่ยนตำแหน่งงาน</div>
-                                <div class="document-meta">
-                                    <span class="document-id">OCT-HR-0024</span>
-                                    <span><i class="fas fa-user"></i> อรุณ</span>
-                                    <span><i class="fas fa-calendar"></i> 02/10/2024</span>
-                                </div>
-                            </div>
-                            <div class="status-badge status-rejected">ปฏิเสธ</div>
-                            <div class="document-actions">
-                                <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" title="แก้ไข">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">คำร้องขออนุมัติงบประมาณ IT</div>
-                                <div class="document-meta">
-                                    <span class="document-id">OCT-IT-0015</span>
-                                    <span><i class="fas fa-user"></i> ธนา</span>
-                                    <span><i class="fas fa-calendar"></i> 03/10/2024</span>
-                                </div>
-                            </div>
-                            <div class="status-badge status-pending">รอดำเนินการ</div>
-                            <div class="document-actions">
-                                <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" title="แก้ไข">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">คำร้องขอจัดซื้อวัสดุสำนักงาน</div>
-                                <div class="document-meta">
-                                    <span class="document-id">OCT-PU-0087</span>
-                                    <span><i class="fas fa-user"></i> สมชาย</span>
-                                    <span><i class="fas fa-calendar"></i> 04/10/2024</span>
-                                </div>
-                            </div>
-                            <div class="status-badge status-approved">อนุมัติแล้ว</div>
-                            <div class="document-actions">
-                                <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" title="แก้ไข">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <button><i class="fas fa-chevron-left"></i></button>
-                        <button class="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>4</button>
-                        <button>5</button>
-                        <button><i class="fas fa-chevron-right"></i></button>
-                    </div>
+                <div style="font-size: 12px; color: #7f8c8d;">
+                    อัพเดทล่าสุด: วันนี้ 14:30
                 </div>
             </div>
-
-            <!-- Sidebar -->
-            <div>
-                <!-- Quick Actions -->
-                <div class="card" style="margin-bottom: 25px;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-bolt"></i>
-                            เลือกชนิดคำร้อง
+            <div class="card-body">
+                <div class="document-list">
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">การควบคุมเอกสาร (Document Control)</div>
+                            <div class="document-meta">
+                                <span class="document-id">OCT-IS-P0002</span>
+                                <span><i class="fas fa-user"></i> สิริพร</span>
+                                <span><i class="fas fa-calendar"></i> 30/09/2024</span>
+                            </div>
+                        </div>
+                        <div class="status-badge status-approved">อนุมัติแล้ว</div>
+                        <div class="document-actions">
+                            <button class="btn-action btn-view" title="ดูรายละเอียด">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-edit" title="แก้ไข">
+                                <i class="fas fa-edit"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="quick-actions">
-                            <a href="#" class="quick-action-btn">
-                                <div class="quick-action-icon">
-                                    <i class="fa-file-contract"></i>
-                                </div>
-                                <div class="quick-action-text">
-                                    <h3>New Issue</h3>
-                                    <p>ลงทะเบียนเอกสารครั้งแรก</p>
-                                </div>
-                            </a>
-                            <a href="#" class="quick-action-btn">
-                                <div class="quick-action-icon">
-                                    <i class="fa-file-pen"></i>
-                                </div>
-                                <div class="quick-action-text">
-                                    <h3>Revised</h3>
-                                    <p>แก้ไขเอกสาร/ปรับปรุง</p>
-                                </div>
-                            </a>
-                            <a href="#" class="quick-action-btn">
-                                <div class="quick-action-icon">
-                                    <i class="fas fa-file-import"></i>
-                                </div>
-                                <div class="quick-action-text">
-                                    <h3>External</h3>
-                                    <p>ลงทะเบียนเอกสารภายนอก</p>
-                                </div>
-                            </a>
-                            <a href="#" class="quick-action-btn">
-                                <div class="quick-action-icon">
-                                    <i class="fas fa-file-circle-xmark"></i>
-                                </div>
-                                <div class="quick-action-text">
-                                    <h3>Obsolete</h3>
-                                    <p>ขออนุมัติยกเลิก</p>
-                                </div>
-                            </a>
-                            <a href="#" class="quick-action-btn">
-                                <div class="quick-action-icon">
-                                    <i class="fas fa-copy"></i>
-                                </div>
-                                <div class="quick-action-text">
-                                    <h3>Copy</h3>
-                                    <p>ขออนุมัติสำเนา</p>
-                                </div>
-                            </a>
+
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">คำร้องขอแก้ไขข้อมูลพนักงาน</div>
+                            <div class="document-meta">
+                                <span class="document-id">OCT-HR-0023</span>
+                                <span><i class="fas fa-user"></i> วิชญา</span>
+                                <span><i class="fas fa-calendar"></i> 01/10/2024</span>
+                            </div>
+                        </div>
+                        <div class="status-badge status-pending">รอดำเนินการ</div>
+                        <div class="document-actions">
+                            <button class="btn-action btn-view" title="ดูรายละเอียด">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-edit" title="แก้ไข">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">คำร้องขอเปลี่ยนตำแหน่งงาน</div>
+                            <div class="document-meta">
+                                <span class="document-id">OCT-HR-0024</span>
+                                <span><i class="fas fa-user"></i> อรุณ</span>
+                                <span><i class="fas fa-calendar"></i> 02/10/2024</span>
+                            </div>
+                        </div>
+                        <div class="status-badge status-rejected">ปฏิเสธ</div>
+                        <div class="document-actions">
+                            <button class="btn-action btn-view" title="ดูรายละเอียด">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-edit" title="แก้ไข">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">คำร้องขออนุมัติงบประมาณ IT</div>
+                            <div class="document-meta">
+                                <span class="document-id">OCT-IT-0015</span>
+                                <span><i class="fas fa-user"></i> ธนา</span>
+                                <span><i class="fas fa-calendar"></i> 03/10/2024</span>
+                            </div>
+                        </div>
+                        <div class="status-badge status-pending">รอดำเนินการ</div>
+                        <div class="document-actions">
+                            <button class="btn-action btn-view" title="ดูรายละเอียด">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-edit" title="แก้ไข">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">คำร้องขอจัดซื้อวัสดุสำนักงาน</div>
+                            <div class="document-meta">
+                                <span class="document-id">OCT-PU-0087</span>
+                                <span><i class="fas fa-user"></i> สมชาย</span>
+                                <span><i class="fas fa-calendar"></i> 04/10/2024</span>
+                            </div>
+                        </div>
+                        <div class="status-badge status-approved">อนุมัติแล้ว</div>
+                        <div class="document-actions">
+                            <button class="btn-action btn-view" title="ดูรายละเอียด">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action btn-edit" title="แก้ไข">
+                                <i class="fas fa-edit"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <button>5</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
             </div>
-        </div>
+        </div>         
+       
     </div>
 </div>
