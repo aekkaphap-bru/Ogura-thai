@@ -1,178 +1,37 @@
-﻿@{
+﻿@using OCTWEB_NET45.Models
+@model OCTWEB_NET45.Models.DocumentFormViewModel
+
+@{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 @section Scripts {
-    <script src="~/Scripts/documentFormManager.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Initialize DocumentForm if it exists (from external script)
-            if (typeof DocumentForm !== 'undefined' && DocumentForm.init) {
-                DocumentForm.init();
-            }
-
-            // Get the initial number of document sections from the DOM
-            // This ensures documentIndex starts correctly if there are pre-existing documents
-            let documentIndex = $('.document-card').length;
-            if (documentIndex === 0) {
-                documentIndex = 0; // If no initial documents, start index for array from 0
-            } else {
-                documentIndex--; // Adjust to be 0-based index for the next new document
-            }
-
-            // Add new document section
-            $('#addDocumentBtn').click(function () {
-                documentIndex++; // Increment for the new section's 0-based index
-                const documentTemplate = createDocumentSection(documentIndex);
-                $('#document-details-list').append(documentTemplate);
-                updateRemoveButtons();
-            });
-
-            // Remove document section
-            $(document).on('click', '.remove-document', function () {
-                $(this).closest('.document-card').remove();
-                updateDocumentNumbers(); // Re-index after removal
-                updateRemoveButtons();
-            });
-
-            function createDocumentSection(currentIndex) {
-                // currentIndex here refers to the 0-based index for model binding (e.g., DocumentDetails[0], DocumentDetails[1])
-                const displayIndex = currentIndex + 1; // For display purpose (เอกสารลำดับที่ 1, 2, ...)
-
-                return `
-                        <div class="document-card card border-light mb-3" data-index="${displayIndex}">
-                            <div class="card-header bg-light py-2">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-semibold">เอกสารลำดับที่ ${displayIndex}</span>
-                                    <button type="button" class="btn btn-outline-danger btn-sm remove-document">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="DocumentDetails_${currentIndex}__WS_number"
-                                                   name="DocumentDetails[${currentIndex}].WS_number" required placeholder="หมายเลขเอกสาร">
-                                            <label for="DocumentDetails_${currentIndex}__WS_number">หมายเลขเอกสาร *</label>
-                                            <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="DocumentDetails_${currentIndex}__WS_name"
-                                                   name="DocumentDetails[${currentIndex}].WS_name" required placeholder="ชื่อเรื่อง">
-                                            <label for="DocumentDetails_${currentIndex}__WS_name">ชื่อเรื่อง *</label>
-                                            <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-floating">
-                                            <input type="text" id="DocumentDetails_${currentIndex}__Revision" name="DocumentDetails[${currentIndex}].Revision"
-                                                   class="form-control" required placeholder="ลำดับการแก้ไข">
-                                            <label for="DocumentDetails_${currentIndex}__Revision">ลำดับการแก้ไข *</label>
-                                            <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-floating">
-                                            <input type="text" id="DocumentDetails_${currentIndex}__Num_pages" name="DocumentDetails[${currentIndex}].Num_pages"
-                                                   class="form-control" required placeholder="จำนวนหน้า">
-                                            <label for="DocumentDetails_${currentIndex}__Num_pages">จำนวนหน้า/ชุด *</label>
-                                            <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-floating">
-                                            <input type="number" id="DocumentDetails_${currentIndex}__Num_copies" name="DocumentDetails[${currentIndex}].Num_copies"
-                                                   class="form-control" min="1" required placeholder="จำนวนสำเนา">
-                                            <label for="DocumentDetails_${currentIndex}__Num_copies">จำนวนสำเนา *</label>
-                                            <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea id="DocumentDetails_${currentIndex}__Change_detail" name="DocumentDetails[${currentIndex}].Change_detail"
-                                                      class="form-control" style="height: 100px"
-                                                      placeholder="รายละเอียดการเปลี่ยนแปลง"></textarea>
-                                            <label for="DocumentDetails_${currentIndex}__Change_detail">
-                                                <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">
-                                            <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
-                                        </label>
-                                        <input type="file" class="form-control" name="DocumentDetails[${currentIndex}].File_pdf" accept=".pdf" required>
-                                        <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">
-                                            <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
-                                        </label>
-                                        <input type="file" class="form-control" name="DocumentDetails[${currentIndex}].File_excel" accept=".xls,.xlsx" required>
-                                        <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            }
-
-            function updateDocumentNumbers() {
-                $('.document-card').each(function (index) {
-                    // Update display number (1-based)
-                    $(this).attr('data-index', index + 1);
-                    $(this).find('.fw-semibold').text('เอกสารลำดับที่ ' + (index + 1));
-
-                    // Update form field names and IDs (0-based for model binding)
-                    const fields = ['WS_number', 'WS_name', 'Revision', 'Num_pages', 'Num_copies', 'Change_detail', 'File_pdf', 'File_excel'];
-                    fields.forEach(field => {
-                        const input = $(this).find(`[name$="${field}"]`); // Use ends-with selector for robustness
-                        const newName = `DocumentDetails[${index}].${field}`;
-                        const newId = `DocumentDetails_${index}__${field}`;
-                        input.attr('name', newName);
-                        input.attr('id', newId);
-                        // Update label 'for' attribute if it exists
-                        $(this).find(`label[for^="DocumentDetails_"][for$="__${field}"]`).attr('for', newId);
-                    });
-                });
-            }
-
-            function updateRemoveButtons() {
-                const documentCards = $('.document-card');
-                // Only show remove button if there is more than one document card
-                documentCards.find('.remove-document').toggle(documentCards.length > 1);
-            }
-
-            // Initialize remove buttons visibility on page load
-            updateRemoveButtons();
-            // Also update document numbers on initial load to ensure correct indexing if model has data
-            updateDocumentNumbers();
-        });
-    </script>
+    @*<link href="~/Content/Dtest.css" rel="stylesheet" />*@
+    @*<link href="~/Content/Dtest.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/documentFormManager.js"></script>*@
 }
 
-@model OCTWEB_NET45.Models.DocumentFormViewModel
 
-<div class="container-fluid">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<div class="container-fluid py-4 bg-light">
     <div class="container">
-        <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
-            <div class="card-header justify-content-center">
-                <p class="text-danger">@ViewBag.ErrorMessage</p>
-                <p class="text-success">@ViewBag.Message</p>
-                <i class="fas fa-edit me-2"></i>แบบฟอร์มคำร้อง
+        <div class="card shadow-lg border-0 rounded-lg mb-4">
+            <div class="card-header bg-primary text-white py-3 text-center">
+                <h4 class="mb-0">
+                    <i class="fas fa-file-invoice me-2"></i> แบบฟอร์มคำร้องจัดการเอกสาร
+                </h4>
             </div>
 
-            <div class="card-body">
-                @using (Html.BeginForm("Create", "Document", FormMethod.Post, new { enctype = "multipart/form-data", id = "documentForm" }))
+            <div class="card-body p-4">
+                <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+                </div>
+
+                @using (Html.BeginForm("Create", "Document", FormMethod.Post, new { enctype = "multipart/form-data", id = "documentForm", @class = "needs-validation", @novalidate = "novalidate" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.Request_from)
@@ -180,16 +39,16 @@
                     @Html.HiddenFor(m => m.Requester_id)
 
                     <div class="progress mb-4" style="height: 8px;">
-                        <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
+                        <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
                              role="progressbar" style="width: 0%;"
                              aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                         </div>
                     </div>
 
-                    <section class="form-section mb-4">
-                        <h6 class="section-title">
-                            <i class="fas fa-clipboard-check me-2"></i>ชนิดการร้องขอ
-                        </h6>
+                    <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                        <h5 class="section-title fw-bold text-primary mb-4">
+                            <i class="fas fa-clipboard-check me-2"></i> ชนิดการร้องขอ
+                        </h5>
                         <div class="row g-3">
                             @{
                                 var requestTypes = new[] {
@@ -208,25 +67,30 @@
                                 var isChecked = Model.Request_type == value;
 
                                 <div class="col-md-4 col-sm-6">
-                                    <div class="form-check form-check-card" title="เลือก @value">
-                                        @Html.RadioButtonFor(model => model.Request_type, value, new { @class = "form-check-input", @id = id, @checked = isChecked })
+                                    <div class="form-check form-check-card @(isChecked ? "checked" : "")" title="เลือก @value">
+                                        @Html.RadioButtonFor(model => model.Request_type, value, new { @class = "form-check-input", @id = id, @checked = isChecked, @required = "required" })
                                         <label class="form-check-label" for="@id">
-                                            @value
+                                            <div>
+                                                <strong class="d-block">@value</strong>
+                                                <small class="text-muted">@((new string[]{"เอกสารใหม่","เอกสารที่มีการแก้ไข","เอกสารที่รับมาจากภายนอก","เอกสารที่ไม่มีการใช้งานแล้ว","เอกสารที่ต้องการสำเนา"})[i])</small>
+                                            </div>
                                         </label>
                                     </div>
                                 </div>
                             }
                         </div>
-                        @Html.ValidationMessageFor(model => model.Request_type, "", new { @class = "text-danger" })
+                        <div id="documentTypeError" class="text-danger mt-2" style="display: none;"></div>
+                        @* Html.ValidationMessageFor(model => model.Request_type, "", new { @class = "text-danger mt-2" })
+                            Using custom div for validation to allow JS to control it directly if needed *@
                     </section>
 
-                    <section class="form-section mb-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="section-title mb-0">
-                                <i class="fas fa-file-alt me-2"></i>รายละเอียดเอกสาร
-                            </h6>
-                            <button type="button" class="btn btn-outline-success btn-sm" id="addDocumentBtn">
-                                <i class="fas fa-plus me-1"></i>เพิ่มเอกสาร
+                    <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="section-title fw-bold text-primary mb-0">
+                                <i class="fas fa-file-alt me-2"></i> รายละเอียดเอกสาร
+                            </h5>
+                            <button type="button" class="btn btn-success btn-lg px-4" id="addDocumentBtn">
+                                <i class="fas fa-plus me-2"></i> เพิ่มเอกสาร
                             </button>
                         </div>
 
@@ -235,12 +99,12 @@
                             {
                                 for (int i = 0; i < Model.DocumentDetails.Count; i++)
                                 {
-                                    <div class="document-card card border-light mb-3" data-index="@(i + 1)">
-                                        <div class="card-header bg-light py-2">
+                                    <div class="document-card card border-light mb-4 shadow-sm" data-index="@(i + 1)">
+                                        <div class="card-header bg-light py-3">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <span class="fw-semibold">เอกสารลำดับที่ @(i + 1)</span>
-                                                <button type="button" class="btn btn-outline-danger btn-sm remove-document">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                <h6 class="fw-semibold mb-0 text-primary">เอกสารลำดับที่ @(i + 1)</h6>
+                                                <button type="button" class="btn btn-outline-danger btn-sm remove-document" @(Model.DocumentDetails.Count == 1 ? "style=\"display: none;\"" : "")>
+                                                    <i class="fas fa-trash-alt me-1"></i> ลบ
                                                 </button>
                                             </div>
                                         </div>
@@ -248,14 +112,14 @@
                                             <div class="row g-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_number, new { @class = "form-control", @required = "required", @placeholder = "หมายเลขเอกสาร" })
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_number, new { @class = "form-control", @required = "required", @placeholder = "หมายเลขเอกสาร", @title = "กรอกหมายเลขเอกสาร", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__WS_number">หมายเลขเอกสาร *</label>
                                                         <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_name, new { @class = "form-control", @required = "required", @placeholder = "ชื่อเรื่อง" })
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_name, new { @class = "form-control", @required = "required", @placeholder = "ชื่อเรื่อง", @title = "กรอกชื่อเรื่องของเอกสาร", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__WS_name">ชื่อเรื่อง *</label>
                                                         <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
                                                     </div>
@@ -263,29 +127,29 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Revision, new { @class = "form-control", @required = "required", @placeholder = "ลำดับการแก้ไข" })
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Revision, new { @class = "form-control", @required = "required", @placeholder = "ลำดับการแก้ไข", @title = "กรอกลำดับการแก้ไข เช่น Rev.01", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__Revision">ลำดับการแก้ไข *</label>
                                                         <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_pages, new { @class = "form-control", @required = "required", @placeholder = "จำนวนหน้า" })
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_pages, new { @class = "form-control", @type = "number", @min = "1", @max = "9999", @required = "required", @placeholder = "จำนวนหน้า", @title = "กรอกจำนวนหน้าหรือชุดของเอกสาร", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__Num_pages">จำนวนหน้า/ชุด *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
+                                                        <div class="invalid-feedback">กรุณากรอกจำนวนหน้า (1-9999)</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_copies, new { @class = "form-control", @type = "number", @min = "1", @required = "required", @placeholder = "จำนวนสำเนา" })
+                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_copies, new { @class = "form-control", @type = "number", @min = "1", @max = "999", @required = "required", @placeholder = "จำนวนสำเนา", @title = "กรอกจำนวนสำเนาที่ต้องการ", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__Num_copies">จำนวนสำเนา *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
+                                                        <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา (1-999)</div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
                                                     <div class="form-floating">
-                                                        @Html.TextAreaFor(m => m.DocumentDetails[i].Change_detail, new { @class = "form-control", @style = "height: 100px", @placeholder = "รายละเอียดการเปลี่ยนแปลง" })
+                                                        @Html.TextAreaFor(m => m.DocumentDetails[i].Change_detail, new { @class = "form-control", @style = "height: 100px", @placeholder = "รายละเอียดการเปลี่ยนแปลง", @title = "อธิบายรายละเอียดการเปลี่ยนแปลง", @data_bs_toggle = "tooltip" })
                                                         <label for="DocumentDetails_@(i)__Change_detail">
                                                             <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
                                                         </label>
@@ -293,18 +157,20 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <label class="form-label">
-                                                        <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
+                                                    <label class="form-label mb-2 text-muted small">
+                                                        <i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF
                                                     </label>
-                                                    <input type="file" class="form-control" name="DocumentDetails[@i].File_pdf" accept=".pdf" >
-                                                    <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
+                                                    <input type="file" class="form-control" id="DocumentDetails_@(i)__File_pdf" name="DocumentDetails[@i].File_pdf" accept=".pdf" data-max-size="10485760">
+                                                    <div class="form-text">รองรับไฟล์ .pdf ขนาดไม่เกิน 10MB</div>
+                                                    <div class="invalid-feedback"></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label class="form-label">
-                                                        <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
+                                                    <label class="form-label mb-2 text-muted small">
+                                                        <i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel
                                                     </label>
-                                                    <input type="file" class="form-control" name="DocumentDetails[@i].File_excel" accept=".xls,.xlsx" >
-                                                    <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
+                                                    <input type="file" class="form-control" id="DocumentDetails_@(i)__File_excel" name="DocumentDetails[@i].File_excel" accept=".xls,.xlsx" data-max-size="10485760">
+                                                    <div class="form-text">รองรับไฟล์ .xls, .xlsx ขนาดไม่เกิน 10MB</div>
+                                                    <div class="invalid-feedback"></div> 
                                                 </div>
                                             </div>
                                         </div>
@@ -313,12 +179,12 @@
                             }
                             else
                             {
-                                <div class="document-card card border-light mb-3" data-index="1">
-                                    <div class="card-header bg-light py-2">
+                                <div class="document-card card border-light mb-4 shadow-sm" data-index="1">
+                                    <div class="card-header bg-light py-3">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fw-semibold">เอกสารลำดับที่ 1</span>
+                                            <h6 class="fw-semibold mb-0 text-primary">เอกสารลำดับที่ 1</h6>
                                             <button type="button" class="btn btn-outline-danger btn-sm remove-document" style="display: none;">
-                                                <i class="fas fa-trash-alt"></i>
+                                                <i class="fas fa-trash-alt me-1"></i> ลบ
                                             </button>
                                         </div>
                                     </div>
@@ -327,7 +193,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="DocumentDetails_0__WS_number"
-                                                           name="DocumentDetails[0].WS_number" required placeholder="หมายเลขเอกสาร">
+                                                           name="DocumentDetails[0].WS_number" required placeholder="หมายเลขเอกสาร"
+                                                           data-bs-toggle="tooltip" title="กรอกหมายเลขเอกสาร">
                                                     <label for="DocumentDetails_0__WS_number">หมายเลขเอกสาร *</label>
                                                     <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
                                                 </div>
@@ -335,7 +202,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="DocumentDetails_0__WS_name"
-                                                           name="DocumentDetails[0].WS_name" required placeholder="ชื่อเรื่อง">
+                                                           name="DocumentDetails[0].WS_name" required placeholder="ชื่อเรื่อง"
+                                                           data-bs-toggle="tooltip" title="กรอกชื่อเรื่องของเอกสาร">
                                                     <label for="DocumentDetails_0__WS_name">ชื่อเรื่อง *</label>
                                                     <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
                                                 </div>
@@ -344,25 +212,28 @@
                                             <div class="col-md-4">
                                                 <div class="form-floating">
                                                     <input type="text" id="DocumentDetails_0__Revision" name="DocumentDetails[0].Revision"
-                                                           class="form-control" required placeholder="ลำดับการแก้ไข">
+                                                           class="form-control" required placeholder="ลำดับการแก้ไข"
+                                                           data-bs-toggle="tooltip" title="กรอกลำดับการแก้ไข เช่น Rev.01">
                                                     <label for="DocumentDetails_0__Revision">ลำดับการแก้ไข *</label>
                                                     <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <input type="text" id="DocumentDetails_0__Num_pages" name="DocumentDetails[0].Num_pages"
-                                                           class="form-control" required placeholder="จำนวนหน้า">
+                                                    <input type="number" id="DocumentDetails_0__Num_pages" name="DocumentDetails[0].Num_pages"
+                                                           class="form-control" min="1" max="9999" required placeholder="จำนวนหน้า"
+                                                           data-bs-toggle="tooltip" title="กรอกจำนวนหน้าหรือชุดของเอกสาร">
                                                     <label for="DocumentDetails_0__Num_pages">จำนวนหน้า/ชุด *</label>
-                                                    <div class="invalid-feedback">กรุณากรอกจำนวนหน้า</div>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนหน้า (1-9999)</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating">
                                                     <input type="number" id="DocumentDetails_0__Num_copies" name="DocumentDetails[0].Num_copies"
-                                                           class="form-control" min="1" required placeholder="จำนวนสำเนา">
+                                                           class="form-control" min="1" max="999" required placeholder="จำนวนสำเนา"
+                                                           data-bs-toggle="tooltip" title="กรอกจำนวนสำเนาที่ต้องการ">
                                                     <label for="DocumentDetails_0__Num_copies">จำนวนสำเนา *</label>
-                                                    <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา</div>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา (1-999)</div>
                                                 </div>
                                             </div>
 
@@ -370,7 +241,8 @@
                                                 <div class="form-floating">
                                                     <textarea id="DocumentDetails_0__Change_detail" name="DocumentDetails[0].Change_detail"
                                                               class="form-control" style="height: 100px"
-                                                              placeholder="รายละเอียดการเปลี่ยนแปลง"></textarea>
+                                                              placeholder="รายละเอียดการเปลี่ยนแปลง"
+                                                              data-bs-toggle="tooltip" title="อธิบายรายละเอียดการเปลี่ยนแปลง"></textarea>
                                                     <label for="DocumentDetails_0__Change_detail">
                                                         <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
                                                     </label>
@@ -378,18 +250,20 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <label class="form-label">
-                                                    <i class="fas fa-file-pdf me-1 text-danger"></i>ไฟล์ PDF
+                                                <label class="form-label mb-2 text-muted small">
+                                                    <i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF
                                                 </label>
-                                                <input type="file" class="form-control" name="DocumentDetails[0].File_pdf" accept=".pdf" required>
-                                                <div class="form-text">รองรับไฟล์ .pdf เท่านั้น</div>
+                                                <input type="file" class="form-control" id="DocumentDetails_0__File_pdf" name="DocumentDetails[0].File_pdf" accept=".pdf" required data-max-size="10485760">
+                                                <div class="form-text">รองรับไฟล์ .pdf ขนาดไม่เกิน 10MB</div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">
-                                                    <i class="fas fa-file-excel me-1 text-success"></i>ไฟล์ Excel
+                                                <label class="form-label mb-2 text-muted small">
+                                                    <i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel
                                                 </label>
-                                                <input type="file" class="form-control" name="DocumentDetails[0].File_excel" accept=".xls,.xlsx" required>
-                                                <div class="form-text">รองรับไฟล์ .xls, .xlsx</div>
+                                                <input type="file" class="form-control" id="DocumentDetails_0__File_excel" name="DocumentDetails[0].File_excel" accept=".xls,.xlsx" required data-max-size="10485760">
+                                                <div class="form-text">รองรับไฟล์ .xls, .xlsx ขนาดไม่เกิน 10MB</div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -398,20 +272,22 @@
                         </div>
                     </section>
 
-                    <section class="form-section mb-4">
-                        <label class="form-label fw-semibold section-title">
-                            <i class="fas fa-map-marker-alt me-2"></i>พื้นที่การใช้งาน (Area)
-                        </label>
-                        <div id="areaCheckboxe" class="row g-2">
+                    <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                        <h5 class="section-title fw-bold text-primary mb-4">
+                            <i class="fas fa-map-marker-alt me-2"></i> พื้นที่การใช้งาน (Area)
+                        </h5>
+                        <div id="areaCheckboxe" class="row g-3">
                             @if (Model.AvailableAreas != null)
                             {
                                 for (int i = 0; i < Model.AvailableAreas.Count; i++)
                                 {
-                                    <div class="col-md-3">
-                                        <div class="form-check">
-                                            @Html.CheckBoxFor(m => m.AvailableAreas[i].IsSelected, new { @class = "form-check-input", id = "area_" + i })
+                                    var isChecked = Model.AvailableAreas[i].IsSelected;
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="form-check form-check-card @(isChecked ? "checked" : "")">
+                                            @Html.CheckBoxFor(m => m.AvailableAreas[i].IsSelected, new { @class = "form-check-input", @id = "area_" + i })
                                             <label class="form-check-label" for="area_@i">
-                                                @Model.AvailableAreas[i].SectionCode
+                                                <!-- <strong class="d-block">@Model.AvailableAreas[i].SectionCode</strong> -->
+                                                <small class="text-muted d-block ms-1">(@Model.AvailableAreas[i].SectionName)</small>
                                             </label>
                                             @Html.HiddenFor(m => m.AvailableAreas[i].Id)
                                             @Html.HiddenFor(m => m.AvailableAreas[i].SectionCode)
@@ -421,49 +297,61 @@
                                 }
                             }
                         </div>
+                        <div class="text-danger mt-2" id="areaSelectionError" style="display: none;"></div>
                     </section>
 
-                    <section class="form-section mb-4">
-                        <label class="form-label fw-semibold section-title">
-                            <i class="fas fa-file-contract me-2"></i>ประเภทเอกสารที่ร้องขอ *
-                        </label>
+                    <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                        <h5 class="section-title fw-bold text-primary mb-4">
+                            <i class="fas fa-file-contract me-2"></i> ประเภทเอกสารที่ร้องขอ *
+                        </h5>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="form-check form-check-card">
+                                <div class="form-check form-check-card @(Model.Document_type == "controlled" ? "checked" : "")">
                                     @Html.RadioButtonFor(m => m.Document_type, "controlled", new { @class = "form-check-input", @id = "controlledCopy", @required = "required" })
                                     <label class="form-check-label" for="controlledCopy">
-                                        <i class="fas fa-lock me-2"></i>Controlled Copy
-                                        <small class="d-block text-muted">เอกสารควบคุม</small>
+                                        <div>
+                                            <strong class="d-block"><i class="fas fa-lock me-1"></i> Controlled Copy</strong>
+                                            <small class="d-block text-muted">เอกสารควบคุม: มีการบันทึกการแจกจ่ายและสามารถเรียกคืนได้</small>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-check form-check-card">
+                                <div class="form-check form-check-card @(Model.Document_type == "uncontrolled" ? "checked" : "")">
                                     @Html.RadioButtonFor(m => m.Document_type, "uncontrolled", new { @class = "form-check-input", @id = "uncontrolledCopy", @required = "required" })
                                     <label class="form-check-label" for="uncontrolledCopy">
-                                        <i class="fas fa-unlock me-2"></i>Uncontrolled Copy
-                                        <small class="d-block text-muted">เอกสารไม่ควบคุม</small>
+                                        <div>
+                                            <strong class="d-block"><i class="fas fa-unlock me-1"></i> Uncontrolled Copy</strong>
+                                            <small class="d-block text-muted">เอกสารไม่ควบคุม: ใช้สำหรับการอ้างอิงเท่านั้น ไม่ต้องบันทึกการแจกจ่าย</small>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        @Html.ValidationMessageFor(model => model.Document_type, "", new { @class = "text-danger" })
+                        @* <div class="text-danger mt-2"></div> *@
+                        @* Html.ValidationMessageFor(model => model.Document_type, "", new { @class = "text-danger mt-2" }) *@
                     </section>
 
-                    <section class="form-section mb-4">
-                        <label class="form-label fw-semibold section-title" for="Effective_date">
-                            <i class="fas fa-calendar-alt me-2"></i>วันที่เริ่มใช้/ยกเลิกเอกสาร *
-                        </label>
-                        @Html.TextBox("Effective_date",
-                            Model.Effective_date.ToString("yyyy-MM-dd"),
-                            new { @type = "date", @class = "form-control", @id = "Effective_date", @required = "required" })
-                        <div class="form-text">
-                        </div>
+                    <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                        <h5 class="section-title fw-bold text-primary mb-4">
+                            <i class="fas fa-calendar-alt me-2"></i> วันที่เริ่มใช้/ยกเลิกเอกสาร *
+                        </h5>
+                        @Html.TextBoxFor(m => m.Effective_date, new { @type = "datetime-local", @class = "form-control form-control-lg", @id = "Effective_date", @required = "required" })
+                        <small class="form-text text-muted mt-2 d-block">
+                            ระบุวันที่เอกสารจะมีผลบังคับใช้ หรือวันที่เอกสารถูกยกเลิก
+                        </small>
+                        <div class="invalid-feedback">กรุณาเลือกวันที่</div>
                     </section>
 
-                    <div class="mt-4 text-center">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-paper-plane me-2"></i>ส่งคำร้อง
+                    <div class="mt-5 text-center d-flex justify-content-center flex-wrap gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">
+                            <i class="fas fa-paper-plane me-2"></i> ส่งคำร้อง
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg px-5 py-3 shadow-sm" id="saveDraftBtn">
+                            <i class="fas fa-save me-2"></i> บันทึกแบบร่าง
+                        </button>
+                        <button type="button" class="btn btn-info btn-lg px-5 py-3 shadow-sm" id="printBtn">
+                            <i class="fas fa-print me-2"></i> พิมพ์
                         </button>
                     </div>
                 }
@@ -471,3 +359,461 @@
         </div>
     </div>
 </div>
+
+<script>
+    // documentFormManager.js
+
+    (function () {
+        'use strict';
+
+        class DocumentFormManager {
+            constructor() {
+                this.form = $('#documentForm');
+                this.documentDetailsContainer = $('#document-details-list');
+                this.addDocumentBtn = $('#addDocumentBtn');
+                this.progressBar = $('#progressBar');
+                this.notificationContainer = $('#notification-container');
+                this.saveDraftBtn = $('#saveDraftBtn');
+                this.printBtn = $('#printBtn');
+
+                this.initEventListeners();
+                this.initTooltips();
+                this.updateRemoveButtonVisibility();
+                this.updateProgressBar();
+                this.bindCardClickToRadioCheckbox();
+                this.enforcePdfExcelUploadRequirements();
+            }
+
+            initEventListeners() {
+                this.form.on('submit', this.handleFormSubmit.bind(this));
+                this.addDocumentBtn.on('click', this.addDocumentDetailSection.bind(this));
+                this.documentDetailsContainer.on('click', '.remove-document', this.removeDocumentDetailSection.bind(this));
+                this.documentDetailsContainer.on('change', 'input[type="file"]', this.handleFileUploadChange.bind(this));
+                this.form.on('input change', 'input, select, textarea', this.updateProgressBar.bind(this));
+                this.form.on('change', 'input[type="radio"], input[type="checkbox"]', function () {
+                    const $parentCard = $(this).closest('.form-check-card');
+                    if ($(this).is(':radio')) {
+                        $(`input[name="${this.name}"]`).each(function () {
+                            $(this).closest('.form-check-card').removeClass('checked');
+                        });
+                    }
+                    $parentCard.toggleClass('checked', this.checked);
+                    this.updateProgressBar();
+                }.bind(this));
+
+                this.saveDraftBtn.on('click', () => this.showNotification('info', 'ฟังก์ชันบันทึกแบบร่างยังไม่เปิดใช้งาน'));
+                this.printBtn.on('click', () => this.showNotification('info', 'ฟังก์ชันพิมพ์ยังไม่เปิดใช้งาน'));
+            }
+
+            initTooltips() {
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            }
+
+            bindCardClickToRadioCheckbox() {
+                this.form.on('click', '.form-check-card label', function () {
+                    const input = $(this).siblings('input[type="radio"], input[type="checkbox"]');
+                    input.prop('checked', !input.prop('checked')).trigger('change');
+                });
+            }
+
+            async handleFormSubmit(event) {
+                event.preventDefault();
+                this.clearNotifications();
+
+                if (!this.validateForm()) {
+                    this.showNotification('error', 'กรุณากรอกข้อมูลให้ถูกต้องและครบถ้วน');
+                    this.updateProgressBar();
+                    return;
+                }
+
+                console.log('Simulating form submission...');
+                this.showNotification('info', 'กำลังส่งคำร้อง...');
+                this.progressBar.removeClass('bg-danger').addClass('bg-warning').css('width', '100%'); // Force full width for loading state
+                this.progressBar.addClass('progress-bar-animated progress-bar-striped');
+
+
+                const formData = new FormData(this.form[0]);
+
+                try {
+                    const response = await fetch(this.form.attr('action'), {
+                        method: this.form.attr('method'),
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('AJAX success:', result);
+                        this.showNotification('success', 'ส่งคำร้องเรียบร้อยแล้ว');
+                        this.progressBar.removeClass('bg-warning').addClass('bg-success');
+
+                        if (result.redirectUrl) {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            this.form[0].reset();
+                            this.documentDetailsContainer.empty();
+                            this.addDocumentDetailSection();
+                            this.updateProgressBar();
+                            this.enforcePdfExcelUploadRequirements();
+                        }
+                    } else {
+                        const errorText = await response.text();
+                        console.error('AJAX error:', response.status, errorText);
+                        this.showNotification('error', `เกิดข้อผิดพลาดในการส่งคำร้อง: ${response.status} - ${errorText}`);
+                        this.progressBar.removeClass('bg-warning').addClass('bg-danger');
+                    }
+                } catch (error) {
+                    console.error('Network or unexpected error:', error);
+                    this.showNotification('error', 'เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง');
+                    this.progressBar.removeClass('bg-warning').addClass('bg-danger');
+                } finally {
+                    setTimeout(() => {
+                        this.progressBar.removeClass('progress-bar-animated progress-bar-striped');
+                    }, 1000);
+                }
+            }
+
+            validateForm() {
+                let isValid = true;
+                this.form[0].classList.remove('was-validated');
+
+                const requestTypeSelected = this.form.find('input[name="Request_type"]:checked').length > 0;
+                const requestTypeErrorDiv = $('#documentTypeError');
+                if (!requestTypeSelected) { requestTypeErrorDiv.text('กรุณาเลือกชนิดการร้องขอ').show(); isValid = false; } else { requestTypeErrorDiv.hide().text(''); }
+
+                this.documentDetailsContainer.find('.document-card').each((index, element) => {
+                    const $card = $(element);
+                    const wsNumberInput = $card.find(`[name="DocumentDetails[${index}].WS_number"]`);
+                    const wsNameInput = $card.find(`[name="DocumentDetails[${index}].WS_name"]`);
+                    const revisionInput = $card.find(`[name="DocumentDetails[${index}].Revision"]`);
+                    const numPagesInput = $card.find(`[name="DocumentDetails[${index}].Num_pages"]`);
+                    const numCopiesInput = $card.find(`[name="DocumentDetails[${index}].Num_copies"]`);
+                    const filePdfInput = $card.find(`[name="DocumentDetails[${index}].File_pdf"]`);
+                    const fileExcelInput = $card.find(`[name="DocumentDetails[${index}].File_excel"]`);
+
+                    if (!wsNumberInput.val()) { wsNumberInput.addClass('is-invalid'); isValid = false; } else { wsNumberInput.removeClass('is-invalid'); }
+                    if (!wsNameInput.val()) { wsNameInput.addClass('is-invalid'); isValid = false; } else { wsNameInput.removeClass('is-invalid'); }
+                    if (!revisionInput.val()) { revisionInput.addClass('is-invalid'); isValid = false; } else { revisionInput.removeClass('is-invalid'); }
+
+                    const numPagesVal = parseInt(numPagesInput.val());
+                    if (isNaN(numPagesVal) || numPagesVal < 1 || numPagesVal > 9999) { numPagesInput.addClass('is-invalid'); isValid = false; } else { numPagesInput.removeClass('is-invalid'); }
+
+                    const numCopiesVal = parseInt(numCopiesInput.val());
+                    if (isNaN(numCopiesVal) || numCopiesVal < 1 || numCopiesVal > 999) { numCopiesInput.addClass('is-invalid'); isValid = false; } else { numCopiesInput.removeClass('is-invalid'); }
+
+                    const requestType = this.form.find('input[name="Request_type"]:checked').val();
+
+                    if (requestType === "ลงทะเบียนครั้งแรก (New Issue)") {
+                        if (!filePdfInput[0].files.length) { filePdfInput.addClass('is-invalid'); filePdfInput.nextAll('.invalid-feedback').text('กรุณาอัปโหลดไฟล์ PDF'); isValid = false; } else { filePdfInput.removeClass('is-invalid'); }
+                        if (!fileExcelInput[0].files.length) { fileExcelInput.addClass('is-invalid'); fileExcelInput.nextAll('.invalid-feedback').text('กรุณาอัปโหลดไฟล์ Excel'); isValid = false; } else { fileExcelInput.removeClass('is-invalid'); }
+                    } else if (requestType === "ลงทะเบียนเอกสารแก้ไข/ปรับปรุง (Revised)") {
+                        if (!filePdfInput[0].files.length) { filePdfInput.addClass('is-invalid'); filePdfInput.nextAll('.invalid-feedback').text('กรุณาอัปโหลดไฟล์ PDF สำหรับเอกสารแก้ไข'); isValid = false; } else { filePdfInput.removeClass('is-invalid'); }
+                        fileExcelInput.removeClass('is-invalid').nextAll('.invalid-feedback').text('');
+                    } else {
+                        filePdfInput.removeClass('is-invalid').nextAll('.invalid-feedback').text('');
+                        fileExcelInput.removeClass('is-invalid').nextAll('.invalid-feedback').text('');
+                    }
+
+                    if (filePdfInput[0].files.length > 0) {
+                        const file = filePdfInput[0].files[0];
+                        const maxSize = parseInt(filePdfInput.data('max-size'));
+                        if (file.size > maxSize) { filePdfInput.addClass('is-invalid'); filePdfInput.nextAll('.invalid-feedback').text('ไฟล์ PDF มีขนาดเกิน 10MB'); isValid = false; }
+                        else if (file.type !== 'application/pdf') { filePdfInput.addClass('is-invalid'); filePdfInput.nextAll('.invalid-feedback').text('กรุณาอัปโหลดไฟล์ PDF เท่านั้น'); isValid = false; }
+                    }
+                    if (fileExcelInput[0].files.length > 0) {
+                        const file = fileExcelInput[0].files[0];
+                        const maxSize = parseInt(fileExcelInput.data('max-size'));
+                        const allowedTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+                        if (file.size > maxSize) { fileExcelInput.addClass('is-invalid'); fileExcelInput.nextAll('.invalid-feedback').text('ไฟล์ Excel มีขนาดเกิน 10MB'); isValid = false; }
+                        else if (!allowedTypes.includes(file.type)) { fileExcelInput.addClass('is-invalid'); fileExcelInput.nextAll('.invalid-feedback').text('กรุณาอัปโหลดไฟล์ Excel เท่านั้น (.xls, .xlsx)'); isValid = false; }
+                    }
+                });
+
+                const areaSelected = this.form.find('input[name^="AvailableAreas"][type="checkbox"]:checked').length > 0;
+                const areaSelectionErrorDiv = $('#areaSelectionError');
+                if (!areaSelected) { areaSelectionErrorDiv.text('กรุณาเลือกพื้นที่การใช้งานอย่างน้อยหนึ่งพื้นที่').show(); isValid = false; } else { areaSelectionErrorDiv.hide().text(''); }
+
+                const documentTypeSelected = this.form.find('input[name="Document_type"]:checked').length > 0;
+                if (!documentTypeSelected) { this.form.find('input[name="Document_type"]').first().addClass('is-invalid'); isValid = false; } else { this.form.find('input[name="Document_type"]').removeClass('is-invalid'); }
+
+                const effectiveDateInput = $('#Effective_date');
+                if (!effectiveDateInput.val()) { effectiveDateInput.addClass('is-invalid'); isValid = false; } else { effectiveDateInput.removeClass('is-invalid'); }
+
+                if (!isValid) { this.form[0].classList.add('was-validated'); }
+
+                return isValid;
+            }
+
+            addDocumentDetailSection() {
+                const currentIndex = this.documentDetailsContainer.children('.document-card').length;
+                const newIndex = currentIndex;
+                const displayIndex = currentIndex + 1;
+
+                const newSectionHtml = `
+                <div class="document-card card border-light mb-4 shadow-sm" data-index="${displayIndex}">
+                    <div class="card-header bg-light py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="fw-semibold mb-0 text-primary">เอกสารลำดับที่ ${displayIndex}</h6>
+                            <button type="button" class="btn btn-outline-danger btn-sm remove-document">
+                                <i class="fas fa-trash-alt me-1"></i> ลบ
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="DocumentDetails_${newIndex}__WS_number"
+                                            name="DocumentDetails[${newIndex}].WS_number" required placeholder="หมายเลขเอกสาร"
+                                            data-bs-toggle="tooltip" title="กรอกหมายเลขเอกสาร">
+                                    <label for="DocumentDetails_${newIndex}__WS_number">หมายเลขเอกสาร *</label>
+                                    <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="DocumentDetails_${newIndex}__WS_name"
+                                            name="DocumentDetails[${newIndex}].WS_name" required placeholder="ชื่อเรื่อง"
+                                            data-bs-toggle="tooltip" title="กรอกชื่อเรื่องของเอกสาร">
+                                    <label for="DocumentDetails_${newIndex}__WS_name">ชื่อเรื่อง *</label>
+                                    <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" id="DocumentDetails_${newIndex}__Revision" name="DocumentDetails[${newIndex}].Revision"
+                                            class="form-control" required placeholder="ลำดับการแก้ไข"
+                                            data-bs-toggle="tooltip" title="กรอกลำดับการแก้ไข เช่น Rev.01">
+                                    <label for="DocumentDetails_${newIndex}__Revision">ลำดับการแก้ไข *</label>
+                                    <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="number" id="DocumentDetails_${newIndex}__Num_pages" name="DocumentDetails[${newIndex}].Num_pages"
+                                            class="form-control" min="1" max="9999" required placeholder="จำนวนหน้า"
+                                            data-bs-toggle="tooltip" title="กรอกจำนวนหน้าหรือชุดของเอกสาร">
+                                    <label for="DocumentDetails_${newIndex}__Num_pages">จำนวนหน้า/ชุด *</label>
+                                    <div class="invalid-feedback">กรุณากรอกจำนวนหน้า (1-9999)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="number" id="DocumentDetails_${newIndex}__Num_copies" name="DocumentDetails[${newIndex}].Num_copies"
+                                            class="form-control" min="1" max="999" required placeholder="จำนวนสำเนา"
+                                            data-bs-toggle="tooltip" title="กรอกจำนวนสำเนาที่ต้องการ">
+                                    <label for="DocumentDetails_${newIndex}__Num_copies">จำนวนสำเนา *</label>
+                                    <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา (1-999)</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea id="DocumentDetails_${newIndex}__Change_detail" name="DocumentDetails[${newIndex}].Change_detail"
+                                            class="form-control" style="height: 100px"
+                                            placeholder="รายละเอียดการเปลี่ยนแปลง"
+                                            data-bs-toggle="tooltip" title="อธิบายรายละเอียดการเปลี่ยนแปลง"></textarea>
+                                    <label for="DocumentDetails_${newIndex}__Change_detail">
+                                        <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label mb-2 text-muted small">
+                                    <i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF
+                                </label>
+                                <input type="file" class="form-control" id="DocumentDetails_${newIndex}__File_pdf" name="DocumentDetails[${newIndex}].File_pdf" accept=".pdf" data-max-size="10485760">
+                                <div class="form-text">รองรับไฟล์ .pdf ขนาดไม่เกิน 10MB</div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label mb-2 text-muted small">
+                                    <i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel
+                                </label>
+                                <input type="file" class="form-control" id="DocumentDetails_${newIndex}__File_excel" name="DocumentDetails[${newIndex}].File_excel" accept=".xls,.xlsx" data-max-size="10485760">
+                                <div class="form-text">รองรับไฟล์ .xls, .xlsx ขนาดไม่เกิน 10MB</div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+                this.documentDetailsContainer.append(newSectionHtml);
+                this.updateRemoveButtonVisibility();
+                this.initTooltips();
+                this.updateProgressBar();
+                this.enforcePdfExcelUploadRequirements();
+            }
+
+            removeDocumentDetailSection(event) {
+                $(event.target).closest('.document-card').remove();
+                this.reindexDocumentDetailSections();
+                this.updateRemoveButtonVisibility();
+                this.updateProgressBar();
+                this.enforcePdfExcelUploadRequirements();
+            }
+
+            reindexDocumentDetailSections() {
+                this.documentDetailsContainer.children('.document-card').each((index, element) => {
+                    const $card = $(element);
+                    const newIndex = index;
+                    const newDisplayIndex = index + 1;
+                    $card.attr('data-index', newDisplayIndex);
+                    $card.find('.card-header h6').text(`เอกสารลำดับที่ ${newDisplayIndex}`);
+
+                    $card.find('[name^="DocumentDetails"]').each(function () {
+                        const $input = $(this);
+                        const oldName = $input.attr('name');
+                        const newName = oldName.replace(/\[\d+\]/, `[${newIndex}]`);
+                        $input.attr('name', newName);
+
+                        const oldId = $input.attr('id');
+                        if (oldId) {
+                            const newId = oldId.replace(/_\d+__/, `_${newIndex}__`);
+                            $input.attr('id', newId);
+                            $(`label[for="${oldId}"]`).attr('for', newId);
+                        }
+                    });
+                });
+            }
+
+            updateRemoveButtonVisibility() {
+                const documentCount = this.documentDetailsContainer.children('.document-card').length;
+                this.documentDetailsContainer.find('.remove-document').toggle(documentCount > 1);
+            }
+
+            updateProgressBar() {
+                let completedFields = 0;
+                const allFields = this.form.find('input:not([type="hidden"]), select, textarea');
+                const uniqueRadioGroups = new Set();
+
+                allFields.each(function () {
+                    const $this = $(this);
+                    const type = $this.attr('type');
+                    const name = $this.attr('name');
+
+                    if (type === 'radio') {
+                        if ($this.is(':checked')) {
+                            if (!uniqueRadioGroups.has(name)) {
+                                completedFields++;
+                                uniqueRadioGroups.add(name);
+                            }
+                        }
+                    } else if (type === 'checkbox') {
+                        if ($this.is(':checked')) {
+                            completedFields++;
+                        }
+                    } else if ($this.val()) {
+                        completedFields++;
+                    }
+                });
+
+                // Adjust total for radio groups: count each group as 1 field regardless of radios in it
+                let totalFormFields = allFields.length;
+                const initialRadioCount = this.form.find('input[type="radio"]').length;
+                const uniqueRadioGroupCount = uniqueRadioGroups.size;
+                totalFormFields = totalFormFields - initialRadioCount + uniqueRadioGroupCount;
+
+                const progress = (completedFields / (totalFormFields || 1)) * 100;
+                this.progressBar.css('width', progress + '%').attr('aria-valuenow', progress);
+
+                if (progress < 30) {
+                    this.progressBar.removeClass('bg-success bg-warning').addClass('bg-danger');
+                } else if (progress < 70) {
+                    this.progressBar.removeClass('bg-success bg-danger').addClass('bg-warning');
+                } else {
+                    this.progressBar.removeClass('bg-danger bg-warning').addClass('bg-success');
+                }
+            }
+
+            showNotification(type, message) {
+                const alertClass = type === 'success' ? 'alert-success' : type === 'error' ? 'alert-danger' : 'alert-info';
+                const iconClass = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-info-circle';
+
+                const notification = $(`
+                <div class="alert ${alertClass} alert-dismissible fade show d-flex align-items-center" role="alert" style="width: auto; max-width: 400px; margin-left: auto; margin-right: 0;">
+                    <i class="fas ${iconClass} me-2"></i>
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+                this.notificationContainer.append(notification);
+                setTimeout(() => notification.alert('close'), 5000);
+            }
+
+            clearNotifications() {
+                this.notificationContainer.empty();
+            }
+
+            handleFileUploadChange(event) {
+                const fileInput = event.target;
+                const $fileInput = $(fileInput);
+                const file = fileInput.files[0];
+                const maxSize = parseInt($fileInput.data('max-size'));
+                let errorMessage = '';
+
+                if (file) {
+                    if (file.size > maxSize) {
+                        errorMessage = `ไฟล์มีขนาดเกิน ${maxSize / (1024 * 1024)}MB`;
+                    } else if ($fileInput.attr('accept').includes('.pdf') && file.type !== 'application/pdf') {
+                        errorMessage = 'กรุณาอัปโหลดไฟล์ PDF เท่านั้น';
+                    } else if (($fileInput.attr('accept').includes('.xls') || $fileInput.attr('accept').includes('.xlsx')) &&
+                        !['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(file.type)) {
+                        errorMessage = 'กรุณาอัปโหลดไฟล์ Excel เท่านั้น (.xls, .xlsx)';
+                    }
+                }
+
+                if (errorMessage) {
+                    $fileInput.addClass('is-invalid').nextAll('.invalid-feedback').text(errorMessage);
+                } else {
+                    $fileInput.removeClass('is-invalid').nextAll('.invalid-feedback').text('');
+                }
+                this.updateProgressBar();
+            }
+
+            enforcePdfExcelUploadRequirements() {
+                const requestType = this.form.find('input[name="Request_type"]:checked').val();
+                this.documentDetailsContainer.find('.document-card').each((index, element) => {
+                    const $card = $(element);
+                    const filePdfInput = $card.find(`[name="DocumentDetails[${index}].File_pdf"]`);
+                    const fileExcelInput = $card.find(`[name="DocumentDetails[${index}].File_excel"]`);
+
+                    if (requestType === "ลงทะเบียนครั้งแรก (New Issue)") {
+                        filePdfInput.attr('required', 'required');
+                        fileExcelInput.attr('required', 'required');
+                        filePdfInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF <span class="text-danger">*</span>');
+                        fileExcelInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel <span class="text-danger">*</span>');
+                    } else if (requestType === "ลงทะเบียนเอกสารแก้ไข/ปรับปรุง (Revised)") {
+                        filePdfInput.attr('required', 'required');
+                        fileExcelInput.removeAttr('required');
+                        filePdfInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF <span class="text-danger">*</span>');
+                        fileExcelInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel');
+                    } else {
+                        filePdfInput.removeAttr('required');
+                        fileExcelInput.removeAttr('required');
+                        filePdfInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF');
+                        fileExcelInput.closest('.col-md-6').find('label').first().html('<i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel');
+                    }
+                    filePdfInput.trigger('change');
+                    fileExcelInput.trigger('change');
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            if (typeof window.documentFormManagerInstance === 'undefined') {
+                window.documentFormManagerInstance = new DocumentFormManager();
+            }
+        });
+
+        $(document).on('change', 'input[name="Request_type"]', function () {
+            if (window.documentFormManagerInstance) {
+                window.documentFormManagerInstance.enforcePdfExcelUploadRequirements();
+            }
+        });
+
+    })();
+
+</script>

@@ -89,18 +89,29 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             try
             {
+                // 1. ตรวจสอบ ModelState.IsValid ก่อน
                 if (!ModelState.IsValid)
                 {
-                    // Reload available areas if model is invalid
-                    model.AvailableAreas = LoadAvailableAreas();
-                    return View(model);
+                    // หาก Server-side model validation ไม่ผ่าน
+                    Response.StatusCode = 400; // ตั้งค่าสถานะ HTTP เป็น Bad Request
+                    var errors = ModelState.Values
+                                         .SelectMany(v => v.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+                    // ส่ง JSON กลับไปพร้อมข้อความผิดพลาด
+                    return Json(new { success = false, message = "ข้อมูลที่กรอกไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง", errors = errors });
                 }
 
-                // Validate business rules
+                // 2. ตรวจสอบ Business Rules
                 if (!ValidateDocumentRequest(model))
                 {
-                    model.AvailableAreas = LoadAvailableAreas();
-                    return View(model);
+                    // หาก Business Rule validation ไม่ผ่าน (ต้องแน่ใจว่า ValidateDocumentRequest เพิ่มข้อผิดพลาดเข้า ModelState หรือส่งคืนค่าที่บ่งบอกถึงข้อผิดพลาด)
+                    Response.StatusCode = 400; // ตั้งค่าสถานะ HTTP เป็น Bad Request
+                    var errors = ModelState.Values
+                                         .SelectMany(v => v.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+                    return Json(new { success = false, message = "มีข้อผิดพลาดตามกฎทางธุรกิจ กรุณาตรวจสอบอีกครั้ง", errors = errors });
                 }
 
                 using (var transaction = db.Database.BeginTransaction())
@@ -110,7 +121,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         // Create main document record
                         var document = CreateDocumentRecord(model);
                         db.DocumentLists.Add(document);
-                        db.SaveChanges();
+                        db.SaveChanges(); // Save to get document.LId before processing details/uploads
 
                         // Process document details
                         ProcessDocumentDetails(model, document.LId);
@@ -119,29 +130,39 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         ProcessSelectedAreas(model, document.LId);
 
                         // Process file uploads
-                        ProcessFileUploads(model, document.LId);
+                        ProcessFileUploads(model, document.LId); // Ensure this handles IFormFile correctly
 
                         // Create approval workflow
                         CreateApprovalWorkflow(document.LId);
 
-                        db.SaveChanges();
+                        db.SaveChanges(); // Save all changes after processing details/areas/uploads/workflow
                         transaction.Commit();
 
-                        TempData["SuccessMessage"] = "บันทึกคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: " + document.LId;
-                        return RedirectToAction("List");
+                        // TempData["SuccessMessage"] จะไม่แสดงผลในการตอบกลับ AJAX แต่สามารถใช้สำหรับ redirect ได้
+                        // TempData["SuccessMessage"] = "บันทึกคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: " + document.LId; 
+
+                        // หากสำเร็จ: ส่ง JSON กลับไปพร้อมสถานะสำเร็จและ URL สำหรับ Redirect
+                        return Json(new { success = true, message = $"ส่งคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: {document.LId}", redirectUrl = Url.Action("List", "Document") });
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw new Exception("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + ex.Message);
+                        // บันทึกข้อผิดพลาด (เช่น Log ex)
+                        Console.WriteLine($"Error during transaction: {ex.Message}");
+
+                        Response.StatusCode = 500; // ตั้งค่าสถานะ HTTP เป็น Internal Server Error
+                        return Json(new { success = false, message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + ex.Message });
                     }
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
-                model.AvailableAreas = LoadAvailableAreas();
-                return View(model);
+                // ข้อผิดพลาดที่ไม่คาดคิดก่อนเข้า transaction หรือจาก exception ที่ re-throw ขึ้นมา
+                // บันทึกข้อผิดพลาด (เช่น Log ex)
+                Console.WriteLine($"Unexpected error in Create action: {ex.Message}");
+
+                Response.StatusCode = 500; // ตั้งค่าสถานะ HTTP เป็น Internal Server Error
+                return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message });
             }
         }
 
