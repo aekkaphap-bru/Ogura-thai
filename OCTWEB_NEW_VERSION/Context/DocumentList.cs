@@ -23,5 +23,6 @@ namespace OCTWEB_NET45.Context
         public string Status { get; set; }
         public Nullable<System.DateTime> Created_at { get; set; }
         public Nullable<System.DateTime> Updated_at { get; set; }
+        public virtual ICollection<DocumentDetail> DocumentDetails { get; set; }
     }
 }

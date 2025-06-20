@@ -594,6 +594,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\login-style-2025.css" />
     <Content Include="Content\css\ModifyTrainingCourseMainList.css" />
     <Content Include="Content\css\ModifyTrainingMainList.css" />
     <Content Include="Content\login.css" />
@@ -5321,6 +5322,7 @@
     <Content Include="Views\Benefit\Create.cshtml" />
     <Content Include="Views\Document\Create.cshtml" />
     <Content Include="Views\Document\List.cshtml" />
+    <Content Include="Views\Document\_DocumentListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

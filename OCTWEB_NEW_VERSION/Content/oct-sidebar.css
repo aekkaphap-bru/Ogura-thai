@@ -1,130 +1,55 @@
-/* OCT Sidebar CSS - 2025
+/* OCT Sidebar CSS - Formal Business Theme (2025)
 -------------------------------------------------- */
 
-/* Sidebar Container
--------------------------------------------------- */
 #sidemenubar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 280px;
-    background: linear-gradient(to bottom, var(--primary-dark));
-    /* background: linear-gradient(to bottom, var(--primary-color), var(--primary-dark)); */
-    color: var(--text-light);
-    box-shadow: var(--shadow);
+    width: 260px; /* A slightly narrower sidebar can feel more modern */
+    background-color: #2C3E50; /* Professional Navy/Charcoal Color */
+    color: #ECF0F1; /* Light, soft text color for contrast */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
     z-index: 1000;
-    transition: var(--transition);
-    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0); /* Default to open, can be controlled by JS */
     overflow-y: auto;
     font-size: 14px;
 }
 
-#sidemenubar.open {
-    transform: translateX(0);
+#sidemenubar.collapsed {
+    transform: translateX(-100%);
 }
 
-/* Sidebar Header
--------------------------------------------------- */
+/* Custom scrollbar for a modern look */
+#sidemenubar::-webkit-scrollbar {
+  width: 6px;
+}
+#sidemenubar::-webkit-scrollbar-thumb {
+  background: #5D6D7E;
+  border-radius: 3px;
+}
+
+/* --- Sidebar Header --- */
 .sidebar-header {
-    padding: 1rem;
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #34495E;
 }
 
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--text-light);
-    text-decoration: none;
-}
-
-.sidebar-brand img {
-    width: 32px;
-    height: auto;
-}
-
-.sidebar-brand span {
-    font-size: 1.25rem;
-    font-weight: 500;
-}
-
-.sidebar-toggle {
-    background: transparent;
-    border: none;
-    color: var(--text-light);
-    font-size: 1.25rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    transition: var(--transition);
-}
-
-.sidebar-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Sidebar User
--------------------------------------------------- */
-.sidebar-user {
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.sidebar-user-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    font-weight: 500;
-}
-
-.sidebar-user-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar-user-name {
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.sidebar-user-role {
-    font-size: 0.75rem;
-    opacity: 0.8;
-}
-
-/* Sidebar Menu
--------------------------------------------------- */
+/* --- Menu Structure --- */
 .sidebar-menu {
     padding: 1rem 0;
 }
 
-.menu-section {
-    margin-bottom: 1rem;
-}
-
 .menu-section-title {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
+    padding: 0.5rem 1.25rem 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 500;
+    color: #95A5A6; /* Muted title color */
+    font-weight: 600;
 }
 
 .menu {
@@ -133,176 +58,75 @@
     margin: 0;
 }
 
-.menu-item {
-    position: relative;
-}
-
 .menu-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    color: var(--text-light);
+    gap: 0.8rem;
+    padding: 0.75rem 1.25rem;
+    color: #ECF0F1; /* Default link color */
     text-decoration: none;
-    transition: var(--transition);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-left: 4px solid transparent; /* For active state indicator */
 }
 
+/* Menu link hover state */
 .menu-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #34495E; /* Subtle hover background */
+    color: #FFFFFF;
     text-decoration: none;
 }
 
-/* .menu-link.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-left */
-
+/* Active Menu Item Style - The key indicator */
 .menu-link.active {
-        background-color: rgba(255, 255, 255, 0.15);
-        border-left: 4px solid var(--secondary-color);
-    }
-    
-    .menu-icon {
-        width: 20px;
-        text-align: center;
-    }
-    
-    .submenu {
-        list-style: none;
-        background-color: rgba(0, 0, 0, 0.1);
-        max-height: 0;
-        overflow: hidden;
-        transition: var(--transition);
-    }
-    
-    .submenu-item .menu-link {
-        padding-left: 48px;
-    }
-    
-    .submenu.show {
-        max-height: 500px;
-    }
-    
-    .has-submenu::after {
-        content: "▼";
-        position: absolute;
-        right: 16px;
-        top: 14px;
-        font-size: 10px;
-        transition: var(--transition);
-    }
-    
-    .has-submenu.open::after {
-        transform: rotate(180deg);
-    }
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+    font-weight: 500;
+    /* Use the primary color from core.css for the active indicator */
+    border-left-color: var(--primary-color);
+}
 
-     /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* Top Bar */
-        .topbar {
-            background-color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 24px;
-            box-shadow: var(--shadow);
-            z-index: 100;
-        }
-        
-        .page-title {
-            font-size: 20px;
-            font-weight: 500;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .notifications {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
+.menu-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 1.05rem;
+    color: #BDC3C7; /* Slightly muted icon color */
+    transition: color 0.2s ease;
+}
 
-        /* Quick Access Box */
-        .quick-access {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 20px;
-        }
-        
-        .quick-access-title {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: var(--primary-color);
-        }
-        
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 16px;
-        }
-        
-        .quick-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 16px;
-            border-radius: var(--border-radius);
-            background-color: var(--bg-light);
-            transition: var(--transition);
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-        
-        .quick-link:hover {
-            background-color: var(--primary-light);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        .quick-link-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
+.menu-link:hover .menu-icon,
+.menu-link.active .menu-icon {
+    color: #FFFFFF;
+}
+
+/* --- Submenu --- */
+.submenu {
+    list-style: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.submenu.show {
+    max-height: 500px; /* A large enough value to show all items */
+    padding: 0.5rem 0;
+}
+
+.submenu-item .menu-link {
+    padding-left: 3.25rem; /* Indent submenu items */
+    font-size: 0.85rem;
+}
+
+.submenu-item .menu-link:before {
+    content: "—"; /* A simple dash for indentation mark */
+    position: absolute;
+    left: 2rem;
+    color: #7F8C8D;
+}
+
+.submenu-item .menu-link.active {
+    color: var(--primary-light, #E6F0F7); /* Use a light version for active submenu */
+    background: none; /* No background for active submenu item */
+    border-left-color: transparent;
+}

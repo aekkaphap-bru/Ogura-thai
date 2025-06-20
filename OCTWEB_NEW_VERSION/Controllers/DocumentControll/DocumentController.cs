@@ -3,13 +3,14 @@ using OCTWEB_NET45.Context;
 using OCTWEB_NET45.Infrastructure;
 using OCTWEB_NET45.Models;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace OCTWEB_NET45.Controllers.DocumentControll
 {
@@ -129,9 +130,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         // Process selected areas
                         ProcessSelectedAreas(model, document.LId);
 
-                        // Process file uploads
-                        ProcessFileUploads(model, document.LId); // Ensure this handles IFormFile correctly
-
                         // Create approval workflow
                         CreateApprovalWorkflow(document.LId);
 
@@ -231,14 +229,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         // Update document record
                         UpdateDocumentRecord(document, model);
 
+                        // Process new file uploads
+                        ProcessFileUploads(model, document.LId);
+
                         // Update document details
                         UpdateDocumentDetails(model, document.LId);
 
                         // Update selected areas
                         UpdateSelectedAreas(model, document.LId);
-
-                        // Process new file uploads
-                        ProcessFileUploads(model, document.LId);
 
                         document.Updated_at = DateTime.Now;
                         db.SaveChanges();
@@ -419,6 +417,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             if (model.DocumentDetails != null && model.DocumentDetails.Any())
             {
+                // Process file uploads
+                ProcessFileUploads(model,documentId); 
+
                 foreach (var detail in model.DocumentDetails)
                 {
                     if (!string.IsNullOrWhiteSpace(detail.WS_number) && !string.IsNullOrWhiteSpace(detail.WS_name))
@@ -431,8 +432,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             Revision = detail.Revision?.Trim() ?? "01",
                             Num_pages = detail.Num_pages?.Trim(),
                             Num_copies = detail.Num_copies ?? 1,
-                            File_excel = detail.File_excel,
-                            File_pdf = detail.File_pdf,
+                            File_excel = "1",
+                            File_pdf = "2",
                             Change_detail = detail.Change_detail?.Trim()
                         };
                         db.DocumentDetails.Add(docDetail);
@@ -455,30 +456,50 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
         private void ProcessFileUploads(DocumentFormViewModel model, int documentId)
         {
-            // Implementation for file uploads
-            // This would handle saving uploaded files to server and updating file paths in database
-            var uploadPath = Server.MapPath("~/Uploads/Documents/" + documentId);
+            string path_excel = ConfigurationManager.AppSettings["path_Document_Excel"];
+            string path_pdf = ConfigurationManager.AppSettings["path_Document_Pdf"];
 
-            if (!Directory.Exists(uploadPath))
-            {
-                Directory.CreateDirectory(uploadPath);
-            }
+            if (!Directory.Exists(path_excel)) Directory.CreateDirectory(path_excel);
+            if (!Directory.Exists(path_pdf)) Directory.CreateDirectory(path_pdf);
 
-            // Process each document detail's files
-            for (int i = 0; i < Request.Files.Count; i++)
+            var files = Request.Files;
+
+            for (int i = 0; i < model.DocumentDetails.Count; i++)
             {
-                var file = Request.Files[i];
-                if (file != null && file.ContentLength > 0)
+                var detail = model.DocumentDetails[i];
+
+                string filePdfKey = $"DocumentDetails[{i}].File_pdf";
+                string fileExcelKey = $"DocumentDetails[{i}].File_excel";
+
+                var filePdf = files[filePdfKey];
+                var fileExcel = files[fileExcelKey];
+
+                if (filePdf != null && filePdf.ContentLength > 0)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var filePath = Path.Combine(uploadPath, fileName);
-                    file.SaveAs(filePath);
+                    string pdfFileName = GenerateUniqueFileName("PDF", documentId, filePdf.FileName);
+                    string fullPdfPath = Path.Combine(path_pdf, pdfFileName);
+                    filePdf.SaveAs(fullPdfPath);
+                }
 
-                    // Update database with file path
-                    // Implementation depends on how you want to store file references
+                if (fileExcel != null && fileExcel.ContentLength > 0)
+                {
+                    string excelFileName = GenerateUniqueFileName("EXCEL", documentId, fileExcel.FileName);
+                    string fullExcelPath = Path.Combine(path_excel, excelFileName);
+                    fileExcel.SaveAs(fullExcelPath);
                 }
             }
         }
+
+        private string GenerateUniqueFileName(string prefix, int documentId, string originalFileName)
+        {
+            string ext = Path.GetExtension(originalFileName);
+            string baseName = Path.GetFileNameWithoutExtension(originalFileName);
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string guid = Guid.NewGuid().ToString("N").Substring(0, 6);
+            return $"{prefix}_{documentId}_{baseName}_{timestamp}_{guid}{ext}";
+        }
+
+     
 
         private void CreateApprovalWorkflow(int documentId)
         {

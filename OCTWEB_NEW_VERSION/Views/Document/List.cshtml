@@ -43,13 +43,7 @@
                     <option value="rejected">ปฏิเสธ</option>
                 </select>
             </div>
-            @Html.ActionLink(
-                "สร้างคำร้องใหม่", // ข้อความที่จะแสดงบนลิงก์
-                "Create",          // Action Method
-                "Document",        // Controller
-                null,              // Route values (ไม่ต้องระบุในกรณีนี้)
-                new { @class = "btn-new-request", @title = "สร้างคำร้องใหม่" } // HTML attributes
-            )
+            @Html.ActionLink("สร้างคำร้องใหม่","Create","Document",null, new { @class = "btn-new-request", @title = "สร้างคำร้องใหม่" })
         </div>
 
         
