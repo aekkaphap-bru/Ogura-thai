@@ -2,15 +2,18 @@
 using OCTWEB_NET45.Context;
 using OCTWEB_NET45.Infrastructure;
 using OCTWEB_NET45.Models;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace OCTWEB_NET45.Controllers.DocumentControll
 {
@@ -90,24 +93,19 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             try
             {
-                // 1. ตรวจสอบ ModelState.IsValid ก่อน
                 if (!ModelState.IsValid)
                 {
-                    // หาก Server-side model validation ไม่ผ่าน
-                    Response.StatusCode = 400; // ตั้งค่าสถานะ HTTP เป็น Bad Request
+                    Response.StatusCode = 400;
                     var errors = ModelState.Values
                                          .SelectMany(v => v.Errors)
                                          .Select(e => e.ErrorMessage)
                                          .ToList();
-                    // ส่ง JSON กลับไปพร้อมข้อความผิดพลาด
                     return Json(new { success = false, message = "ข้อมูลที่กรอกไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง", errors = errors });
                 }
 
-                // 2. ตรวจสอบ Business Rules
                 if (!ValidateDocumentRequest(model))
                 {
-                    // หาก Business Rule validation ไม่ผ่าน (ต้องแน่ใจว่า ValidateDocumentRequest เพิ่มข้อผิดพลาดเข้า ModelState หรือส่งคืนค่าที่บ่งบอกถึงข้อผิดพลาด)
-                    Response.StatusCode = 400; // ตั้งค่าสถานะ HTTP เป็น Bad Request
+                    Response.StatusCode = 400; 
                     var errors = ModelState.Values
                                          .SelectMany(v => v.Errors)
                                          .Select(e => e.ErrorMessage)
@@ -155,11 +153,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
             catch (Exception ex)
             {
-                // ข้อผิดพลาดที่ไม่คาดคิดก่อนเข้า transaction หรือจาก exception ที่ re-throw ขึ้นมา
-                // บันทึกข้อผิดพลาด (เช่น Log ex)
                 Console.WriteLine($"Unexpected error in Create action: {ex.Message}");
 
-                Response.StatusCode = 500; // ตั้งค่าสถานะ HTTP เป็น Internal Server Error
+                Response.StatusCode = 500;
                 return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message });
             }
         }
@@ -454,6 +450,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
+
+        //private void ProcessOptionWorkingStandard(DocumentFormViewModel model, int documentId)
+        //{
+
+        //}
+
+
+
         private void ProcessFileUploads(DocumentFormViewModel model, int documentId)
         {
             string path_excel = ConfigurationManager.AppSettings["path_Document_Excel"];
@@ -498,8 +502,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             string guid = Guid.NewGuid().ToString("N").Substring(0, 6);
             return $"{prefix}_{documentId}_{baseName}_{timestamp}_{guid}{ext}";
         }
-
-     
 
         private void CreateApprovalWorkflow(int documentId)
         {
@@ -594,8 +596,31 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             ProcessSelectedAreas(model, documentId);
         }
 
-        #endregion
+        [HttpGet]
+        public JsonResult GetWSData()
+        {
+            try
+            {
+                var wsData = db.WSR_WorkingStandardEdit
+                    .Select(ws => new
+                    {
+                        ws.WS_Id,
+                        ws.WS_Name,
+                        ws.WS_Number
+                    })
+                    .OrderBy(ws => ws.WS_Number)
+                    .ToList();
 
+                return Json(wsData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)

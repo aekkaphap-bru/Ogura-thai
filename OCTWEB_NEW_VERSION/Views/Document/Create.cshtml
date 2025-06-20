@@ -13,6 +13,44 @@
 }
 
 
+<style>
+    .autocomplete-container {
+        position: relative;
+    }
+
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-top: none;
+        border-radius: 0 0 0.375rem 0.375rem;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+    }
+
+    .autocomplete-suggestion {
+        padding: 8px 12px;
+        cursor: pointer;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+        .autocomplete-suggestion:hover,
+        .autocomplete-suggestion.active {
+            background-color: #f8f9fa;
+        }
+
+        .autocomplete-suggestion small {
+            color: #6c757d;
+            display: block;
+            margin-top: 2px;
+        }
+</style>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -97,88 +135,6 @@
                         <div id="document-details-list">
                             @if (Model.DocumentDetails != null && Model.DocumentDetails.Any())
                             {
-                                for (int i = 0; i < Model.DocumentDetails.Count; i++)
-                                {
-                                    <div class="document-card card border-light mb-4 shadow-sm" data-index="@(i + 1)">
-                                        <div class="card-header bg-light py-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h6 class="fw-semibold mb-0 text-primary">เอกสารลำดับที่ @(i + 1)</h6>
-                                                <button type="button" class="btn btn-outline-danger btn-sm remove-document" @(Model.DocumentDetails.Count == 1 ? "style=\"display: none;\"" : "")>
-                                                    <i class="fas fa-trash-alt me-1"></i> ลบ
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_number, new { @class = "form-control", @required = "required", @placeholder = "หมายเลขเอกสาร", @title = "กรอกหมายเลขเอกสาร", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__WS_number">หมายเลขเอกสาร *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].WS_name, new { @class = "form-control", @required = "required", @placeholder = "ชื่อเรื่อง", @title = "กรอกชื่อเรื่องของเอกสาร", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__WS_name">ชื่อเรื่อง *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Revision, new { @class = "form-control", @required = "required", @placeholder = "ลำดับการแก้ไข", @title = "กรอกลำดับการแก้ไข เช่น Rev.01", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__Revision">ลำดับการแก้ไข *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไข</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_pages, new { @class = "form-control", @type = "number", @min = "1", @max = "9999", @required = "required", @placeholder = "จำนวนหน้า", @title = "กรอกจำนวนหน้าหรือชุดของเอกสาร", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__Num_pages">จำนวนหน้า/ชุด *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกจำนวนหน้า (1-9999)</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-floating">
-                                                        @Html.TextBoxFor(m => m.DocumentDetails[i].Num_copies, new { @class = "form-control", @type = "number", @min = "1", @max = "999", @required = "required", @placeholder = "จำนวนสำเนา", @title = "กรอกจำนวนสำเนาที่ต้องการ", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__Num_copies">จำนวนสำเนา *</label>
-                                                        <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา (1-999)</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <div class="form-floating">
-                                                        @Html.TextAreaFor(m => m.DocumentDetails[i].Change_detail, new { @class = "form-control", @style = "height: 100px", @placeholder = "รายละเอียดการเปลี่ยนแปลง", @title = "อธิบายรายละเอียดการเปลี่ยนแปลง", @data_bs_toggle = "tooltip" })
-                                                        <label for="DocumentDetails_@(i)__Change_detail">
-                                                            <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label class="form-label mb-2 text-muted small">
-                                                        <i class="fas fa-file-pdf me-1 text-danger"></i> อัปโหลดไฟล์ PDF
-                                                    </label>
-                                                    <input type="file" class="form-control" id="DocumentDetails_@(i)__File_pdf" name="DocumentDetails[@i].File_pdf" accept=".pdf" data-max-size="10485760">
-                                                    <div class="form-text">รองรับไฟล์ .pdf ขนาดไม่เกิน 10MB</div>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label mb-2 text-muted small">
-                                                        <i class="fas fa-file-excel me-1 text-success"></i> อัปโหลดไฟล์ Excel
-                                                    </label>
-                                                    <input type="file" class="form-control" id="DocumentDetails_@(i)__File_excel" name="DocumentDetails[@i].File_excel" accept=".xls,.xlsx" data-max-size="10485760">
-                                                    <div class="form-text">รองรับไฟล์ .xls, .xlsx ขนาดไม่เกิน 10MB</div>
-                                                    <div class="invalid-feedback"></div> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
                                 <div class="document-card card border-light mb-4 shadow-sm" data-index="1">
                                     <div class="card-header bg-light py-3">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -191,12 +147,20 @@
                                     <div class="card-body">
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" id="DocumentDetails_0__WS_number"
-                                                           name="DocumentDetails[0].WS_number" required placeholder="หมายเลขเอกสาร"
-                                                           data-bs-toggle="tooltip" title="กรอกหมายเลขเอกสาร">
+                                                <div class="form-floating autocomplete-container">
+                                                    <input type="text" class="form-control ws-number-input"
+                                                           id="DocumentDetails_0__WS_number"
+                                                           name="DocumentDetails[0].WS_number"
+                                                           required
+                                                           placeholder="หมายเลขเอกสาร"
+                                                           data-bs-toggle="tooltip"
+                                                           title="กรอกหมายเลขเอกสารหรือค้นหา"
+                                                           autocomplete="on">
                                                     <label for="DocumentDetails_0__WS_number">หมายเลขเอกสาร *</label>
                                                     <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                                    <div class="autocomplete-suggestions"></div>
+                                                    <!-- Hidden field เก็บ WS_Id -->
+                                                    <input type="hidden" name="DocumentDetails[0].WS_Id" class="ws-id-hidden">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -347,12 +311,6 @@
                         <button type="submit" class="btn btn-primary btn-lg px-5 py-3 shadow-sm">
                             <i class="fas fa-paper-plane me-2"></i> ส่งคำร้อง
                         </button>
-                        <button type="button" class="btn btn-secondary btn-lg px-5 py-3 shadow-sm" id="saveDraftBtn">
-                            <i class="fas fa-save me-2"></i> บันทึกแบบร่าง
-                        </button>
-                        <button type="button" class="btn btn-info btn-lg px-5 py-3 shadow-sm" id="printBtn">
-                            <i class="fas fa-print me-2"></i> พิมพ์
-                        </button>
                     </div>
                 }
             </div>
@@ -376,6 +334,7 @@
                 this.saveDraftBtn = $('#saveDraftBtn');
                 this.printBtn = $('#printBtn');
 
+                this.initAutoComplete(); 
                 this.initEventListeners();
                 this.initTooltips();
                 this.updateRemoveButtonVisibility();
@@ -544,6 +503,129 @@
                 return isValid;
             }
 
+            initAutoComplete() {
+                this.wsDataCache = null; // Cache สำหรับข้อมูล WS
+                this.loadWSData(); // โหลดข้อมูลตอนเริ่มต้น
+
+                // Bind autocomplete events
+                this.documentDetailsContainer.on('input', '.ws-number-input', this.handleWSNumberInput.bind(this));
+                this.documentDetailsContainer.on('click', '.autocomplete-suggestion', this.handleSuggestionClick.bind(this));
+                this.documentDetailsContainer.on('keydown', '.ws-number-input', this.handleWSNumberKeydown.bind(this));
+
+                // Hide suggestions when clicking outside
+                $(document).on('click', (e) => {
+                    if (!$(e.target).closest('.autocomplete-container').length) {
+                        $('.autocomplete-suggestions').hide();
+                    }
+                });
+            }
+
+            // โหลดข้อมูล WS จาก server
+            async loadWSData() {
+                try {
+                    const response = await fetch('/Document/GetWSData'); // สร้าง endpoint นี้ใน controller
+                    if (response.ok) {
+                        this.wsDataCache = await response.json();
+                    }
+                } catch (error) {
+                    console.error('Failed to load WS data:', error);
+                }
+            }
+
+            // Handle input ใน WS Number field
+            handleWSNumberInput(event) {
+                const $input = $(event.target);
+                const query = $input.val().toLowerCase();
+                const $suggestions = $input.siblings('.autocomplete-suggestions');
+
+                if (query.length < 2) {
+                    $suggestions.hide().empty();
+                    return;
+                }
+
+                if (!this.wsDataCache) {
+                    this.loadWSData();
+                    return;
+                }
+
+                // Filter ข้อมูล
+                const filtered = this.wsDataCache.filter(item =>
+                    item.WS_Number.toLowerCase().includes(query) ||
+                    item.WS_Name.toLowerCase().includes(query)
+                ).slice(0, 10); // จำกัดแค่ 10 รายการ
+
+                if (filtered.length > 0) {
+                    const suggestionsHtml = filtered.map(item =>
+                        `<div class="autocomplete-suggestion" data-ws-id="${item.WS_Id}" data-ws-number="${item.WS_Number}" data-ws-name="${item.WS_Name}">
+                <strong>${item.WS_Number}</strong>
+                <small>${item.WS_Name}</small>
+            </div>`
+                    ).join('');
+
+                    $suggestions.html(suggestionsHtml).show();
+                } else {
+                    $suggestions.hide().empty();
+                }
+            }
+
+            // Handle click บน suggestion
+            handleSuggestionClick(event) {
+                const $suggestion = $(event.target).closest('.autocomplete-suggestion');
+                const $container = $suggestion.closest('.autocomplete-container');
+                const $wsNumberInput = $container.find('.ws-number-input');
+                const $wsIdHidden = $container.find('.ws-id-hidden');
+                const $wsNameInput = $container.closest('.document-card').find('[name$=".WS_name"]');
+
+                // Set values
+                $wsNumberInput.val($suggestion.data('ws-number'));
+                $wsIdHidden.val($suggestion.data('ws-id'));
+                $wsNameInput.val($suggestion.data('ws-name'));
+
+                // Hide suggestions
+                $suggestion.parent().hide();
+
+                // Trigger change events
+                $wsNumberInput.trigger('change');
+                $wsNameInput.trigger('change');
+
+                this.updateProgressBar();
+            }
+
+            // Handle keyboard navigation
+            handleWSNumberKeydown(event) {
+                const $suggestions = $(event.target).siblings('.autocomplete-suggestions');
+                const $activeSuggestion = $suggestions.find('.autocomplete-suggestion.active');
+
+                switch (event.key) {
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        if ($activeSuggestion.length === 0) {
+                            $suggestions.find('.autocomplete-suggestion:first').addClass('active');
+                        } else {
+                            $activeSuggestion.removeClass('active').next().addClass('active');
+                        }
+                        break;
+
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        if ($activeSuggestion.length > 0) {
+                            $activeSuggestion.removeClass('active').prev().addClass('active');
+                        }
+                        break;
+
+                    case 'Enter':
+                        if ($activeSuggestion.length > 0) {
+                            event.preventDefault();
+                            $activeSuggestion.click();
+                        }
+                        break;
+
+                    case 'Escape':
+                        $suggestions.hide();
+                        break;
+                }
+            }
+
             addDocumentDetailSection() {
                 const currentIndex = this.documentDetailsContainer.children('.document-card').length;
                 const newIndex = currentIndex;
@@ -562,12 +644,19 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="DocumentDetails_${newIndex}__WS_number"
-                                            name="DocumentDetails[${newIndex}].WS_number" required placeholder="หมายเลขเอกสาร"
-                                            data-bs-toggle="tooltip" title="กรอกหมายเลขเอกสาร">
+                                <div class="form-floating autocomplete-container">
+                                    <input type="text" class="form-control ws-number-input"
+                                           id="DocumentDetails_${newIndex}__WS_number"
+                                           name="DocumentDetails[${newIndex}].WS_number" 
+                                           required 
+                                           placeholder="หมายเลขเอกสาร"
+                                           data-bs-toggle="tooltip" 
+                                           title="กรอกหมายเลขเอกสารหรือค้นหา"
+                                           autocomplete="off">
                                     <label for="DocumentDetails_${newIndex}__WS_number">หมายเลขเอกสาร *</label>
                                     <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสาร</div>
+                                    <div class="autocomplete-suggestions"></div>
+                                    <input type="hidden" name="DocumentDetails[${newIndex}].WS_Id" class="ws-id-hidden">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -591,9 +680,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-floating">
-                                    <input type="number" id="DocumentDetails_${newIndex}__Num_pages" name="DocumentDetails[${newIndex}].Num_pages"
-                                            class="form-control" min="1" max="9999" required placeholder="จำนวนหน้า"
-                                            data-bs-toggle="tooltip" title="กรอกจำนวนหน้าหรือชุดของเอกสาร">
+                                    <input id="DocumentDetails_${newIndex}__Num_pages" name="DocumentDetails[${newIndex}].Num_pages"
+                                            class="form-control" required placeholder="จำนวนหน้า"
+                                            data-bs-toggle="tooltip" title="กรอกจำนวนหน้า/ชุด">
                                     <label for="DocumentDetails_${newIndex}__Num_pages">จำนวนหน้า/ชุด *</label>
                                     <div class="invalid-feedback">กรุณากรอกจำนวนหน้า (1-9999)</div>
                                 </div>
@@ -815,5 +904,4 @@
         });
 
     })();
-
 </script>
