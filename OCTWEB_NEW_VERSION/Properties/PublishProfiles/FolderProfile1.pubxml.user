@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>\\192.168.10.8\asp.net\Project\#TEST_OCT_NEW_45</_PublishTargetUrl>
-    <History>True|2025-04-09T07:35:05.9249062Z;True|2025-04-07T11:00:18.7945877+07:00;True|2025-03-31T14:47:19.8481558+07:00;True|2025-03-28T14:27:23.1824597+07:00;True|2025-03-27T15:58:49.5695479+07:00;</History>
+    <History>False|2025-06-23T06:14:20.2050364Z||;True|2025-04-09T14:35:05.9249062+07:00||;True|2025-04-07T11:00:18.7945877+07:00||;True|2025-03-31T14:47:19.8481558+07:00||;True|2025-03-28T14:27:23.1824597+07:00||;True|2025-03-27T15:58:49.5695479+07:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>

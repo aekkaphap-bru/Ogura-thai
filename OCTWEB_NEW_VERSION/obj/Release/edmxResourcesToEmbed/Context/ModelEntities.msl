@@ -401,6 +401,10 @@
     <EntitySetMapping Name="Emp_TrainingHeader">
       <EntityTypeMapping TypeName="OCTWEBTESTModel.Emp_TrainingHeader">
         <MappingFragment StoreEntitySet="Emp_TrainingHeader">
+          <ScalarProperty Name="Training_Ws_Temp_id" ColumnName="Training_Ws_Temp_id" />
+          <ScalarProperty Name="Train_EmpId" ColumnName="Train_EmpId" />
+          <ScalarProperty Name="Train_DateWS" ColumnName="Train_DateWS" />
+          <ScalarProperty Name="Trai_Temporary_Id" ColumnName="Trai_Temporary_Id" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CourseHeader" ColumnName="CourseHeader" />
           <ScalarProperty Name="Training_dateSt" ColumnName="Training_dateSt" />
@@ -754,32 +758,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="WSR_WorkingStandard">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.WSR_WorkingStandard">
-        <MappingFragment StoreEntitySet="WSR_WorkingStandard">
-          <ScalarProperty Name="WS_Id" ColumnName="WS_Id" />
-          <ScalarProperty Name="WS_Name" ColumnName="WS_Name" />
-          <ScalarProperty Name="WS_Number" ColumnName="WS_Number" />
-          <ScalarProperty Name="WS_File" ColumnName="WS_File" />
-          <ScalarProperty Name="WS_Note" ColumnName="WS_Note" />
-          <ScalarProperty Name="WST_Id" ColumnName="WST_Id" />
-          <ScalarProperty Name="WS_Date" ColumnName="WS_Date" />
-          <ScalarProperty Name="WS_Update" ColumnName="WS_Update" />
-          <ScalarProperty Name="WSP_Id" ColumnName="WSP_Id" />
-          <ScalarProperty Name="WS_Rev" ColumnName="WS_Rev" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="WSR_WorkingStandardProcess">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.WSR_WorkingStandardProcess">
-        <MappingFragment StoreEntitySet="WSR_WorkingStandardProcess">
-          <ScalarProperty Name="WSP_Id" ColumnName="WSP_Id" />
-          <ScalarProperty Name="WSP_ProcessName" ColumnName="WSP_ProcessName" />
-          <ScalarProperty Name="WST_Id" ColumnName="WST_Id" />
-          <ScalarProperty Name="WSP_Note" ColumnName="WSP_Note" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="WSR_WorkingStandardProcessEdit">
       <EntityTypeMapping TypeName="OCTWEBTESTModel.WSR_WorkingStandardProcessEdit">
         <MappingFragment StoreEntitySet="WSR_WorkingStandardProcessEdit">
@@ -790,16 +768,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="WSR_WorkingStandardType">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.WSR_WorkingStandardType">
-        <MappingFragment StoreEntitySet="WSR_WorkingStandardType">
-          <ScalarProperty Name="WST_Id" ColumnName="WST_Id" />
-          <ScalarProperty Name="WST_Type" ColumnName="WST_Type" />
-          <ScalarProperty Name="WST_Dept" ColumnName="WST_Dept" />
-          <ScalarProperty Name="WST_Note" ColumnName="WST_Note" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="WSR_WorkingStandardTypeEdit">
       <EntityTypeMapping TypeName="OCTWEBTESTModel.WSR_WorkingStandardTypeEdit">
         <MappingFragment StoreEntitySet="WSR_WorkingStandardTypeEdit">
@@ -807,76 +775,6 @@
           <ScalarProperty Name="WST_Type" ColumnName="WST_Type" />
           <ScalarProperty Name="WST_Dept" ColumnName="WST_Dept" />
           <ScalarProperty Name="WST_Note" ColumnName="WST_Note" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="d">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.d">
-        <MappingFragment StoreEntitySet="d">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="EmpList_Id" ColumnName="EmpList_Id" />
-          <ScalarProperty Name="DateSt" ColumnName="DateSt" />
-          <ScalarProperty Name="Leave_startdate" ColumnName="Leave_startdate" />
-          <ScalarProperty Name="Leave_enddate" ColumnName="Leave_enddate" />
-          <ScalarProperty Name="Leave_time" ColumnName="Leave_time" />
-          <ScalarProperty Name="Leave_timeend" ColumnName="Leave_timeend" />
-          <ScalarProperty Name="Shift" ColumnName="Shift" />
-          <ScalarProperty Name="Date_leave" ColumnName="Date_leave" />
-          <ScalarProperty Name="Date_Hour" ColumnName="Date_Hour" />
-          <ScalarProperty Name="Reasons_for_leave" ColumnName="Reasons_for_leave" />
-          <ScalarProperty Name="Type_ReasonId" ColumnName="Type_ReasonId" />
-          <ScalarProperty Name="Approved_emp" ColumnName="Approved_emp" />
-          <ScalarProperty Name="ReasonnotApEmp" ColumnName="ReasonnotApEmp" />
-          <ScalarProperty Name="Approved_hr" ColumnName="Approved_hr" />
-          <ScalarProperty Name="ReasonnotApHr" ColumnName="ReasonnotApHr" />
-          <ScalarProperty Name="Status_pay" ColumnName="Status_pay" />
-          <ScalarProperty Name="M_certificate" ColumnName="M_certificate" />
-          <ScalarProperty Name="DT_UpEmpN" ColumnName="DT_UpEmpN" />
-          <ScalarProperty Name="DT_UpHRN" ColumnName="DT_UpHRN" />
-          <ScalarProperty Name="AddbyEmp" ColumnName="AddbyEmp" />
-          <ScalarProperty Name="AddAppbyHr" ColumnName="AddAppbyHr" />
-          <ScalarProperty Name="Status_SunSat" ColumnName="Status_SunSat" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="Status_SendmailHR" ColumnName="Status_SendmailHR" />
-          <ScalarProperty Name="StatusWork" ColumnName="StatusWork" />
-          <ScalarProperty Name="StatusWorkDetail" ColumnName="StatusWorkDetail" />
-          <ScalarProperty Name="Status_hrchk" ColumnName="Status_hrchk" />
-          <ScalarProperty Name="Status_hrchkChar" ColumnName="Status_hrchkChar" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="dbo_Emp_SickLeave">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.dbo_Emp_SickLeave">
-        <MappingFragment StoreEntitySet="dbo_Emp_SickLeave">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="EmpList_Id" ColumnName="EmpList_Id" />
-          <ScalarProperty Name="DateSt" ColumnName="DateSt" />
-          <ScalarProperty Name="Leave_startdate" ColumnName="Leave_startdate" />
-          <ScalarProperty Name="Leave_enddate" ColumnName="Leave_enddate" />
-          <ScalarProperty Name="Leave_time" ColumnName="Leave_time" />
-          <ScalarProperty Name="Leave_timeend" ColumnName="Leave_timeend" />
-          <ScalarProperty Name="Shift" ColumnName="Shift" />
-          <ScalarProperty Name="Date_leave" ColumnName="Date_leave" />
-          <ScalarProperty Name="Date_Hour" ColumnName="Date_Hour" />
-          <ScalarProperty Name="Reasons_for_leave" ColumnName="Reasons_for_leave" />
-          <ScalarProperty Name="Type_ReasonId" ColumnName="Type_ReasonId" />
-          <ScalarProperty Name="Approved_emp" ColumnName="Approved_emp" />
-          <ScalarProperty Name="ReasonnotApEmp" ColumnName="ReasonnotApEmp" />
-          <ScalarProperty Name="Approved_hr" ColumnName="Approved_hr" />
-          <ScalarProperty Name="ReasonnotApHr" ColumnName="ReasonnotApHr" />
-          <ScalarProperty Name="Status_pay" ColumnName="Status_pay" />
-          <ScalarProperty Name="M_certificate" ColumnName="M_certificate" />
-          <ScalarProperty Name="DT_UpEmpN" ColumnName="DT_UpEmpN" />
-          <ScalarProperty Name="DT_UpHRN" ColumnName="DT_UpHRN" />
-          <ScalarProperty Name="AddbyEmp" ColumnName="AddbyEmp" />
-          <ScalarProperty Name="AddAppbyHr" ColumnName="AddAppbyHr" />
-          <ScalarProperty Name="Status_SunSat" ColumnName="Status_SunSat" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="Status_SendmailHR" ColumnName="Status_SendmailHR" />
-          <ScalarProperty Name="StatusWork" ColumnName="StatusWork" />
-          <ScalarProperty Name="StatusWorkDetail" ColumnName="StatusWorkDetail" />
-          <ScalarProperty Name="Status_hrchk" ColumnName="Status_hrchk" />
-          <ScalarProperty Name="Status_hrchkChar" ColumnName="Status_hrchkChar" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -977,58 +875,6 @@
           <ScalarProperty Name="StatusWorkDetail" ColumnName="StatusWorkDetail" />
           <ScalarProperty Name="Status_hrchk" ColumnName="Status_hrchk" />
           <ScalarProperty Name="Status_hrchkChar" ColumnName="Status_hrchkChar" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmpList_Newt">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.EmpList_Newt">
-        <MappingFragment StoreEntitySet="EmpList_Newt">
-          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
-          <ScalarProperty Name="IDcode" ColumnName="IDcode" />
-          <ScalarProperty Name="PPID" ColumnName="PPID" />
-          <ScalarProperty Name="TaxID" ColumnName="TaxID" />
-          <ScalarProperty Name="SSO" ColumnName="SSO" />
-          <ScalarProperty Name="Title_TH" ColumnName="Title_TH" />
-          <ScalarProperty Name="FName_TH" ColumnName="FName_TH" />
-          <ScalarProperty Name="LName_TH" ColumnName="LName_TH" />
-          <ScalarProperty Name="NName_TH" ColumnName="NName_TH" />
-          <ScalarProperty Name="Title_EN" ColumnName="Title_EN" />
-          <ScalarProperty Name="FName_EN" ColumnName="FName_EN" />
-          <ScalarProperty Name="LName_EN" ColumnName="LName_EN" />
-          <ScalarProperty Name="NName_EN" ColumnName="NName_EN" />
-          <ScalarProperty Name="Gender" ColumnName="Gender" />
-          <ScalarProperty Name="Nation" ColumnName="Nation" />
-          <ScalarProperty Name="BDate" ColumnName="BDate" />
-          <ScalarProperty Name="Disabled_stat" ColumnName="Disabled_stat" />
-          <ScalarProperty Name="Disabled_By" ColumnName="Disabled_By" />
-          <ScalarProperty Name="Addr_Build" ColumnName="Addr_Build" />
-          <ScalarProperty Name="Addr_No" ColumnName="Addr_No" />
-          <ScalarProperty Name="Addr_Alle" ColumnName="Addr_Alle" />
-          <ScalarProperty Name="Addr_Rd" ColumnName="Addr_Rd" />
-          <ScalarProperty Name="Addr_Vill" ColumnName="Addr_Vill" />
-          <ScalarProperty Name="Addr_Prsh" ColumnName="Addr_Prsh" />
-          <ScalarProperty Name="Addr_Dtrct" ColumnName="Addr_Dtrct" />
-          <ScalarProperty Name="Addr_Prvnc" ColumnName="Addr_Prvnc" />
-          <ScalarProperty Name="Addr_Post" ColumnName="Addr_Post" />
-          <ScalarProperty Name="Educate" ColumnName="Educate" />
-          <ScalarProperty Name="In_Email" ColumnName="In_Email" />
-          <ScalarProperty Name="Ex_Email" ColumnName="Ex_Email" />
-          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-          <ScalarProperty Name="Tel" ColumnName="Tel" />
-          <ScalarProperty Name="Bank_Acc" ColumnName="Bank_Acc" />
-          <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
-          <ScalarProperty Name="DeptDesc" ColumnName="DeptDesc" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
-          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="PassDate" ColumnName="PassDate" />
-          <ScalarProperty Name="StartPosition" ColumnName="StartPosition" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="EmpStatus" ColumnName="EmpStatus" />
-          <ScalarProperty Name="ReasonPPS" ColumnName="ReasonPPS" />
-          <ScalarProperty Name="DatePasSport" ColumnName="DatePasSport" />
-          <ScalarProperty Name="DatePasSportExpire" ColumnName="DatePasSportExpire" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1482,6 +1328,106 @@
           <ScalarProperty Name="TypeBenef" ColumnName="TypeBenef" />
           <ScalarProperty Name="Dep" ColumnName="Dep" />
           <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Areas">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.Area">
+        <MappingFragment StoreEntitySet="Area">
+          <ScalarProperty Name="Area_name" ColumnName="Area_name" />
+          <ScalarProperty Name="Area_id" ColumnName="Area_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rights01">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.Rights01">
+        <MappingFragment StoreEntitySet="Rights01">
+          <ScalarProperty Name="RIG_Id" ColumnName="RIG_Id" />
+          <ScalarProperty Name="RIH_Pages" ColumnName="RIH_Pages" />
+          <ScalarProperty Name="RIH_Description" ColumnName="RIH_Description" />
+          <ScalarProperty Name="RIH_Name" ColumnName="RIH_Name" />
+          <ScalarProperty Name="RIH_Id" ColumnName="RIH_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentActivityLogs">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentActivityLog">
+        <MappingFragment StoreEntitySet="DocumentActivityLogs">
+          <ScalarProperty Name="detail" ColumnName="detail" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="action" ColumnName="action" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
+          <ScalarProperty Name="log_id" ColumnName="log_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentApprovalSteps">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentApprovalStep">
+        <MappingFragment StoreEntitySet="DocumentApprovalSteps">
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Approved_at" ColumnName="Approved_at" />
+          <ScalarProperty Name="Approver_id" ColumnName="Approver_id" />
+          <ScalarProperty Name="Step" ColumnName="Step" />
+          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
+          <ScalarProperty Name="AId" ColumnName="AId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentDetails">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentDetail">
+        <MappingFragment StoreEntitySet="DocumentDetails">
+          <ScalarProperty Name="Change_detail" ColumnName="Change_detail" />
+          <ScalarProperty Name="File_pdf" ColumnName="File_pdf" />
+          <ScalarProperty Name="File_excel" ColumnName="File_excel" />
+          <ScalarProperty Name="Num_copies" ColumnName="Num_copies" />
+          <ScalarProperty Name="Num_pages" ColumnName="Num_pages" />
+          <ScalarProperty Name="Revision" ColumnName="Revision" />
+          <ScalarProperty Name="WS_name" ColumnName="WS_name" />
+          <ScalarProperty Name="WS_number" ColumnName="WS_number" />
+          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
+          <ScalarProperty Name="DId" ColumnName="DId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentFormAreas">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentFormArea">
+        <MappingFragment StoreEntitySet="DocumentFormAreas">
+          <ScalarProperty Name="area_name" ColumnName="area_name" />
+          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
+          <ScalarProperty Name="FId" ColumnName="FId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentLists">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentList">
+        <MappingFragment StoreEntitySet="DocumentList">
+          <ScalarProperty Name="Updated_at" ColumnName="Updated_at" />
+          <ScalarProperty Name="Created_at" ColumnName="Created_at" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Effective_date" ColumnName="Effective_date" />
+          <ScalarProperty Name="Document_type" ColumnName="Document_type" />
+          <ScalarProperty Name="Requester_id" ColumnName="Requester_id" />
+          <ScalarProperty Name="Request_type" ColumnName="Request_type" />
+          <ScalarProperty Name="Request_from" ColumnName="Request_from" />
+          <ScalarProperty Name="LId" ColumnName="LId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Equipment_repair_machine">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.Equipment_repair_machine">
+        <MappingFragment StoreEntitySet="Equipment_repair_machine">
+          <ScalarProperty Name="Finish" ColumnName="Finish" />
+          <ScalarProperty Name="StartStopping" ColumnName="StartStopping" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Linename" ColumnName="Linename" />
+          <ScalarProperty Name="Process" ColumnName="Process" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Factoy" ColumnName="Factoy" />
+          <ScalarProperty Name="Datest" ColumnName="Datest" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

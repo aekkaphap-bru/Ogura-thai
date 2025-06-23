@@ -408,6 +408,10 @@
     <Property Name="Train_Min" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Train_WsFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Emp_TrainingDetail" Relationship="Self.FK_Emp_TrainingDetail_Emp_TrainingHeader" FromRole="Emp_TrainingHeader" ToRole="Emp_TrainingDetail" />
+    <Property Name="Trai_Temporary_Id" Type="Int32" />
+    <Property Name="Train_DateWS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Train_EmpId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Training_Ws_Temp_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Emp_TrainingWS_temporary">
     <Key>
@@ -651,6 +655,7 @@
     <Property Name="SYS_Id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="SystemSys" Relationship="Self.FK_RightGroup_Systems" FromRole="RightGroup" ToRole="Systems" />
     <NavigationProperty Name="Rights" Relationship="Self.FK_Rights_RightGroup" FromRole="RightGroup" ToRole="Rights" />
+    <NavigationProperty Name="Rights01" Relationship="OCTWEBTESTModel.FK_Rights_RightGroup7" FromRole="RightGroup" ToRole="Rights01" />
   </EntityType>
   <EntityType Name="Right">
     <Key>
@@ -744,30 +749,6 @@
     <Property Name="CRT_Type" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="CRT_Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="WSR_WorkingStandard">
-    <Key>
-      <PropertyRef Name="WS_Id" />
-    </Key>
-    <Property Name="WS_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="WS_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="WS_Number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="WS_File" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="WS_Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="WST_Id" Type="Int32" Nullable="false" />
-    <Property Name="WS_Date" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="WS_Update" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="WSP_Id" Type="Int32" />
-    <Property Name="WS_Rev" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="WSR_WorkingStandardProcess">
-    <Key>
-      <PropertyRef Name="WSP_Id" />
-    </Key>
-    <Property Name="WSP_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="WSP_ProcessName" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="WST_Id" Type="Int32" Nullable="false" />
-    <Property Name="WSP_Note" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="WSR_WorkingStandardProcessEdit">
     <Key>
       <PropertyRef Name="WSP_Id" />
@@ -777,15 +758,6 @@
     <Property Name="WST_Id" Type="Int32" Nullable="false" />
     <Property Name="WSP_Note" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="WSR_WorkingStandardType">
-    <Key>
-      <PropertyRef Name="WST_Id" />
-    </Key>
-    <Property Name="WST_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="WST_Type" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="WST_Dept" Type="Int32" Nullable="false" />
-    <Property Name="WST_Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="WSR_WorkingStandardTypeEdit">
     <Key>
       <PropertyRef Name="WST_Id" />
@@ -794,78 +766,6 @@
     <Property Name="WST_Type" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="WST_Dept" Type="Int32" Nullable="false" />
     <Property Name="WST_Note" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="d">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="EmpList_Id" />
-      <PropertyRef Name="Type_ReasonId" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EmpList_Id" Type="Int32" Nullable="false" />
-    <Property Name="DateSt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_startdate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_enddate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_timeend" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Shift" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Date_leave" Type="Double" />
-    <Property Name="Date_Hour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Reasons_for_leave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Type_ReasonId" Type="Int32" Nullable="false" />
-    <Property Name="Approved_emp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ReasonnotApEmp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Approved_hr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ReasonnotApHr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Status_pay" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="M_certificate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DT_UpEmpN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DT_UpHRN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="AddbyEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="AddAppbyHr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Status_SunSat" Type="Int32" />
-    <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Status_SendmailHR" Type="Int32" />
-    <Property Name="StatusWork" Type="Int32" />
-    <Property Name="StatusWorkDetail" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-    <Property Name="Status_hrchk" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-    <Property Name="Status_hrchkChar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="dbo_Emp_SickLeave">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="EmpList_Id" />
-      <PropertyRef Name="Type_ReasonId" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EmpList_Id" Type="Int32" Nullable="false" />
-    <Property Name="DateSt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_startdate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_enddate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Leave_timeend" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Shift" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Date_leave" Type="Double" />
-    <Property Name="Date_Hour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Reasons_for_leave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Type_ReasonId" Type="Int32" Nullable="false" />
-    <Property Name="Approved_emp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ReasonnotApEmp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Approved_hr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ReasonnotApHr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Status_pay" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="M_certificate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DT_UpEmpN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DT_UpHRN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="AddbyEmp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="AddAppbyHr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Status_SunSat" Type="Int32" />
-    <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Status_SendmailHR" Type="Int32" />
-    <Property Name="StatusWork" Type="Int32" />
-    <Property Name="StatusWorkDetail" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-    <Property Name="Status_hrchk" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-    <Property Name="Status_hrchkChar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="DeliveryTagPlan">
     <Key>
@@ -976,57 +876,6 @@
     <Property Name="Status_hrchk" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
     <Property Name="Status_hrchkChar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Emp_Typesick" Relationship="Self.FK_Emp_SickLeave_Emp_Typesick" FromRole="Emp_SickLeave" ToRole="Emp_Typesick" />
-  </EntityType>
-  <EntityType Name="EmpList_Newt">
-    <Key>
-      <PropertyRef Name="EmpID" />
-    </Key>
-    <Property Name="EmpID" Type="Int32" Nullable="false" />
-    <Property Name="IDcode" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="PPID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="TaxID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="SSO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Title_TH" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="FName_TH" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="LName_TH" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="NName_TH" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Title_EN" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="FName_EN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="LName_EN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="NName_EN" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Gender" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-    <Property Name="Nation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="BDate" Type="DateTime" Precision="0" />
-    <Property Name="Disabled_stat" Type="Boolean" />
-    <Property Name="Disabled_By" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Build" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_No" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Alle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Rd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Vill" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Prsh" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Dtrct" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Prvnc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Addr_Post" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Educate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="In_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Ex_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Mobile" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Tel" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Bank_Acc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DeptCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="DeptDesc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="CostCenter" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="CostCenterName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="StartDate" Type="DateTime" Precision="0" />
-    <Property Name="PassDate" Type="DateTime" Precision="0" />
-    <Property Name="StartPosition" Type="DateTime" Precision="0" />
-    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="EmpStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="ReasonPPS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="DatePasSport" Type="DateTime" Precision="0" />
-    <Property Name="DatePasSportExpire" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Former_EmpList_Newt">
     <Key>
@@ -1553,19 +1402,13 @@
     <EntitySet Name="UserRights" EntityType="Self.UserRight" />
     <EntitySet Name="WSR_CompRule" EntityType="Self.WSR_CompRule" />
     <EntitySet Name="WSR_CompRuleType" EntityType="Self.WSR_CompRuleType" />
-    <EntitySet Name="WSR_WorkingStandard" EntityType="Self.WSR_WorkingStandard" />
-    <EntitySet Name="WSR_WorkingStandardProcess" EntityType="Self.WSR_WorkingStandardProcess" />
     <EntitySet Name="WSR_WorkingStandardProcessEdit" EntityType="Self.WSR_WorkingStandardProcessEdit" />
-    <EntitySet Name="WSR_WorkingStandardType" EntityType="Self.WSR_WorkingStandardType" />
     <EntitySet Name="WSR_WorkingStandardTypeEdit" EntityType="Self.WSR_WorkingStandardTypeEdit" />
-    <EntitySet Name="d" EntityType="Self.d" />
-    <EntitySet Name="dbo_Emp_SickLeave" EntityType="Self.dbo_Emp_SickLeave" />
     <EntitySet Name="DeliveryTagPlans" EntityType="Self.DeliveryTagPlan" />
     <EntitySet Name="DepartmentEdits" EntityType="Self.DepartmentEdit" />
     <EntitySet Name="DWPics" EntityType="Self.DWPic" />
     <EntitySet Name="Emp_sendEmailSession" EntityType="Self.Emp_sendEmailSession" />
     <EntitySet Name="Emp_SickLeave" EntityType="Self.Emp_SickLeave" />
-    <EntitySet Name="EmpList_Newt" EntityType="Self.EmpList_Newt" />
     <EntitySet Name="Former_EmpList_Newt" EntityType="Self.Former_EmpList_Newt" />
     <EntitySet Name="hr_func_rights" EntityType="Self.hr_func_rights" />
     <EntitySet Name="hr_LogEmployees" EntityType="Self.hr_LogEmployees" />
@@ -1704,6 +1547,18 @@
     <EntitySet Name="EmpLists" EntityType="OCTWEBTESTModel.EmpList" />
     <EntitySet Name="LeaveEmployees" EntityType="OCTWEBTESTModel.LeaveEmployee" />
     <EntitySet Name="Emp_Benefite" EntityType="OCTWEBTESTModel.Emp_Benefite" />
+    <EntitySet Name="Areas" EntityType="OCTWEBTESTModel.Area" />
+    <EntitySet Name="Rights01" EntityType="OCTWEBTESTModel.Rights01" />
+    <AssociationSet Name="FK_Rights_RightGroup7" Association="OCTWEBTESTModel.FK_Rights_RightGroup7">
+      <End Role="RightGroup" EntitySet="RightGroups" />
+      <End Role="Rights01" EntitySet="Rights01" />
+    </AssociationSet>
+    <EntitySet Name="DocumentActivityLogs" EntityType="OCTWEBTESTModel.DocumentActivityLog" />
+    <EntitySet Name="DocumentApprovalSteps" EntityType="OCTWEBTESTModel.DocumentApprovalStep" />
+    <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
+    <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
+    <EntitySet Name="DocumentLists" EntityType="OCTWEBTESTModel.DocumentList" />
+    <EntitySet Name="Equipment_repair_machine" EntityType="OCTWEBTESTModel.Equipment_repair_machine" />
   </EntityContainer>
   <EntityType Name="WSR_WorkingStandardEdit">
     <Key>
@@ -1718,7 +1573,7 @@
     <Property Name="WS_Date" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="WS_Update" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="WSP_Id" Type="Int32" />
-    <Property Name="WS_Rev" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="WS_Rev" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="WS_Training_Section">
     <Key>
@@ -2035,5 +1890,115 @@
     <Property Name="CreateTime" Type="DateTime" Precision="3" />
     <Property Name="UpdateTime" Type="DateTime" Precision="3" />
     <Property Name="Document" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="Area_id" />
+    </Key>
+    <Property Name="Area_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Area_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Rights01">
+    <Key>
+      <PropertyRef Name="RIH_Id" />
+    </Key>
+    <Property Name="RIH_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RIH_Name" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="RIH_Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="RIH_Pages" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="RIG_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RightGroup" Relationship="OCTWEBTESTModel.FK_Rights_RightGroup7" FromRole="Rights01" ToRole="RightGroup" />
+  </EntityType>
+  <Association Name="FK_Rights_RightGroup7">
+    <End Type="OCTWEBTESTModel.RightGroup" Role="RightGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="OCTWEBTESTModel.Rights01" Role="Rights01" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RightGroup">
+        <PropertyRef Name="RIG_Id" />
+      </Principal>
+      <Dependent Role="Rights01">
+        <PropertyRef Name="RIG_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DocumentActivityLog">
+    <Key>
+      <PropertyRef Name="log_id" />
+    </Key>
+    <Property Name="log_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Doc_id" Type="Int32" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="timestamp" Type="DateTime" Precision="3" />
+    <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DocumentApprovalStep">
+    <Key>
+      <PropertyRef Name="AId" />
+    </Key>
+    <Property Name="AId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Doc_id" Type="Int32" Nullable="false" />
+    <Property Name="Step" Type="Int32" />
+    <Property Name="Approver_id" Type="Int32" />
+    <Property Name="Approved_at" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DocumentDetail">
+    <Key>
+      <PropertyRef Name="DId" />
+    </Key>
+    <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Doc_id" Type="Int32" Nullable="false" />
+    <Property Name="WS_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="WS_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Num_copies" Type="Int32" />
+    <Property Name="File_excel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DocumentFormArea">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Doc_id" Type="Int32" Nullable="false" />
+    <Property Name="area_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DocumentList">
+    <Key>
+      <PropertyRef Name="LId" />
+    </Key>
+    <Property Name="LId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Request_from" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Request_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Requester_id" Type="Int32" Nullable="false" />
+    <Property Name="Document_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Effective_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Created_at" Type="DateTime" Precision="3" />
+    <Property Name="Updated_at" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Equipment_repair_machine">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Datest" />
+      <PropertyRef Name="Factoy" />
+      <PropertyRef Name="Department" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Datest" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Factoy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Department" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Process" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Linename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Machine" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="StartStopping" Type="DateTime" Precision="3" />
+    <Property Name="Finish" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

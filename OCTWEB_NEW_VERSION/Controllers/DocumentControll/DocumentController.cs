@@ -413,8 +413,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             if (model.DocumentDetails != null && model.DocumentDetails.Any())
             {
-                // Process file uploads
-                ProcessFileUploads(model,documentId); 
+                //// Process file uploads
+                //ProcessFileUploads(model,documentId); 
 
                 foreach (var detail in model.DocumentDetails)
                 {
@@ -426,7 +426,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             WS_number = detail.WS_number.Trim(),
                             WS_name = detail.WS_name.Trim(),
                             Revision = detail.Revision?.Trim() ?? "01",
-                            Num_pages = detail.Num_pages?.Trim(),
+                            Num_pages = detail.File_excel,
                             Num_copies = detail.Num_copies ?? 1,
                             File_excel = "1",
                             File_pdf = "2",
@@ -478,11 +478,15 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 var filePdf = files[filePdfKey];
                 var fileExcel = files[fileExcelKey];
 
+              
+
                 if (filePdf != null && filePdf.ContentLength > 0)
                 {
                     string pdfFileName = GenerateUniqueFileName("PDF", documentId, filePdf.FileName);
                     string fullPdfPath = Path.Combine(path_pdf, pdfFileName);
                     filePdf.SaveAs(fullPdfPath);
+
+                    detail.File_excel = pdfFileName;
                 }
 
                 if (fileExcel != null && fileExcel.ContentLength > 0)
@@ -534,44 +538,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             return document.Requester_id == currentUserId && document.Status == DocumentStatus.Draft;
         }
 
-        //private DocumentFormViewModel MapDocumentToViewModel(DocumentList document)
-        //{
-        //    var model = new DocumentFormViewModel
-        //    {
-        //        Id = document.LId,
-        //        Request_from = document.Request_from,
-        //        Request_type = document.Request_type,
-        //        Requester_id = document.Requester_id,
-        //        Document_type = document.Document_type,
-        //        Effective_date = document.Effective_date,
-        //        Status = document.Status,
-        //        Created_at = document.Created_at,
-        //        Updated_at = document.Updated_at
-        //    };
-
-        //    // Map document details
-        //    if (document.DocumentDetails != null)
-        //    {
-        //        model.DocumentDetails = document.DocumentDetails.Select(d => new DocumentDetailViewModel
-        //        {
-        //            Id = d.Id,
-        //            WS_number = d.WS_number,
-        //            WS_name = d.WS_name,
-        //            Revision = d.Revision,
-        //            Num_pages = d.Num_pages,
-        //            Num_copies = d.Num_copies,
-        //            File_excel = d.File_excel,
-        //            File_pdf = d.File_pdf,
-        //            Change_detail = d.Change_detail
-        //        }).ToList();
-        //    }
-
-        //    // Load available areas
-        //    model.AvailableAreas = LoadAvailableAreas();
-
-        //    return model;
-        //}
-
         private void UpdateDocumentRecord(DocumentList document, DocumentFormViewModel model)
         {
             document.Request_type = model.Request_type;
@@ -618,7 +584,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
 
         #endregion
         protected override void Dispose(bool disposing)

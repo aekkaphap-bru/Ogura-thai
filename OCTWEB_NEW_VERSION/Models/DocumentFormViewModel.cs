@@ -43,6 +43,8 @@ namespace OCTWEB_NET45.Models
         public List<ApprovalStepViewModel> ApprovalSteps { get; set; } = new List<ApprovalStepViewModel>();
 
         public List<AreaItemViewModel> AvailableAreas { get; set; }
+
+        public string testfile {  get; set; }
     }
 
     public class DocumentDetailViewModel

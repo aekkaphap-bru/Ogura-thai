@@ -1,11 +1,11 @@
-:root {
+/* :root {
     --primary-color: #2c3e50;
     --secondary-color: #1abc9c;
     --accent-color: #3498db;
     --light-gray: #f8f9fa;
     --dark-gray: #343a40;
     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+} */
 
 body {
     
@@ -89,14 +89,15 @@ body {
     }
 
 .btn-export {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
+    background-color: #16a085;
+    border-color: #16a085;
+    color: white;
     transition: all 0.3s;
 }
 
     .btn-export:hover {
-        background-color: var(--accent-color);
-        color: white;
+        background-color: #0e5d4d;
+        border-color:#0e5d4d;
     }
 
 .btn-clear {
@@ -106,7 +107,7 @@ body {
 }
 
     .btn-clear:hover {
-        background-color: var(--dark-gray);
+        background-color:#333;
         color: white;
     }
 
@@ -168,7 +169,7 @@ body {
 }
 
 .btn-detail {
-    background-color: var(--accent-color);
+    background-color: #3498db;
     color: white;
     border: none;
 }
