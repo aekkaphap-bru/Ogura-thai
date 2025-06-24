@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Training Course Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var style_head_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+    var style_body_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+    var style_foot_2 = "background: linear-gradient(to right, #ede6d6, #e1dba3, #c2d575, #90d14e, #32cd32);";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <h4 class="page-title ">Training Course <span style="color:red;">Setup</span></h4>
+                <hr/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_2">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Add Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_2">
+                    <p style="color:black;">Create New Training</p>
+                    <p style="color:black;">(เพิ่มหัวข้อหลักสูตรการฝึกอบรม)</p>
+                </div>
+                <div class="card-footer" style="@style_foot_2">
+                    <a href="@Url.Action(actionName: "AddCourse"
+                        , controllerName: "TrainingCourseAddAndManage")" class="btn btn-success">
+                        <i class="fas fa-folder-plus"></i> Create
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header" style="@style_head_2">
+                    <div class=" bg-white border-0 rounded-lg mt-0 mb-3  justify-content-center">
+                        <h4 class="font-weight-bold text-dark my-1 text-center ">Manage Training Course</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="card-body" style="@style_body_2">
+                    <p style="color:black;">Edit or Delete Training Course</p>
+                    <p style="color:black;">(แก้ไขรายละเอียด เพิ่ม/ลบ ข้อมูลหลักสูตรการฝึกอบรม)</p>
+                </div>
+                <div class="card-footer" style="@style_foot_2">
+                    <a href="@Url.Action(actionName: "CourseList"
+                            , controllerName: "TrainingCourseAddAndManage")" class="btn btn-success">
+                        <i class="fas fa-tasks"></i> Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

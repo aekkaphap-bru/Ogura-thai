@@ -1,0 +1,175 @@
+/* OCT Core CSS - Formal Business Theme (2025)
+-------------------------------------------------- */
+:root {
+    /* ==== Formal & Professional Color Palette ==== */
+    
+    /* Primary Color: A classic, stable corporate blue. */
+    --primary-color: #005A9C; 
+    --primary-dark: #004070;  /* Darker shade for interaction */
+    
+    /* Backgrounds: Clean and professional neutrals. */
+    --bg-light: #F8F9FA;      /* Off-white for the main background */
+    --bg-white: #FFFFFF;
+    --bg-gray: #E9ECEF;
+    
+    /* Text: High contrast for readability. */
+    --text-dark: #212529;     /* Standard dark for body text */
+    --text-light: #FFFFFF;
+    --text-muted: #6C757D;
+    
+    /* Status Colors: Standard, clear indicators. */
+    --success: #198754;
+    --info: #0D6EFD;
+    --warning: #FFC107;
+    --danger: #DC3545;
+    
+    /* UI Elements: Clean and sharp. */
+    --border-color: #DEE2E6;
+    --border-radius: 6px; /* A more subtle, professional corner radius */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+    --transition: all 0.2s ease-in-out;
+    
+    /* Font */
+    --font-family: 'Segoe UI', 'Roboto', 'Prompt', sans-serif;
+}
+
+/* =================================
+   BASE & GLOBAL STYLES
+   ================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    line-height: 1.6;
+    font-size: 15px; /* A comfortable base font size for business apps */
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* =================================
+   COMPONENTS
+   ================================= */
+
+/* --- Buttons --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--text-light);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    color: var(--text-light);
+    background-color: var(--primary-color);
+}
+
+
+/* --- Form Elements --- */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: var(--bg-white);
+    background-clip: padding-box;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    color: var(--text-dark);
+    background-color: var(--bg-white);
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 90, 156, 0.25);
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+
+/* --- Cards --- */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: var(--bg-white);
+    background-clip: border-box;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card-footer {
+    padding: 1rem 1.25rem;
+    background-color: transparent;
+    border-top: 1px solid var(--border-color);
+}

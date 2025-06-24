@@ -332,8 +332,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
           <Property Name="Revision" Type="varchar" MaxLength="10" />
           <Property Name="Num_pages" Type="varchar" MaxLength="10" />
           <Property Name="Num_copies" Type="int" />
-          <Property Name="File_excel" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="File_pdf" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="File_excel" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="File_pdf" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Change_detail" Type="text" />
         </EntityType>
         <EntityType Name="DocumentFormAreas">
@@ -4208,8 +4208,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Num_copies" Type="Int32" />
-          <Property Name="File_excel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DocumentFormArea">

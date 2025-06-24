@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+        alert("test test");
+
+        var sd = $("#start_date").val();
+        var ed = $("#end_date").val();
+        if (sd != null && ed != null)
+        {
+            alert();
+            var year_s = yearleave - 1;
+            var d_start = year_s + "-11-21";
+            var d_end = yearleave + "-11-20";
+            $("#start_date").val(d_start);
+            $("#end_date").val(d_end);
+        }
+
+    });
+</script>

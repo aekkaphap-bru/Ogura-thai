@@ -24,7 +24,9 @@ namespace OCTWEB_NET45.Models
         [Required]
         [Display(Name = "Effective Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Effective_date { get; set; }
+
 
         public string Status { get; set; }
 
@@ -44,7 +46,15 @@ namespace OCTWEB_NET45.Models
 
         public List<AreaItemViewModel> AvailableAreas { get; set; }
 
-        public string testfile {  get; set; }
+        [StringLength(255)]
+        public string File_excel { get; set; }
+
+        [StringLength(255)]
+        public string File_pdf { get; set; }
+
+        public List<AreaSelectionViewModel> AvailableAreasSelect { get; set; }
+
+
     }
 
     public class DocumentDetailViewModel
@@ -74,6 +84,16 @@ namespace OCTWEB_NET45.Models
         public string Area_name { get; set; }
     }
 
+    
+
+public class AreaSelectionViewModel
+    {
+        public int Id { get; set; } // Optional
+        public string SectionCode { get; set; }
+        public string SectionName { get; set; }
+        public bool IsSelected { get; set; }
+    }
+
     public class ApprovalStepViewModel
     {
         public int? Id { get; set; }
@@ -96,4 +116,15 @@ namespace OCTWEB_NET45.Models
         public string SectionName { get; set; }
         public bool IsSelected { get; set; }
     }
+
+    public class DocumentListDisplayViewModel
+    {
+        public int LId { get; set; }
+        public DateTime? Created_at { get; set; }
+        public string Status { get; set; }
+        public string WS_name { get; set; }
+        public string WS_number { get; set; }
+        public string RequesterName { get; set; }
+    }
+
 }

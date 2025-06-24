@@ -1,0 +1,242 @@
+﻿.container-calendar {
+    width: 100%;
+    margin: 10px 0;
+    /* background-color: #CFECEC; */
+}
+
+.tableleave {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 10px rgb(128, 128, 128);
+    /*background: linear-gradient(to right top, #f9f8de, #eefbe3, #e4fdea, #dcfff3, #d8fffd);*/
+    /* background: #8F0B0B; */
+    background: #B4CFEC;
+    padding: 12px;
+    border-radius: 10px;
+    color: #000;
+}
+
+    .tableleave th, .tableleave td {
+        padding: 5px 5px;
+        text-justify: distribute;
+        vertical-align: middle;
+        border: 0.5px solid #d3cfcf;
+        /*border-bottom: 1px solid black;
+            border-right: 1px solid black;*/
+        background: #ffffff;
+    }
+
+
+.bg-image {
+    background-image: url("../static/img/undraw_profile_1.svg");
+    background-color: #D5F3DB;
+    height: 40px;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    position: relative;
+}
+
+.bg-image-no {
+    background-color: #D5F3DB;
+    height: 40px;
+    position: relative;
+}
+
+.bg-image-we {
+    background-image: url("../static/img/undraw_profile_3.svg");
+    background-color: #e5fa9b;
+    height: 40px;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    position: relative;
+}
+
+.bg-image-we-no {
+    background-color: #e5fa9b;
+    height: 40px;
+    position: relative;
+}
+
+.bg-image-ho {
+    /*background-image: url("../static/img/undraw_rocket.svg");*/
+    background-color: transparent;
+    /*height: 40px;*/
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    position: relative;
+}
+
+
+.bg-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    font-size: 20px;
+    text-shadow: 2px,2px,2px #ddd;
+}
+
+.bg-text-ho {
+    text-align: left;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    /*transform: translate(-50%, -50%);*/
+    color: black;
+    font-size: 12px;
+    text-shadow: 2px,2px,2px #ddd;
+}
+
+.leave-type-count {
+    background: linear-gradient(to right top, #f9f8de, #eefbe3, #e4fdea, #dcfff3, #d8fffd);
+    /*height: 60px;*/
+    position: relative;
+}
+
+
+
+
+.fc-small {
+    font-size: 12px;
+}
+
+.fc-page {
+    background-color: #15ce3a;
+}
+
+.fc-neutral {
+    background-color: #9cc633;
+    color: #808080;
+}
+
+.fc-border {
+    color: #ddd;
+}
+
+.fc-more-link {
+    background-color: #d0d0d0;
+    color: #e21717;
+}
+
+.fc-non-business {
+    background-color: #11c1a0;
+}
+
+.fc-bg-event {
+    color: #120909;
+    opacity: 0;
+}
+
+.fc-highlight {
+    background-color: #d01111;
+}
+
+.fc-today {
+    background-color: #3da705;
+}
+
+.fc-now-indicator {
+    color: red;
+}
+
+.fc-daygrid-day-frame {
+    position: relative;
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+.event-holiday {
+    /*background-color: ;*/
+    color: #000000;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    margin: 0;
+}
+/*#a9cce3*/
+.event-leave {
+    background-color: transparent; /* สีสำหรับจำนวนคนลาวันนั้น */
+    color: white;
+    padding: 5px;
+    border-style: none;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+.text-center {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333; /* สีข้อความ */
+    text-align: center;
+    margin-top: 5px;
+}
+
+
+/*---------------------------------------------*/
+.event-indicator {
+    position: absolute;
+    top: 5px; /* ปรับตำแหน่งให้ห่างจากขอบบน */
+    left: 5px; /* ปรับตำแหน่งให้ห่างจากขอบซ้าย */
+    right: 5px;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 5px; /* ระยะห่างระหว่างวงกลมกับข้อความ */
+}
+
+    .event-indicator .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+
+.circle-holiday {
+    background-color: #f08080; /*สีสำหรับวันหยุด*/
+    bottom: 5px;
+    right: 5px;
+    position: absolute;
+}
+
+
+.leave-container {
+    display: flex;
+    flex-direction: column; /* ทำให้จัดเรียงจากบนลงล่าง */
+    align-items: center; /* จัดให้อยู่กลาง */
+    max-width: 100%;
+}
+
+.profile-icon {
+    margin-bottom: 5px; /* ระยะห่างระหว่างภาพกับข้อความ */
+    width: 40%;
+}
+
+.leave-text {
+    text-align: center; /* ทำให้ข้อความอยู่กลาง */
+    font-size: 12px; /* ขนาดของข้อความ */
+    color: #555; /* สีของข้อความ */
+    margin-top: 3px;
+}
+
+.event-details {
+    font-size: 12px;
+}
+/*-----------------------------------------------------------------------------------------*/

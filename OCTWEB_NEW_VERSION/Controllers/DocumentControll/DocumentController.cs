@@ -2,18 +2,16 @@
 using OCTWEB_NET45.Context;
 using OCTWEB_NET45.Infrastructure;
 using OCTWEB_NET45.Models;
-using Org.BouncyCastle.Ocsp;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Globalization;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace OCTWEB_NET45.Controllers.DocumentControll
 {
@@ -37,25 +35,69 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             public const string Draft = "DRAFT";
         }
 
-        // GET: Document/List
-        public ActionResult List()
-        {
-            try
-            {
-                //var documents = db.DocumentLists
-                //    .Include(d => d.DocumentDetails)
-                //    .OrderByDescending(d => d.Created_at)
-                //    .ToList();
+        //// GET: Document/List
+        //public ActionResult List()
+        //{
+        //    try
+        //    {
 
-                //return View(documents);
-                return View();
-            }
-            catch (Exception ex)
+
+        //        //var documents = db.DocumentLists
+        //        //    .Include(d => d.DocumentDetails)
+        //        //    .OrderByDescending(d => d.Created_at)
+        //        //    .ToList();
+
+        //        //return View(documents);
+        //        return View();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewBag.ErrorMessage = "เกิดข้อผิดพลาดในการโหลดข้อมูล: " + ex.Message;
+        //        return View(new List<DocumentList>());
+        //    }
+        //}
+
+        public ActionResult List(string searchString, string statusFilter, int? page)
+        {
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentStatus = statusFilter;
+
+            var query = from d in db.DocumentLists
+                        join u in db.UserDetails on d.Requester_id equals u.USE_Id into du
+                        from u in du.DefaultIfEmpty()
+                        join dd in db.DocumentDetails on d.LId equals dd.Doc_id into ddGroup
+                        select new DocumentListDisplayViewModel
+                        {
+                            LId = d.LId,
+                            Created_at = d.Created_at,
+                            Status = d.Status,
+                            WS_name = ddGroup.Select(x => x.WS_name).FirstOrDefault(),
+                            RequesterName = (u.USE_FName + " " + u.USE_LName).Trim()
+                        };
+
+            // Filter
+            if (!String.IsNullOrEmpty(searchString))
             {
-                ViewBag.ErrorMessage = "เกิดข้อผิดพลาดในการโหลดข้อมูล: " + ex.Message;
-                return View(new List<DocumentList>());
+                query = query.Where(d =>
+                    d.LId.ToString().Contains(searchString) ||
+                    d.WS_name.Contains(searchString) ||
+                    d.RequesterName.Contains(searchString));
             }
+
+            if (!String.IsNullOrEmpty(statusFilter))
+            {
+                query = query.Where(d => d.Status == statusFilter);
+            }
+
+            query = query.OrderByDescending(d => d.Created_at);
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            return View(query.ToPagedList(pageNumber, pageSize));
         }
+
+
 
         // GET: Document/Create
         public ActionResult Create()
@@ -122,6 +164,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         db.DocumentLists.Add(document);
                         db.SaveChanges(); // Save to get document.LId before processing details/uploads
 
+                        ProcessFileUploads(model, document.LId);
+
                         // Process document details
                         ProcessDocumentDetails(model, document.LId);
 
@@ -136,27 +180,38 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
                         // TempData["SuccessMessage"] จะไม่แสดงผลในการตอบกลับ AJAX แต่สามารถใช้สำหรับ redirect ได้
                         // TempData["SuccessMessage"] = "บันทึกคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: " + document.LId; 
-
+                        Console.WriteLine($"Saving detail: PDF={model.File_pdf}, Excel={model.File_excel}");
                         // หากสำเร็จ: ส่ง JSON กลับไปพร้อมสถานะสำเร็จและ URL สำหรับ Redirect
                         return Json(new { success = true, message = $"ส่งคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: {document.LId}", redirectUrl = Url.Action("List", "Document") });
                     }
-                    catch (Exception ex)
+                    catch (DbEntityValidationException ex)
                     {
-                        transaction.Rollback();
-                        // บันทึกข้อผิดพลาด (เช่น Log ex)
-                        Console.WriteLine($"Error during transaction: {ex.Message}");
+                        var errorMessages = ex.EntityValidationErrors
+                            .SelectMany(eve => eve.ValidationErrors)
+                            .Select(e => $"Property: {e.PropertyName}, Error: {e.ErrorMessage}")
+                            .ToList();
 
-                        Response.StatusCode = 500; // ตั้งค่าสถานะ HTTP เป็น Internal Server Error
-                        return Json(new { success = false, message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + ex.Message });
+                        var fullErrorMessage = string.Join(" | ", errorMessages);
+
+                        Console.WriteLine("Entity Validation Errors:\n" + fullErrorMessage);
+
+                        Response.StatusCode = 500;
+                        return Json(new
+                        {
+                            success = false,
+                            message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + fullErrorMessage
+                        });
                     }
+
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Unexpected error in Create action: {ex.Message}");
+                Console.WriteLine($"Saving detail: PDF={model.File_pdf}, Excel={model.File_excel}");
 
                 Response.StatusCode = 500;
-                return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message });
+                return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message  + "Saving detail: PDF" + model.File_pdf + "Excel" + model.File_excel });
             }
         }
 
@@ -222,11 +277,13 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
+
                         // Update document record
                         UpdateDocumentRecord(document, model);
 
                         // Process new file uploads
                         ProcessFileUploads(model, document.LId);
+
 
                         // Update document details
                         UpdateDocumentDetails(model, document.LId);
@@ -256,7 +313,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
-        //// GET: Document/Details/5
+
+        // GET: Document/Details/5
         //public ActionResult Details(int id)
         //{
         //    try
@@ -413,9 +471,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             if (model.DocumentDetails != null && model.DocumentDetails.Any())
             {
-                //// Process file uploads
-                //ProcessFileUploads(model,documentId); 
-
                 foreach (var detail in model.DocumentDetails)
                 {
                     if (!string.IsNullOrWhiteSpace(detail.WS_number) && !string.IsNullOrWhiteSpace(detail.WS_name))
@@ -426,13 +481,15 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             WS_number = detail.WS_number.Trim(),
                             WS_name = detail.WS_name.Trim(),
                             Revision = detail.Revision?.Trim() ?? "01",
-                            Num_pages = detail.File_excel,
+                            Num_pages = detail.Num_pages?.Trim(),
                             Num_copies = detail.Num_copies ?? 1,
-                            File_excel = "1",
-                            File_pdf = "2",
+                            File_excel = detail.File_excel ?? "Error",
+                            File_pdf = detail.File_pdf ?? "Error",
                             Change_detail = detail.Change_detail?.Trim()
                         };
                         db.DocumentDetails.Add(docDetail);
+                        Console.WriteLine($"Saving detail: PDF={detail.File_pdf}, Excel={detail.File_excel}");
+
                     }
                 }
             }
@@ -447,15 +504,23 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
                 // Save selected areas to junction table if exists
                 // Implementation depends on your database schema
+
+                if (model.AvailableAreas != null)
+                {
+                    var selectedAreas = model.AvailableAreas
+                        .Where(a => a.IsSelected)
+                        .Select(a => new DocumentFormArea
+                        {
+                            Doc_id = documentId,            // จากเอกสารหลักที่เพิ่ง Insert เสร็จ
+                            area_name = a.SectionCode       // หรือจะใช้ SectionName ก็ได้ ถ้าเหมาะสมกว่า
+                        }).ToList();
+
+                    db.DocumentFormAreas.AddRange(selectedAreas);
+                    db.SaveChanges();
+                }
+
             }
         }
-
-
-        //private void ProcessOptionWorkingStandard(DocumentFormViewModel model, int documentId)
-        //{
-
-        //}
-
 
 
         private void ProcessFileUploads(DocumentFormViewModel model, int documentId)
@@ -478,15 +543,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 var filePdf = files[filePdfKey];
                 var fileExcel = files[fileExcelKey];
 
-              
-
                 if (filePdf != null && filePdf.ContentLength > 0)
                 {
-                    string pdfFileName = GenerateUniqueFileName("PDF", documentId, filePdf.FileName);
+                    string pdfFileName = GenerateUniqueFileName("PDF",documentId, filePdf.FileName);
                     string fullPdfPath = Path.Combine(path_pdf, pdfFileName);
                     filePdf.SaveAs(fullPdfPath);
+                    model.DocumentDetails[i].File_pdf = pdfFileName;
+                    
 
-                    detail.File_excel = pdfFileName;
                 }
 
                 if (fileExcel != null && fileExcel.ContentLength > 0)
@@ -494,16 +558,28 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     string excelFileName = GenerateUniqueFileName("EXCEL", documentId, fileExcel.FileName);
                     string fullExcelPath = Path.Combine(path_excel, excelFileName);
                     fileExcel.SaveAs(fullExcelPath);
+                    model.DocumentDetails[i].File_excel = excelFileName;
                 }
             }
         }
 
         private string GenerateUniqueFileName(string prefix, int documentId, string originalFileName)
         {
-            string ext = Path.GetExtension(originalFileName);
+            string ext = Path.GetExtension(originalFileName); 
             string baseName = Path.GetFileNameWithoutExtension(originalFileName);
             string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             string guid = Guid.NewGuid().ToString("N").Substring(0, 6);
+
+            int maxLength = 50;
+            int staticLength = prefix.Length + 1 + documentId.ToString().Length + 1 + timestamp.Length + 1 + guid.Length;
+            int allowedBaseNameLength = maxLength - staticLength;
+
+            if (allowedBaseNameLength < 1)
+                allowedBaseNameLength = 1;
+
+            if (baseName.Length > allowedBaseNameLength)
+                baseName = baseName.Substring(0, allowedBaseNameLength);
+
             return $"{prefix}_{documentId}_{baseName}_{timestamp}_{guid}{ext}";
         }
 

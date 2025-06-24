@@ -1,0 +1,229 @@
+﻿@model OCTWEB_NET45.Models.FileShareListModel
+@using PagedList.Mvc
+
+@* <pre>@Html.Raw(Json.Encode(Model.fileshareList))</pre> *@
+
+@{
+    ViewBag.Title = "File List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    @using (Html.BeginForm("FileList", "DW_FileShareReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="card">
+            <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="page-title ">File Shared <span style="color:green;">Report</span></h4>
+                            <p class="text-success">@ViewBag.Message</p>
+                            @Html.ValidationSummary(true)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">     
+                    <div class="row">
+                        <div class="col">
+                            <fieldset>
+                                <div class="form-row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>File Shared Name: </label>
+                                            @Html.DropDownList("file_name_id", Model.select_name, "All", new { style = "width:100%", @class = "form-control form-control-sm" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 align-self-end">
+                                        <div class="form-group">
+                                            <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                                <i class="fas fa-search"></i> Search
+                                            </button>
+                                            <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                                <i class="fas fa-eraser"></i> Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    }
+</div>
+<div class="container-fluid">
+    @using (Html.BeginForm("FileList", "DW_FileShareReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form2" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col">
+                <table class="tablecustom" id="tablefileShareReport" style="font-size:14px; width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Items
+                            </th>
+                            <th>
+                                File_Shared
+                            </th>
+                            <th>
+                                Rev
+                            </th>
+                            <th>
+                                File_Name
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Note
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody>
+                         foreach (var item in Model.filesharePagedList.Select((value, i) => new { i, value }))
+                         {
+                             <tr>
+                                 <td>
+                                     ((item.i + 1) + (30 * (Model.filesharePagedList.PageNumber - 1)))
+                                 </td>
+                                 <td>
+                                     if (!String.IsNullOrEmpty(item.value.file))
+                                     {
+                                         <a href="Url.Action(actionName: "DownloadFile"
+                                             , controllerName: "DW_FileShareReport"
+                                             , routeValues: new {fileName=item.value.file })" class="btn btn-sm link-info">
+                                             <i class="fas fa-download"></i> Download
+                                         </a>
+                                     }
+                                 </td>
+                                 <td>
+                                     Html.DisplayFor(m => item.value.rev)
+                                 </td>
+                                 <td>
+                                     Html.DisplayFor(m => item.value.name)
+                                 </td>
+                                 <td>
+                                     {
+                                         var date_str = item.value.date.ToString("yyyy-MM-dd");
+                                     }
+                                     Html.DisplayFor(m => date_str)
+                                 </td>
+                                 <td>
+                                     Html.DisplayFor(m => item.value.note)
+                                 </td>
+                             </tr>
+                         }
+                     </tbody>-->
+                </table>
+            </div>
+        </div>
+    }
+    <!-- <div class="row justify-content-center">
+         Page (Model.filesharePagedList.PageCount < Model.filesharePagedList.PageNumber ? 0 : Model.filesharePagedList.PageNumber) of Model.filesharePagedList.PageCount
+     </div>
+     <div class="row justify-content-center">
+         Html.PagedListPager(Model.filesharePagedList, page => Url.Action("FileList", new RouteValueDictionary()
+         {
+             {"Page",page},
+             {"file_name_id",Model.file_name_id},
+         }))
+     </div>-->
+</div>
+
+<script language="JavaScript">
+    // Listen for click on toggle checkbox
+    $('#select-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#clear").click(function () {
+        $('#file_name_id').val(null).trigger('change');
+    });
+
+    $("#tablefileShareReport tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+
+    });
+
+    $(document).ready(function () {
+        /*
+        $("#file_name_id").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        */
+        //----------------------------------------------tablefileShareReport--------------------------------------------------------//
+        var dt2 = $("#tablefileShareReport").DataTable({
+            "data":@Html.Raw(Json.Encode(Model.fileshareList)),
+            "columns": [
+                { "data": "id", "autowidth":true },
+                { "data": "file", "autowidth":true
+                    ,"render": function(data, type, row){
+                        if(data != ""){
+                            return '<div><a href="/DW_FileShareReport/DownloadFile?filename='+data+'"class="btn btn-sm link-info"><i class="fas fa-download"></i>Download</a></div>';
+                        }
+                        else{
+                            return '<div></div>';
+                        }
+                    }
+                },
+
+                { "data": "rev","autowidth":true},
+                { "data": "name", "autowidth":true},
+                { "data": "date_str", "autowidth":true},
+                { "data": "note", "autowidth":true},
+
+            ],
+            select: true,
+            buttons: [],
+            "pageLength": 30,
+            "lengthMenu": [[30,50,100,-1],[30,50,100,"All"]],
+            columnDefs: [ {sortable: false,targets: 0, width:50 } ,
+                          {sortable: false,targets: 1, widht:120 } ,
+                          {sortable: true,targets: 2, widht: 50} ,
+                          {sortable: true,targets: 3, widht: 300} ,
+                          {sortable: true,targets: 4, widht: 100} ,
+                          {sortable: true,targets: 5, widht: 300} ,
+
+            ],
+            "ordering": true,
+            order: [[ 2, 'asc' ]],
+            fixedColumns: true
+
+        })
+        dt2.on('order.dt2 search.dt2', function () {
+            let i = 1;
+
+            dt2.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
+
+</script>

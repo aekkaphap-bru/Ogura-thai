@@ -327,8 +327,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
     <Property Name="Revision" Type="varchar" MaxLength="10" />
     <Property Name="Num_pages" Type="varchar" MaxLength="10" />
     <Property Name="Num_copies" Type="int" />
-    <Property Name="File_excel" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="File_pdf" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="File_excel" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="File_pdf" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="Change_detail" Type="text" />
   </EntityType>
   <EntityType Name="DocumentFormAreas">

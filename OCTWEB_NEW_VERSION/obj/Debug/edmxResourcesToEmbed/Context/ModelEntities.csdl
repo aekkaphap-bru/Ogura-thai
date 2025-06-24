@@ -1957,8 +1957,8 @@
     <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Num_copies" Type="Int32" />
-    <Property Name="File_excel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="DocumentFormArea">

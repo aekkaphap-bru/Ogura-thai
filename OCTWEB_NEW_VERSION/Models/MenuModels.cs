@@ -103,6 +103,9 @@ namespace OCTWEB_NET45.Models
         public bool WorkingStandard_21 { get; set; }
         public bool WorkingStandardProcess_23 { get; set; }
 
+        public bool dc {  get; set; }
+        public bool DocumentSetup_73 { get; set; }
+
         //System Support
         public bool system_support { get; set; }
         public bool APBillingNote_65 { get; set; }

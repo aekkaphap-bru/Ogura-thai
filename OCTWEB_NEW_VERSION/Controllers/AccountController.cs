@@ -857,6 +857,9 @@ namespace OCTWEB_NET45.Controllers
                 WorkingStandard_21 = userright_list.Contains(21) ? true : false,
                 WorkingStandardProcess_23 = userright_list.Contains(23) ? true : false,
 
+                dc = userright_list.Intersect(new List<int>() { 73 }).Any() ? true : false,
+                DocumentSetup_73 = userright_list.Contains(73) ? true : false,
+
                 //System Support
                 system_support = userright_list.Intersect(new List<int>() { 65, 66 }).Any() ? true : false, ///
                 APBillingNote_65 = userright_list.Contains(65) ? true : false,

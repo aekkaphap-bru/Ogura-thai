@@ -1,0 +1,118 @@
+﻿@model OCTWEB_NET45.Models.SolutionModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="margin-bottom: 50px;">
+    <div style="display: inline-block; margin-right: 10px;">
+         <a href="/QRAP_DefineSolution/List" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Define Solution List  </a>
+        <a href="@Url.Action("DefineSolution", new {id=Model.problem_id })" class="btn-outline-secondary"><i class="fa fa-angle-left"></i> Define Solution </a>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="container">
+            <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
+                <div class="card-header justify-content-center">
+                    <h3 class="page-title ">Define New Solution</h3>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "QRAP_DefineSolution", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1", enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true)
+                                    <p class="text-danger">@ViewBag.Message</p>
+                                    @Html.HiddenFor(m=>m.problem_id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label>Solution Detail: </label>
+                                    @Html.TextAreaFor(m => m.description, new { @class = "form-control form-control-sm" })
+                                    @Html.ValidationMessageFor(m => m.description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">                          
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Department:</label>
+                                    @Html.DropDownList("department_id", Model.SelectDepartmet, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.department_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Response Name:</label>
+                                    @Html.DropDownList("response_owner", Model.SelectResponseOwner, "", new { @class = "form-control form-control-sm", style = "width:100%" })
+                                    @Html.ValidationMessageFor(m => m.response_owner, "", new { @class = "text-danger" })
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="form-row justify-content-center">
+                           <div class="col-md-4">
+                               <div class="form-group">
+                                   <label>Plan Date: </label>
+                                   <input type="date" id="date" name="date" class="form-control form-control-sm" value="@Model.date.ToString("yyyy-MM-dd")">
+                                   @Html.ValidationMessageFor(m => m.date, "", new { @class = "text-danger" })
+                               </div>
+                           </div>
+                            <div class="col-md-5 align-self-end">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(m=>m.need_evidence)
+                                    <label for="need_evidence"> Need Evidence </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-row justify-content-center">
+                            <div class="col">
+                                <div class="form-group text-center">
+                                    <button type="submit" value="Create" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-ban"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript">
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#department_id").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+
+        $("#response_owner").select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: 'resolve'
+        });
+    });
+
+
+</script>
+

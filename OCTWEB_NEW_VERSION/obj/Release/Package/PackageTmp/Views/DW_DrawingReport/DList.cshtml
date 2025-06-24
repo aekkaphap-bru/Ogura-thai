@@ -1,0 +1,695 @@
+﻿@model OCTWEB_NET45.Models.DrawingReportModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "DList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    @using (Html.BeginForm("DList", "DW_DrawingReport", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "Form1" }))
+    {
+        <div class="card">
+            <div class="card-header">
+                <div class="form-row">
+                    <div class="col">
+                        <h4 class="page-title ">Drawing <span style="color:green;">Report</span></h4>
+                        <p class="text-success">@ViewBag.Message</p>
+                        <p class="text-danger">@ViewBag.errorMessage</p>
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                 <div class="form-row">
+                    <div class="col">
+                        <fieldset>
+                            <div class="form-row ">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label  class="mb-2" >Drawing Type:</label>
+                                        @Html.DropDownList("drawingType_id", Model.SelectDrawingType, new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" id="_groupline">
+                                        <label  class="mb-2">Group Line:</label>
+                                        @Html.DropDownList("groupLine_id_pr", Model.SelectGroupLine, "", new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label  class="mb-2">Part Name: </label>
+                                        <div style="width: calc(80% - 120px);">
+                                            @Html.TextBoxFor(m => m.partName_en, "", new { @class = "form-control form-control-sm", style = "width: 100%;" })
+                                            @Html.TextBoxFor(m => m.partName_pr, "", new { @class = "form-control form-control-sm", style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" id="_level">
+                                        <label  class="mb-2">Level:</label>
+                                        @Html.TextBoxFor(m => m.level_en, "", new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                    <div class="form-group" id="_linename">
+                                        <label  class="mb-2">Line Name</label>
+                                        @Html.TextBoxFor(m => m.lineName_pr, "", new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label  class="mb-2">Drawing Number: </label>
+                                        <div style="width: calc(80% - 120px);">
+                                            @Html.TextBoxFor(m => m.drawingNo_en, "", new { @class = "form-control form-control-sm", style = "width: 100%; margin-bottom: 5px;" })
+                                            @Html.TextBoxFor(m => m.drawingNo_pr, "", new { @class = "form-control form-control-sm", style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label  class="mb-2">Model Number: </label>
+                                        
+                                        <div style="width: calc(80% - 120px);">
+                                            @Html.TextBoxFor(m => m.modelNo_en, "", new { @class = "form-control form-control-sm", style = "width: 100%; margin-bottom: 5px;" })
+                                            @Html.TextBoxFor(m => m.modelNo_pr, "", new { @class = "form-control form-control-sm", style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label  class="mb-2">Semi Assembly No.: </label>
+                                        @Html.TextBoxFor(m => m.semiAssemblyNo_en, "", new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="contentcustom">
+                                    <div class="form-group">
+                                        <label  class="mb-2">Customer No.: </label>
+                                        @Html.TextBoxFor(m => m.customerNo_en, "", new { @class = "form-control form-control-sm", style = "width: calc(80% - 120px);" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 align-self-end">
+                                <div class="form-group">
+                                    <button type="submit" id="SearchBtn" name="SearchBtn" class="btn btn-sm btn-success" value="Search">
+                                        <i class="fas fa-search"></i> Search
+                                    </button>
+                                    <button type="button" name="ExportToCsvBtn" id="ExportToCsvBtn" class="btn btn-sm btn-outline-primary" value="Export">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <input hidden="hidden" id="ExportToCsv" name="ExportToCsv" value="null" />
+
+                                    <button id="clear" type="button" name="clear" class="btn btn-sm btn-outline-dark">
+                                        <i class="fas fa-eraser"></i> Clear
+                                    </button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    }
+</div>
+@if (Model.drawingType_id == 1)
+{
+    <div class="container-fluid">
+        <div class="form-row justify-content-center">
+            <div class="table-responsive">
+                <table class="oct-table oct-table-striped oct-table-hover" id="table2" style="font-size:11px; width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Items
+                            </th>
+                            <th>
+                                Drawing File
+                            </th>
+                            <th>
+                                Group Line
+                            </th>
+                            <th>
+                                Line Name
+                            </th>
+                            <th>
+                                Drawing No.
+                            </th>
+                            <th>
+                                Rev
+                            </th>
+                            <th>
+                                Part Name
+                            </th>
+                            <th>
+                                Model No.
+                            </th>
+                            <th>
+                                Remark
+                            </th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid ">
+        <div class="form-row justify-content-center">
+            <div class="table-responsive">
+                <table class="oct-table oct-table-striped oct-table-hover" id="table1" style="font-size: 12px; width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Items
+                            </th>
+                            <th>
+                                Drawing File
+                            </th>
+                            <th>
+                                Part List File
+                            </th>
+                            <th>
+                                Level
+                            </th>
+                            <th>
+                                Drawing No.
+                            </th>
+                            <th>
+                                Rev
+                            </th>
+                            <th>
+                                Part Name
+                            </th>
+                            <th>
+                                Model No.
+                            </th>
+                            <th>
+                                Semi Assembly No.
+                            </th>
+                            <th>
+                                Customer No.
+                            </th>
+
+                            <th>
+                                Formulas
+                            </th>
+                            <th>
+                                Common
+                            </th>
+                            <th>
+                                Note
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.EngineerDrawingList != null)
+                        {
+                            int itemCounter = 1;
+                            foreach (var item in Model.EngineerDrawingList)
+                            {
+                                <tr>
+                                    <td>@itemCounter</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.drawing_file))
+                                        {
+                                            <a href="/DW_DrawingReport/DownloadDrawingFile?filename=@item.drawing_file" class="btn btn-sm link-info"><img src="/static/img/drawing_40.png" width="30" height="30" alt="Drawing"></a>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.partList_file))
+                                        {
+                                            <a href="/DW_DrawingReport/DownloadPartListFile?filename=@item.partList_file" class="btn btn-sm link-success" style="color:#ff006e"><img src="/static/img/part_file.png" width="30" height="30" alt="Part List"></a>
+                                        }
+                                    </td>
+                                    <td>@item.level</td>
+                                    <td>@item.drawingNo</td>
+                                    <td>@item.rev</td>
+                                    <td>@item.partName</td>
+                                    <td>@item.modelNo</td>
+                                    <td>@item.semiAssemblyNo</td>
+                                    <td>@item.customerNo</td>
+                                    <td>
+                                        @if (item.formulas_count > 0) // Assuming formulas_count is a property on your item
+                                        {
+                                            <a href="/DW_DrawingReport/ViewFormulas?id=@item.id" class="btn btn-sm btn-warning"><strong>@item.formulas_count</strong></a>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/DW_DrawingReport/GetCommon?id=@item.id" class="btn btn-sm btn-info"><i class="fas fa-folder-open"></i></a>
+                                    </td>
+                                    <td>@item.note</td>
+                                </tr>
+                                itemCounter++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="13" style="text-align:center;">No data available</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+<script language="JavaScript">
+
+    $(document).on('select2:open', function (e) {
+        const selectId = e.target.id;
+        $(".select2-search__field[aria-controls='select2-" + selectId + "-results']").each(function (key, value) {
+            value.focus();
+        });
+    });
+
+    $("#SearchBtn").click(function () {
+        $("#ExportToCsv").val("");
+        document.forms["Form1"].submit();
+    })
+
+    $("#ExportToCsvBtn").click(function () {
+        $("#ExportToCsv").val("ExportToCsv");
+        document.forms["Form1"].submit();
+    })
+
+    $(document).ready(function () {
+        var drawingType = $("#drawingType_id").val();
+
+        // 1 => Process
+        if (drawingType == 1) {
+            $("#partName_pr").show();
+            $("#modelNo_pr").show();
+            $("#drawingNo_pr").show();
+            $("#_groupline").show();
+            $("#_linename").show();
+
+            $("#partName_en").hide();
+            $("#drawingNo_en").hide();
+            $("#modelNo_en").hide();
+            $("#_level").hide();
+        }
+        else {
+            // 0 => Engineer
+            $("#partName_en").show();
+            $("#_level").show();
+            $("#drawingNo_en").show();
+            $("#modelNo_en").show();
+
+            $("#partName_pr").hide();
+            $("#modelNo_pr").hide();
+            $("#drawingNo_pr").hide();
+            $("#_groupline").hide();
+            $("#_linename").hide();
+            $("#contentlinename").css("display", "none");
+        }
+    })
+
+    $("#drawingType_id").on("change", function () {
+        var drawingType = $("#drawingType_id").val();
+       // 1 => Process
+        if (drawingType == 1) {
+            $("#partName_pr").show();
+            $("#modelNo_pr").show();
+            $("#drawingNo_pr").show();
+            $("#_groupline").show();
+            $("#_linename").show();
+
+            $("#partName_en").hide();
+            $("#drawingNo_en").hide();
+            $("#modelNo_en").hide();
+            $("#_level").hide();
+        }
+        else {
+            // 0 => Engineer
+            $("#partName_en").show();
+            $("#_level").show();
+            $("#drawingNo_en").show();
+            $("#modelNo_en").show();
+
+            $("#partName_pr").hide();
+            $("#modelNo_pr").hide();
+            $("#drawingNo_pr").hide();
+            $("#_groupline").hide();
+            $("#_linename").hide();
+            $("#contentlinename").css("display", "none");
+        }
+    });
+
+    $("#clear").click(function () {
+        $('#drawingType_id').val(0).trigger('change');
+        $('#groupLine_id_pr').val(null).trigger('change');
+        $('#partName_pr').val(null).trigger('change');
+        $('#lineName_pr').val(null).trigger('change');
+        $('#drawingNo_pr').val(null).trigger('change');
+        $('#modelNo_pr').val(null).trigger('change');
+        $('#partName_en').val(null).trigger('change');
+        $('#drawingNo_en').val(null).trigger('change');
+        $('#modelNo_en').val(null).trigger('change');
+        $('#level_en').val(null).trigger('change');
+        $('#semiAssemblyNo_en').val(null).trigger('change');
+        $('#customerNo_en').val(null).trigger('change');
+
+    });
+
+    $(document).ready(function () {
+        /*
+        $("#drawingType_id").select2({
+            allowClear: true,
+            width: 'resolve'
+        });
+        $("#groupLine_id_pr").select2({
+            placeholder: "All",
+            allowClear: true,
+            width: 'resolve'
+        });
+        */
+    });
+
+    $("#table1 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+    $("#table2 tbody tr").click(function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+
+    $(document).ready(function () {
+        $("#partName_pr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetPartNamePr",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+        $("#lineName_pr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetLineNamePr",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#drawingNo_pr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetDrawingNoPr",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#modelNo_pr").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetModelNoPr",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#partName_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetPartNameEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#drawingNo_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetDrawingNoEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+        $("#modelNo_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetModelNoEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+        $("#level_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetLevelEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+        $("#semiAssemblyNo_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetSemiAssemblyEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+        $("#customerNo_en").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DW_DrawingReport/GetCustomerNoEn",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: 'No results found.',
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            },
+        });
+
+
+        //-------------------------------------------Table1-------------------------------------------------------//
+        var dt = $("#table1").DataTable({
+            select: true,
+            buttons: [],
+            "pageLength": 30,
+            "lengthMenu": [[30,50,100,-1],[30,50,100,"All"]],
+            columnDefs: [ {sortable: false,targets: 0 } ,
+                          {sortable: false,targets: 2 } ,
+            ],
+            "ordering": false,
+            //order: [[ 0, 'asc' ]],
+            fixedColumns: true
+
+        })
+        dt.on('order.dt search.dt', function () {
+            let i = 1;
+            dt.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+
+
+
+
+        //----------------------------------------------Table2--------------------------------------------------------//
+        var dt2 = $("#table2").DataTable({
+            "data":@Html.Raw(Json.Encode(Model.ProcessDrawingList)),
+            "columns": [
+                { "data": "id", "autowidth":true },
+                { "data": "file", "autowidth":true
+                    ,"render": function(data, type, row){
+                        if(data != ""){
+                            return '<div><a href="/DW_DrawingReport/DownloadFileProcessDrawing?filename=' + data + '" class="btn btn-sm link-info"> <img src="/static/img/drawing_40.png" width="30" height="30"></a></div>';
+                        }
+                        else{
+                            return '<div></div>';
+                        }
+                    }
+                },
+                { "data": "groupLine", "autowidth": true },
+                { "data": "lineName", "autowidth":true},
+                { "data": "drawingNumber", "autowidth":true},
+                { "data": "rev","autowidth":true},
+                { "data": "partName", "autowidth":true},
+                { "data": "modelNo", "autowidth":true},
+                { "data": "remark", "autowidth":true},
+
+            ],
+            select: true,
+            buttons: [],
+            "pageLength": 30,
+            "lengthMenu": [[30,50,100,-1],[30,50,100,"All"]],
+            columnDefs: [ {sortable: false,targets: 0 } ,
+                          {sortable: false,targets: 2 } ,
+            ],
+            "ordering": false,
+            //order: [[ 0, 'asc' ]],
+            fixedColumns: true
+
+        })
+        dt2.on('order.dt2 search.dt2', function () {
+            let i = 1;
+
+            dt2.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        //----------------------------------------------Log--------------------------------------------------------//
+
+        $('#table1').on('page.dt', function () {
+            var page = dt.page(); // ดึงหน้าปัจจุบันของ DataTable
+            sessionStorage.setItem('datatable_page', page);
+        });
+
+
+        var previousPage = sessionStorage.getItem('datatable_page');
+        if (previousPage !== null) {
+            dt.page(parseInt(previousPage)).draw(false); // ตั้งค่า DataTable ให้กลับไปยังหน้าที่บันทึกไว้
+        }
+
+
+    })
+
+
+</script>
