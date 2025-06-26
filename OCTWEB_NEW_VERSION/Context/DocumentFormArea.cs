@@ -15,7 +15,7 @@ namespace OCTWEB_NET45.Context
     public partial class DocumentFormArea
     {
         public int FId { get; set; }
-        public int Doc_id { get; set; }
-        public string area_name { get; set; }
+        public int LId { get; set; }
+        public Nullable<int> WS_TS_Id { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace OCTWEB_NET45.Context
     public partial class DocumentDetail
     {
         public int DId { get; set; }
-        public int Doc_id { get; set; }
+        public int LId { get; set; }
         public string WS_number { get; set; }
         public string WS_name { get; set; }
         public string Revision { get; set; }

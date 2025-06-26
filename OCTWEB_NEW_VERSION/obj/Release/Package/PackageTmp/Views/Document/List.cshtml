@@ -1,118 +1,324 @@
 ﻿
+@model PagedList.IPagedList<OCTWEB_NET45.Models.DocumentListDisplayViewModel>
+@using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Document Request List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
+    <!-- อ้างอิงไฟล์ CSS หลักของระบบเอกสาร -->
     <link href="~/Content/oct-documentcontroll.css" rel="stylesheet" />
+    <!-- เพิ่ม Font Awesome สำหรับไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* CSS เพิ่มเติมสำหรับหน้า List */
+        body {
+            background-color: #f4f7f9;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 40px; /* เพิ่ม padding ซ้ายสำหรับไอคอน */
+            border-radius: 8px;
+            border: 2px solid #e1e8ed;
+            transition: all 0.3s ease;
+        }
+
+            .search-input:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+                outline: none;
+            }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        .filter-select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e1e8ed;
+            margin-left: 15px;
+            min-width: 180px;
+        }
+
+        .btn-new-request {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+
+            .btn-new-request:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+            }
+
+        .document-list-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .document-list-header {
+            padding: 20px;
+            border-bottom: 1px solid #e1e8ed;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #f0f4f7;
+            transition: background-color 0.2s ease;
+        }
+
+            .document-item:last-child {
+                border-bottom: none;
+            }
+
+            .document-item:hover {
+                background-color: #fafbfc;
+            }
+
+        .document-info {
+            flex-grow: 1;
+        }
+
+        .document-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .document-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+            .document-meta span {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+        .document-id {
+            font-family: 'Courier New', monospace;
+            background-color: #e1e8ed;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 150px;
+            text-align: center;
+            margin: 0 20px;
+        }
+
+        .status-approved {
+            background-color: #eaf8f0;
+            color: #27ae60;
+        }
+
+        .status-rejected {
+            background-color: #fdecea;
+            color: #e74c3c;
+        }
+
+        .status-pending {
+            background-color: #fef8e7;
+            color: #f39c12;
+        }
+
+        .status-draft {
+            background-color: #f0f4f7;
+            color: #7f8c8d;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background-color: #f0f4f7;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+            .btn-action:hover {
+                background-color: #3498db;
+                color: white;
+            }
+
+        .pagination-container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a {
+                padding: 8px 15px;
+                border-radius: 8px;
+                color: #3498db;
+                border: 1px solid #e1e8ed;
+                text-decoration: none;
+            }
+
+            .pagination li.active a {
+                background-color: #3498db;
+                color: white;
+                border-color: #3498db;
+            }
+    </style>
 }
 
-@using PagedList.Mvc;
-@using PagedList;
 
-
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-header">
-            <div class="col">
-                <h4 class="page-title ">OCT Document System (ระบบจัดการเอกสารองค์กร) 2<span style="color:red;">Setup</span></h4>
-                @*<p class="text-success">@ViewBag.Message</p>
-                    @Html.HiddenFor(m => m.showall)*@
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo"><i class="fas fa-folder-open"></i></div>
+                <div class="header-title">
+                    <h1>OCT Document System</h1>
+                    <div class="header-subtitle">Organization Document Request and Tracking System</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="container">
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Action Bar -->
-        <div class="action-bar">
-            <div class="search-section">
+        <!-- Action Bar: Search, Filter, Create Button -->
+        @using (Html.BeginForm("List", "Document", FormMethod.Get))
+        {
+            <div class="action-bar">
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="ค้นหาเอกสาร รหัสคำร้อง หรือชื่อผู้ร้อง...">
+                    <input type="text" name="searchString" class="search-input" placeholder="Search by ID, title, or requester..." value="@ViewBag.CurrentFilter">
                 </div>
-                <select class="filter-select">
-                    <option value="">ทุกสถานะ</option>
-                    <option value="pending">รอดำเนินการ</option>
-                    <option value="approved">อนุมัติแล้ว</option>
-                    <option value="rejected">ปฏิเสธ</option>
+                <select name="statusFilter" class="filter-select" onchange="this.form.submit()">
+                    <option value="">All Status</option>
+                    <option value="APPROVED" selected="@(ViewBag.CurrentStatus == "APPROVED")">Approved</option>
+                    <option value="REJECTED" selected="@(ViewBag.CurrentStatus == "REJECTED")">Rejected</option>
+                    <option value="PENDING DEPT HEAD" selected="@(ViewBag.CurrentStatus == "PENDING DEPT HEAD")">Pending Dept Head</option>
+                    <option value="DRAFT" selected="@(ViewBag.CurrentStatus == "DRAFT")">Draft</option>
                 </select>
+                @Html.ActionLink("New Request", "Create", "Document", null, new { @class = "btn-new-request" })
             </div>
-            @Html.ActionLink("สร้างคำร้องใหม่","Create","Document",null, new { @class = "btn-new-request", @title = "สร้างคำร้องใหม่" })
+        }
+
+        <!-- Document List -->
+        <div class="document-list-container">
+            <div class="document-list-header">
+                <i class="fas fa-list-ul"></i> All Requests (@Model.TotalItemCount)
+            </div>
+            <div class="document-list">
+                @if (!Model.Any())
+                {
+                    <p class="text-center p-5">No document requests found.</p>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        string statusClass = "status-draft";
+                        if (item.Status == "APPROVED") { statusClass = "status-approved"; }
+                        else if (item.Status == "REJECTED") { statusClass = "status-rejected"; }
+                        else if (item.Status != "DRAFT") { statusClass = "status-pending"; }
+
+                        <div class="document-item">
+                            <div class="document-info">
+                                <div class="document-title">@Html.Encode(item.WS_number ?? "N/A")</div>
+                                <div class="document-meta">
+                                    <span class="document-id">ID: @item.LId.ToString("D5")</span>
+                                    <span><i class="fas fa-user"></i> @Html.Encode(item.RequesterName)</span>
+                                    <span><i class="fas fa-calendar-alt"></i> @item.Created_at</span>
+                                </div>
+                            </div>
+                            <div class="status-badge @statusClass">@item.Status</div>
+                            <div class="document-actions">
+                                <a href="@Url.Action("Details", new { id = item.LId })" class="btn-action" title="View Details"><i class="fas fa-eye"></i></a>
+                                @if (item.Status == "DRAFT")
+                                {
+                                    <a href="@Url.Action("Edit", new { id = item.LId })" class="btn-action" title="Edit"><i class="fas fa-edit"></i></a>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
 
-        
-        <!-- Document List -->
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <i class="fas fa-list"></i>
-                    รายการคำร้องทั้งหมด
-                </div>
-                <div style="font-size: 12px; color: #7f8c8d;">
-                    อัพเดทล่าสุด: วันนี้ 14:30
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="document-list">
-                    <div class="document-item">
-                        <div class="document-info">
-                            <div class="document-title">การควบคุมเอกสาร (Document Control)</div>
-                            <div class="document-meta">
-                                <span class="document-id">OCT-IS-P0002</span>
-                                <span><i class="fas fa-user"></i> สิริพร</span>
-                                <span><i class="fas fa-calendar"></i> 30/09/2024</span>
-                            </div>
-                        </div>
-                        <div class="status-badge status-approved">อนุมัติแล้ว</div>
-                        <div class="document-actions">
-                            <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-action btn-edit" title="แก้ไข">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="document-item">
-                        <div class="document-info">
-                            <div class="document-title">คำร้องขอแก้ไขข้อมูลพนักงาน</div>
-                            <div class="document-meta">
-                                <span class="document-id">OCT-HR-0023</span>
-                                <span><i class="fas fa-user"></i> วิชญา</span>
-                                <span><i class="fas fa-calendar"></i> 01/10/2024</span>
-                            </div>
-                        </div>
-                        <div class="status-badge status-pending">รอดำเนินการ</div>
-                        <div class="document-actions">
-                            <button class="btn-action btn-view" title="ดูรายละเอียด">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-action btn-edit" title="แก้ไข">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button><i class="fas fa-chevron-left"></i></button>
-                    <button class="active">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </div>         
-       
+        <!-- Pagination -->
+        <div class="pagination-container">
+            @Html.PagedListPager(Model, page => Url.Action("List",
+                new { page, searchString = ViewBag.CurrentFilter, statusFilter = ViewBag.CurrentStatus }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new List<string> { "page-item" },
+                    LinkToFirstPageFormat = "<<",
+                    LinkToPreviousPageFormat = "<",
+                    LinkToNextPageFormat = ">",
+                    LinkToLastPageFormat = ">>",
+                    UlElementClasses = new List<string> { "pagination" }
+                })
+        </div>
     </div>
 </div>

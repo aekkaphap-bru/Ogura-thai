@@ -15,7 +15,7 @@ namespace OCTWEB_NET45.Context
     public partial class DocumentApprovalStep
     {
         public int AId { get; set; }
-        public int Doc_id { get; set; }
+        public int LId { get; set; }
         public Nullable<int> Step { get; set; }
         public Nullable<int> Approver_id { get; set; }
         public Nullable<System.DateTime> Approved_at { get; set; }

@@ -120,9 +120,9 @@ namespace OCTWEB_NET45.Context
         public virtual DbSet<Rights01> Rights01 { get; set; }
         public virtual DbSet<DocumentActivityLog> DocumentActivityLogs { get; set; }
         public virtual DbSet<DocumentApprovalStep> DocumentApprovalSteps { get; set; }
-        public virtual DbSet<DocumentDetail> DocumentDetails { get; set; }
-        public virtual DbSet<DocumentFormArea> DocumentFormAreas { get; set; }
         public virtual DbSet<DocumentList> DocumentLists { get; set; }
         public virtual DbSet<Equipment_repair_machine> Equipment_repair_machine { get; set; }
+        public virtual DbSet<DocumentDetail> DocumentDetails { get; set; }
+        public virtual DbSet<DocumentFormArea> DocumentFormAreas { get; set; }
     }
 }

@@ -1,1 +1,399 @@
-﻿
+﻿@section Styles {
+    <link href="~/Content/Docdetail.css" rel="stylesheet" />
+}
+
+
+@model OCTWEB_NET45.Models.DocumentFormViewModel
+@Html.AntiForgeryToken()
+<div class="container-fluid py-4">
+    <div class="main-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="mb-2">
+                        <i class="fas fa-file-alt me-3"></i>
+                        Document Request Detail
+                    </h2>
+                    <p class="mb-0 opacity-75">
+                        <i class="fas fa-calendar me-2"></i>
+                        สร้างเมื่อ: @Model.Created_at  | ผู้ร้องขอ:  @Model.Requester_name
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <span class="status-badge status-pending">
+                        <i class="fas fa-clock me-2"></i>รอการอนุมัติ
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="row">
+                <!-- Left Column - Document Details -->
+                <div class="col-lg-8">
+                    <!-- Request Information -->
+                    <div class="info-card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Request Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">ประเภทการร้องขอ</label>
+                                        <div class="fw-bold">ลงทะเบียนเอกสารแก้ไข/ปรับปรุง (Revised)</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">ประเภทเอกสาร</label>
+                                        <div class="fw-bold">
+                                            @Model.Document_type
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">วันที่มีผลบังคับใช้</label>
+                                        <div class="fw-bold">@Model.Effective_date</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted">ผู้ร้องขอ</label>
+                                        <div class="fw-bold">@Model.Requester_name</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Document Details -->
+                    <div class="info-card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-file-alt me-2"></i>
+                                Document Details
+                            </h5>
+                        </div>
+
+                        <div class="card-body">
+                            @foreach (var doc in Model.DocumentDetails)
+                            {
+                                <div class="document-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <h6 class="fw-bold text-primary mb-2">WS-001-2024</h6>
+                                            <p class="mb-2">คู่มือการปฏิบัติงานด้านความปลอดภัย</p>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <small class="text-muted">Revision:</small>
+                                                    <div class="fw-bold">@doc.Revision</div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <small class="text-muted">จำนวนหน้า:</small>
+                                                    <div class="fw-bold">@doc.Num_pages</div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <small class="text-muted">จำนวนสำเนา:</small>
+                                                    <div class="fw-bold">@doc.Num_copies /ชุด</div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <small class="text-muted">รายละเอียดการเปลี่ยนแปลง:</small>
+                                                <div>@doc.Change_detail</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <div class="mb-2">
+                                                <a href="@Url.Content(doc.File_pdf)" class="file-download me-2">
+                                                    <i class="fas fa-file-pdf me-1"></i>PDF
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="@Url.Content(doc.File_excel)" class="file-download">
+                                                    <i class="fas fa-file-excel me-1"></i>Excel
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <!-- Area Usage -->
+                    <div class="info-card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                Area of Usage
+                            </h5>
+                        </div>
+
+                        <div class="card-body">
+                            @foreach (var area in Model.AvailableAreas)
+                            {
+                                <span class="area-badge">@area.SectionName</span>
+                            }
+
+
+                        </div>
+                    </div>
+
+                    <!-- History -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-history me-2"></i>
+                                ประวัติการดำเนินการ
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="history-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="fw-bold text-primary mb-1">ส่งคำร้องเรียบร้อย</h6>
+                                        <p class="mb-1">ผู้ร้องขอได้ส่งคำร้องจัดการเอกสารเรียบร้อยแล้ว</p>
+                                        <small class="text-muted">โดย: นายสมชาย ใจดี</small>
+                                    </div>
+                                    <span class="timestamp">15/06/2025 09:30</span>
+                                </div>
+                            </div>
+                            <div class="history-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="fw-bold text-success mb-1">อนุมัติโดยหัวหน้าแผนก</h6>
+                                        <p class="mb-1">หัวหน้าแผนกได้ทำการอนุมัติคำร้องแล้ว</p>
+                                        <small class="text-muted">โดย: นายประเสริฐ ผู้จัดการ</small>
+                                    </div>
+                                    <span class="timestamp">16/06/2025 14:20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Approval Section -->
+                <div class="col-lg-4">
+                    <!-- Approval Timeline -->
+                    <div class="info-card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-route me-2"></i>
+                                ขั้นตอนการอนุมัติ
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="approval-timeline">
+                                <!-- Step 1 - Completed -->
+                                <div class="approval-step step-approved">
+                                    <div class="step-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h6 class="fw-bold text-success mb-2">
+                                            <i class="fas fa-user-tie me-2"></i>
+                                            หัวหน้าแผนก
+                                        </h6>
+                                        <p class="mb-2">นายประเสริฐ ผู้จัดการ</p>
+                                        <div class="bg-success bg-opacity-10 p-2 rounded mb-2">
+                                            <small class="text-success fw-bold">ความเห็น:</small>
+                                            <div class="small">อนุมัติการแก้ไขเอกสารตามที่ร้องขอ เหมาะสมกับมาตรฐานปัจจุบัน</div>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            อนุมัติเมื่อ: 16/06/2025 14:20
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2 - Current/Pending -->
+                                @foreach (var step in Model.ApprovalSteps)
+                                {
+                                    // ... (logic การแสดงผลแต่ละ step) ...
+
+                                    // สำหรับ Step ที่เป็น PENDING และรอการอนุมัติจาก User คนปัจจุบัน
+                                    if (step.Status == "PENDING") // เพิ่มเงื่อนไขตรวจสอบผู้อนุมัติ
+                                    {
+                                        <div class="approval-form" id="approvalForm" data-step-id="@step.Id">
+                                            <h6 class="text-primary mb-3">
+                                                <i class="fas fa-edit me-2"></i> [cite: 389]
+                                                การอนุมัติ [cite: 390]
+                                            </h6>
+                                            <div class="form-floating mb-3">
+                                                <textarea class="form-control" id="comments" placeholder="ความเห็นเพิ่มเติม" style="height: 100px"></textarea> [cite: 391]
+                                                <label for="comments">ความเห็นเพิ่มเติม</label>
+                                            </div>
+                                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                [cite: 392]
+                                                <button class="btn btn-reject btn-action me-md-2" onclick="handleApproval('reject')">
+                                                    <i class="fas fa-times me-2"></i>ปฏิเสธ [cite: 393]
+                                                </button>
+                                                <button class="btn btn-approve btn-action" onclick="handleApproval('approve')">
+                                                    <i class="fas fa-check me-2"></i>อนุมัติ [cite: 395]
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    // ... (logic การแสดงผล step อื่นๆ) ...
+                                }
+
+                                <!-- Step 3 - Waiting -->
+                                <div class="approval-step step-waiting">
+                                    <div class="step-icon">
+                                        <i class="fas fa-pause"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h6 class="fw-bold text-muted mb-2">
+                                            <i class="fas fa-user-cog me-2"></i>
+                                            ผู้อำนวยการ
+                                        </h6>
+                                        <p class="mb-2">นายสมศักดิ์ ผู้บริหาร</p>
+                                        <span class="badge bg-secondary">รอขั้นตอนก่อนหน้า</span>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4 - Waiting -->
+                                <div class="approval-step step-waiting">
+                                    <div class="step-icon">
+                                        <i class="fas fa-pause"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h6 class="fw-bold text-muted mb-2">
+                                            <i class="fas fa-certificate me-2"></i>
+                                            ขึ้นทะเบียน
+                                        </h6>
+                                        <p class="mb-2">ระบบจัดการเอกสาร</p>
+                                        <span class="badge bg-secondary">รอการอนุมัติ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-tools me-2"></i>
+                                การดำเนินการ
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary" onclick="printDocument()">
+                                    <i class="fas fa-print me-2"></i>พิมพ์รายละเอียด
+                                </button>
+                                <button class="btn btn-outline-info" onclick="exportPDF()">
+                                    <i class="fas fa-file-pdf me-2"></i>ส่งออก PDF
+                                </button>
+                                <button class="btn btn-outline-success" onclick="sendNotification()">
+                                    <i class="fas fa-bell me-2"></i>แจ้งเตือนผู้อนุมัติ
+                                </button>
+                                <button class="btn btn-outline-warning" onclick="editRequest()">
+                                    <i class="fas fa-edit me-2"></i>แก้ไขคำร้อง
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-question-circle me-2"></i>
+                    ยืนยันการดำเนินการ
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmationMessage"></p>
+                <button type="button" class="btn btn-primary" id="confirmButton">ยืนยัน</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // ฟังก์ชันสำหรับจัดการการอนุมัติ
+        function handleApproval(action) {
+            const approvalForm = document.getElementById('approvalForm');
+            const stepId = approvalForm.dataset.stepId; // รับค่า stepId จาก data-attribute
+            const documentId = @Model.Id; // รับค่า documentId จาก Model
+            const comments = document.getElementById('comments').value;
+
+            const approvalData = {
+                DocumentId: documentId,
+                StepId: parseInt(stepId),
+                Action: action,
+                Comment: comments
+            };
+
+            // แสดง Modal ยืนยันก่อนส่ง
+            Swal.fire({
+                title: 'ยืนยันการดำเนินการ?',
+                text: `คุณต้องการ "${action === 'approve' ? 'อนุมัติ' : 'ปฏิเสธ'}" คำร้องนี้ใช่หรือไม่`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sendApprovalRequest(approvalData);
+                }
+            });
+        }
+
+        // ฟังก์ชันสำหรับส่ง Request ไปยัง Server
+        function sendApprovalRequest(data) {
+            fetch('@Url.Action("ProcessApproval", "Document")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // เพิ่ม Anti-Forgery Token เพื่อความปลอดภัย
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire({
+                        title: 'สำเร็จ!',
+                        text: result.message,
+                        icon: 'success'
+                    }).then(() => {
+                        // โหลดหน้าใหม่เพื่ออัปเดตสถานะล่าสุด
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด!',
+                        text: result.message,
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้', 'error');
+            });
+        }
+    </script>
+}

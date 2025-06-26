@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d0a3369d1bb7410a91c263ad4db2e069" Name="Diagram1" ZoomLevel="18">
+      <Diagram DiagramId="d0a3369d1bb7410a91c263ad4db2e069" Name="Diagram1" ZoomLevel="17">
         <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Checkby" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.cap_Line" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.cap_LMD" Width="1.5" PointX="14.125" PointY="2.125" IsExpanded="true" />
@@ -133,11 +133,11 @@
         <EntityTypeShape EntityType="OCTWEBTESTModel.Rights01" Width="1.5" PointX="3" PointY="0.75" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentActivityLog" Width="1.5" PointX="32.375" PointY="2.375" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentApprovalStep" Width="1.5" PointX="32.375" PointY="25.375" />
-        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentDetail" Width="1.5" PointX="24.375" PointY="34.375" />
-        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentFormArea" Width="1.5" PointX="26.375" PointY="34.375" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentList" Width="1.5" PointX="32.375" PointY="29.375" />
         <EntityTypeShape EntityType="OCTWEBTESTModel.Equipment_repair_machine" Width="1.5" PointX="32.375" PointY="33.375" />
         <AssociationConnector Association="OCTWEBTESTModel.FK_Rights_RightGroup7" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentDetail" Width="1.5" PointX="14.375" PointY="25.75" />
+        <EntityTypeShape EntityType="OCTWEBTESTModel.DocumentFormArea" Width="1.5" PointX="22.375" PointY="25.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

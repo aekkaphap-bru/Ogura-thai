@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>\\192.168.10.8\asp.net\Project\#TEST_OCT_NEW_45</_PublishTargetUrl>
-    <History>True|2025-06-24T03:36:50.6861130Z||;True|2025-06-23T14:20:13.2455148+07:00||;True|2025-06-23T14:09:49.0471815+07:00||;True|2025-06-23T13:28:40.7925426+07:00||;False|2025-06-23T13:20:50.7811313+07:00||;False|2025-06-23T13:19:30.4603948+07:00||;False|2025-06-23T13:14:20.2050364+07:00||;True|2025-04-09T14:35:05.9249062+07:00||;True|2025-04-07T11:00:18.7945877+07:00||;True|2025-03-31T14:47:19.8481558+07:00||;True|2025-03-28T14:27:23.1824597+07:00||;True|2025-03-27T15:58:49.5695479+07:00||;</History>
+    <History>True|2025-06-24T09:38:12.1922230Z||;True|2025-06-24T10:36:50.6861130+07:00||;True|2025-06-23T14:20:13.2455148+07:00||;True|2025-06-23T14:09:49.0471815+07:00||;True|2025-06-23T13:28:40.7925426+07:00||;False|2025-06-23T13:20:50.7811313+07:00||;False|2025-06-23T13:19:30.4603948+07:00||;False|2025-06-23T13:14:20.2050364+07:00||;True|2025-04-09T14:35:05.9249062+07:00||;True|2025-04-07T11:00:18.7945877+07:00||;True|2025-03-31T14:47:19.8481558+07:00||;True|2025-03-28T14:27:23.1824597+07:00||;True|2025-03-27T15:58:49.5695479+07:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -124,10 +124,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/18/2021 03:03:36</publishTime>
     </File>
     <File Include="bin/OCTWEB_NET45.dll">
-      <publishTime>06/24/2025 10:35:03</publishTime>
+      <publishTime>06/24/2025 16:36:25</publishTime>
     </File>
     <File Include="bin/OCTWEB_NET45.pdb">
-      <publishTime>06/24/2025 10:35:03</publishTime>
+      <publishTime>06/24/2025 16:36:25</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>11/13/2012 19:19:34</publishTime>
@@ -13717,10 +13717,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/02/2025 13:09:38</publishTime>
     </File>
     <File Include="Views/Document/Create.cshtml">
-      <publishTime>06/23/2025 15:13:04</publishTime>
+      <publishTime>06/24/2025 16:20:09</publishTime>
+    </File>
+    <File Include="Views/Document/Details.cshtml">
+      <publishTime>06/24/2025 16:15:43</publishTime>
     </File>
     <File Include="Views/Document/List.cshtml">
-      <publishTime>06/20/2025 17:39:54</publishTime>
+      <publishTime>06/24/2025 16:24:24</publishTime>
     </File>
     <File Include="Views/Document/_DocumentListPartial.cshtml">
       <publishTime>06/19/2025 14:15:51</publishTime>

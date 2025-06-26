@@ -309,7 +309,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
       <PropertyRef Name="AId" />
     </Key>
     <Property Name="AId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Doc_id" Type="int" Nullable="false" />
+    <Property Name="LId" Type="int" Nullable="false" />
     <Property Name="Step" Type="int" />
     <Property Name="Approver_id" Type="int" />
     <Property Name="Approved_at" Type="datetime" />
@@ -321,7 +321,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
       <PropertyRef Name="DId" />
     </Key>
     <Property Name="DId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Doc_id" Type="int" Nullable="false" />
+    <Property Name="LId" Type="int" Nullable="false" />
     <Property Name="WS_number" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="WS_name" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Revision" Type="varchar" MaxLength="10" />
@@ -336,8 +336,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
       <PropertyRef Name="FId" />
     </Key>
     <Property Name="FId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Doc_id" Type="int" Nullable="false" />
-    <Property Name="area_name" Type="varchar" MaxLength="10" />
+    <Property Name="LId" Type="int" Nullable="false" />
+    <Property Name="WS_TS_Id" Type="int" />
   </EntityType>
   <EntityType Name="DocumentList">
     <Key>

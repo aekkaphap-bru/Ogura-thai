@@ -1555,10 +1555,10 @@
     </AssociationSet>
     <EntitySet Name="DocumentActivityLogs" EntityType="OCTWEBTESTModel.DocumentActivityLog" />
     <EntitySet Name="DocumentApprovalSteps" EntityType="OCTWEBTESTModel.DocumentApprovalStep" />
-    <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
-    <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
     <EntitySet Name="DocumentLists" EntityType="OCTWEBTESTModel.DocumentList" />
     <EntitySet Name="Equipment_repair_machine" EntityType="OCTWEBTESTModel.Equipment_repair_machine" />
+    <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
+    <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
   </EntityContainer>
   <EntityType Name="WSR_WorkingStandardEdit">
     <Key>
@@ -1939,35 +1939,12 @@
       <PropertyRef Name="AId" />
     </Key>
     <Property Name="AId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Doc_id" Type="Int32" Nullable="false" />
+    <Property Name="LId" Type="Int32" Nullable="false" />
     <Property Name="Step" Type="Int32" />
     <Property Name="Approver_id" Type="Int32" />
     <Property Name="Approved_at" Type="DateTime" Precision="3" />
     <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="DocumentDetail">
-    <Key>
-      <PropertyRef Name="DId" />
-    </Key>
-    <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Doc_id" Type="Int32" Nullable="false" />
-    <Property Name="WS_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="WS_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="Num_copies" Type="Int32" />
-    <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="DocumentFormArea">
-    <Key>
-      <PropertyRef Name="FId" />
-    </Key>
-    <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Doc_id" Type="Int32" Nullable="false" />
-    <Property Name="area_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="DocumentList">
     <Key>
@@ -2000,5 +1977,28 @@
     <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="StartStopping" Type="DateTime" Precision="3" />
     <Property Name="Finish" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="DocumentDetail">
+    <Key>
+      <PropertyRef Name="DId" />
+    </Key>
+    <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LId" Type="Int32" Nullable="false" />
+    <Property Name="WS_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="WS_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Num_copies" Type="Int32" />
+    <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DocumentFormArea">
+    <Key>
+      <PropertyRef Name="FId" />
+    </Key>
+    <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LId" Type="Int32" Nullable="false" />
+    <Property Name="WS_TS_Id" Type="Int32" />
   </EntityType>
 </Schema>

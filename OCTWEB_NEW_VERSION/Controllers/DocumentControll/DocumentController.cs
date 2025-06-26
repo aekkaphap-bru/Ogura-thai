@@ -35,28 +35,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             public const string Draft = "DRAFT";
         }
 
-        //// GET: Document/List
-        //public ActionResult List()
-        //{
-        //    try
-        //    {
-
-
-        //        //var documents = db.DocumentLists
-        //        //    .Include(d => d.DocumentDetails)
-        //        //    .OrderByDescending(d => d.Created_at)
-        //        //    .ToList();
-
-        //        //return View(documents);
-        //        return View();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ViewBag.ErrorMessage = "เกิดข้อผิดพลาดในการโหลดข้อมูล: " + ex.Message;
-        //        return View(new List<DocumentList>());
-        //    }
-        //}
-
         public ActionResult List(string searchString, string statusFilter, int? page)
         {
             ViewBag.CurrentFilter = searchString;
@@ -65,23 +43,23 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             var query = from d in db.DocumentLists
                         join u in db.UserDetails on d.Requester_id equals u.USE_Id into du
                         from u in du.DefaultIfEmpty()
-                        join dd in db.DocumentDetails on d.LId equals dd.Doc_id into ddGroup
+                        join dd in db.DocumentDetails on d.LId equals dd.LId into ddGroup
                         select new DocumentListDisplayViewModel
                         {
                             LId = d.LId,
                             Created_at = d.Created_at,
                             Status = d.Status,
                             WS_name = ddGroup.Select(x => x.WS_name).FirstOrDefault(),
+                            WS_number = ddGroup.Select(x => x.WS_number).FirstOrDefault(),
                             RequesterName = (u.USE_FName + " " + u.USE_LName).Trim()
                         };
 
-            // Filter
             if (!String.IsNullOrEmpty(searchString))
             {
                 query = query.Where(d =>
-                    d.LId.ToString().Contains(searchString) ||
-                    d.WS_name.Contains(searchString) ||
-                    d.RequesterName.Contains(searchString));
+d.LId.ToString().Contains(searchString) ||
+                  d.WS_name.Contains(searchString) ||
+                  d.RequesterName.Contains(searchString));
             }
 
             if (!String.IsNullOrEmpty(statusFilter))
@@ -97,8 +75,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             return View(query.ToPagedList(pageNumber, pageSize));
         }
 
-
-
         // GET: Document/Create
         public ActionResult Create()
         {
@@ -109,14 +85,12 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     Request_from = DocumentTypes.Common,
                     Status = DocumentStatus.Draft,
                     Requester_id = GetCurrentUserId(),
-                    Effective_date = DateTime.Now.AddDays(7), // Default 7 days from now
+                    Effective_date = DateTime.Now.AddDays(7),
                     DocumentDetails = new List<DocumentDetailViewModel>
-                    {
-                        new DocumentDetailViewModel() // เพิ่ม default document detail
-                    }
+                      {
+                          new DocumentDetailViewModel()
+                      }
                 };
-
-                // Load available areas
                 model.AvailableAreas = LoadAvailableAreas();
 
                 return View(model);
@@ -147,7 +121,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
                 if (!ValidateDocumentRequest(model))
                 {
-                    Response.StatusCode = 400; 
+                    Response.StatusCode = 400;
                     var errors = ModelState.Values
                                          .SelectMany(v => v.Errors)
                                          .Select(e => e.ErrorMessage)
@@ -159,29 +133,21 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
-                        // Create main document record
                         var document = CreateDocumentRecord(model);
                         db.DocumentLists.Add(document);
-                        db.SaveChanges(); // Save to get document.LId before processing details/uploads
+                        db.SaveChanges();
 
                         ProcessFileUploads(model, document.LId);
-
-                        // Process document details
                         ProcessDocumentDetails(model, document.LId);
 
-                        // Process selected areas
                         ProcessSelectedAreas(model, document.LId);
 
-                        // Create approval workflow
                         CreateApprovalWorkflow(document.LId);
 
-                        db.SaveChanges(); // Save all changes after processing details/areas/uploads/workflow
+                        db.SaveChanges();
                         transaction.Commit();
 
-                        // TempData["SuccessMessage"] จะไม่แสดงผลในการตอบกลับ AJAX แต่สามารถใช้สำหรับ redirect ได้
-                        // TempData["SuccessMessage"] = "บันทึกคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: " + document.LId; 
                         Console.WriteLine($"Saving detail: PDF={model.File_pdf}, Excel={model.File_excel}");
-                        // หากสำเร็จ: ส่ง JSON กลับไปพร้อมสถานะสำเร็จและ URL สำหรับ Redirect
                         return Json(new { success = true, message = $"ส่งคำร้องเรียบร้อยแล้ว หมายเลขคำร้อง: {document.LId}", redirectUrl = Url.Action("List", "Document") });
                     }
                     catch (DbEntityValidationException ex)
@@ -211,41 +177,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 Console.WriteLine($"Saving detail: PDF={model.File_pdf}, Excel={model.File_excel}");
 
                 Response.StatusCode = 500;
-                return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message  + "Saving detail: PDF" + model.File_pdf + "Excel" + model.File_excel });
+                return Json(new { success = false, message = "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง: " + ex.Message + "Saving detail: PDF" + model.File_pdf + "Excel" + model.File_excel });
             }
         }
-
-        // GET: Document/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    try
-        //    {
-        //        var document = db.DocumentLists
-        //            .Include(d => d.DocumentDetails)
-        //            .FirstOrDefault(d => d.LId == id);
-
-        //        if (document == null)
-        //        {
-        //            TempData["ErrorMessage"] = "ไม่พบข้อมูลคำร้อง";
-        //            return RedirectToAction("List");
-        //        }
-
-        //        // Check if current user can edit this document
-        //        if (!CanEditDocument(document))
-        //        {
-        //            TempData["ErrorMessage"] = "คุณไม่มีสิทธิ์แก้ไขคำร้องนี้";
-        //            return RedirectToAction("List");
-        //        }
-
-        //        var model = MapDocumentToViewModel(document);
-        //        return View(model);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = "เกิดข้อผิดพลาด: " + ex.Message;
-        //        return RedirectToAction("List");
-        //    }
-        //}
 
         // POST: Document/Edit/5
         [HttpPost]
@@ -277,18 +211,11 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
-
-                        // Update document record
                         UpdateDocumentRecord(document, model);
 
-                        // Process new file uploads
                         ProcessFileUploads(model, document.LId);
-
-
-                        // Update document details
                         UpdateDocumentDetails(model, document.LId);
 
-                        // Update selected areas
                         UpdateSelectedAreas(model, document.LId);
 
                         document.Updated_at = DateTime.Now;
@@ -313,31 +240,82 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
+        // POST: Document/Dtails/5
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                var documentWithDetails = (from doc in db.DocumentLists
+                                           where doc.LId == id
+                                           join detail in db.DocumentDetails on doc.LId equals detail.LId into detailsGroup
+                                           join area in db.DocumentFormAreas on doc.LId equals area.LId into areasGroup
+                                           join user in db.UserDetails on (int?)doc.Requester_id equals user.USE_Usercode into userGroup
+                                           from userDetail in userGroup.DefaultIfEmpty()
+                                               // join เพิ่มเติมสำหรับ Section
+                                           select new
+                                           {
+                                               Document = doc,
+                                               Details = detailsGroup,
+                                               Areas = (from a in areasGroup
+                                                        join s in db.WS_Training_Section on a.WS_TS_Id equals s.Id
+                                                        select new
+                                                        {
+                                                            a.FId,
+                                                            a.LId,
+                                                            a.WS_TS_Id,
+                                                            s.SectionName,
+                                                            s.SectionCode
+                                                        }),
+                                               Requester = userDetail
+                                           }).FirstOrDefault();
+                if (documentWithDetails == null)
+                {
+                    TempData["ErrorMessage"] = "ไม่พบข้อมูลคำร้อง";
+                    return RedirectToAction("List");
+                }
 
-        // GET: Document/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    try
-        //    {
-        //        var document = db.DocumentLists
-        //            .Include(d => d.DocumentDetails)
-        //            .FirstOrDefault(d => d.LId == id);
+                var model = new DocumentFormViewModel
+                {
+                    Id = documentWithDetails.Document.LId,
+                    Request_type = documentWithDetails.Document.Request_type,
+                    Document_type = documentWithDetails.Document.Document_type,
+                    Effective_date = documentWithDetails.Document.Effective_date,
+                    Status = documentWithDetails.Document.Status,
+                    Request_from = documentWithDetails.Document.Request_from,
+                    Requester_id = documentWithDetails.Document.Requester_id,
+                    Created_at = documentWithDetails.Document.Created_at?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("en-US")),
+                    Requester_name = documentWithDetails.Requester != null
+                                     ? documentWithDetails.Requester.USE_FName + " " + documentWithDetails.Requester.USE_LName
+                                     : "ไม่พบข้อมูลผู้ร้องขอ",
+                    DocumentDetails = documentWithDetails.Details.Select(dd => new DocumentDetailViewModel
+                    {
+                        WS_number = dd.WS_number,
+                        WS_name = dd.WS_name,
+                        Revision = dd.Revision,
+                        Num_pages = dd.Num_pages,
+                        Num_copies = dd.Num_copies,
+                        File_excel = dd.File_excel,
+                        File_pdf = dd.File_pdf,
+                        Change_detail = dd.Change_detail
+                    }).ToList(),
+                    AvailableAreas = documentWithDetails.Areas.Select(a => new AreaItemViewModel
+                    {
+                        FId = a.FId,
+                        LId = a.LId,
+                        WS_TS_Id = a.WS_TS_Id?? 0,
+                        SectionName = a.SectionName,
+                        SectionCode = a.SectionCode
+                    }).ToList()
 
-        //        if (document == null)
-        //        {
-        //            TempData["ErrorMessage"] = "ไม่พบข้อมูลคำร้อง";
-        //            return RedirectToAction("List");
-        //        }
-
-        //        var model = MapDocumentToViewModel(document);
-        //        return View(model);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = "เกิดข้อผิดพลาด: " + ex.Message;
-        //        return RedirectToAction("List");
-        //    }
-        //}
+                };
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "เกิดข้อผิดพลาด: " + ex.Message;
+                return RedirectToAction("List");
+            }
+        }
 
         // POST: Document/Delete/5
         [HttpPost]
@@ -361,15 +339,11 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
-                        // Delete related records
-                        var details = db.DocumentDetails.Where(d => d.Doc_id == id).ToList();
+                        var details = db.DocumentDetails.Where(d => d.LId == id).ToList();
                         db.DocumentDetails.RemoveRange(details);
-
-                        // Delete document
                         db.DocumentLists.Remove(document);
                         db.SaveChanges();
                         transaction.Commit();
-
                         return Json(new { success = true, message = "ลบคำร้องเรียบร้อยแล้ว" });
                     }
                     catch (Exception ex)
@@ -406,12 +380,10 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
             throw new UnauthorizedAccessException("ไม่พบข้อมูลผู้ใช้งาน");
         }
-
         private bool ValidateDocumentRequest(DocumentFormViewModel model)
         {
             bool isValid = true;
 
-            // Validate document details
             if (model.DocumentDetails == null || !model.DocumentDetails.Any())
             {
                 ModelState.AddModelError("DocumentDetails", "กรุณาเพิ่มรายละเอียดเอกสารอย่างน้อย 1 รายการ");
@@ -435,23 +407,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 }
             }
 
-            // Validate selected areas
             if (model.AvailableAreas == null || !model.AvailableAreas.Any(a => a.IsSelected))
             {
                 ModelState.AddModelError("AvailableAreas", "กรุณาเลือกพื้นที่การใช้งานอย่างน้อย 1 รายการ");
                 isValid = false;
             }
 
-            // Validate effective date
-            //if (model.Effective_date < DateTime.Now.Date)
-            //{
-            //    ModelState.AddModelError("Effective_date", "วันที่มีผลบังคับใช้ต้องไม่เป็นวันที่ในอดีต");
-            //    isValid = false;
-            //}
-
             return isValid;
         }
-
         private DocumentList CreateDocumentRecord(DocumentFormViewModel model)
         {
             return new DocumentList
@@ -466,7 +429,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 Updated_at = DateTime.Now
             };
         }
-
         private void ProcessDocumentDetails(DocumentFormViewModel model, int documentId)
         {
             if (model.DocumentDetails != null && model.DocumentDetails.Any())
@@ -477,7 +439,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     {
                         var docDetail = new DocumentDetail
                         {
-                            Doc_id = documentId,
+                            LId = documentId,
                             WS_number = detail.WS_number.Trim(),
                             WS_name = detail.WS_name.Trim(),
                             Revision = detail.Revision?.Trim() ?? "01",
@@ -494,7 +456,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 }
             }
         }
-
         private void ProcessSelectedAreas(DocumentFormViewModel model, int documentId)
         {
             if (model.AvailableAreas != null)
@@ -502,18 +463,15 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 var selectedAreaIds = model.AvailableAreas.Where(a => a.IsSelected).Select(a => a.Id).ToList();
                 model.SelectedAreaIds = selectedAreaIds;
 
-                // Save selected areas to junction table if exists
-                // Implementation depends on your database schema
-
                 if (model.AvailableAreas != null)
                 {
                     var selectedAreas = model.AvailableAreas
-                        .Where(a => a.IsSelected)
-                        .Select(a => new DocumentFormArea
-                        {
-                            Doc_id = documentId,            // จากเอกสารหลักที่เพิ่ง Insert เสร็จ
-                            area_name = a.SectionCode       // หรือจะใช้ SectionName ก็ได้ ถ้าเหมาะสมกว่า
-                        }).ToList();
+                                            .Where(a => a.IsSelected)
+                          .Select(a => new DocumentFormArea
+                          {
+                              LId = documentId,
+                              WS_TS_Id = a.Id
+                          }).ToList();
 
                     db.DocumentFormAreas.AddRange(selectedAreas);
                     db.SaveChanges();
@@ -521,8 +479,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
             }
         }
-
-
         private void ProcessFileUploads(DocumentFormViewModel model, int documentId)
         {
             string path_excel = ConfigurationManager.AppSettings["path_Document_Excel"];
@@ -545,11 +501,11 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
                 if (filePdf != null && filePdf.ContentLength > 0)
                 {
-                    string pdfFileName = GenerateUniqueFileName("PDF",documentId, filePdf.FileName);
+                    string pdfFileName = GenerateUniqueFileName("PDF", documentId, filePdf.FileName);
                     string fullPdfPath = Path.Combine(path_pdf, pdfFileName);
                     filePdf.SaveAs(fullPdfPath);
                     model.DocumentDetails[i].File_pdf = pdfFileName;
-                    
+
 
                 }
 
@@ -562,10 +518,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 }
             }
         }
-
         private string GenerateUniqueFileName(string prefix, int documentId, string originalFileName)
         {
-            string ext = Path.GetExtension(originalFileName); 
+            string ext = Path.GetExtension(originalFileName);
             string baseName = Path.GetFileNameWithoutExtension(originalFileName);
             string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             string guid = Guid.NewGuid().ToString("N").Substring(0, 6);
@@ -582,11 +537,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
             return $"{prefix}_{documentId}_{baseName}_{timestamp}_{guid}{ext}";
         }
-
         private void CreateApprovalWorkflow(int documentId)
         {
-            // Create initial approval steps
-            // Implementation depends on your approval workflow requirements
             var initialStep = new
             {
                 DocumentId = documentId,
@@ -594,26 +546,20 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 Status = "PENDING",
                 CreatedAt = DateTime.Now
             };
-            // Add to appropriate approval table
         }
-
         private bool CanEditDocument(DocumentList document)
         {
             var currentUserId = GetCurrentUserId();
 
-            // Allow edit if user is the requester and status is still draft or pending
             return document.Requester_id == currentUserId &&
                    (document.Status == DocumentStatus.Draft || document.Status == DocumentStatus.PendingDeptHead);
         }
-
         private bool CanDeleteDocument(DocumentList document)
         {
             var currentUserId = GetCurrentUserId();
 
-            // Allow delete if user is the requester and status is draft
             return document.Requester_id == currentUserId && document.Status == DocumentStatus.Draft;
         }
-
         private void UpdateDocumentRecord(DocumentList document, DocumentFormViewModel model)
         {
             document.Request_type = model.Request_type;
@@ -621,20 +567,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             document.Effective_date = model.Effective_date;
             document.Updated_at = DateTime.Now;
         }
-
         private void UpdateDocumentDetails(DocumentFormViewModel model, int documentId)
         {
-            // Remove existing details
-            var existingDetails = db.DocumentDetails.Where(d => d.Doc_id == documentId).ToList();
+            var existingDetails = db.DocumentDetails.Where(d => d.LId == documentId).ToList();
             db.DocumentDetails.RemoveRange(existingDetails);
-
-            // Add updated details
             ProcessDocumentDetails(model, documentId);
         }
-
         private void UpdateSelectedAreas(DocumentFormViewModel model, int documentId)
         {
-            // Update selected areas
             ProcessSelectedAreas(model, documentId);
         }
 

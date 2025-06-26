@@ -572,6 +572,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BankAccountModels.cs" />
     <Compile Include="Models\BillingNoteModels.cs" />
+    <Compile Include="Models\DocumentDetailViewModel.cs" />
     <Compile Include="Models\DocumentFormViewModel.cs" />
     <Compile Include="Models\EmployeeCourseReport.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
@@ -599,6 +600,7 @@
     <Content Include="Content\css\ModifyTrainingCourseMainList.css" />
     <Content Include="Content\css\ModifyTrainingMainList.css" />
     <Content Include="Content\custom_fullcalendar_1.css" />
+    <Content Include="Content\Docdetail.css" />
     <Content Include="Content\document-form.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\Dtest.css" />

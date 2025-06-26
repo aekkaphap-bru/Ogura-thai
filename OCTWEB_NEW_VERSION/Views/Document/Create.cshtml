@@ -6,11 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    bool isReadOnly = Model.Status != null && Model.Status != "Draft" && Model.Status != "Rejected";
-}
-
-
 @section Scripts {
     @*<link href="~/Content/Dtest.css" rel="stylesheet" />*@
     @*<link href="~/Content/Dtest.css" rel="stylesheet" />*@
@@ -172,10 +167,10 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="DocumentDetails_0__WS_name"
-                                                           name="DocumentDetails[0].WS_name" required placeholder="ชื่อเรื่อง"
+                                                           name="DocumentDetails[0].WS_name" required placeholder="ชื่อเอกสาร"
                                                            data-bs-toggle="tooltip" title="กรอกชื่อเรื่องของเอกสาร">
-                                                    <label for="DocumentDetails_0__WS_name">ชื่อเรื่อง *</label>
-                                                    <div class="invalid-feedback">กรุณากรอกชื่อเรื่อง</div>
+                                                    <label for="DocumentDetails_0__WS_name">ชื่อเอกสาร *</label>
+                                                    <div class="invalid-feedback">กรุณากรอกชื่อเอกสาร</div>
                                                 </div>
                                             </div>
 
@@ -216,7 +211,7 @@
                                                               placeholder="รายละเอียดการเปลี่ยนแปลง"
                                                               data-bs-toggle="tooltip" title="อธิบายรายละเอียดการเปลี่ยนแปลง"></textarea>
                                                     <label for="DocumentDetails_0__Change_detail">
-                                                        <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการเปลี่ยนแปลง
+                                                        <i class="fas fa-clipboard-list me-1"></i>รายละเอียดการร้องขอ
                                                     </label>
                                                 </div>
                                             </div>
@@ -306,7 +301,7 @@
 
                     <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
                         <h5 class="section-title fw-bold text-primary mb-4">
-                            <i class="fas fa-calendar-alt me-2"></i> วันที่เริ่มใช้/ยกเลิกเอกสาร *
+                            <i class="fas fa-calendar-alt me-2"></i> วันที่เริ่มใช้เอกสาร/ยกเลิกเอกสาร *
                         </h5>
                         @Html.TextBoxFor(m => m.Effective_date, new { @type = "date", @class = "form-control form-control-lg", @id = "Effective_date", @required = "required" })
                         <small class="form-text text-muted mt-2 d-block">
@@ -321,100 +316,6 @@
                         </button>
                     </div>
                 }
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Approval Section -->
-<div>
-    <!-- Approval Flow -->
-    <div class="card" style="margin-bottom: 25px;">
-        <div class="card-header">
-            <div class="card-title">
-                <i class="fas fa-route"></i>
-                ขั้นตอนการอนุมัติ
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="approval-flow">
-                <!-- Step 1 -->
-                <div class="approval-step completed">
-                    <div class="step-header">
-                        <div style="display: flex; align-items: center;">
-                            <div class="step-number">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="step-info">
-                                <div class="step-title">ผู้อนุมัติคนที่ 1</div>
-                                <div class="step-person">
-                                    <i class="fas fa-user"></i>
-                                    หัวหน้าแผนก
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-status status-completed">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="comment-section" style="background: rgba(39, 174, 96, 0.05);">
-                        <strong>ความเห็น:</strong> อนุมัติการแก้ไขเอกสารตามที่ร้องขอ
-                        <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
-                            <i class="fas fa-clock"></i> อนุมัติเมื่อ: 01/10/2024 09:30
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="approval-step completed">
-                    <div class="step-header">
-                        <div style="display: flex; align-items: center;">
-                            <div class="step-number">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="step-info">
-                                <div class="step-title">ผู้อนุมัติคนที่ 2</div>
-                                <div class="step-person">
-                                    <i class="fas fa-user"></i>
-                                    ผู้จัดการ (ระดับสูง)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-status status-completed">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="comment-section" style="background: rgba(39, 174, 96, 0.05);">
-                        <strong>ความเห็น:</strong> เห็นชอบการปรับปรุงเอกสารตามข้อเสนแนะ
-                        <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
-                            <i class="fas fa-clock"></i> อนุมัติเมื่อ: 01/10/2024 14:15
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="approval-step completed">
-                    <div class="step-header">
-                        <div style="display: flex; align-items: center;">
-                            <div class="step-number">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="step-info">
-                                <div class="step-title">ผู้อนุมัติคนที่ 3</div>
-                                <div class="step-person">
-                                    <i class="fas fa-user"></i>
-                                    ผู้เชี่ยวชาญ (ระดับผู้เชี่ยวชาญ)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-status status-completed">อนุมัติแล้ว</div>
-                    </div>
-                    <div class="comment-section" style="background: rgba(39, 174, 96, 0.05);">
-                        <strong>ความเห็น:</strong> ผ่านการตรวจสอบเชิงเทคนิคแเนีย
-                        <div style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
-                            <i class="fas fa-clock"></i> อนุมัติเมื่อ: 01/10/2024 14:15
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1032,18 +933,6 @@
 
             allowNumberAndEng("#DocumentDetails_0__WS_number");
             allowNumberAndEng("#DocumentDetails_0__Revision");
-        });
-
-        document.querySelector("form").addEventListener("submit", function (e) {
-            const dateInput = document.getElementById("Effective_date");
-            const dateValue = dateInput.value;
-
-            // ถ้ารับ input เป็น dd/MM/yyyy แล้วต้องแปลงเป็น yyyy-MM-dd
-            if (dateValue.includes("/")) {
-                const [day, month, year] = dateValue.split("/");
-                const formatted = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                dateInput.value = formatted;
-            }
         });
     })();
 </script>

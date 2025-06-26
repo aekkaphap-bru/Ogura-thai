@@ -314,7 +314,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
             <PropertyRef Name="AId" />
           </Key>
           <Property Name="AId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Doc_id" Type="int" Nullable="false" />
+          <Property Name="LId" Type="int" Nullable="false" />
           <Property Name="Step" Type="int" />
           <Property Name="Approver_id" Type="int" />
           <Property Name="Approved_at" Type="datetime" />
@@ -326,7 +326,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
             <PropertyRef Name="DId" />
           </Key>
           <Property Name="DId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Doc_id" Type="int" Nullable="false" />
+          <Property Name="LId" Type="int" Nullable="false" />
           <Property Name="WS_number" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="WS_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Revision" Type="varchar" MaxLength="10" />
@@ -341,8 +341,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
             <PropertyRef Name="FId" />
           </Key>
           <Property Name="FId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Doc_id" Type="int" Nullable="false" />
-          <Property Name="area_name" Type="varchar" MaxLength="10" />
+          <Property Name="LId" Type="int" Nullable="false" />
+          <Property Name="WS_TS_Id" Type="int" />
         </EntityType>
         <EntityType Name="DocumentList">
           <Key>
@@ -3804,10 +3804,10 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           </AssociationSet>
           <EntitySet Name="DocumentActivityLogs" EntityType="OCTWEBTESTModel.DocumentActivityLog" />
           <EntitySet Name="DocumentApprovalSteps" EntityType="OCTWEBTESTModel.DocumentApprovalStep" />
-          <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
-          <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
           <EntitySet Name="DocumentLists" EntityType="OCTWEBTESTModel.DocumentList" />
           <EntitySet Name="Equipment_repair_machine" EntityType="OCTWEBTESTModel.Equipment_repair_machine" />
+          <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
+          <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
         </EntityContainer>
         <EntityType Name="WSR_WorkingStandardEdit">
           <Key>
@@ -4190,35 +4190,12 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
             <PropertyRef Name="AId" />
           </Key>
           <Property Name="AId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Doc_id" Type="Int32" Nullable="false" />
+          <Property Name="LId" Type="Int32" Nullable="false" />
           <Property Name="Step" Type="Int32" />
           <Property Name="Approver_id" Type="Int32" />
           <Property Name="Approved_at" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="DocumentDetail">
-          <Key>
-            <PropertyRef Name="DId" />
-          </Key>
-          <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Doc_id" Type="Int32" Nullable="false" />
-          <Property Name="WS_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WS_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Num_copies" Type="Int32" />
-          <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="DocumentFormArea">
-          <Key>
-            <PropertyRef Name="FId" />
-          </Key>
-          <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Doc_id" Type="Int32" Nullable="false" />
-          <Property Name="area_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="DocumentList">
           <Key>
@@ -4251,6 +4228,29 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StartStopping" Type="DateTime" Precision="3" />
           <Property Name="Finish" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DocumentDetail">
+          <Key>
+            <PropertyRef Name="DId" />
+          </Key>
+          <Property Name="DId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LId" Type="Int32" Nullable="false" />
+          <Property Name="WS_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WS_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Revision" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Num_pages" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Num_copies" Type="Int32" />
+          <Property Name="File_excel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="File_pdf" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Change_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DocumentFormArea">
+          <Key>
+            <PropertyRef Name="FId" />
+          </Key>
+          <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LId" Type="Int32" Nullable="false" />
+          <Property Name="WS_TS_Id" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5623,38 +5623,13 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <EntitySetMapping Name="DocumentApprovalSteps">
             <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentApprovalStep">
               <MappingFragment StoreEntitySet="DocumentApprovalSteps">
+                <ScalarProperty Name="LId" ColumnName="LId" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Approved_at" ColumnName="Approved_at" />
                 <ScalarProperty Name="Approver_id" ColumnName="Approver_id" />
                 <ScalarProperty Name="Step" ColumnName="Step" />
-                <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
                 <ScalarProperty Name="AId" ColumnName="AId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DocumentDetails">
-            <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentDetail">
-              <MappingFragment StoreEntitySet="DocumentDetails">
-                <ScalarProperty Name="Change_detail" ColumnName="Change_detail" />
-                <ScalarProperty Name="File_pdf" ColumnName="File_pdf" />
-                <ScalarProperty Name="File_excel" ColumnName="File_excel" />
-                <ScalarProperty Name="Num_copies" ColumnName="Num_copies" />
-                <ScalarProperty Name="Num_pages" ColumnName="Num_pages" />
-                <ScalarProperty Name="Revision" ColumnName="Revision" />
-                <ScalarProperty Name="WS_name" ColumnName="WS_name" />
-                <ScalarProperty Name="WS_number" ColumnName="WS_number" />
-                <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
-                <ScalarProperty Name="DId" ColumnName="DId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DocumentFormAreas">
-            <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentFormArea">
-              <MappingFragment StoreEntitySet="DocumentFormAreas">
-                <ScalarProperty Name="area_name" ColumnName="area_name" />
-                <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
-                <ScalarProperty Name="FId" ColumnName="FId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5686,6 +5661,31 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
                 <ScalarProperty Name="Factoy" ColumnName="Factoy" />
                 <ScalarProperty Name="Datest" ColumnName="Datest" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentDetails">
+            <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentDetail">
+              <MappingFragment StoreEntitySet="DocumentDetails">
+                <ScalarProperty Name="Change_detail" ColumnName="Change_detail" />
+                <ScalarProperty Name="File_pdf" ColumnName="File_pdf" />
+                <ScalarProperty Name="File_excel" ColumnName="File_excel" />
+                <ScalarProperty Name="Num_copies" ColumnName="Num_copies" />
+                <ScalarProperty Name="Num_pages" ColumnName="Num_pages" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="WS_name" ColumnName="WS_name" />
+                <ScalarProperty Name="WS_number" ColumnName="WS_number" />
+                <ScalarProperty Name="LId" ColumnName="LId" />
+                <ScalarProperty Name="DId" ColumnName="DId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentFormAreas">
+            <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentFormArea">
+              <MappingFragment StoreEntitySet="DocumentFormAreas">
+                <ScalarProperty Name="WS_TS_Id" ColumnName="WS_TS_Id" />
+                <ScalarProperty Name="LId" ColumnName="LId" />
+                <ScalarProperty Name="FId" ColumnName="FId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1366,38 +1366,13 @@
     <EntitySetMapping Name="DocumentApprovalSteps">
       <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentApprovalStep">
         <MappingFragment StoreEntitySet="DocumentApprovalSteps">
+          <ScalarProperty Name="LId" ColumnName="LId" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Approved_at" ColumnName="Approved_at" />
           <ScalarProperty Name="Approver_id" ColumnName="Approver_id" />
           <ScalarProperty Name="Step" ColumnName="Step" />
-          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
           <ScalarProperty Name="AId" ColumnName="AId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DocumentDetails">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentDetail">
-        <MappingFragment StoreEntitySet="DocumentDetails">
-          <ScalarProperty Name="Change_detail" ColumnName="Change_detail" />
-          <ScalarProperty Name="File_pdf" ColumnName="File_pdf" />
-          <ScalarProperty Name="File_excel" ColumnName="File_excel" />
-          <ScalarProperty Name="Num_copies" ColumnName="Num_copies" />
-          <ScalarProperty Name="Num_pages" ColumnName="Num_pages" />
-          <ScalarProperty Name="Revision" ColumnName="Revision" />
-          <ScalarProperty Name="WS_name" ColumnName="WS_name" />
-          <ScalarProperty Name="WS_number" ColumnName="WS_number" />
-          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
-          <ScalarProperty Name="DId" ColumnName="DId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DocumentFormAreas">
-      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentFormArea">
-        <MappingFragment StoreEntitySet="DocumentFormAreas">
-          <ScalarProperty Name="area_name" ColumnName="area_name" />
-          <ScalarProperty Name="Doc_id" ColumnName="Doc_id" />
-          <ScalarProperty Name="FId" ColumnName="FId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1429,6 +1404,31 @@
           <ScalarProperty Name="Factoy" ColumnName="Factoy" />
           <ScalarProperty Name="Datest" ColumnName="Datest" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentDetails">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentDetail">
+        <MappingFragment StoreEntitySet="DocumentDetails">
+          <ScalarProperty Name="Change_detail" ColumnName="Change_detail" />
+          <ScalarProperty Name="File_pdf" ColumnName="File_pdf" />
+          <ScalarProperty Name="File_excel" ColumnName="File_excel" />
+          <ScalarProperty Name="Num_copies" ColumnName="Num_copies" />
+          <ScalarProperty Name="Num_pages" ColumnName="Num_pages" />
+          <ScalarProperty Name="Revision" ColumnName="Revision" />
+          <ScalarProperty Name="WS_name" ColumnName="WS_name" />
+          <ScalarProperty Name="WS_number" ColumnName="WS_number" />
+          <ScalarProperty Name="LId" ColumnName="LId" />
+          <ScalarProperty Name="DId" ColumnName="DId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentFormAreas">
+      <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentFormArea">
+        <MappingFragment StoreEntitySet="DocumentFormAreas">
+          <ScalarProperty Name="WS_TS_Id" ColumnName="WS_TS_Id" />
+          <ScalarProperty Name="LId" ColumnName="LId" />
+          <ScalarProperty Name="FId" ColumnName="FId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
