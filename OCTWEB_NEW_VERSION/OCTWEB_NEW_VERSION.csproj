@@ -13,7 +13,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OCTWEB_NET45</RootNamespace>
     <AssemblyName>OCTWEB_NET45</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <!-- <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion> -->
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44301</IISExpressSSLPort>
@@ -23,6 +24,7 @@
     <NuGetPackageImportStamp>ed58e780</NuGetPackageImportStamp>
     <Use64BitIISExpress />
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,11 +55,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -207,6 +205,9 @@
     <Compile Include="Context\DocumentList.cs">
       <DependentUpon>ModelEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\DocumentSection.cs">
+      <DependentUpon>ModelEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\DWPic.cs">
       <DependentUpon>ModelEntities.tt</DependentUpon>
     </Compile>
@@ -229,6 +230,9 @@
       <DependentUpon>ModelEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Context\EmpList.cs">
+      <DependentUpon>ModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Context\EmployeeSignature.cs">
       <DependentUpon>ModelEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Context\Emp_Benefite.cs">
@@ -595,12 +599,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\a.css" />
+    <Content Include="Content\body.css" />
     <Content Include="Content\css\login-style-2025.css" />
     <Content Include="Content\css\ModifyTrainingCourseMainList.css" />
     <Content Include="Content\css\ModifyTrainingMainList.css" />
     <Content Include="Content\custom_fullcalendar_1.css" />
-    <Content Include="Content\Docdetail.css" />
+    <Content Include="Content\oct-documentdetail.css" />
     <Content Include="Content\document-form.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\Dtest.css" />
@@ -615,7 +619,6 @@
     <Content Include="Content\oct-responsive.css" />
     <Content Include="Content\oct-sidebar.css" />
     <Content Include="Content\oct-tables.css" />
-    <Content Include="Content\style_custom_viewpoint.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -625,11 +628,7 @@
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\style_fieldset_legend.css" />
-    <Content Include="Content\style_search_table_list.css" />
-    <Content Include="Content\style_sidebar.css" />
-    <Content Include="Content\style_table_list.css" />
-    <Content Include="Content\text-oct-css.css" />
+    <Content Include="Content\oct-sidebar-edit.css" />
     <Content Include="Context\AccModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>AccModel.edmx</DependentUpon>
@@ -712,8 +711,8 @@
     <Content Include="fonts\SEGOEUIB.TTF" />
     <Content Include="fonts\ANGSA.ttf" />
     <Content Include="fonts\angsab.ttf" />
-    <None Include="Properties\PublishProfiles\OCTWEB_NET45_2022.pubxml" />
     <Content Include="Scripts\bootstrap4-toggle.min.js.map" />
+    <None Include="Properties\PublishProfiles\#ASP_Test_Aekkaphap_t.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap4-toggle.js" />
     <Content Include="Scripts\bootstrap4-toggle.min.js" />
@@ -4917,6 +4916,9 @@
     <Content Include="Views\Document\List.cshtml" />
     <Content Include="Views\Document\_DocumentListPartial.cshtml" />
     <Content Include="Views\Document\Details.cshtml" />
+    <Content Include="Views\Document\ProcessApproval.cshtml" />
+    <Content Include="Views\Document\Edit.cshtml" />
+    <Content Include="Views\Document\ExportPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4969,10 +4971,13 @@
   <ItemGroup>
     <PackageReference Include="Antlr" />
     <PackageReference Include="bootstrap" />
+    <PackageReference Include="ClosedXML" />
     <PackageReference Include="Common.Logging" />
     <PackageReference Include="Common.Logging.Core" />
     <PackageReference Include="EntityFramework" />
     <PackageReference Include="EPPlus" />
+    <PackageReference Include="GemBox.Spreadsheet" />
+    <PackageReference Include="IronPdf" />
     <PackageReference Include="itext7" />
     <PackageReference Include="itext7.licensekey" />
     <PackageReference Include="itext7.pdfcalligraph" />
@@ -4983,12 +4988,14 @@
     <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" />
     <PackageReference Include="Microsoft.AspNet.Mvc" />
+    <PackageReference Include="Microsoft.AspNet.SignalR" />
     <PackageReference Include="Microsoft.AspNet.Web.Optimization" />
     <PackageReference Include="Microsoft.AspNet.Razor" />
     <PackageReference Include="Microsoft.AspNet.WebPages" />
     <PackageReference Include="Microsoft.AspNet.WebHelpers" />
     <PackageReference Include="Microsoft.CSharp" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" />
     <PackageReference Include="Microsoft.Owin" />
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" />
     <PackageReference Include="Microsoft.Owin.Security" />
@@ -5000,19 +5007,16 @@
     <PackageReference Include="Microsoft.Owin.Security.Twitter" />
     <PackageReference Include="Microsoft.Web.Infrastructure" />
     <PackageReference Include="Modernizr" />
+    <PackageReference Include="NETStandard.Library" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Owin" />
     <PackageReference Include="PagedList" />
     <PackageReference Include="PagedList.Mvc" />
     <PackageReference Include="Portable.BouncyCastle" />
+    <PackageReference Include="QuestPDF" />
     <PackageReference Include="Respond" />
+    <PackageReference Include="Rotativa" />
     <PackageReference Include="Select2.js" />
     <PackageReference Include="WebGrease" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
 </Project>

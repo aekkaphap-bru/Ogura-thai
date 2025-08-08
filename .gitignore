@@ -1,0 +1,13 @@
+# ไฟล์ log ทั้งหมด
+*.log
+
+# โฟลเดอร์แพ็กเกจ NuGet
+packages/
+
+# โฟลเดอร์ output และ static ที่ไม่ควรเก็บใน Git
+OCTWEB_NET45/static/
+OCTWEB_NET45/obj/
+OCTWEB_NET45/bin/
+
+# โฟลเดอร์ Visual Studio ชั่วคราว
+.vs/

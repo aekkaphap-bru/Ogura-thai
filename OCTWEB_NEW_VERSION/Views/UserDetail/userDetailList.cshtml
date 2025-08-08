@@ -128,21 +128,12 @@
                         Dept.
                     </th>
                     <th>
-                        Tel.
-                    </th>
-                    <th>
-                        E-mail
-                    </th>
-                    <th>
                         Right
                     </th>
                     <th>
                         Status
                     </th>
-                    <th>
-                        Nationality
-                    </th>
-
+                
                 </tr>
             </thead>
             <tbody>
@@ -181,12 +172,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.value.Department_name)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.value.USE_TelNo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.value.USE_Email)
-                        </td>
+                        
                         <td>
                         
                             <a href="@Url.Action(actionName: "SetPermission"
@@ -206,10 +192,7 @@
                                 <span>Disable</span>
                             }
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.value.USE_Nationality)
-                        </td>
-
+                     
                     </tr>
                 }
             </tbody>

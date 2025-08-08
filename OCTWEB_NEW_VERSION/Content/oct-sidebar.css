@@ -1,18 +1,16 @@
-/* OCT Sidebar CSS - Formal Business Theme (2025)
--------------------------------------------------- */
 
 #sidemenubar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 260px; /* A slightly narrower sidebar can feel more modern */
-    background-color: #2C3E50; /* Professional Navy/Charcoal Color */
-    color: #ECF0F1; /* Light, soft text color for contrast */
+    width: 260px;  
+    background-color: #2C3E50;  
+    color: #ECF0F1;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
-    transform: translateX(0); /* Default to open, can be controlled by JS */
+    transform: translateX(0);
     overflow-y: auto;
     font-size: 14px;
 }
@@ -21,7 +19,7 @@
     transform: translateX(-100%);
 }
 
-/* Custom scrollbar for a modern look */
+ Custom scrollbar for a modern look 
 #sidemenubar::-webkit-scrollbar {
   width: 6px;
 }
@@ -30,7 +28,7 @@
   border-radius: 3px;
 }
 
-/* --- Sidebar Header --- */
+
 .sidebar-header {
     padding: 1rem 1.25rem;
     display: flex;
@@ -38,7 +36,6 @@
     border-bottom: 1px solid #34495E;
 }
 
-/* --- Menu Structure --- */
 .sidebar-menu {
     padding: 1rem 0;
 }
@@ -48,7 +45,7 @@
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #95A5A6; /* Muted title color */
+    color: #95A5A6;  Muted title color 
     font-weight: 600;
 }
 
@@ -63,25 +60,23 @@
     align-items: center;
     gap: 0.8rem;
     padding: 0.75rem 1.25rem;
-    color: #ECF0F1; /* Default link color */
+    color: #ECF0F1;
     text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease;
-    border-left: 4px solid transparent; /* For active state indicator */
+    border-left: 4px solid transparent; 
 }
 
-/* Menu link hover state */
+ Menu link hover state 
 .menu-link:hover {
-    background-color: #34495E; /* Subtle hover background */
+    background-color: #34495E;
     color: #FFFFFF;
     text-decoration: none;
 }
 
-/* Active Menu Item Style - The key indicator */
 .menu-link.active {
     background-color: rgba(0, 0, 0, 0.1);
     color: #FFFFFF;
     font-weight: 500;
-    /* Use the primary color from core.css for the active indicator */
     border-left-color: var(--primary-color);
 }
 
@@ -89,7 +84,7 @@
     width: 20px;
     text-align: center;
     font-size: 1.05rem;
-    color: #BDC3C7; /* Slightly muted icon color */
+    color: #BDC3C7;
     transition: color 0.2s ease;
 }
 
@@ -98,7 +93,7 @@
     color: #FFFFFF;
 }
 
-/* --- Submenu --- */
+ --- Submenu --- 
 .submenu {
     list-style: none;
     background-color: rgba(0, 0, 0, 0.2);
@@ -109,24 +104,24 @@
 }
 
 .submenu.show {
-    max-height: 500px; /* A large enough value to show all items */
+    max-height: 500px; 
     padding: 0.5rem 0;
 }
 
 .submenu-item .menu-link {
-    padding-left: 3.25rem; /* Indent submenu items */
+    padding-left: 3.25rem;  
     font-size: 0.85rem;
 }
 
 .submenu-item .menu-link:before {
-    content: "—"; /* A simple dash for indentation mark */
+    content: "—";
     position: absolute;
     left: 2rem;
     color: #7F8C8D;
 }
 
 .submenu-item .menu-link.active {
-    color: var(--primary-light, #E6F0F7); /* Use a light version for active submenu */
-    background: none; /* No background for active submenu item */
+    color: var(--primary-light, #E6F0F7); 
+    background: none;
     border-left-color: transparent;
 }

@@ -2,8 +2,9 @@
     <!-- Sidebar Brand -->
     <div class="sidebar-brand">
         <h2>OCT WEB</h2>
-        <div class="brand-icon"  id="Close-sidebar">
-            <i class="fas fa-th-large" background-color: #b9b9b9;"></i>
+
+        <div id="Close-sidebar" class="brand-icon">
+            <i class="fas fa-times"></i>
         </div>
     </div>
     
@@ -530,7 +531,7 @@
                 </li>
             }
 
-            if (mm.dc)
+            @*if (mm.dc)
             {
                 <li>
                     <a href="#dc-submenu" data-bs-toggle="collapse" class="dropdown-toggle">
@@ -550,44 +551,19 @@
                     </ul>
                 </li>
 
-            }
-
-
-            <!------System Support------>
-            if (mm.system_support)
+            }*@
+            if (mm.dc)
             {
-                <li class="nav-item dropdown" id="dropdown-systemsupport">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#dropdown-systemsupport-lv1">
-                        <i class="fas fa-fw fa-dollar-sign" aria-hidden="true"></i>
-                        <span class="text-white">
-                            System Support
-                        </span>
+                <li>
+                    <a href="/Document/List" >
+                        <i class="fa-solid fa-file-shield"></i>
+                        <span class="menu-text">Document Control</span>
                     </a>
-                    <!-- Dropdown System Support level 1 -->
-                    <div id="dropdown-systemsupport-lv1" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <ul class="nav navbar-nav">
-                                <!--if (mm.APBillingNote_65)
-                            {
-                                <li>
-                                    <a class="collapse-item " href="/BillingNote/BList">
-                                        <span class="text-dark font-weight-bold">AP Billing Note</span>
-                                    </a>
-                                </li>
-                            }-->
-                                @if (mm.ALBillingNote_66)
-                                {
-                                    <li>
-                                        <a class="collapse-item" href="/BillingNote/BList">
-                                            <span class="text-dark font-weight-bold">AR Billing Note</span>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
                 </li>
             }
+
+
+
 
         }
     </ul>

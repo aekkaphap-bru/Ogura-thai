@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCTWEB_NEW_VERSION", "OCTWEB_NEW_VERSION.csproj", "{75748877-C342-A188-3EE6-AD843C14C71E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCTWEB_NEW_VERSION", "OCTWEB_NEW_VERSION.csproj", "{3630DFB8-0653-4FBF-B436-732B13A0FC6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,10 +10,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75748877-C342-A188-3EE6-AD843C14C71E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75748877-C342-A188-3EE6-AD843C14C71E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75748877-C342-A188-3EE6-AD843C14C71E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75748877-C342-A188-3EE6-AD843C14C71E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3630DFB8-0653-4FBF-B436-732B13A0FC6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3630DFB8-0653-4FBF-B436-732B13A0FC6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3630DFB8-0653-4FBF-B436-732B13A0FC6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3630DFB8-0653-4FBF-B436-732B13A0FC6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

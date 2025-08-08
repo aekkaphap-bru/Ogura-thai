@@ -13,6 +13,7 @@ namespace OCTWEB_NET45
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+
             app.CreatePerOwinContext<ApplicationDbContext>(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);  
             // Enable the application to use a cookie to store information for the signed in user
@@ -43,6 +44,8 @@ namespace OCTWEB_NET45
             //   appSecret: "");
 
             //app.UseGoogleAuthentication();
+
+            
         }
     }
 }

@@ -1,0 +1,820 @@
+﻿@using OCTWEB_NET45.Models
+@model OCTWEB_NET45.Models.DocumentFormViewModel
+
+@{
+    ViewBag.Title = "Edit Document Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="~/Content/oct-documentdetail.css" rel="stylesheet" />
+    <style>
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 0.375rem 0.375rem;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-suggestion {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+            .autocomplete-suggestion:hover,
+            .autocomplete-suggestion.active {
+                background-color: #f8f9fa;
+            }
+
+            .autocomplete-suggestion small {
+                color: #6c757d;
+                display: block;
+                margin-top: 2px;
+            }
+    </style>
+}
+
+<div class="container-fluid py-4">
+    <div class="main-container">
+        <div class="header-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="mb-2">
+                        <i class="fas fa-edit me-3"></i>
+                        Edit Document Action Request Form
+                    </h2>
+                    <p class="text-muted">Request ID: @Model.Id</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="@Url.Action("List", "Document")" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 bg-white border shadow-sm p-4">
+            <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+            </div>
+
+            @using (Html.BeginForm("Edit", "Document", FormMethod.Post, new { enctype = "multipart/form-data", id = "documentForm", @class = "needs-validation", @novalidate = "novalidate" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Request_from)
+                @Html.HiddenFor(m => m.Status)
+                @Html.HiddenFor(m => m.Requester_id)
+
+                <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                    <h5 class="section-title fw-bold text-primary mb-4">
+                        <i class="fas fa-clipboard-check me-2"></i> Request Type (ชนิดการร้องขอ)
+                    </h5>
+                    <div class="row g-3">
+                        @{
+                            var requestTypes = new[] {
+                                new { Value = "New Issue", Description = "For new documents.", ThaiValue = "ลงทะเบียนครั้งแรก", ThaiDescription = "สำหรับเอกสารใหม่" },
+                                new { Value = "Revised", Description = "For revised documents.", ThaiValue = "ลงทะเบียนเอกสารแก้ไข/ปรับปรุง", ThaiDescription = "สำหรับเอกสารที่มีการแก้ไข" },
+                                new { Value = "External", Description = "For external documents.", ThaiValue = "ลงทะเบียนเอกสารจากภายนอก", ThaiDescription = "สำหรับเอกสารที่รับมาจากภายนอก" },
+                                new { Value = "Obsolete", Description = "To request cancellation.", ThaiValue = "ขออนุมัติยกเลิก", ThaiDescription = "สำหรับเอกสารที่ไม่มีการใช้งานแล้ว" },
+                                new { Value = "Copy", Description = "To request a copy.", ThaiValue = "ขออนุมัติสำเนา", ThaiDescription = "สำหรับเอกสารที่ต้องการสำเนา" }
+                            };
+                        }
+
+                        @for (int i = 0; i < requestTypes.Length; i++)
+                        {
+                            var reqType = requestTypes[i];
+                            var id = string.Format("req-{0}", i);
+                            var isChecked = Model.Request_type == reqType.Value;
+                            <div class="col-md-6">
+                                <div class="form-check form-check-card @(isChecked ? "checked" : "")" title="Select @reqType.Value">
+                                    @Html.RadioButtonFor(model => model.Request_type, reqType.Value, new { @class = "form-check-input", @id = id, @checked = isChecked, @required = "required" })
+                                    <label class="form-check-label" for="@id">
+                                        <div class="d-flex align-items-start">
+                                            <div class="me-2"><i class="bi bi-circle"></i></div>
+                                            <div>
+                                                <strong class="d-block">@reqType.Value <span class="fw-normal">(@reqType.ThaiValue)</span></strong>
+                                                <small class="text-muted">@reqType.Description (@reqType.ThaiDescription)</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="section-title fw-bold text-primary mb-0">
+                            <i class="fas fa-file-alt me-2"></i> Document Details (รายละเอียดของเอกสาร)
+                        </h5>
+                    </div>
+
+                    <div id="document-details-list">
+                        @if (Model.DocumentDetails != null && Model.DocumentDetails.Any())
+                        {
+                            for (int i = 0; i < Model.DocumentDetails.Count; i++)
+                            {
+                                <div class="document-card card border-light mb-4 shadow-sm" data-index="@i">
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <!-- WS Number with Autocomplete -->
+                                            <div class="col-md-6">
+                                                <div class="form-floating autocomplete-container">
+                                                    @Html.TextBoxFor(m => m.DocumentDetails[i].WS_number, new
+                                                    {
+                                                        @class = "form-control ws-number-input",
+                                                        placeholder = "Document Number",
+                                                        maxlength = "20",
+                                                        required = "required",
+                                                        autocomplete = "off",
+                                                        pattern = "[A-Za-z0-9\\-\\/]+",
+                                                        title = "สามารถกรอกได้เฉพาะภาษาอังกฤษ, ตัวเลข, และเครื่องหมาย - / (ไม่เกิน 20 ตัวอักษร)"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__WS_number">Document Number * (หมายเลขเอกสาร)</label>
+                                                    <div class="invalid-feedback">กรุณากรอกหมายเลขเอกสารให้ถูกต้อง (A-Z, 0-9, -, /)</div>
+                                                    <div class="autocomplete-suggestions"></div>
+                                                    @Html.HiddenFor(m => m.DocumentDetails[i].WS_number, new { @class = "ws-id-hidden" })
+                                                </div>
+                                            </div>
+
+                                            <!-- WS Name -->
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    @Html.TextBoxFor(m => m.DocumentDetails[i].WS_name, new
+                                                    {
+                                                        @class = "form-control",
+                                                        placeholder = "Document Name",
+                                                        required = "required"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__WS_name">Document Name * (ชื่อเอกสาร)</label>
+                                                    <div class="invalid-feedback">กรุณากรอกชื่อเอกสาร</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Revision -->
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    @Html.TextBoxFor(m => m.DocumentDetails[i].Revision, new
+                                                    {
+                                                        @class = "form-control",
+                                                        placeholder = "Revision",
+                                                        required = "required",
+                                                        maxlength = "2",
+                                                        pattern = "[0-9]{2}",
+                                                        title = "กรอกเป็นตัวเลข 2 หลักเท่านั้น เช่น 01, 02"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__Revision">Revision * (ลำดับการแก้ไข)</label>
+                                                    <div class="invalid-feedback">กรุณากรอกลำดับการแก้ไขเป็นตัวเลข 2 หลัก</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Page Count -->
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    @Html.TextBoxFor(m => m.DocumentDetails[i].Num_pages, new
+                                                    {
+                                                        @class = "form-control",
+                                                        placeholder = "Page Count",
+                                                        required = "required",
+                                                        maxlength = "3",
+                                                        pattern = "[0-9]{1,3}",
+                                                        title = "กรอกเป็นตัวเลขเท่านั้น (ไม่เกิน 3 หลัก)"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__Num_pages">Page Count * (จำนวนหน้า/ชุด)</label>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนหน้าเป็นตัวเลข (1-999)</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Number of Copies -->
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    @Html.TextBoxFor(m => m.DocumentDetails[i].Num_copies, new
+                                                    {
+                                                        @type = "number",
+                                                        @class = "form-control",
+                                                        placeholder = "Number of Copies",
+                                                        required = "required",
+                                                        min = "1",
+                                                        max = "999",
+                                                        oninput = "this.value = this.value.slice(0, 3)"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__Num_copies">No. of Copies * (จำนวนสำเนา)</label>
+                                                    <div class="invalid-feedback">กรุณากรอกจำนวนสำเนา (1-999)</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Change Details -->
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    @Html.TextAreaFor(m => m.DocumentDetails[i].Change_detail, new
+                                                    {
+                                                        @class = "form-control",
+                                                        style = "height: 100px",
+                                                        placeholder = "Request Details"
+                                                    })
+                                                    <label for="DocumentDetails_@(i)__Change_detail">
+                                                        <i class="fas fa-clipboard-list me-1"></i> Request Details (รายละเอียดการร้องขอ)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- PDF Upload -->
+                                            <div class="col-md-6">
+                                                <label class="form-label mb-2 text-muted small" for="DocumentDetails_@(i)__File_pdf">
+                                                    <i class="fas fa-file-pdf me-1 text-danger"></i> PDF Upload
+                                                </label>
+                                                <input type="file"
+                                                       class="form-control"
+                                                       id="DocumentDetails_@(i)__File_pdf"
+                                                       name="DocumentDetails[@i].File_pdf"
+                                                       accept=".pdf"
+                                                       data-max-size="10485760">
+
+                                                @if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_pdf))
+                                                {
+                                                    <div class="mt-2 form-text">
+                                                        Current: <a href="@Url.Action("Previewfile", "Document", new { file = Model.DocumentDetails[i].File_pdf })" target="_blank" class="text-primary">
+                                                            <i class="fas fa-file-pdf me-1"></i>@Model.DocumentDetails[i].File_pdf
+                                                        </a>
+                                                    </div>
+                                                    @Html.HiddenFor(m => m.DocumentDetails[i].File_pdf)
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-text">PDF files up to 10MB are supported.</div>
+                                                }
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <!-- Excel Upload -->
+                                            <div class="col-md-6">
+                                                <label class="form-label mb-2 text-muted small" for="DocumentDetails_@(i)__File_excel">
+                                                    <i class="fas fa-file-excel me-1 text-success"></i> Excel Upload
+                                                </label>
+                                                <input type="file"
+                                                       class="form-control"
+                                                       id="DocumentDetails_@(i)__File_excel"
+                                                       name="DocumentDetails[@i].File_excel"
+                                                       accept=".xls,.xlsx"
+                                                       data-max-size="10485760">
+
+                                                @if (!string.IsNullOrEmpty(Model.DocumentDetails[i].File_excel))
+                                                {
+                                                    <div class="mt-2 form-text">
+                                                        Current: <a href="@Url.Action("Previewfile", "Document", new { file = Model.DocumentDetails[i].File_excel })" target="_blank" class="text-success">
+                                                            <i class="fas fa-file-excel me-1"></i>@Model.DocumentDetails[i].File_excel
+                                                        </a>
+                                                    </div>
+                                                    @Html.HiddenFor(m => m.DocumentDetails[i].File_excel)
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-text">XLS/XLSX files up to 10MB are supported.</div>
+                                                }
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </section>
+
+                <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                    <h5 class="section-title fw-bold text-primary mb-4">
+                        <i class="fas fa-map-marker-alt me-2"></i> Area (พื้นที่การใช้งาน)
+                    </h5>
+                    <div id="areaCheckboxe" class="row g-3">
+                        @if (Model.AvailableAreas != null)
+                        {
+                            for (int i = 0; i < Model.AvailableAreas.Count; i++)
+                            {
+                                var area = Model.AvailableAreas[i];
+                                var isChecked = area.IsSelected;
+                                var checkboxId = string.Format("area-{0}", i);
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-check form-check-card @(isChecked ? "checked" : "")">
+                                        @Html.CheckBoxFor(m => m.AvailableAreas[i].IsSelected, new { @class = "form-check-input", @id = checkboxId })
+                                        <label class="form-check-label" for="@checkboxId">
+                                            @area.SectionCode
+                                            @*<small class="text-muted d-block ms-1">@area.SectionCode</small>*@
+                                        </label>
+                                        @Html.HiddenFor(m => m.AvailableAreas[i].Id)
+                                        @Html.HiddenFor(m => m.AvailableAreas[i].SectionCode)
+                                        @Html.HiddenFor(m => m.AvailableAreas[i].SectionName)
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </section>
+
+                <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                    <h5 class="section-title fw-bold text-primary mb-4">
+                        <i class="fas fa-file-contract me-2"></i> Document Type (ประเภทเอกสารที่ร้องขอ)
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-check form-check-card @(Model.Document_type == "controlled" ? "checked" : "")">
+                                @Html.RadioButtonFor(m => m.Document_type, "controlled", new { @class = "form-check-input", @id = "controlledCopy", @required = "required" })
+                                <label class="form-check-label" for="controlledCopy">
+                                    <div>
+                                        <strong class="d-block"><i class="fas fa-lock me-1"></i> Controlled Copy</strong>
+                                        <small class="d-block text-muted">
+                                            เอกสารควบคุม: มีการบันทึกการแจกจ่ายและสามารถเรียกคืนได้
+                                        </small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-check-card @(Model.Document_type == "uncontrolled" ? "checked" : "")">
+                                @Html.RadioButtonFor(m => m.Document_type, "uncontrolled", new { @class = "form-check-input", @id = "uncontrolledCopy", @required = "required" })
+                                <label class="form-check-label" for="uncontrolledCopy">
+                                    <div>
+                                        <strong class="d-block"><i class="fas fa-unlock me-1"></i> Uncontrolled Copy</strong>
+                                        <small class="d-block text-muted">
+                                            เอกสารไม่ควบคุม: ใช้สำหรับการอ้างอิงเท่านั้น ไม่ต้องบันทึกการแจกจ่าย
+                                        </small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section mb-5 p-4 border rounded bg-white shadow-sm">
+                    <h5 class="section-title fw-bold text-primary mb-4">
+                        <i class="fas fa-calendar-alt me-2"></i> Implementation/Effective Date (วันที่เริ่มใช้/ยกเลิกใช้)
+                    </h5>
+                    <div class="form-group">
+                        
+                        @Html.TextBoxFor(m => m.Effective_date, new { @type = "date", @class = "form-control form-control-lg", @id = "Effective_date", @required = "required", @Value = Model.Effective_date.ToString("yyyy-MM-dd") })
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </section>
+
+                <div class="mt-5 text-center d-flex justify-content-center flex-wrap gap-3">
+                    <button type="submit" class="btn btn-warning btn-lg px-5 py-3 shadow-sm">
+                        <i class="fas fa-save me-2"></i> Update Request
+                    </button>
+                    <a href="@Url.Action("List", "Document")" class="btn btn-outline-secondary btn-lg px-5 py-3">
+                        <i class="fas fa-times me-2"></i> Cancel
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("documentForm");
+        const notificationContainer = document.getElementById("notification-container");
+        let isSubmitting = false;
+        let wsDataCache = null;
+        const container = document.getElementById("document-details-list");
+
+        // =========================
+        // ======= SUBMIT ==========
+        // =========================
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            if (isSubmitting) return;
+
+            const isDateValid = checkToDate();
+            const isCardsValid = validateAllCards();
+
+            if (!isDateValid || !isCardsValid) {
+                const firstInvalid = form.querySelector(".is-invalid");
+                if (firstInvalid) firstInvalid.focus();
+                return;
+            }
+
+            isSubmitting = true;
+            showLoadingOverlay(true);
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification("success", result.message || "Request updated successfully.");
+                    if (result.redirectUrl) {
+                        setTimeout(() => { window.location.href = result.redirectUrl; }, 1500);
+                    }
+                } else {
+                    showNotification("error", result.message || "Update failed.");
+                }
+            } catch (err) {
+                console.error("Network error:", err);
+                showNotification("error", "A network error occurred. Please try again .");
+            } finally {
+                showLoadingOverlay(false);
+                isSubmitting = false;
+            }
+        });
+
+        // =========================
+        // ===== VALIDATION ========
+        // =========================
+        const fieldRules = {
+            WS_number: {
+                regex: /^[A-Za-z0-9\-\/]{1,20}$/,
+                message: "Only letters (A-Z), numbers, hyphens (-), and slashes (/) allowed (max 20 characters)."
+            },
+            Revision: {
+                regex: /^\d{2}$/,
+                message: "Enter exactly 2 digits (e.g., 01)."
+            },
+            Num_pages: {
+                regex: /^\d{1,3}$/,
+                message: "Enter a number between 1 and 999."
+            },
+            Num_copies: {
+                regex: /^\d{1,3}$/,
+                message: "Enter a number between 1 and 999."
+            }
+        };
+
+        function validateField(input, rule) {
+            const value = input.value.trim();
+            const feedback = input.closest(".form-floating, .autocomplete-container, .form-group")?.querySelector(".invalid-feedback");
+
+            if (!rule.regex.test(value)) {
+                input.classList.add("is-invalid");
+                input.classList.remove("is-valid");
+                if (feedback) feedback.textContent = rule.message;
+                return false;
+            } else {
+                input.classList.remove("is-invalid");
+                input.classList.add("is-valid");
+                if (feedback) feedback.textContent = "";
+                return true;
+            }
+        }
+
+        function validateAllCards() {
+            let isFormValid = true;
+            const cards = container.querySelectorAll(".document-card");
+
+            cards.forEach((card, index) => {
+                Object.keys(fieldRules).forEach(fieldName => {
+                    const input = card.querySelector(`[name="DocumentDetails[${index}].${fieldName}"]`);
+                    if (input) {
+                        const valid = validateField(input, fieldRules[fieldName]);
+                        if (!valid) isFormValid = false;
+                    }
+                });
+            });
+
+            return isFormValid;
+        }
+
+        // === Real-time validation ===
+        container.querySelectorAll("input, textarea").forEach(input => {
+            const match = input.name?.match(/DocumentDetails\[\d+\]\.(\w+)/);
+            if (match && fieldRules[match[1]]) {
+                const rule = fieldRules[match[1]];
+                input.addEventListener("input", () => validateField(input, rule));
+                input.addEventListener("blur", () => validateField(input, rule));
+            }
+        });
+
+        // =========================
+        // ===== NOTIFICATION ======
+        // =========================
+        function showNotification(type, message) {
+            const alertClass = {
+                success: "alert-success",
+                error: "alert-danger",
+                info: "alert-info"
+            }[type] || "alert-info";
+
+            const icon = {
+                success: "fa-check-circle",
+                error: "fa-times-circle",
+                info: "fa-info-circle"
+            }[type] || "fa-info-circle";
+
+            const alert = document.createElement("div");
+            alert.className = `alert ${alertClass} alert-dismissible fade show d-flex align-items-center`;
+            alert.innerHTML = `
+                    <i class="fas ${icon} me-2"></i>
+                    <div>${message}</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+            notificationContainer.appendChild(alert);
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        function showLoadingOverlay(show) {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) {
+                overlay.style.display = show ? "flex" : "none";
+            }
+        }
+
+        // =========================
+        // ===== AUTOCOMPLETE =====
+        // =========================
+        loadWSData();
+
+        document.querySelectorAll(".ws-number-input").forEach(input => {
+            input.addEventListener("input", handleWSNumberInput);
+            input.addEventListener("keydown", handleWSNumberKeydown);
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("autocomplete-suggestion")) {
+                handleSuggestionClick(e);
+            } else if (!e.target.closest(".autocomplete-container")) {
+                document.querySelectorAll(".autocomplete-suggestions").forEach(s => s.style.display = "none");
+            }
+        });
+
+        async function loadWSData() {
+            if (wsDataCache) return;
+            try {
+                const response = await fetch('/Document/GetWSData');
+                if (response.ok) {
+                    wsDataCache = await response.json();
+                } else {
+                    console.error('Server error while fetching WS data.');
+                }
+            } catch (error) {
+                console.error('Failed to load WS data:', error);
+            }
+        }
+
+        function handleWSNumberInput(event) {
+            const input = event.target;
+            const query = input.value.trim().toLowerCase();
+            const suggestionBox = input.parentElement.querySelector('.autocomplete-suggestions');
+
+            if (!wsDataCache || query.length < 2) {
+                suggestionBox.innerHTML = "";
+                suggestionBox.style.display = "none";
+                return;
+            }
+
+            const filtered = wsDataCache.filter(item =>
+                item.WS_Number.toLowerCase().includes(query) ||
+                item.WS_Name.toLowerCase().includes(query)
+            ).slice(0, 10);
+
+            if (filtered.length > 0) {
+                suggestionBox.innerHTML = filtered.map(item =>
+                    `<div class="autocomplete-suggestion" data-ws-id="${item.WS_Id}" data-ws-number="${item.WS_Number}" data-ws-name="${item.WS_Name}">
+                            <strong>${item.WS_Number}</strong>
+                            <small>${item.WS_Name}</small>
+                        </div>`
+                ).join('');
+                suggestionBox.style.display = "block";
+            } else {
+                suggestionBox.innerHTML = "";
+                suggestionBox.style.display = "none";
+            }
+        }
+
+        function handleSuggestionClick(e) {
+            const suggestion = e.target.closest('.autocomplete-suggestion');
+            const container = suggestion.closest('.autocomplete-container');
+            const wsInput = container.querySelector('.ws-number-input');
+            const docCard = container.closest('.document-card');
+            const wsNameInput = docCard.querySelector('[name$=".WS_name"]');
+
+            wsInput.value = suggestion.dataset.wsNumber;
+            wsNameInput.value = suggestion.dataset.wsName;
+
+            container.querySelector('.autocomplete-suggestions').style.display = "none";
+        }
+
+        function handleWSNumberKeydown(event) {
+            const suggestionBox = event.target.parentElement.querySelector('.autocomplete-suggestions');
+            const active = suggestionBox.querySelector('.autocomplete-suggestion.active');
+            let next;
+
+            switch (event.key) {
+                case 'ArrowDown':
+                    event.preventDefault();
+                    next = active ? active.nextElementSibling : suggestionBox.firstElementChild;
+                    if (next) {
+                        active?.classList.remove('active');
+                        next.classList.add('active');
+                    }
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    next = active?.previousElementSibling;
+                    if (next) {
+                        active.classList.remove('active');
+                        next.classList.add('active');
+                    }
+                    break;
+                case 'Enter':
+                    if (active) {
+                        event.preventDefault();
+                        active.click();
+                    }
+                    break;
+                case 'Escape':
+                    suggestionBox.style.display = "none";
+                    break;
+            }
+        }
+
+        // =========================
+        // ===== SELECT DATA =====
+        // =========================
+        const lastCheckedRadio = {};
+
+        form.addEventListener("change", function (event) {
+            const input = event.target;
+
+            if (input.matches('input[type="radio"], input[type="checkbox"]')) {
+                const card = input.closest(".form-check-card");
+                const inputName = input.name;
+
+                // สำหรับ radio: ลบ class "checked" ออกจากตัวอื่นในกลุ่ม
+                if (input.type === "radio") {
+                    const radios = form.querySelectorAll(`input[name="${inputName}"]`);
+                    radios.forEach(r => {
+                        const otherCard = r.closest(".form-check-card");
+                        if (otherCard) otherCard.classList.remove("checked");
+                    });
+
+                    // Enforce file upload requirements for Request_type changes
+                    if (inputName === "Request_type") {
+                        enforceFileUploadRequirements();
+                    }
+                }
+
+                // เพิ่มหรือลบ class "checked"
+                if (input.checked) {
+                    card?.classList.add("checked");
+                } else {
+                    card?.classList.remove("checked");
+                }
+            }
+        });
+
+        // ========== Radio toggle behavior ==========
+        form.addEventListener("click", function (event) {
+            const input = event.target;
+
+            if (input.matches('input[type="radio"]')) {
+                const name = input.name;
+
+                if (lastCheckedRadio[name] === input) {
+                    input.checked = false;
+                    lastCheckedRadio[name] = null;
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                } else {
+                    lastCheckedRadio[name] = input;
+                }
+            }
+        });
+
+        // =========================
+        // ===== CHECK DATE =====
+        // =========================
+        function checkToDate() {
+            const effectiveDateInput = document.getElementById("Effective_date");
+            const feedback = effectiveDateInput.closest(".form-group")?.querySelector(".invalid-feedback");
+
+            if (!effectiveDateInput.value) {
+                effectiveDateInput.classList.add("is-invalid");
+                return false;
+            }
+
+            const today = new Date();
+            const effectiveDate = new Date(effectiveDateInput.value);
+
+            // Reset time to midnight for both dates
+            today.setHours(0, 0, 0, 0);
+            effectiveDate.setHours(0, 0, 0, 0);
+
+            const diffInDays = (effectiveDate - today) / (1000 * 60 * 60 * 24);
+
+            if (isNaN(effectiveDate.getTime()) || diffInDays < 3) {
+                effectiveDateInput.classList.add("is-invalid");
+                if (feedback) {
+                    feedback.textContent = "Effective date must be at least 3 days from today.";
+                }
+                return false;
+            } else {
+                effectiveDateInput.classList.remove("is-invalid");
+                if (feedback) {
+                    feedback.textContent = "";
+                }
+                return true;
+            }
+        }
+
+        // Add date validation on change
+        const effectiveDateInput = document.getElementById("Effective_date");
+        if (!effectiveDateInput) {
+            console.warn("Effective_date input not found");
+            return;
+        }
+
+        document.getElementById("Effective_date").addEventListener("change", checkToDate);
+
+        // =========================
+        // ===== FILE UPLOAD REQUIREMENTS =====
+        // =========================
+        function enforceFileUploadRequirements() {
+            const requestType = form.querySelector('input[name="Request_type"]:checked')?.value;
+
+            container.querySelectorAll('.document-card').forEach((card, index) => {
+                const pdfInput = card.querySelector(`[name$=".File_pdf"]`);
+                const excelInput = card.querySelector(`[name$=".File_excel"]`);
+                const pdfLabel = pdfInput?.closest('.col-md-6')?.querySelector('label');
+                const excelLabel = excelInput?.closest('.col-md-6')?.querySelector('label');
+
+                // Reset requirements
+                if (pdfInput) pdfInput.removeAttribute('required');
+                if (excelInput) excelInput.removeAttribute('required');
+
+                // Remove existing required markers
+                pdfLabel?.querySelectorAll('.text-danger').forEach(el => el.remove());
+                excelLabel?.querySelectorAll('.text-danger').forEach(el => el.remove());
+
+                const requiredMarker = ' <span class="text-danger">*</span>';
+
+                // Check for existing files
+                const hasExistingPdf = card.querySelector('a[href*="Previewfile"][href*="File_pdf"]');
+                const hasExistingExcel = card.querySelector('a[href*="Previewfile"][href*="File_excel"]');
+
+                if (requestType === "New Issue") {
+                    if (!hasExistingPdf && pdfInput) {
+                        pdfInput.setAttribute('required', 'required');
+                        pdfLabel?.insertAdjacentHTML('beforeend', requiredMarker);
+                    }
+                    if (!hasExistingExcel && excelInput) {
+                        excelInput.setAttribute('required', 'required');
+                        excelLabel?.insertAdjacentHTML('beforeend', requiredMarker);
+                    }
+                } else if (requestType === "Revised") {
+                    if (!hasExistingPdf && pdfInput) {
+                        pdfInput.setAttribute('required', 'required');
+                        pdfLabel?.insertAdjacentHTML('beforeend', requiredMarker);
+                    }
+                }
+            });
+        }
+
+        // Initial call to set up file requirements
+        enforceFileUploadRequirements();
+
+        // =========================
+        // ===== FILE VALIDATION =====
+        // =========================
+        container.addEventListener('change', function (event) {
+            if (event.target.type === 'file') {
+                const fileInput = event.target;
+                const file = fileInput.files[0];
+                const maxSize = parseInt(fileInput.dataset.maxSize, 10);
+                const feedback = fileInput.closest('.col-md-6')?.querySelector('.invalid-feedback');
+
+                fileInput.setCustomValidity('');
+
+                if (file && maxSize && file.size > maxSize) {
+                    const maxSizeMB = maxSize / (1024 * 1024);
+                    fileInput.setCustomValidity(`File is too large. Max size is ${maxSizeMB}MB.`);
+                    if (feedback) {
+                        feedback.textContent = `File is too large. Max size is ${maxSizeMB}MB.`;
+                    }
+                    fileInput.classList.add('is-invalid');
+                } else {
+                    fileInput.classList.remove('is-invalid');
+                    if (feedback) {
+                        feedback.textContent = '';
+                    }
+                }
+            }
+        });
+    });
+</script>

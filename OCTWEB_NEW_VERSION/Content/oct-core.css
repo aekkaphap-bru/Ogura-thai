@@ -1,35 +1,68 @@
 /* OCT Core CSS - Formal Business Theme (2025)
 -------------------------------------------------- */
+/*:root {*/
+    /* ==== Formal & Professional Color Palette ==== */
+    /* Primary Color: A classic, stable corporate blue. */
+    /*--primary-color: #16356e;
+    --primary-dark: #004070;
+    --primary-darker: #0e254e;
+    --primary-lighter: #2c4a8a;*/
+    /* Backgrounds: Clean and professional neutrals. */
+    /*--bg-light: #FFFFFF;*/ /* Off-white for the main background */
+    /*--bg-white: #FFFFFF;
+    --bg-gray: #E9ECEF;*/
+    /* Text: High contrast for readability. */
+    /*--text-dark: #212529;*/ /* Standard dark for body text */
+    /*--text-light: #FFFFFF;
+    --text-muted: #6C757D;
+    --text-primary: #ecf0f1;
+    --text-secondary: #bdc3c7;
+    --accent-color: #3498db;*/
+    /* Status Colors: Standard, clear indicators. */
+    /*--success: #198754;
+    --info: #0D6EFD;
+    --warning: #FFC107;
+    --danger: #DC3545;*/
+    /* UI Elements: Clean and sharp. */
+    /*--border-color: #DEE2E6;
+    --border-radius: 6px;*/ /* A more subtle, professional corner radius */
+    /*--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+    --transition: all 0.2s ease-in-out;*/
+    /* Font */
+    /*--font-family: 'Segoe UI', 'Roboto', 'Prompt', sans-serif;
+}*/
+/* OCT Core CSS - Formal Business Theme (2025)
+-------------------------------------------------- */
 :root {
     /* ==== Formal & Professional Color Palette ==== */
-    
     /* Primary Color: A classic, stable corporate blue. */
-    --primary-color: #005A9C; 
-    --primary-dark: #004070;  /* Darker shade for interaction */
-    
+    --primary-color: #16356e;
+    --primary-dark: #004070;
+    --primary-darker: #0e254e;
+    --primary-lighter: #2c4a8a;
     /* Backgrounds: Clean and professional neutrals. */
-    --bg-light: #F8F9FA;      /* Off-white for the main background */
+    --bg-light: #FFFFFF; /* Off-white for the main background */
     --bg-white: #FFFFFF;
     --bg-gray: #E9ECEF;
-    
     /* Text: High contrast for readability. */
-    --text-dark: #212529;     /* Standard dark for body text */
+    --text-dark: #212529; /* Standard dark for body text */
     --text-light: #FFFFFF;
     --text-muted: #6C757D;
-    
+    --text-primary: #ecf0f1;
+    --text-secondary: #bdc3c7;
+    --accent-color: #3498db;
     /* Status Colors: Standard, clear indicators. */
     --success: #198754;
     --info: #0D6EFD;
     --warning: #FFC107;
     --danger: #DC3545;
-    
     /* UI Elements: Clean and sharp. */
     --border-color: #DEE2E6;
     --border-radius: 6px; /* A more subtle, professional corner radius */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
     --transition: all 0.2s ease-in-out;
-    
     /* Font */
     --font-family: 'Segoe UI', 'Roboto', 'Prompt', sans-serif;
 }
@@ -57,9 +90,9 @@ a {
     transition: var(--transition);
 }
 
-a:hover {
-    color: var(--primary-dark);
-}
+    a:hover {
+        color: var(--primary-dark);
+    }
 
 /* =================================
    COMPONENTS
@@ -89,11 +122,11 @@ a:hover {
     color: var(--text-light);
 }
 
-.btn-primary:hover, .btn-primary:focus {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
-    color: var(--text-light);
-}
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        color: var(--text-light);
+    }
 
 .btn-outline-primary {
     color: var(--primary-color);
@@ -101,10 +134,10 @@ a:hover {
     background-color: transparent;
 }
 
-.btn-outline-primary:hover {
-    color: var(--text-light);
-    background-color: var(--primary-color);
-}
+    .btn-outline-primary:hover {
+        color: var(--text-light);
+        background-color: var(--primary-color);
+    }
 
 
 /* --- Form Elements --- */
@@ -121,13 +154,13 @@ a:hover {
     transition: var(--transition);
 }
 
-.form-control:focus {
-    color: var(--text-dark);
-    background-color: var(--bg-white);
-    border-color: var(--primary-color);
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 90, 156, 0.25);
-}
+    .form-control:focus {
+        color: var(--text-dark);
+        background-color: var(--bg-white);
+        border-color: var(--primary-color);
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 90, 156, 0.25);
+    }
 
 .form-label {
     margin-bottom: 0.5rem;

@@ -53,7 +53,7 @@ namespace OCTWEB_NET45.Models
         public bool CanseeTrainingEmployee_58 { get; set; }
         public bool CanseeWorkLeaveAll_60 { get; set; }
         public bool AddHolidayleaveReport_62 { get; set; }
-        public bool DocumentSetup_73 { get; set; }
+       
         //Management Setup
         public bool TrainingCoursesSetup_61 { get; set; }
         public bool TrainingCoursesWSSetup_57 { get; set; }
@@ -111,9 +111,16 @@ namespace OCTWEB_NET45.Models
         public bool PurchaseDashboard_68 { get; set; }
 
 
-
+        // Document Control System
+        public bool DocumentSetup_73 { get; set; }
+        public bool Approve_Dept_74 { get; set; }
+        public bool Approve_Dcc_75 { get; set; }
+        public bool Approve_Qmr_76 { get; set; }
+        public bool Approve_Emr_79 { get; set; }
+        public bool Relevant_Document_Revie_77 { get; set; }
+        public bool Can_See_All_Document_78 { get; set; }
     }
-    
-   
+
+
 }
 
