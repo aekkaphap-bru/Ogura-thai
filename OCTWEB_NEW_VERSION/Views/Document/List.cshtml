@@ -1,324 +1,287 @@
-﻿
-@model PagedList.IPagedList<OCTWEB_NET45.Models.DocumentListDisplayViewModel>
-@using PagedList.Mvc;
+﻿@model PagedList.IPagedList<OCTWEB_NET45.Models.DocumentListDisplayViewModel>
+@using PagedList.Mvc
 
 @{
     ViewBag.Title = "Document Request List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // สร้าง Dictionary สำหรับ Status Class เพื่อลดความซ้ำซ้อนใน Loop
+    var statusClasses = new Dictionary<string, string>
+{
+        { "COMPLETE", "status-approved" },
+        { "REJECTED", "status-rejected" },
+        { "EDITING", "status-edit" },
+        { "PENDING APPROVAL", "status-pending" }
+    };
+
+    // ดึง User ID มาเก็บไว้นอก Loop
+    var currentUserId = ViewBag.CurrentUserId as int? ?? 0;
 }
 
 @section Styles {
-    <!-- อ้างอิงไฟล์ CSS หลักของระบบเอกสาร -->
     <link href="~/Content/oct-documentcontroll.css" rel="stylesheet" />
-    <!-- เพิ่ม Font Awesome สำหรับไอคอน -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <style>
-        /* CSS เพิ่มเติมสำหรับหน้า List */
-        body {
-            background-color: #f4f7f9;
-        }
-
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 12px 12px 40px; /* เพิ่ม padding ซ้ายสำหรับไอคอน */
-            border-radius: 8px;
-            border: 2px solid #e1e8ed;
-            transition: all 0.3s ease;
-        }
-
-            .search-input:focus {
-                border-color: #3498db;
-                box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-                outline: none;
-            }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #95a5a6;
-        }
-
-        .filter-select {
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #e1e8ed;
-            margin-left: 15px;
-            min-width: 180px;
-        }
-
-        .btn-new-request {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 22px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
-        }
-
-            .btn-new-request:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
-            }
-
-        .document-list-container {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-
-        .document-list-header {
-            padding: 20px;
-            border-bottom: 1px solid #e1e8ed;
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .document-item {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #f0f4f7;
-            transition: background-color 0.2s ease;
-        }
-
-            .document-item:last-child {
-                border-bottom: none;
-            }
-
-            .document-item:hover {
-                background-color: #fafbfc;
-            }
-
-        .document-info {
-            flex-grow: 1;
-        }
-
-        .document-title {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .document-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 13px;
-            color: #7f8c8d;
-        }
-
-            .document-meta span {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
-
-        .document-id {
-            font-family: 'Courier New', monospace;
-            background-color: #e1e8ed;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #2c3e50;
-        }
-
-        .status-badge {
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            width: 150px;
-            text-align: center;
-            margin: 0 20px;
-        }
-
-        .status-approved {
-            background-color: #eaf8f0;
-            color: #27ae60;
-        }
-
-        .status-rejected {
-            background-color: #fdecea;
-            color: #e74c3c;
-        }
-
-        .status-pending {
-            background-color: #fef8e7;
-            color: #f39c12;
-        }
-
-        .status-draft {
-            background-color: #f0f4f7;
-            color: #7f8c8d;
-        }
-
-        .document-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-action {
-            background-color: #f0f4f7;
-            border: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            color: #7f8c8d;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-            .btn-action:hover {
-                background-color: #3498db;
-                color: white;
-            }
-
-        .pagination-container {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .pagination li {
-            margin: 0 5px;
-        }
-
-            .pagination li a {
-                padding: 8px 15px;
-                border-radius: 8px;
-                color: #3498db;
-                border: 1px solid #e1e8ed;
-                text-decoration: none;
-            }
-
-            .pagination li.active a {
-                background-color: #3498db;
-                color: white;
-                border-color: #3498db;
-            }
-    </style>
 }
 
-
 <div class="container">
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo-section">
-                <div class="logo"><i class="fas fa-folder-open"></i></div>
-                <div class="header-title">
-                    <h1>OCT Document System</h1>
-                    <div class="header-subtitle">Organization Document Request and Tracking System</div>
+    <div class="header-section">
+        <div class="logo-section">
+            <div class="header-title">
+                <h1><i class="fas fa-folder-open"></i> OCT Document Control System</h1>
+                <div class="header-subtitle">Organization Document Request and Tracking System</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <div class="main-content">
+            @using (Html.BeginForm("List", "Document", FormMethod.Get, new { id = "filterForm" }))
+            {
+                <div class="action-bar">
+                    <div class="search-container">
+
+                        <input type="text" name="searchString" class="search-input" placeholder="Search.." value="@ViewBag.CurrentFilter">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+
+                    <select name="statusFilter" class="filter-select" onchange="this.form.submit()">
+                        <option value="">All Status</option>
+                        <option value="PENDING APPROVAL" selected="@(ViewBag.CurrentStatus == "PENDING APPROVAL")">Pending Approval</option>
+                        <option value="REJECTED" selected="@(ViewBag.CurrentStatus == "REJECTED")">Rejected</option>
+                        <option value="EDITING" selected="@(ViewBag.CurrentStatus == "EDITING")">Editing</option>
+                    </select>
+
+                    @Html.ActionLink("New Request", "Create", "Document", null, new { @class = "btn-new-request" })
+                </div>
+            }
+
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="pending">
+                    <i class="fas fa-clock"></i>
+                    Pending Approvals
+                    <span class="tab-count">@ViewBag.PendingCount</span>
+                </button>
+                <button class="tab-btn" data-tab="completed">
+                    <i class="fas fa-check-circle"></i>
+                    Completed Items
+                    <span class="tab-count">@ViewBag.CompletedCount</span>
+                </button>
+            </div>
+
+
+
+            <!-- แก้ไข document-main-list div เป็น 2 ส่วน -->
+            <div class="tab-content">
+                <!-- Tab 1: รายการรอการอนุมัติ -->
+                <div class="tab-pane active" id="pending-tab">
+                    <div class="document-main-list" id="pending-document-list">
+                        @if (!Model.Where(x => x.Status != "COMPLETE").Any())
+                        {
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>No pending approvals</p>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.Where(x => x.Status != "COMPLETE"))
+                            {
+                                var statusClass = statusClasses.ContainsKey(item.Status) ? statusClasses[item.Status] : "status-draft";
+
+                                <div class="document-main-item">
+                                    <div class="document-info">
+                                        <div class="document-title">@Html.Encode(item.WS_number ?? "N/A")</div>
+                                        <div class="document-meta">
+                                            <span class="document-id">ID: @item.LId.ToString("D5")</span>
+                                            <span><i class="fas fa-calendar-alt"></i> @item.Created_at</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="document-actions">
+                                        <div class="status-badge @statusClass">@item.Status</div>
+                                        <a href="@Url.Action("Details", new { id = item.LId })" class="btn-action btn-view" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button class="btn-action btn-edit" data-id="@item.LId" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn-action btn-delete" data-id="@item.LId" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- Tab 2: รายการที่สำเร็จแล้ว -->
+                <div class="tab-pane" id="completed-tab">
+                    <div class="document-main-list" id="completed-document-list">
+                        @if (!Model.Where(x => x.Status == "COMPLETE").Any())
+                        {
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle"></i>
+                                <p>No completed items yet</p>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.Where(x => x.Status == "COMPLETE").OrderByDescending(x => x.DarNumber))
+                            {
+                                <div class="document-main-item completed-item">
+                                    <div class="document-info">
+                                        <div class="document-title">Dar Number : @Html.Encode(item.DarNumber ?? "N/A")</div>
+                                        <div class="document-meta">
+                                            <span class="document-id">@Html.Encode(item.WS_number ?? "N/A")</span>
+                                            <span><i class="fas fa-calendar-alt"></i> @item.Update_at</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="document-actions">
+                                        <div class="status-badge status-approved">@item.Status</div>
+                                        <a href="@Url.Action("Details", new { id = item.LId })" class="btn-action btn-view" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button class="btn-action btn-download" data-id="@item.LId" title="Download">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Action Bar: Search, Filter, Create Button -->
-        @using (Html.BeginForm("List", "Document", FormMethod.Get))
-        {
-            <div class="action-bar">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" name="searchString" class="search-input" placeholder="Search by ID, title, or requester..." value="@ViewBag.CurrentFilter">
-                </div>
-                <select name="statusFilter" class="filter-select" onchange="this.form.submit()">
-                    <option value="">All Status</option>
-                    <option value="APPROVED" selected="@(ViewBag.CurrentStatus == "APPROVED")">Approved</option>
-                    <option value="REJECTED" selected="@(ViewBag.CurrentStatus == "REJECTED")">Rejected</option>
-                    <option value="PENDING DEPT HEAD" selected="@(ViewBag.CurrentStatus == "PENDING DEPT HEAD")">Pending Dept Head</option>
-                    <option value="DRAFT" selected="@(ViewBag.CurrentStatus == "DRAFT")">Draft</option>
-                </select>
-                @Html.ActionLink("New Request", "Create", "Document", null, new { @class = "btn-new-request" })
-            </div>
+    
+</div>
+
+
+
+
+
+<!-- เพิ่ม JavaScript สำหรับ Tab Switching -->
+<script>
+
+    $(function () {
+    // --- Single Delegated Event Listener ---
+        $('.document-main-list').on('click', '.btn-action', function (e) {
+            const button = $(this);
+            const id = button.data('id');
+            // ใช้ `antiForgeryToken` ร่วมกัน
+            const antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+            if (button.hasClass('btn-edit')) {
+                e.preventDefault();
+                handleEditClick(id, antiForgeryToken);
+            }
+
+            if (button.hasClass('btn-delete')) {
+                e.preventDefault();
+                handleDeleteClick(id, antiForgeryToken);
+            }
+        });
+
+        // --- Edit Function ---
+        function handleEditClick(id, token) {
+            $.ajax({
+                url: '@Url.Action("CanEdit", "Document")',
+                type: 'POST',
+                data: { id: id, __RequestVerificationToken: token },
+                success: function (res) {
+                    if (!res.success) {
+                        Swal.fire("ไม่สามารถดำเนินการได้", res.message, "error");
+                        return;
+                    }
+
+                    if (res.warningMessage) {
+                        Swal.fire({
+                            title: "โปรดยืนยัน",
+                            text: res.warningMessage,
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "ดำเนินการต่อ",
+                            cancelButtonText: "ยกเลิก"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = res.redirectUrl;
+                            }
+                        });
+                    } else {
+                        window.location.href = res.redirectUrl;
+                    }
+                },
+                error: function () {
+                    Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้", "error");
+                }
+            });
         }
 
-        <!-- Document List -->
-        <div class="document-list-container">
-            <div class="document-list-header">
-                <i class="fas fa-list-ul"></i> All Requests (@Model.TotalItemCount)
-            </div>
-            <div class="document-list">
-                @if (!Model.Any())
-                {
-                    <p class="text-center p-5">No document requests found.</p>
+        // --- Delete Function (Improved with SweetAlert2) ---
+        function handleDeleteClick(id, token) {
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: "คุณต้องการลบคำร้องนี้ใช่หรือไม่? ข้อมูลจะไม่สามารถกู้คืนได้",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Document")',
+                        type: 'POST',
+                        data: { id: id, __RequestVerificationToken: token },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire('ลบสำเร็จ!', response.message, 'success')
+                                    .then(() => location.reload());
+                            } else {
+                                Swal.fire('เกิดข้อผิดพลาด!', response.message, 'error');
+                            }
+                        },
+                        error: function () {
+                            Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถส่งคำขอลบข้อมูลได้', 'error');
+                        }
+                    });
                 }
-                else
-                {
-                    foreach (var item in Model)
-                    {
-                        string statusClass = "status-draft";
-                        if (item.Status == "APPROVED") { statusClass = "status-approved"; }
-                        else if (item.Status == "REJECTED") { statusClass = "status-rejected"; }
-                        else if (item.Status != "DRAFT") { statusClass = "status-pending"; }
+            });
+        }
+    });
 
-                        <div class="document-item">
-                            <div class="document-info">
-                                <div class="document-title">@Html.Encode(item.WS_number ?? "N/A")</div>
-                                <div class="document-meta">
-                                    <span class="document-id">ID: @item.LId.ToString("D5")</span>
-                                    <span><i class="fas fa-user"></i> @Html.Encode(item.RequesterName)</span>
-                                    <span><i class="fas fa-calendar-alt"></i> @item.Created_at</span>
-                                </div>
-                            </div>
-                            <div class="status-badge @statusClass">@item.Status</div>
-                            <div class="document-actions">
-                                <a href="@Url.Action("Details", new { id = item.LId })" class="btn-action" title="View Details"><i class="fas fa-eye"></i></a>
-                                @if (item.Status == "DRAFT")
-                                {
-                                    <a href="@Url.Action("Edit", new { id = item.LId })" class="btn-action" title="Edit"><i class="fas fa-edit"></i></a>
-                                }
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
+    $(function() {
+        // Tab switching functionality
+        $('.tab-btn').on('click', function() {
+            const tabId = $(this).data('tab');
 
-        <!-- Pagination -->
-        <div class="pagination-container">
-            @Html.PagedListPager(Model, page => Url.Action("List",
-                new { page, searchString = ViewBag.CurrentFilter, statusFilter = ViewBag.CurrentStatus }),
-                new PagedListRenderOptions
-                {
-                    LiElementClasses = new List<string> { "page-item" },
-                    LinkToFirstPageFormat = "<<",
-                    LinkToPreviousPageFormat = "<",
-                    LinkToNextPageFormat = ">",
-                    LinkToLastPageFormat = ">>",
-                    UlElementClasses = new List<string> { "pagination" }
-                })
-        </div>
-    </div>
-</div>
+            // Remove active class from all tabs and panes
+            $('.tab-btn').removeClass('active');
+            $('.tab-pane').removeClass('active');
+
+            // Add active class to clicked tab and corresponding pane
+            $(this).addClass('active');
+            $('#' + tabId + '-tab').addClass('active');
+
+            // Store active tab in sessionStorage
+            sessionStorage.setItem('activeDocumentTab', tabId);
+        });
+
+        // Restore active tab on page load
+        const activeTab = sessionStorage.getItem('activeDocumentTab') || 'pending';
+        $('.tab-btn[data-tab="' + activeTab + '"]').click();
+
+        // Download functionality for completed documents
+        $(document).on('click', '.btn-download', function(e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+
+            // Add your download logic here
+            window.open('@Url.Action("ExportDarLog", "Document")' + '/' + id, '_blank');
+        });
+    });
+
+
+</script>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\MO\Project_OCTWEB2022\OCTWEB_NET45\OCTWEB_NET45\Context\AccountsEntities.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\a-trasri\Desktop\!\OCTWEB_NEW_VERSION\Context\AccountsEntities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

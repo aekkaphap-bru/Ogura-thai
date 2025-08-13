@@ -81,7 +81,7 @@ namespace OCTWEB_NET45.Controllers
                 Tolayoffemployees_52 = userright_list.Contains(52) ? true : false,
                 CanseeTrainingEmployee_58 = userright_list.Contains(58) ? true : false,
                 CanseeWorkLeaveAll_60 = userright_list.Contains(60) ? true : false,
-                DocumentSetup_73 = userright_list.Contains(73) ? true : false,
+                
                 //Management Setup
                 TrainingCoursesSetup_61 = userright_list.Contains(61) ? true : false,
                 TrainingCoursesWSSetup_57 = userright_list.Contains(57) ? true : false,
@@ -138,6 +138,14 @@ namespace OCTWEB_NET45.Controllers
                 SaleDashboard_67 = userright_list.Contains(67) ? true : false,
                 PurchaseDashboard_68 = userright_list.Contains(68) ? true : false,
 
+                //DocumentControll
+                DocumentSetup_73 = userright_list.Contains(73) ? true : false,
+                Approve_Dept_74 = userright_list.Contains(74) ? true : false,
+                Approve_Dcc_75 = userright_list.Contains(75) ? true : false,
+                Approve_Qmr_76 = userright_list.Contains(76) ? true : false,
+                Approve_Emr_79 = userright_list.Contains(79) ? true : false,
+                Relevant_Document_Revie_77 = userright_list.Contains(77) ? true : false,
+                Can_See_All_Document_78 = userright_list.Contains(78) ? true : false
             };
 
             return View(model);
@@ -455,7 +463,36 @@ namespace OCTWEB_NET45.Controllers
                     UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 73 };
                     ur_list.Add(ur);
                 }
-
+                if (model.Approve_Dept_74)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 74 };
+                    ur_list.Add(ur);
+                }
+                if (model.Approve_Dcc_75)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 75 };
+                    ur_list.Add(ur);
+                }
+                if (model.Approve_Qmr_76)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 76 };
+                    ur_list.Add(ur);
+                }
+                if (model.Approve_Emr_79)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 79 };
+                    ur_list.Add(ur);
+                }
+                if (model.Relevant_Document_Revie_77)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 77 };
+                    ur_list.Add(ur);
+                }
+                if (model.Can_See_All_Document_78)
+                {
+                    UserRight ur = new UserRight() { USE_Id = model.UserId, RIH_Id = 78 };
+                    ur_list.Add(ur);
+                }
                 //For Delete 
                 var old_NotIn_new = ur_old_list != null ? ur_old_list.Select(s=>s.RIH_Id).Except(ur_list.Select(s=>s.RIH_Id)).ToList() : new List<int>();
                 //For Add New

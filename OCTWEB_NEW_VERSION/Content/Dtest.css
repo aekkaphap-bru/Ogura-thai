@@ -1,15 +1,15 @@
 ﻿/* --- Typography & Global Styles --- */
-body {
-    font-family: 'IBM Plex Sans Thai', sans-serif; /* ใช้ฟอนต์ไทยที่สวยงาม */
-    background-color: #f8f9fa; /* สีพื้นหลังอ่อนๆ */
-    color: #343a40; /* สีข้อความทั่วไป */
-}
+/*body {
+    font-family: 'IBM Plex Sans Thai', sans-serif;*/ /* ใช้ฟอนต์ไทยที่สวยงาม */
+    /*background-color: #f8f9fa;*/ /* สีพื้นหลังอ่อนๆ */
+    /*color: #343a40;*/ /* สีข้อความทั่วไป */
+/*}
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'IBM Plex Sans Thai', sans-serif;
-    font-weight: 600; /* Semi-bold for headings */
-    color: #343a40; /* Darker color for headings */
-}
+    font-weight: 600;*/ /* Semi-bold for headings */
+    /*color: #343a40;*/ /* Darker color for headings */
+/*}*/
 
 .text-primary {
     color: #0056b3 !important; /* ปรับสี primary ให้ดูสุขุมขึ้น */

@@ -357,6 +357,18 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.DeliveryTagPlan' does not have a pr
           <Property Name="Status" Type="varchar" MaxLength="20" />
           <Property Name="Created_at" Type="datetime" />
           <Property Name="Updated_at" Type="datetime" />
+          <Property Name="FMEAReview" Type="bit" />
+          <Property Name="ControlPlanReview" Type="bit" />
+          <Property Name="ProcessFlowReview" Type="bit" />
+          <Property Name="DarNumber" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="DocumentSection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionCode" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="SectionName" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="DW_Fileshare">
           <Key>
@@ -855,6 +867,16 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.Emp_SickLeave' does not have a prim
           <Property Name="EndDatePVD1" Type="datetime" />
           <Property Name="StartDatePVD2" Type="datetime" />
           <Property Name="EndDatePVD2" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EmployeeSignature">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpId" Type="int" Nullable="false" />
+          <Property Name="SignaturePath" Type="nvarchar" MaxLength="255" />
+          <Property Name="SignatureImage" Type="varbinary(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OCTWEB_ASP.dbo.Equipment_repair_machine' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1824,6 +1846,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <EntitySet Name="DocumentDetails" EntityType="Self.DocumentDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentFormAreas" EntityType="Self.DocumentFormAreas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentList" EntityType="Self.DocumentList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentSection" EntityType="Self.DocumentSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DW_Fileshare" EntityType="Self.DW_Fileshare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DW_Formulas" EntityType="Self.DW_Formulas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DW_Model" EntityType="Self.DW_Model" Schema="dbo" store:Type="Tables" />
@@ -1855,6 +1878,7 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <EntitySet Name="Emp_Transection_Leave" EntityType="Self.Emp_Transection_Leave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Emp_Typesick" EntityType="Self.Emp_Typesick" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpList" EntityType="Self.EmpList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeSignature" EntityType="Self.EmployeeSignature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Former_EmpList" EntityType="Self.Former_EmpList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupMember" EntityType="Self.GroupMember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory_DefineReport" EntityType="Self.Inventory_DefineReport" Schema="dbo" store:Type="Tables" />
@@ -3808,6 +3832,8 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <EntitySet Name="Equipment_repair_machine" EntityType="OCTWEBTESTModel.Equipment_repair_machine" />
           <EntitySet Name="DocumentDetails" EntityType="OCTWEBTESTModel.DocumentDetail" />
           <EntitySet Name="DocumentFormAreas" EntityType="OCTWEBTESTModel.DocumentFormArea" />
+          <EntitySet Name="DocumentSections" EntityType="OCTWEBTESTModel.DocumentSection" />
+          <EntitySet Name="EmployeeSignatures" EntityType="OCTWEBTESTModel.EmployeeSignature" />
         </EntityContainer>
         <EntityType Name="WSR_WorkingStandardEdit">
           <Key>
@@ -4210,6 +4236,10 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Created_at" Type="DateTime" Precision="3" />
           <Property Name="Updated_at" Type="DateTime" Precision="3" />
+          <Property Name="FMEAReview" Type="Boolean" />
+          <Property Name="ControlPlanReview" Type="Boolean" />
+          <Property Name="ProcessFlowReview" Type="Boolean" />
+          <Property Name="DarNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Equipment_repair_machine">
           <Key>
@@ -4251,6 +4281,24 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <Property Name="FId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LId" Type="Int32" Nullable="false" />
           <Property Name="WS_TS_Id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DocumentSection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="SectionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EmployeeSignature">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpId" Type="Int32" Nullable="false" />
+          <Property Name="SignaturePath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SignatureImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5636,6 +5684,10 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
           <EntitySetMapping Name="DocumentLists">
             <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentList">
               <MappingFragment StoreEntitySet="DocumentList">
+                <ScalarProperty Name="DarNumber" ColumnName="DarNumber" />
+                <ScalarProperty Name="ProcessFlowReview" ColumnName="ProcessFlowReview" />
+                <ScalarProperty Name="ControlPlanReview" ColumnName="ControlPlanReview" />
+                <ScalarProperty Name="FMEAReview" ColumnName="FMEAReview" />
                 <ScalarProperty Name="Updated_at" ColumnName="Updated_at" />
                 <ScalarProperty Name="Created_at" ColumnName="Created_at" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -5686,6 +5738,26 @@ warning 6002: The table/view 'OCTWEB_ASP.dbo.LeaveEmployee' does not have a prim
                 <ScalarProperty Name="WS_TS_Id" ColumnName="WS_TS_Id" />
                 <ScalarProperty Name="LId" ColumnName="LId" />
                 <ScalarProperty Name="FId" ColumnName="FId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentSections">
+            <EntityTypeMapping TypeName="OCTWEBTESTModel.DocumentSection">
+              <MappingFragment StoreEntitySet="DocumentSection">
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="SectionCode" ColumnName="SectionCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeSignatures">
+            <EntityTypeMapping TypeName="OCTWEBTESTModel.EmployeeSignature">
+              <MappingFragment StoreEntitySet="EmployeeSignature">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="SignatureImage" ColumnName="SignatureImage" />
+                <ScalarProperty Name="SignaturePath" ColumnName="SignaturePath" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

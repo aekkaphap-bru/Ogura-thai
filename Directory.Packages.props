@@ -1,0 +1,58 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <NoWarn>$(NoWarn);NU1507</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Antlr" Version="3.5.0.2" />
+    <PackageVersion Include="bootstrap" Version="5.3.6" />
+    <PackageVersion Include="Common.Logging" Version="3.4.1" />
+    <PackageVersion Include="Common.Logging.Core" Version="3.4.1" />
+	<PackageVersion Include="ClosedXML" Version="0.105.0"/>
+	<PackageVersion Include="EntityFramework" Version="6.4.4" />
+    <PackageVersion Include="EPPlus" Version="4.5.3.3" />
+	<PackageVersion Include="GemBox.Spreadsheet" Version="2025.7.101" />
+	<PackageVersion Include="IronPdf" Version="2025.6.8" />
+    <PackageVersion Include="itext7" Version="7.1.18" />
+    <PackageVersion Include="itext7.licensekey" Version="3.1.4" />
+    <PackageVersion Include="itext7.pdfcalligraph" Version="2.0.9" />
+    <PackageVersion Include="jQuery" Version="3.6.0" />
+    <PackageVersion Include="jQuery.Validation" Version="1.19.5" />
+    <PackageVersion Include="jquery-timepicker" Version="1.0.0" />
+    <PackageVersion Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageVersion Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.3" />
+    <PackageVersion Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
+    <PackageVersion Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+    <PackageVersion Include="Microsoft.AspNet.Razor" Version="3.2.9" />
+    <PackageVersion Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
+    <PackageVersion Include="Microsoft.AspNet.WebPages" Version="3.2.9" />
+	<PackageVersion Include="Microsoft.AspNet.WebHelpers" Version="3.2.7" />
+    <PackageVersion Include="Microsoft.AspNet.SignalR" Version="2.4.2" />
+    <PackageVersion Include="Microsoft.CSharp" Version="4.0.1" />
+    <PackageVersion Include="Microsoft.jQuery.Unobtrusive.Validation" Version="4.0.0" />
+	<PackageVersion Include="Microsoft.Office.Interop.Excel" Version="15.0.0.0" />
+	<PackageVersion Include="Microsoft.Owin" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Host.SystemWeb" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.Cookies" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.Facebook" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.Google" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.MicrosoftAccount" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Owin.Security.Twitter" Version="4.2.2" />
+    <PackageVersion Include="Microsoft.Web.Infrastructure" Version="2.0.0" />
+    <PackageVersion Include="Modernizr" Version="2.8.3" />
+	<PackageVersion Include="NETStandard.Library" Version="2.0.3" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="Owin" Version="1.0" />
+    <PackageVersion Include="PagedList" Version="1.17.0.0" />
+    <PackageVersion Include="PagedList.Mvc" Version="4.5.0.0" />
+    <PackageVersion Include="Portable.BouncyCastle" Version="1.8.9" />
+	<PackageVersion Include ="QuestPDF" Version="2025.7.0" />
+    <PackageVersion Include="Respond" Version="1.4.2" />
+	<PackageVersion Include="Rotativa" Version="1.7.3" />
+    <PackageVersion Include="Select2.js" Version="4.0.13" />
+    <PackageVersion Include="WebGrease" Version="1.6.0" />
+  </ItemGroup>
+</Project>

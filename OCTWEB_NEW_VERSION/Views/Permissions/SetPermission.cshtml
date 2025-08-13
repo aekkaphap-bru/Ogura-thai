@@ -36,23 +36,20 @@
                                     <li class="nav-item" style="background-color: #CEE5D0; ">
                                         <a class="nav-link text-black active" id="admin-tab" data-bs-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="true">Administration</a>
                                     </li>
-                                    <!-- <li class="nav-item text-gray-800 " style="background-color: #CEE5D0; ">
-                                        <a class="nav-link" id="check-tab" data-bs-toggle="tab" href="#check"  role="tab" aria-controls="check" aria-selected="false">Check Appearence 300%</a>
-                                    </li>-->
-                                    <li class="nav-item text-gray-800" style="background-color: #CEE5D0; ">
-                                        <a class="nav-link " id="drawing-tab" data-bs-toggle="tab" href="#drawing" role="tab" aria-controls="drawing" aria-selected="false">Drawing</a>
+                                    <li class="nav-item" style="background-color: #CEE5D0; ">
+                                        <a class="nav-link text-black" id="drawing-tab" data-bs-toggle="tab" href="#drawing" role="tab" aria-controls="drawing" aria-selected="false">Drawing</a>
                                     </li>
                                     <li class="nav-item" style="background-color: #CEE5D0;">
                                         <a class="nav-link text-black" id="hr-tab" data-bs-toggle="tab" href="#hr" role="tab" aria-controls="hr" aria-selected="false">HR</a>
                                     </li>
-                                    <!--<li class="nav-item" style="background-color: #CEE5D0; ">
-                                        <a class="nav-link text-black" id="it-tab" data-bs-toggle="tab" href="#it" role="tab" aria-controls="it" aria-selected="false">IT System</a>
-                                    </li>-->
                                     <li class="nav-item" style="background-color: #CEE5D0;">
                                         <a class="nav-link text-black" id="qrap-tab" data-bs-toggle="tab" href="#qrap" role="tab" aria-controls="qrap" aria-selected="false">QRAP</a>
                                     </li>
-                                    <li class="nav-item"  style="background-color: #CEE5D0;">
+                                    <li class="nav-item" style="background-color: #CEE5D0;">
                                         <a class="nav-link text-black" id="ws-tab" data-bs-toggle="tab" href="#ws" role="tab" aria-controls="ws" aria-selected="false">WS & Rule</a>
+                                    </li>
+                                    <li class="nav-item" style="background-color: #CEE5D0;">
+                                        <a class="nav-link text-black" id="ss-tab" data-bs-toggle="tab" href="#dc" role="tab" aria-controls="dc" aria-selected="false">Document Controll</a>
                                     </li>
                                     <li class="nav-item" style="background-color: #CEE5D0;">
                                         <a class="nav-link text-black" id="ss-tab" data-bs-toggle="tab" href="#ss" role="tab" aria-controls="ws" aria-selected="false">System Support</a>
@@ -60,229 +57,240 @@
                                 </ul>
                             </div>
                             <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="tab-content">
-                                                <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>Administration</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Setup</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ChangePassword_6)<label for="ChangePassword_6">&nbsp; Change Password</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LogReport_10)<label for="LogReport_10">&nbsp; Log Report</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.UserDetail_4)<label for="UserDetail_4">&nbsp; User Detail</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.UserGroup_8)<label for="UserGroup_8">&nbsp; User Group</label></li>
+                                <div class="col-md-8">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>Administration</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ChangePassword_6)<label for="ChangePassword_6">&nbsp; Change Password</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LogReport_10)<label for="LogReport_10">&nbsp; Log Report</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.UserDetail_4)<label for="UserDetail_4">&nbsp; User Detail</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.UserGroup_8)<label for="UserGroup_8">&nbsp; User Group</label></li>
 
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade " id="check" role="tabpanel" aria-labelledby="check-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>Check Appearance 300%</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Information</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.InformProblem_26)<label for="InformProblem_26">&nbsp; Inform Problem</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ProblemReportGraph_28)<label for="ProblemReportGraph_28">&nbsp; Problem Report Graph</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ProblemReportData_29)<label for="ProblemReportData_29">&nbsp; Problem Report Data</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Setup</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LineName_30)<label for="LineName_30">&nbsp; Line Name</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.PartName_31)<label for="PartName_31">&nbsp; Part Name</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ProblemList_27)<label for="ProblemList_27">&nbsp; Problem List</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="drawing" role="tabpanel" aria-labelledby="drawing-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>Drawing</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.DrawingSearch_12)<label for="DrawingSearch_12">&nbsp; Drawing Search</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.FileShare_24)<label for="FileShare_24">&nbsp; File Share</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Setup</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.EngineerDrawing_15)<label for="EngineerDrawing_15">&nbsp; Engineer Drawing</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.PartName_14)<label for="PartName_14">&nbsp; Part Name</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Process_13)<label for="Process_13">&nbsp; Process</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ProcessDrawing_16)<label for="ProcessDrawing_16">&nbsp; Process Drawing</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.UploadFileShare_25)<label for="UploadFileShare_25">&nbsp; Upload File Share</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="hr" role="tabpanel" aria-labelledby="hr-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>HR</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>HR permission</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.AddHolidayleaveReport_62)<label for="AddHolidayleaveReport_62">&nbsp; Add Holiday leave report</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.CanseeTrainingEmployee_58)<label for="CanseeTrainingEmployee_58">&nbsp; Can see Training Employee</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.CanseeWorkLeaveAll_60)<label for="CanseeWorkLeaveAll_60">&nbsp; Can see Work Leave All</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Toexportdata_49)<label for="Toexportdata_49">&nbsp; To export data</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Tolayoffemployees_52)<label for="Tolayoffemployees_52">&nbsp; To layoff employees</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.TosearchwithIDcode_45)<label for="TosearchwithIDcode_45">&nbsp; To search with ID code</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Toseeemployeesbirthdateinfo_44)<label for="Toseeemployeesbirthdateinfo_44">&nbsp; To see employees birth date info</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ToseeemployeesIDcodePassportIDTaxIDSSO_38)<label for="ToseeemployeesIDcodePassportIDTaxIDSSO_38">&nbsp; To see employees ID code/Passport ID/Tax ID/SSO</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Tounlockpageandedittheinfo_50)<label for="Tounlockpageandedittheinfo_50">&nbsp; To unlock page and edit the info</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.BenefitSetup_71)<label for="BenefitSetup_71">&nbsp; Can see Benefit Setup</label></li>
-                                                            @*<li>@Html.CheckBoxFor(m => m.DocumentSetup_73)<label for="BenefitSetup_71">&nbsp; DocumentSetup</label></li>*@
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Management Setup</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.EmployeeListSetup_32)<label for="EmployeeListSetup_32">&nbsp; Employee List Setup</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.FormerEmpListSetup_37)<label for="FormerEmpListSetup_37">&nbsp; Former Emp List Setup</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LeaveSetup_63)<label for="LeaveSetup_63">&nbsp; Leave Setup (All)</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LeaveSetup_69)<label for="LeaveSetup_69">&nbsp; Leave Setup</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.MistakesSetup_34)<label for="MistakesSetup_34">&nbsp; Mistakes Setup</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.TrainingCoursesManagement_33)<label for="TrainingCoursesManagement_33">&nbsp; Training Courses Management</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.TrainingCoursesSetup_61)<label for="TrainingCoursesSetup_61">&nbsp; Training Courses Setup</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.TrainingCoursesWSSetup_57)<label for="TrainingCoursesWSSetup_57">&nbsp; Training Courses WS Setup</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.EmployeeListReport_53)<label for="EmployeeListReport_53">&nbsp; Employee List Report</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.FormerEmpListReport_54)<label for="FormerEmpListReport_54">&nbsp; Former Emp List Report</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LeaveReport_64)<label for="LeaveReport_64">&nbsp; Leave</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.LeaveCreate_70)<label for="LeaveCreate_70">&nbsp; To Create Leave</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.MistakesReport_55)<label for="MistakesReport_55">&nbsp; Mistakes Report</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.TrainingCourses_56)<label for="TrainingCourses_56">&nbsp; Training Courses</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="it" role="tabpanel" aria-labelledby="it-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>IT System</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>IT Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ComputerGraph_11)<label for="ComputerGraph_11">&nbsp; Computer Graph</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="qrap" role="tabpanel" aria-labelledby="qrap-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>QRAP</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ProblemGraph_9)<label for="ProblemGraph_9">&nbsp; Problem Graph</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.QRAPDetail_3)<label for="QRAPDetail_3">&nbsp; QRAP Detail</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Update and Modify</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.InformProblem_5)<label for="InformProblem_5">&nbsp; 1 Inform Problem</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.DefineSolution_2)<label for="DefineSolution_2">&nbsp; 2 Define Solution</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Answers_1)<label for="Answers_1">&nbsp; 3 Answers</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.Approve_7)<label for="Approve_7">&nbsp; 4 Approve</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="ws" role="tabpanel" aria-labelledby="ws-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>WS & Rule</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Permission Document</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.PermissionDocumentAccountingandFinance_36)<label for="PermissionDocumentAccountingandFinance_36">&nbsp; Permission Document Accounting and Finance</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.PermissionDocumentBOIandPurchase_35)<label for="PermissionDocumentBOIandPurchase_35">&nbsp; Permission Document BOI and Purchase</label></li>
-
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Report</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.CompanyRuleSearch_19)<label for="CompanyRuleSearch_19">&nbsp; Company Rule Search</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.WorkingStandardSearch_22)<label for="WorkingStandardSearch_22">&nbsp; Working Standard Search</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Setup Rule</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.CompanyRuleType_17)<label for="CompanyRuleType_17">&nbsp; 1 Company Rule Type</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.CompanyRule_18)<label for="CompanyRule_18">&nbsp; 2 Company Rule</label></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <li><h4>Setup WS</h4></li>
-                                                            <li>@Html.CheckBoxFor(m => m.WorkingStandardType_20)<label for="WorkingStandardType_20">&nbsp; 1 Working Standard Type</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.WorkingStandardProcess_23)<label for="WorkingStandardProcess_23">&nbsp; 2 Working Standard Process</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.WorkingStandard_21)<label for="WorkingStandard_21">&nbsp; 3 Working Standard</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="ss" role="tabpanel" aria-labelledby="ss-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>Document System</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <!--<li><h4>Billing Note</h4></li>-->
-                                                            <li>@Html.CheckBoxFor(m => m.DocumentSetup_73)<label for="DocumentSetup_73">&nbsp; Document Controll List</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <div class="tab-pane fade" id="ss" role="tabpanel" aria-labelledby="ss-tab">
-                                                    <br />
-                                                    <div class="row">
-                                                        <h3>System Support</h3>
-                                                        <hr />
-                                                    </div>
-                                                    <div class="row">
-                                                        <ul class="list-unstyled">
-                                                            <!--<li><h4>Billing Note</h4></li>-->
-                                                            <li>@Html.CheckBoxFor(m => m.APBillingNote_65)<label for="APBillingNote_65">&nbsp; AP Billing Note</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.ALBillingNote_66)<label for="ALBillingNote_66">&nbsp; AR Billing Note</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.SaleDashboard_67)<label for="SaleDashboard_67">&nbsp; Sale Dashboard</label></li>
-                                                            <li>@Html.CheckBoxFor(m => m.PurchaseDashboard_68)<label for="PurchaseDashboard_68">&nbsp; Purchase Dashboard</label></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                </ul>
                                             </div>
                                         </div>
+                                        <div class="tab-pane fade " id="check" role="tabpanel" aria-labelledby="check-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>Check Appearance 300%</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Information</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.InformProblem_26)<label for="InformProblem_26">&nbsp; Inform Problem</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ProblemReportGraph_28)<label for="ProblemReportGraph_28">&nbsp; Problem Report Graph</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ProblemReportData_29)<label for="ProblemReportData_29">&nbsp; Problem Report Data</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LineName_30)<label for="LineName_30">&nbsp; Line Name</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.PartName_31)<label for="PartName_31">&nbsp; Part Name</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ProblemList_27)<label for="ProblemList_27">&nbsp; Problem List</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="drawing" role="tabpanel" aria-labelledby="drawing-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>Drawing</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.DrawingSearch_12)<label for="DrawingSearch_12">&nbsp; Drawing Search</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.FileShare_24)<label for="FileShare_24">&nbsp; File Share</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.EngineerDrawing_15)<label for="EngineerDrawing_15">&nbsp; Engineer Drawing</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.PartName_14)<label for="PartName_14">&nbsp; Part Name</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Process_13)<label for="Process_13">&nbsp; Process</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ProcessDrawing_16)<label for="ProcessDrawing_16">&nbsp; Process Drawing</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.UploadFileShare_25)<label for="UploadFileShare_25">&nbsp; Upload File Share</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="hr" role="tabpanel" aria-labelledby="hr-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>HR</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>HR permission</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.AddHolidayleaveReport_62)<label for="AddHolidayleaveReport_62">&nbsp; Add Holiday leave report</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.CanseeTrainingEmployee_58)<label for="CanseeTrainingEmployee_58">&nbsp; Can see Training Employee</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.CanseeWorkLeaveAll_60)<label for="CanseeWorkLeaveAll_60">&nbsp; Can see Work Leave All</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Toexportdata_49)<label for="Toexportdata_49">&nbsp; To export data</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Tolayoffemployees_52)<label for="Tolayoffemployees_52">&nbsp; To layoff employees</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.TosearchwithIDcode_45)<label for="TosearchwithIDcode_45">&nbsp; To search with ID code</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Toseeemployeesbirthdateinfo_44)<label for="Toseeemployeesbirthdateinfo_44">&nbsp; To see employees birth date info</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ToseeemployeesIDcodePassportIDTaxIDSSO_38)<label for="ToseeemployeesIDcodePassportIDTaxIDSSO_38">&nbsp; To see employees ID code/Passport ID/Tax ID/SSO</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Tounlockpageandedittheinfo_50)<label for="Tounlockpageandedittheinfo_50">&nbsp; To unlock page and edit the info</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.BenefitSetup_71)<label for="BenefitSetup_71">&nbsp; Can see Benefit Setup</label></li>
+                                                    @*<li>@Html.CheckBoxFor(m => m.DocumentSetup_73)<label for="BenefitSetup_71">&nbsp; DocumentSetup</label></li>*@
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Management Setup</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.EmployeeListSetup_32)<label for="EmployeeListSetup_32">&nbsp; Employee List Setup</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.FormerEmpListSetup_37)<label for="FormerEmpListSetup_37">&nbsp; Former Emp List Setup</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LeaveSetup_63)<label for="LeaveSetup_63">&nbsp; Leave Setup (All)</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LeaveSetup_69)<label for="LeaveSetup_69">&nbsp; Leave Setup</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.MistakesSetup_34)<label for="MistakesSetup_34">&nbsp; Mistakes Setup</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.TrainingCoursesManagement_33)<label for="TrainingCoursesManagement_33">&nbsp; Training Courses Management</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.TrainingCoursesSetup_61)<label for="TrainingCoursesSetup_61">&nbsp; Training Courses Setup</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.TrainingCoursesWSSetup_57)<label for="TrainingCoursesWSSetup_57">&nbsp; Training Courses WS Setup</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.EmployeeListReport_53)<label for="EmployeeListReport_53">&nbsp; Employee List Report</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.FormerEmpListReport_54)<label for="FormerEmpListReport_54">&nbsp; Former Emp List Report</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LeaveReport_64)<label for="LeaveReport_64">&nbsp; Leave</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.LeaveCreate_70)<label for="LeaveCreate_70">&nbsp; To Create Leave</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.MistakesReport_55)<label for="MistakesReport_55">&nbsp; Mistakes Report</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.TrainingCourses_56)<label for="TrainingCourses_56">&nbsp; Training Courses</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="it" role="tabpanel" aria-labelledby="it-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>IT System</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>IT Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ComputerGraph_11)<label for="ComputerGraph_11">&nbsp; Computer Graph</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="qrap" role="tabpanel" aria-labelledby="qrap-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>QRAP</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ProblemGraph_9)<label for="ProblemGraph_9">&nbsp; Problem Graph</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.QRAPDetail_3)<label for="QRAPDetail_3">&nbsp; QRAP Detail</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Update and Modify</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.InformProblem_5)<label for="InformProblem_5">&nbsp; 1 Inform Problem</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.DefineSolution_2)<label for="DefineSolution_2">&nbsp; 2 Define Solution</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Answers_1)<label for="Answers_1">&nbsp; 3 Answers</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Approve_7)<label for="Approve_7">&nbsp; 4 Approve</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="ws" role="tabpanel" aria-labelledby="ws-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>WS & Rule</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Permission Document</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.PermissionDocumentAccountingandFinance_36)<label for="PermissionDocumentAccountingandFinance_36">&nbsp; Permission Document Accounting and Finance</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.PermissionDocumentBOIandPurchase_35)<label for="PermissionDocumentBOIandPurchase_35">&nbsp; Permission Document BOI and Purchase</label></li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Report</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.CompanyRuleSearch_19)<label for="CompanyRuleSearch_19">&nbsp; Company Rule Search</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.WorkingStandardSearch_22)<label for="WorkingStandardSearch_22">&nbsp; Working Standard Search</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup Rule</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.CompanyRuleType_17)<label for="CompanyRuleType_17">&nbsp; 1 Company Rule Type</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.CompanyRule_18)<label for="CompanyRule_18">&nbsp; 2 Company Rule</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup WS</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.WorkingStandardType_20)<label for="WorkingStandardType_20">&nbsp; 1 Working Standard Type</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.WorkingStandardProcess_23)<label for="WorkingStandardProcess_23">&nbsp; 2 Working Standard Process</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.WorkingStandard_21)<label for="WorkingStandard_21">&nbsp; 3 Working Standard</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="dc" role="tabpanel" aria-labelledby="ss-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>Document Control System</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.DocumentSetup_73)<label for="DocumentSetup_73">&nbsp; Can Access DocumentControlList</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Can_See_All_Document_78)<label for="Can_See_All_Document_78">&nbsp; Can See All Item</label></li>                                                    
+                                                    <li>@Html.CheckBoxFor(m => m.Relevant_Document_Revie_77)<label for="Relevant_Document_Revie_77">&nbsp; Permission to review and access relevant documents</label></li>
+                                                </ul>
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <li><h4>Setup Approve</h4></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Approve_Dept_74)<label for="Approve_Dept_74">&nbsp; Can Approve As DepartmentHead</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Approve_Dcc_75)<label for="Approve_Dcc_75">&nbsp; Can Approve As DCC</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Approve_Qmr_76)<label for="Approve_Qmr_76">&nbsp; Can Approve As QMR</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.Approve_Emr_79)<label for="Approve_Emr_79">&nbsp; Can Approve As EMR</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="ss" role="tabpanel" aria-labelledby="ss-tab">
+                                            <br />
+                                            <div class="row">
+                                                <h3>System Support</h3>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <ul class="list-unstyled">
+                                                    <!--<li><h4>Billing Note</h4></li>-->
+                                                    <li>@Html.CheckBoxFor(m => m.APBillingNote_65)<label for="APBillingNote_65">&nbsp; AP Billing Note</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.ALBillingNote_66)<label for="ALBillingNote_66">&nbsp; AR Billing Note</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.SaleDashboard_67)<label for="SaleDashboard_67">&nbsp; Sale Dashboard</label></li>
+                                                    <li>@Html.CheckBoxFor(m => m.PurchaseDashboard_68)<label for="PurchaseDashboard_68">&nbsp; Purchase Dashboard</label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

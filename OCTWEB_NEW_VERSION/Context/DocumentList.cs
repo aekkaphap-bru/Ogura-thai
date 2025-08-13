@@ -23,5 +23,9 @@ namespace OCTWEB_NET45.Context
         public string Status { get; set; }
         public Nullable<System.DateTime> Created_at { get; set; }
         public Nullable<System.DateTime> Updated_at { get; set; }
+        public Nullable<bool> FMEAReview { get; set; }
+        public Nullable<bool> ControlPlanReview { get; set; }
+        public Nullable<bool> ProcessFlowReview { get; set; }
+        public string DarNumber { get; set; }
     }
 }

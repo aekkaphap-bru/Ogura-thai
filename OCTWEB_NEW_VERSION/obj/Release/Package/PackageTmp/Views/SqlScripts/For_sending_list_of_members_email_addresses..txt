@@ -1,9 +1,0 @@
-For sending a list of members' email addresses.
-
-1.SEND_MAIL_CREATE_ACCOUNT_CC
-
-2.SEND_MAIL_WS
-
-3.SEND_MAIL_WS_CC
-
-

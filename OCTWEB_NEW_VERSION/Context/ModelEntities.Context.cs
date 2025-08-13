@@ -124,5 +124,7 @@ namespace OCTWEB_NET45.Context
         public virtual DbSet<Equipment_repair_machine> Equipment_repair_machine { get; set; }
         public virtual DbSet<DocumentDetail> DocumentDetails { get; set; }
         public virtual DbSet<DocumentFormArea> DocumentFormAreas { get; set; }
+        public virtual DbSet<DocumentSection> DocumentSections { get; set; }
+        public virtual DbSet<EmployeeSignature> EmployeeSignatures { get; set; }
     }
 }
