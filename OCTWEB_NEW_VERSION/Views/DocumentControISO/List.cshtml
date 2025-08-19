@@ -23,6 +23,10 @@
 }
 
 <div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+    }
     <div class="header-section">
         <div class="logo-section">
             <div class="header-title">
@@ -34,8 +38,9 @@
 
     <div class="info-card">
         <div class="main-content">
-            @using (Html.BeginForm("List", "Document", FormMethod.Get, new { id = "filterForm" }))
+            @using (Html.BeginForm("List", "DocumentControISO", FormMethod.Get, new { id = "filterForm" }))
             {
+
                 <div class="action-bar">
                     <div class="search-container">
 
@@ -50,7 +55,7 @@
                         <option value="EDITING" selected="@(ViewBag.CurrentStatus == "EDITING")">Editing</option>
                     </select>
 
-                    @Html.ActionLink("New Request", "Create", "Document", null, new { @class = "btn-new-request" })
+                    @Html.ActionLink("New Request", "Create", "DocumentControISO", null, new { @class = "btn-new-request" })
                 </div>
             }
 
@@ -98,7 +103,7 @@
 
                                     <div class="document-actions">
                                         <div class="status-badge @statusClass">@item.Status</div>
-                                        <a href="@Url.Action("Details", new { id = item.LId })" class="btn-action btn-view" title="View Details">
+                                        <a href="@Url.Action("Detail", new { id = item.LId })" class="btn-action btn-view" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <button class="btn-action btn-edit" data-id="@item.LId" title="Edit">
@@ -155,7 +160,7 @@
         </div>
     </div>
 
-    
+
 </div>
 
 
@@ -187,23 +192,23 @@
         // --- Edit Function ---
         function handleEditClick(id, token) {
             $.ajax({
-                url: '@Url.Action("CanEdit", "Document")',
+                url: '@Url.Action("CanEdit", "DocumentControISO")',
                 type: 'POST',
                 data: { id: id, __RequestVerificationToken: token },
                 success: function (res) {
                     if (!res.success) {
-                        Swal.fire("ไม่สามารถดำเนินการได้", res.message, "error");
+                        Swal.fire("Action not allowed", res.message, "error");
                         return;
                     }
 
                     if (res.warningMessage) {
                         Swal.fire({
-                            title: "โปรดยืนยัน",
+                            title: "Please confirm",
                             text: res.warningMessage,
                             icon: "warning",
                             showCancelButton: true,
-                            confirmButtonText: "ดำเนินการต่อ",
-                            cancelButtonText: "ยกเลิก"
+                            confirmButtonText: "Continue",
+                            cancelButtonText: "Cancel"
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 window.location.href = res.redirectUrl;
@@ -214,7 +219,7 @@
                     }
                 },
                 error: function () {
-                    Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้", "error");
+                    Swal.fire("Error", "Unable to connect to the server.", "error");
                 }
             });
         }
@@ -222,34 +227,37 @@
         // --- Delete Function (Improved with SweetAlert2) ---
         function handleDeleteClick(id, token) {
             Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: "คุณต้องการลบคำร้องนี้ใช่หรือไม่? ข้อมูลจะไม่สามารถกู้คืนได้",
+                title: 'Are you sure?',
+                text: "This request will be permanently deleted and cannot be recovered.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                confirmButtonText: 'ใช่, ลบเลย!',
-                cancelButtonText: 'ยกเลิก'
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '@Url.Action("Delete", "Document")',
+                        url: '@Url.Action("Delete", "DocumentControISO")',
                         type: 'POST',
                         data: { id: id, __RequestVerificationToken: token },
                         success: function (response) {
                             if (response.success) {
-                                Swal.fire('ลบสำเร็จ!', response.message, 'success')
+                                Swal.fire('Deleted!', response.message, 'success')
                                     .then(() => location.reload());
                             } else {
-                                Swal.fire('เกิดข้อผิดพลาด!', response.message, 'error');
+                                Swal.fire('Error', response.message, 'error');
                             }
                         },
                         error: function () {
-                            Swal.fire('เกิดข้อผิดพลาด!', 'ไม่สามารถส่งคำขอลบข้อมูลได้', 'error');
+                            Swal.fire('Error', 'Failed to send delete request.', 'error');
                         }
                     });
                 }
             });
         }
+
+
+
     });
 
     $(function() {
@@ -279,7 +287,7 @@
             const id = $(this).data('id');
 
             // Add your download logic here
-            window.open('@Url.Action("ExportExcel", "Document")' + '/' + id, '_blank');
+            window.open('@Url.Action("ExportExcel", "DocumentControISO")' + '/' + id, '_blank');
         });
     });
 

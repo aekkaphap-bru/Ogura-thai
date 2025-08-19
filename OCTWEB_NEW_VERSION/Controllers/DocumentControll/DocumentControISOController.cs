@@ -6,32 +6,28 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity.SqlServer;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using static OCTWEB_NET45.Controllers.DocumentControll.DocumentService;
+
 
 
 namespace OCTWEB_NET45.Controllers.DocumentControll
 {
 
-    //[Authorize]
+
     [CustomAuthorize(73)]
-    public class DocumentController : Controller
+    public class DocumentControISOController : Controller
     {
+
         private OCTWEBTESTEntities db = new OCTWEBTESTEntities();
 
-        private DocumentService service  = new DocumentService();
+        private DocumentService service = new DocumentService();
 
+        #region Document List - Get
 
-        #region Document Listing
-        /// <summary>
-        /// Displays a paginated list of documents with optional search and status filters.
-        /// </summary>
-        /// <param name="searchString">Optional keyword for filtering document name, ID, or requester</param>
-        /// <param name="statusFilter">Optional status filter (e.g., "COMPLETE", "EDITING")</param>
-        /// <param name="page">Page number for pagination</param>
         public ActionResult List(int? page, string searchTerm = null, string statusFilter = null)
         {
             try
@@ -39,14 +35,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
                 ViewBag.CurrentFilter = searchTerm;
                 ViewBag.CurrentStatus = statusFilter;
-
+               
                 IQueryable<DocumentList> documentsQuery = db.DocumentLists.AsQueryable();
 
                 if (Session["UserCode"] != null)
                 {
                     int usercode = Convert.ToInt32(Session["UserCode"]);
                     int usercodeId = db.UserDetails
-                        .Where(u => u.USE_Usercode == usercode)
+                        .Where( u => u.USE_Usercode == usercode)
                         .Select(u => u.USE_Id)
                         .FirstOrDefault();
 
@@ -86,8 +82,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     else
                     {
                         // Admin sees all documents
-                        documentsQuery = documentsQuery.Where(d => d.Request_from == DocumentTypes.Common);
-                    }
+                        documentsQuery = documentsQuery.Where(d => d.Request_from == DocumentTypes.ISO);
+                    } 
                 }
                 else
                 {
@@ -158,13 +154,13 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             try
             {
-                var model = new DocumentFormViewModel
+                var model = new DocumentMasterModel
                 {
 
-                    Request_from = DocumentTypes.Common,
+                    Request_from = DocumentTypes.ISO,
                     Requester_id = service.GetCurrentUserId(Session),
                     Effective_date = DateTime.Now.AddDays(3),
-                    DocumentDetails = new List<DocumentDetailViewModel> { new DocumentDetailViewModel() },
+                    DocumentDetail = new DocumentDetailModel(),
                     AvailableAreas = service.LoadAvailableAreas(),
                     RequestTypes = service.GetRequestTypes()
                 };
@@ -174,7 +170,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = "Error loading form: " + ex.Message;
-                return View(new DocumentFormViewModel());
+                return View(new DocumentMasterModel());
             }
         }
 
@@ -182,13 +178,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
         #region Document Creation - POST
 
-        /// <summary>
-        /// Handles the submission of a new document request, validates input, creates records, and triggers notifications.
-        /// </summary>
-        /// <param name="model">Document form view model</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DocumentFormViewModel model)
+        public ActionResult Create(DocumentMasterModel model)
         {
             try
             {
@@ -212,26 +204,20 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
-                        var document = service.CreateDocumentRecord(model);
-                        db.DocumentLists.Add(document);
-                        db.SaveChanges();
+                        var document = service.CreateDocumentIsoRecord(model);
+                        service.ProcessFileUpload(model, document.LId);
+                        service.ProcessDocumentDetail(model, document.LId);
+                        service.ProcessSelectedArea(model, document.LId);
+                        service.CreateApprovalWorkflow(document,document.LId, document.Requester_id);
 
-                        service.ProcessFileUploads(model, document.LId);
-                        service.ProcessDocumentDetails(model, document.LId);
-                        service.ProcessSelectedAreas(model, document.LId);
-                        //service.CreateApprovalWorkflow(document.LId, document.Requester_id);
-                        service.CreateApprovalWorkflow(document, document.LId, document.Requester_id);
                         db.SaveChanges();
-
                         transaction.Commit();
-
-                        //NotifyApproversOfNewRequest(document.LId, document.Requester_id);
 
                         return Json(new
                         {
                             success = true,
                             message = $"Request submitted successfully. Your request number is: {document.LId}",
-                            redirectUrl = Url.Action("List", "Document")
+                            redirectUrl = Url.Action("List", "DocumentControISO")
                         });
                     }
                     catch (ApproverConfigurationException ex)
@@ -268,11 +254,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 return Json(new { success = false, message = "Unexpected error: " + ex.Message });
             }
         }
-
-        /// <summary>
-        /// Notifies approvers with RIH_Id 74 in the same department (Advisor/Manager/Asst. Manager).
-        /// </summary>
-        /// 
 
         private void NotifyApproversOfNewRequest(int documentId, int requesterId)
         {
@@ -316,75 +297,33 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 request: Request
             );
         }
-
         #endregion
 
         #region Document Editing - GET
-
-        /// <summary>
-        /// Loads the existing document for editing, including its details and selected areas.
-        /// </summary>
-        /// <param name="id">Document ID</param>
-        /// 
-
         public ActionResult Edit(int id)
         {
             try
             {
-                var document = db.DocumentLists.FirstOrDefault(d => d.LId == id);
+                var document = db.DocumentLists.Find(id);
                 if (document == null)
                 {
-                    TempData["ErrorMessage"] = "ไม่พบคำร้องที่คุณต้องการ กรุณาติดต่อเจ้าหน้าที่";
-                    return RedirectToAction("List");
+                    return HttpNotFound(); 
                 }
 
-                if (document.Status == DocumentStatus.Complete)
-                {
-                    TempData["ErrorMessage"] = "คำร้องนี้ดำเนินการเสร็จสิ้นแล้ว ไม่สามารถแก้ไขได้";
-                    return RedirectToAction("List");
-                }
-
-                if (!service.CanEditDocument(document,service.GetCurrentUserId(Session)))
-                {
-                    TempData["ErrorMessage"] = "คุณไม่ได้รับสิทธิ์ในการแก้ไขคำร้องนี้ กรุณาติดต่อผู้ดูแลระบบ";
-                    return RedirectToAction("List");
-                }
-
-                if (document.Status != DocumentStatus.Editing)
-                {
-                    ViewBag.ResubmitWarningMessage = "เอกสารรออนุมัติอยู่ หากแก้ไขระบบจะเริ่มอนุมัติใหม่ทั้งหมด คุณต้องการดำเนินการต่อหรือไม่?";
-                }
-
-                var documentWithDetails = (
-                    from doc in db.DocumentLists
-                    where doc.LId == id
-                    join detail in db.DocumentDetails on doc.LId equals detail.LId into detailsGroup
-                    join area in db.DocumentFormAreas on doc.LId equals area.LId into areasGroup
-                    join user in db.UserDetails on (int?)doc.Requester_id equals user.USE_Usercode into userGroup
-                    from userDetail in userGroup.DefaultIfEmpty()
-                    select new
+                var detail = db.DocumentDetails.FirstOrDefault(d => d.LId == id);
+                var documentDetail = detail != null
+                    ? new DocumentDetailModel
                     {
-                        Document = doc,
-                        Details = detailsGroup,
-                        Areas = areasGroup.Select(a => new
-                        {
-                            a.FId,
-                            a.LId,
-                            a.WS_TS_Id,
-                            Section = db.DocumentSections
-                                        .Where(s => s.Id == a.WS_TS_Id)
-                                        .Select(s => new { s.SectionName, s.SectionCode })
-                                        .FirstOrDefault()
-                        }),
-                        Requester = userDetail
+                        WS_number = detail.WS_number,
+                        WS_name = detail.WS_name,
+                        Revision = detail.Revision,
+                        Num_pages = detail.Num_pages,
+                        Num_copies = detail.Num_copies,
+                        Change_detail = detail.Change_detail,
+                        File_excel = detail.File_excel,
+                        File_pdf = detail.File_pdf
                     }
-                ).FirstOrDefault();
-
-                if (documentWithDetails == null)
-                {
-                    TempData["ErrorMessage"] = "ไม่พบข้อมูลคำร้อง";
-                    return RedirectToAction("List");
-                }
+                    : new DocumentDetailModel();
 
                 // Set approval back to waiting if in progress
                 var existingStep = db.DocumentApprovalSteps.FirstOrDefault(s => s.LId == id);
@@ -396,117 +335,191 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 document.Status = DocumentStatus.Editing;
                 db.SaveChanges();
 
-                var availableAreas = service.LoadAvailableAreas();
-                var selectedAreaIds = documentWithDetails.Areas.Select(a => a.WS_TS_Id ?? 0).ToList();
-                foreach (var area in availableAreas)
-                {
-                    area.IsSelected = selectedAreaIds.Contains(area.Id);
-                }
+                var selectedAreaIds = db.DocumentFormAreas 
+                    .Where(a => a.LId == id)
+                    .Select(a => a.WS_TS_Id)
+                    .ToList();
 
-                var model = new DocumentFormViewModel
+                var allAreas = service.LoadAvailableAreas();
+                allAreas.ForEach(a => a.IsSelected = selectedAreaIds.Contains(a.Id));
+
+                var model = new DocumentMasterModel
                 {
                     Id = document.LId,
+                    Requester_id = document.Requester_id,
+                    Request_from = document.Request_from,
                     Request_type = document.Request_type,
                     Document_type = document.Document_type,
                     Effective_date = document.Effective_date,
-                    Request_from = document.Request_from,
-                    Requester_id = document.Requester_id,
-                    AvailableAreas = availableAreas,
-                    RequestTypes = service.GetRequestTypes(),
-
-                    DocumentDetails = documentWithDetails.Details.Select(dd => new DocumentDetailViewModel
-                    {
-                        WS_number = dd.WS_number,
-                        WS_name = dd.WS_name,
-                        Revision = dd.Revision,
-                        Num_pages = dd.Num_pages,
-                        Num_copies = dd.Num_copies,
-                        File_excel = dd.File_excel,
-                        File_pdf = dd.File_pdf,
-                        Change_detail = dd.Change_detail
-                    }).ToList()
+                    Status = document.Status,
+                    DocumentDetail = documentDetail,
+                    AvailableAreas = allAreas,
+                    RequestTypes = service.GetRequestTypes()
                 };
 
-                if (!model.DocumentDetails.Any())
-                {
-                    model.DocumentDetails.Add(new DocumentDetailViewModel());
-                }
 
+               
                 return View(model);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "เกิดข้อผิดพลาดในการโหลดข้อมูล: " + ex.Message;
-                return View(new DocumentFormViewModel());
+                ViewBag.ErrorMessage = "Error loading form for editing: " + ex.Message;
+                return View("Error");
             }
         }
 
         #endregion
 
         #region Document Editing - POST
-
-        /// <summary>
-        /// Handles updates to an existing document, including file re-uploads and workflow reset.
-        /// </summary>
-        /// <param name="model">Updated document form model</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(DocumentFormViewModel model)
+        public ActionResult Edit(DocumentMasterModel model)
         {
             try
             {
-                
-                var document = db.DocumentLists.FirstOrDefault(d => d.LId == model.Id);
-                if (document == null)
-                {
-                    TempData["ErrorMessage"] = "ไม่พบข้อมูลคำร้อง";
-                    return RedirectToAction("List");
-                }
-
-                if (!service.CanEditDocument(document, service.GetCurrentUserId(Session)))
-                {
-                    TempData["ErrorMessage"] = "คุณไม่มีสิทธิ์แก้ไขคำร้องนี้";
-                    return RedirectToAction("List");
-                }
-
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        service.UpdateDocumentRecord(document, model);
-                        service.ProcessFileUploads(model, document.LId);
-                        service.UpdateDocumentDetails(model, document.LId);
-                        service.UpdateSelectedAreas(model, document.LId);
-                        service.UpdateApprovalWorkflow(document, document.LId, document.Requester_id);
+                        var documentToUpdate = db.DocumentLists.Find(model.Id);
+                        if (documentToUpdate == null)
+                            return Json(new { success = false, message = "Document not found." });
+
+                        // 1. อัปเดตข้อมูลหลัก
+                        documentToUpdate.Request_type = model.Request_type;
+                        documentToUpdate.Document_type = model.Document_type;
+                        documentToUpdate.Status = DocumentStatus.PendingApproval;
+                        documentToUpdate.Effective_date = model.Effective_date;
+                        documentToUpdate.Updated_at = DateTime.Now;
+
+                        // 2. อัปเดต DocumentDetail ที่มีอยู่
+                        var detailToUpdate = db.DocumentDetails.FirstOrDefault(d => d.LId == model.Id);
+                        if (detailToUpdate != null)
+                        {
+                            detailToUpdate.WS_number = model.DocumentDetail.WS_number;
+                            detailToUpdate.WS_name = model.DocumentDetail.WS_name;
+                            detailToUpdate.Revision = model.DocumentDetail.Revision;
+                            detailToUpdate.Num_pages = model.DocumentDetail.Num_pages;
+                            detailToUpdate.Num_copies = model.DocumentDetail.Num_copies;
+                            detailToUpdate.Change_detail = model.DocumentDetail.Change_detail;
+
+                            // 3. Process file upload (อัปเดตไฟล์ถ้ามี)
+                            service.ProcessFileUpload(model, documentToUpdate.LId);
+                        }
+                        else
+                        {
+                            // กรณีไม่มี detail ให้สร้างใหม่
+                            service.ProcessDocumentDetailSingle(model, documentToUpdate.LId);
+                            service.ProcessFileUpload(model, documentToUpdate.LId);
+                        }
+
+                        // 4. อัปเดต Area ที่เลือก
+                        db.DocumentFormAreas.RemoveRange(db.DocumentFormAreas.Where(a => a.LId == model.Id));
+                        service.ProcessSelectedArea(model, documentToUpdate.LId);
+
+                        // 4. อัปเดต Approval ใหม่
+                        service.UpdateApprovalWorkflow(documentToUpdate,documentToUpdate.LId, documentToUpdate.Requester_id);
 
                         db.SaveChanges();
                         transaction.Commit();
 
-                        //NotifyApproversOfNewRequest(document.LId, document.Requester_id);
-
-                        TempData["SuccessMessage"] = "แก้ไขคำร้องเรียบร้อยแล้ว";
-                        return Json(new { success = true, message = "Editing Successfull", redirectUrl = Url.Action("List") });
-
+                        return Json(new
+                        {
+                            success = true,
+                            message = $"Request {documentToUpdate.LId} updated successfully.",
+                            redirectUrl = Url.Action("List", "DocumentControISO")
+                        });
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        return Json(new { success = false, message = "เกิดข้อผิดพลาดในการแก้ไขข้อมูล: " + ex.Message });
+                        System.Diagnostics.Debug.WriteLine($"[Error] Unexpected error in Edit: {ex}");
+                        Response.StatusCode = 500;
+                        return Json(new { success = false, message = "An unexpected error occurred while updating." });
                     }
-
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
-                model.AvailableAreas = service.LoadAvailableAreas();
-                return View(model);
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = "Unexpected error: " + ex.Message });
             }
         }
 
         #endregion
 
-        #region Document Deletion
+        #region Document Deletion - POST
+        //[HttpPost]
+        //public ActionResult Delete (int id)
+        //{
+        //    using (var trasaction = db.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            var document = db.DocumentLists.FirstOrDefault( d => d.LId == id);
+        //            if(document == null)
+        //            {
+        //                return Json(new { success = false, message = "The request number to be delete was not found" });
+        //            }
+
+        //            var details = db.DocumentDetails.Where(d => d.LId == id).ToList();
+        //            if (details.Any())
+        //            {
+        //                // Remove files from disk if they exist
+        //                foreach (var detail in details)
+        //                {
+        //                    if (!string.IsNullOrEmpty(detail.File_excel))
+        //                    {
+        //                        var excelPath = Path.Combine(ConfigurationManager.AppSettings["DocumentExcelPath"], detail.File_excel);
+        //                        if (System.IO.File.Exists(excelPath))
+        //                        {
+        //                            System.IO.File.Delete(excelPath);
+        //                        }
+        //                    }
+        //                    if (!string.IsNullOrEmpty(detail.File_pdf))
+        //                    {
+        //                        var pdfPath = Path.Combine(ConfigurationManager.AppSettings["DocumentPdfPath"], detail.File_pdf);
+        //                        if (System.IO.File.Exists(pdfPath))
+        //                        {
+        //                            System.IO.File.Delete(pdfPath);
+        //                        }
+        //                    }
+        //                }
+
+        //                db.DocumentDetails.RemoveRange(details);
+        //            }
+
+        //            var areas = db.DocumentFormAreas.Where(a => a.LId == id).ToList();
+        //            if (areas.Any())
+        //            {
+        //                db.DocumentFormAreas.RemoveRange(areas);
+        //            }
+
+        //            var approvals = db.DocumentApprovalSteps.Where(a => a.LId == id).ToList();
+        //            if (approvals.Any())
+        //            {
+        //                db.DocumentApprovalSteps.RemoveRange(approvals);
+        //            }
+
+        //            db.DocumentLists.Remove(document);
+
+        //            db.SaveChanges();
+        //            trasaction.Commit();
+
+        //            return Json(new { success = true, message = "The request has been deleted successfully." });
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            trasaction.Rollback();
+        //            System.Diagnostics.Debug.WriteLine($"[Error] Delete action failed: {ex}");
+        //            Response.StatusCode = 500;
+        //            return Json(new { success = false, message = "An unexpected error occurred while deleting the document." });
+        //        }
+        //    }
+
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
@@ -585,10 +598,11 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     transaction.Rollback();
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
                     Response.StatusCode = 500;
-                    return Json(new { success = false, message = "An unexpected error occurred while deleting the document : " + ex.Message });
+                    return Json(new { success = false, message = "An unexpected error occurred while deleting the document : " + ex.Message });        
                 }
             }
         }
+
         #endregion
 
         #region Document Details View
@@ -597,7 +611,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         /// Displays the full detail view of a document, including approval steps and reviewer information.
         /// </summary>
         /// <param name="id">Document ID</param>
-        public ActionResult Details(int id)
+        public ActionResult Detail(int id)
         {
             var document = db.DocumentLists.Find(id);
             if (document == null)
@@ -669,7 +683,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             })
             .ToList();
 
-            var service = new DocumentService();
             foreach (var step in approvalSteps)
                 step.StepName = StepNameHelper.GetStepName(document,step.Step);
 
@@ -888,7 +901,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             var currentYear = DateTime.Now.Year.ToString();
             var lastDar = db.DocumentLists
-                .Where(d => d.DarNumber.StartsWith(currentYear + "-"))
+                .Where(d => d.DarNumber.StartsWith(currentYear + "-") && d.Request_from == DocumentTypes.ISO)
                 .OrderByDescending(d => d.DarNumber)
                 .Select(d => d.DarNumber)
                 .FirstOrDefault();
@@ -1023,10 +1036,10 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 Directory.CreateDirectory(tempDirectory);
 
                 string uniqueFileName = Guid.NewGuid().ToString();
-                string templatePath = Path.Combine(tempDirectory, "OCT-IS-FM028.xlsx");
+                string templatePath = Path.Combine(tempDirectory, "OCT-IS-FM043-ISO14001.xlsx");
                 string outputExcelPath = Path.Combine(tempDirectory, $"DocumentForm_{uniqueFileName}.xlsx");
                 if (!System.IO.File.Exists(templatePath))
-                    return HttpNotFound("ไม่พบเทมเพลตเอกสารสำหรับการส่งออก");   
+                    return HttpNotFound("ไม่พบเทมเพลตเอกสารสำหรับการส่งออก");
 
                 var rawData = service.GetRawData(id);
                 if (rawData == null)
@@ -1044,10 +1057,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     service.FillStaticData(worksheet, viewModel);
                     service.FillRequestType(worksheet, viewModel.Request_type);
                     service.FillDocumentType(worksheet, viewModel.Document_type);
-                    service.FillReviewChecks(worksheet, viewModel);
                     service.FillFileExistChecks(worksheet, details);
                     service.FillSectionCodes(worksheet, sectionCodes);
-                    service.FillApprovers(worksheet, viewModel.Approvers, viewModel);
+                    service.FillApproversEmr(worksheet, viewModel.Approvers, viewModel);
                     service.FillDetails(worksheet, details);
 
                     var pageSetup = worksheet.PageSetup;
@@ -1074,7 +1086,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         }
 
         #endregion
-       
+
         #region Mapping
 
         /// <summary>
@@ -1122,15 +1134,15 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     return Json(new { success = false, message = "This document has already been completed and cannot be edited." });
 
                 if (!service.CanEditDocument(document, service.GetCurrentUserId(Session)))
-                    return Json(new { success = false, message = "You do not have permission to edit this document. Please contact the system administrator." });
+                    return Json(new { success = false, message = "You do not have permission to edit this document. Please contact your system administrator." });
 
                 string warningMessage = null;
                 if (document.Status == DocumentStatus.PendingApproval)
                 {
-                    warningMessage = "This document is currently pending approval. Editing it will reset the approval process. Do you want to proceed?";
+                    warningMessage = "This document is currently pending approval. Editing it will reset the approval process. Do you want to continue?";
                 }
 
-                var redirectUrl = Url.Action("Edit", "Document", new { id = document.LId });
+                var redirectUrl = Url.Action("Edit", "DocumentControISO", new { id = document.LId });
 
                 return Json(new
                 {
@@ -1145,32 +1157,59 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
-        #endregion
+        #endregion 
 
-        [HttpGet]
-        public JsonResult GetWSData()
+        public ActionResult Previewfile(string file)
         {
+            if (string.IsNullOrWhiteSpace(file))
+            {
+                return new HttpStatusCodeResult(400, "Invalid file request.");
+            }
+
             try
             {
-                var wsData = db.WSR_WorkingStandardEdit
-                    .AsEnumerable() // ดึงออกจาก SQL ก่อน
-                    .Select(ws => new
-                    {
-                        ws.WS_Id,
-                        ws.WS_Name,
-                        ws.WS_Number,
-                        WS_Rev = ws.WS_Rev == null
-                            ? "00"                       
-                            : ws.WS_Rev.ToString().PadLeft(2, '0') 
-                    })
-                    .OrderBy(ws => ws.WS_Number)
-                    .ToList();
+                // ป้องกัน directory traversal
+                string sanitizedFileName = Path.GetFileName(file);
+                if (sanitizedFileName != file)
+                {
+                    return new HttpStatusCodeResult(400, "Invalid file name.");
+                }
 
-                return Json(wsData, JsonRequestBehavior.AllowGet);
+                // ตรวจสอบ extension และเลือก path ให้เหมาะสม
+                string extension = Path.GetExtension(sanitizedFileName)?.ToLowerInvariant();
+                string basePath = null;
+
+                if (extension == ".pdf")
+                {
+                    basePath = ConfigurationManager.AppSettings["path_Document_Pdf"];
+                }
+                else if (extension == ".xls" || extension == ".xlsx")
+                {
+                    basePath = ConfigurationManager.AppSettings["path_Document_Excel"];
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(415, "Unsupported file type.");
+                }
+
+                // รวม path ไฟล์
+                string fullPath = Path.Combine(basePath, sanitizedFileName);
+
+                if (!System.IO.File.Exists(fullPath))
+                {
+                    return HttpNotFound("File not found.");
+                }
+
+                // ตรวจสอบ MIME type
+                string contentType = MimeMapping.GetMimeMapping(fullPath);
+
+                // คืนค่าเป็นไฟล์แสดงผลแบบ inline
+                return File(fullPath, contentType, sanitizedFileName);
             }
             catch (Exception ex)
             {
-                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+                // สามารถเพิ่ม Logging ได้ที่นี่
+                return new HttpStatusCodeResult(500, "An error occurred while processing the file.");
             }
         }
 

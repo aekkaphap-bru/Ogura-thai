@@ -524,7 +524,10 @@
     <Compile Include="Controllers\BillingNote\BillingNoteReprintController.cs" />
     <Compile Include="Controllers\BillingNote\CollectionStatementController.cs" />
     <Compile Include="Controllers\BillingNote\CollectionStatementReprintController.cs" />
+    <Compile Include="Controllers\DocumentControll\DocumentControISOController.cs" />
     <Compile Include="Controllers\DocumentControll\DocumentController.cs" />
+    <Compile Include="Controllers\DocumentControll\DocumentHelper.cs" />
+    <Compile Include="Controllers\DocumentControll\DocumentNotification.cs" />
     <Compile Include="Controllers\Drawing\DW_DrawingReportController.cs" />
     <Compile Include="Controllers\Drawing\DW_EngineerDrawingSetupController.cs" />
     <Compile Include="Controllers\Drawing\DW_FileShareReportController.cs" />
@@ -4914,11 +4917,12 @@
     <Content Include="Views\Benefit\Create.cshtml" />
     <Content Include="Views\Document\Create.cshtml" />
     <Content Include="Views\Document\List.cshtml" />
-    <Content Include="Views\Document\_DocumentListPartial.cshtml" />
     <Content Include="Views\Document\Details.cshtml" />
-    <Content Include="Views\Document\ProcessApproval.cshtml" />
     <Content Include="Views\Document\Edit.cshtml" />
-    <Content Include="Views\Document\ExportPdf.cshtml" />
+    <Content Include="Views\DocumentControISO\Create.cshtml" />
+    <Content Include="Views\DocumentControISO\Edit.cshtml" />
+    <Content Include="Views\DocumentControISO\List.cshtml" />
+    <Content Include="Views\DocumentControISO\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

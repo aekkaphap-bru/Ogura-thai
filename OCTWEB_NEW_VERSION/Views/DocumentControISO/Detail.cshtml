@@ -192,8 +192,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 text-center d-flex justify-content-center flex-wrap gap-3"> 
-                        <a href="@Url.Action("List", "Document")" class="btn btn-secondary btn-lg px-5 py-3">
+
+                    <!-- Back to List -->
+                    <div class="mt-5 text-center d-flex justify-content-center flex-wrap gap-3">
+                        <a href="@Url.Action("List", "DocumentControISO")" class="btn btn-secondary btn-lg px-5 py-3">
                             <i class="fa-solid fa-rotate-left"></i> Back to List
                         </a>
                     </div>
@@ -311,32 +313,8 @@
                                 }
                                 else
                                 {
-
                                     if (canApprove)
                                     {
-                                        if (step.Step == 3)
-                                        {
-                                            <div class="mb-3">
-                                                <label class="form-label">Relevant Document Review</label>
-
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="FMEA_Review" value="true" />
-                                                    <label class="form-check-label">FMEA Review Required</label>
-                                                </div>
-
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="ControlPlan_Review" value="true" />
-                                                    <label class="form-check-label">Control Plan Review Required</label>
-                                                </div>
-
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="ProcessFlow_Review" value="true" />
-                                                    <label class="form-check-label">Process Flow Review Required</label>
-                                                </div>
-                                            </div>
-
-                                        }
-
                                         <div class="form-floating mb-3">
                                             <textarea class="form-control" id="comments-@step.AId" placeholder="Comments" style="height: 100px"></textarea>
                                             <label for="comments-@step.AId">Comments</label>
@@ -350,7 +328,6 @@
                                                 <i class="fas fa-check me-2"></i>Approve
                                             </button>
                                         </div>
-
                                     }
                                     else if (isPending && step.Approver_id != Model.CurrentUserId)
                                     {
@@ -424,7 +401,7 @@
         </div>
     </div>
 
-    
+
 </div>
 
 
@@ -468,10 +445,6 @@
             return;
         }
 
-        const fmeaReview = $(`input[name="FMEA_Review"]`).is(':checked');
-        const controlPlanReview = $(`input[name="ControlPlan_Review"]`).is(':checked');
-        const processFlowReview = $(`input[name="ProcessFlow_Review"]`).is(':checked');
-
         Swal.fire({
             title: 'Confirm Operation?',
             text: `Do you want to ${action === 'approve' ? 'approve' : 'reject'} this document?`,
@@ -487,9 +460,6 @@
                     StepAId: stepAId,
                     Action: action,
                     Comment: comment,
-                    FMEA_Review: fmeaReview,
-                    ControlPlan_Review: controlPlanReview,
-                    ProcessFlow_Review: processFlowReview
                 });
             } else {
                 showLoadingOverlay(false); // ✅ ซ่อนเมื่อกดยกเลิก
@@ -501,7 +471,7 @@
 
     function submitApprovalAjax(data) {
         $.ajax({
-            url: '@Url.Action("ProcessApproval", "Document")',
+            url: '@Url.Action("ProcessApproval", "DocumentControISO")',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
@@ -516,7 +486,7 @@
                         if (response.redirectUrl) {
                             window.location.href = response.redirectUrl;
                         } else if (typeof Model !== 'undefined' && Model.Status === "COMPLETE") {
-                            window.location.href = '@Url.Action("List", "Document")';
+                            window.location.href = '@Url.Action("List", "DocumentControISO")';
                         } else {
                             location.reload();
                         }
@@ -581,7 +551,7 @@
 
     function exportPDF() {
         const docId = @Model.Id;
-        window.open(`/Document/ExportExcel/${docId}`, '_blank');
+        window.open(`/DocumentControISO/ExportExcel/${docId}`, '_blank');
     }
 
 
@@ -600,23 +570,23 @@
     // Function: Check permission before allowing edit
     function handleEditClick(id, token) {
         $.ajax({
-            url: '@Url.Action("CanEdit", "Document")',
+            url: '@Url.Action("CanEdit", "DocumentControISO")',
             type: 'POST',
             data: { id: id, __RequestVerificationToken: token },
             success: function (res) {
                 if (!res.success) {
-                    Swal.fire("ไม่สามารถดำเนินการได้", res.message, "error");
+                    Swal.fire("Action not allowed", res.message, "error");
                     return;
                 }
 
                 if (res.warningMessage) {
                     Swal.fire({
-                        title: "โปรดยืนยัน",
+                        title: "Please confirm",
                         text: res.warningMessage,
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "ดำเนินการต่อ",
-                        cancelButtonText: "ยกเลิก"
+                        confirmButtonText: "Continue",
+                        cancelButtonText: "Cancel"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = res.redirectUrl;
@@ -627,7 +597,7 @@
                 }
             },
             error: function () {
-                Swal.fire("เกิดข้อผิดพลาด", "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้", "error");
+                Swal.fire("Error", "Unable to connect to the server", "error");
             }
         });
     }

@@ -531,19 +531,24 @@
                 </li>
             }
 
-            @*if (mm.dc)
+            if (mm.dc)
             {
                 <li>
                     <a href="#dc-submenu" data-bs-toggle="collapse" class="dropdown-toggle">
                         <i class="fa-solid fa-file-shield"></i>
                         <span class="menu-text">Document Controll</span>
                     </a>
-                    <ul class="collapse list-unstyled submenu-bg" id="dc-submenu">
+                    <ul class="collapse list-unstyled" id="dc-submenu">
                         @if (mm.DocumentSetup_73)
                         {
                             <li>
                                 <a href="/Document/List">
-                                    <span class="menu-text">Management</span>
+                                    <span class="menu-text">Management IATF16949</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/DocumentControISO/List">
+                                    <span class="menu-text">Management ISO14001</span>
                                 </a>
                             </li>
                         }
@@ -551,8 +556,8 @@
                     </ul>
                 </li>
 
-            }*@
-            if (mm.dc)
+            }
+            @*if (mm.dc)
             {
                 <li>
                     <a href="/Document/List" >
@@ -560,7 +565,7 @@
                         <span class="menu-text">Document Control</span>
                     </a>
                 </li>
-            }
+            }*@
 
 
 
