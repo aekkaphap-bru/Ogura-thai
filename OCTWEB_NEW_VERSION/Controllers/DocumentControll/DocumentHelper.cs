@@ -18,7 +18,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 {
     public class DocumentService
     {
-        #region connection
+        #region Connection
         private readonly OCTWEBTESTEntities db;
 
         public DocumentService()
@@ -75,7 +75,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             public static string GetInitialsName(DocumentList document, DocumentApprovalStep currentStep)
             {
                 // Check DocumentType
-                var DocumentType = document.Document_type ?? "N/A";
+                var DocumentType = document.Request_from ?? "N/A";
                 
                 string StepName;
                 switch (currentStep.Step)
@@ -232,7 +232,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
             return document;
         }
-
 
         public void ProcessDocumentDetails(DocumentFormViewModel model, int documentId)
         {

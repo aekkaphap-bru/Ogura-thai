@@ -297,14 +297,17 @@
                 </div>
                 <div class="form-row justify-content-center">
                     <div class="form-group">
-                        <button type="submit" value="Save" class="btn btn-primary" >
+                        <button type="submit" value="Save" class="btn btn-primary">
                             <i class="fas fa-save"></i> Save
-                        </button> 
+                        </button>
                         &nbsp;
-                        <button type="button" onclick="history.back()" name="Cancel" class="btn btn-outline-primary">
+                        <button type="button"
+                                onclick="window.location='@Url.Action("userDetailList","UserDetail")'"
+                                class="btn btn-outline-primary">
                             <i class="fas fa-ban"></i> Cancel
                         </button>
                     </div>
+
                 </div>
             }
         </div>

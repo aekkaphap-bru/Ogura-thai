@@ -19,6 +19,109 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
     
         public static class NotificationService
         {
+            public static string SendApprovalRequestEmail(
+            List<string> to,
+            string subject,
+            List<string> cc,
+            string callbackUrl,
+            HttpSessionStateBase session = null)
+            {
+                try
+                {
+                    using (var db = new OCTWEBTESTEntities())
+                    {
+                        // -----------------------------
+                        // 1. หา recipients อัตโนมัติถ้าไม่ได้ส่งมา
+                        // -----------------------------
+                        if (to == null || !to.Any())
+                        {
+                            int? usercode = null;
+                            if (session?["UserCode"] != null)
+                                usercode = Convert.ToInt32(session["UserCode"].ToString());
+
+                            var currentEmpInfo = db.UserDetails
+                                .Join(db.EmpLists, u => u.USE_Usercode, e => e.EmpID, (u, e) => new { u, e })
+                                .Where(x => x.u.USE_Usercode == usercode)
+                                .Select(x => new
+                                {
+                                    UserId = x.u.USE_Id,
+                                    DeptCode = x.e.DeptCode,
+                                    Position = x.e.Position,
+                                    FirstName = x.u.USE_FName,
+                                    LastName = x.u.USE_LName,
+                                    Email = x.u.USE_Email,
+                                    Dept = x.e.DeptDesc
+                                }).FirstOrDefault();
+
+                            if (currentEmpInfo != null)
+                            {
+                                var targetPositions = new[] { "Advisor", "Manager", "Asst. Manager" };
+
+                                to = db.UserRights
+                                    .Where(r => r.RIH_Id == 74)
+                                    .Join(db.UserDetails, ur => ur.USE_Id, ud => ud.USE_Id, (ur, ud) => new { ur, ud })
+                                    .Join(db.EmpLists, x => x.ud.USE_Usercode, e => e.EmpID, (x, e) => new { UserDetail = x.ud, Emp = e })
+                                    .Where(x => targetPositions.Contains(x.Emp.Position))
+                                    .Where(x => x.Emp.DeptCode == currentEmpInfo.DeptCode)
+                                    .Select(x => x.UserDetail.USE_Email)
+                                    .Where(email => !string.IsNullOrEmpty(email))
+                                    .Distinct()
+                                    .ToList();
+                            }
+                        }
+
+                        // fallback ถ้า to ยังว่าง
+                        if (to == null || !to.Any())
+                            to = new List<string> {};
+
+                        // -----------------------------
+                        // 2. เตรียม email template
+                        // -----------------------------
+                        string html = $@"
+                            <div style='font-family:Tahoma, sans-serif; font-size:14px; line-height:1.8; padding-left:20px;'>
+                                <p><b>Dear Department Head,</b></p>
+                                <p style='text-indent:2em;'>
+                                    There is a new document action request pending your approval in the OCT WEB system. 
+                                    Please review and take action within 3 working days.
+                                </p>
+                                <p style='text-indent:2em;'>
+                                    🔗 <a href='{callbackUrl}' target='_blank'>Click here to open OCT WEB - Document Control</a>
+                                </p>
+                                <hr style='border:none;border-top:1px solid #ccc;margin:20px 0;'/>
+                                <p><b>เรียน หัวหน้าแผนก,</b></p>
+                                <p style='text-indent:2em;'>
+                                    มีคำร้องขอดำเนินการเอกสารที่ต้องการการอนุมัติ กรุณาตรวจสอบและอนุมัติภายใน 3 วันทำการ
+                                </p>
+                                <p style='text-indent:2em;'>
+                                    🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อเปิดระบบ OCT WEB - Document Control</a>
+                                </p>
+                                <p style='color:gray;font-size:12px;'>
+                                    *This email was automatically generated by the system. Please do not reply.*
+                                </p>
+                            </div>";
+
+                        // -----------------------------
+                        // 3. ส่งเมล
+                        // -----------------------------
+                        var model = new SendMailCenterModel
+                        {
+                            To = to,
+                            Tocc = cc ?? new List<string>(),
+                            Subject = subject,
+                            Body = html
+                        };
+
+                        SendMailCenterController.SendMail(model);
+                        return "ส่งอีเมลสำเร็จ";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return "เกิดข้อผิดพลาดในการส่งอีเมล: " + ex.Message;
+                }
+            }
+
+
             public static string SendApprovalRequestEmail(List<string> to, string subject, List<string> cc, int LId, UrlHelper url, HttpRequestBase request)
             {
                 try
@@ -26,44 +129,21 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     var callbackUrl = url.Action("Details", "Document", new { id = LId }, protocol: request.Url.Scheme);
 
                     string html = $@"
-                        <div style='font-family:Tahoma, sans-serif; font-size:14px; line-height:1.8; padding-left:20px;'>
-                            
-                           
-                            <p><b>Dear Department Head,</b></p>
-
-                            <p style='text-indent:2em;'>
-                                There is a new document action request pending your approval in the OCT WEB system. 
-                                Please review and take action within 3 working days.
-                            </p>
-
-                            <p style='text-indent:2em;'>
-                                🔗 <a href='{callbackUrl}' target='_blank'>Click here to open OCT WEB - Document Control</a>
-                            </p>
-
-                            <br />
-
-                            <hr style='border: none; border-top: 1px solid #ccc; margin: 20px 0;' />
-                            <p><b>เรียน หัวหน้าแผนก,</b></p>
-
-                            <p style='text-indent:2em;'>
-                                มีคำร้องขอดำเนินการเอกสาร (Document action request) ที่ต้องการการอนุมัติ กรุณาดำเนินการตรวจสอบและอนุมัติภายใน 3 วันทำการ
-                            </p>
-
-                            <p style='text-indent:2em;'>
-                                🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อเปิดระบบ OCT WEB - Document Control</a>
-                            </p>
-
-                            <br />
-
-                            <p style='color:gray; font-size:12px;'>
-                                *This email was automatically generated by the system. Please do not reply.*
-                            </p>
-                        </div>
-                    ";
+                    <div style='font-family:Tahoma, sans-serif; font-size:14px; line-height:1.8; padding-left:20px;'>
+                        <p><b>Dear Department Head,</b></p>
+                        <p style='text-indent:2em;'>There is a new document action request pending your approval in the OCT WEB system. 
+                        Please review and take action within 3 working days.</p>
+                        <p style='text-indent:2em;'>🔗 <a href='{callbackUrl}' target='_blank'>Click here to open OCT WEB - Document Control</a></p>
+                        <hr style='border:none;border-top:1px solid #ccc;margin:20px 0;'/>
+                        <p><b>เรียน หัวหน้าแผนก,</b></p>
+                        <p style='text-indent:2em;'>มีคำร้องขอดำเนินการเอกสารที่ต้องการการอนุมัติ กรุณาตรวจสอบและอนุมัติภายใน 3 วันทำการ</p>
+                        <p style='text-indent:2em;'>🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อเปิดระบบ OCT WEB - Document Control</a></p>
+                        <p style='color:gray;font-size:12px;'>*This email was automatically generated by the system. Please do not reply.*</p>
+                    </div>";
 
                     var model = new SendMailCenterModel
                     {
-                        To = to ?? new List<string>(),
+                        To = to ?? new List<string> {},
                         Tocc = cc ?? new List<string>(),
                         Subject = subject,
                         Body = html
@@ -77,8 +157,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     return "เกิดข้อผิดพลาดในการส่งอีเมล: " + ex.Message;
                 }
             }
-
-
+            
             public static void SendSimpleEmail(List<string> to, string subject, string body)
             {
                 try
@@ -91,6 +170,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         Body = $"<p style='font-size: 16px'>{body}</p>"
                     };
 
+
                     SendMailCenterController.SendMail(model);
                 }
                 catch (Exception ex)
@@ -99,16 +179,16 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 }
             }
 
-
-            public static void NotifyAfterApproval(DocumentList document, DocumentDetail documentDetail, DocumentApprovalStep currentStep, string requesterEmail, UrlHelper urlHelper, HttpRequestBase request)
+            public static void NotifyAfterApproval(DocumentList document, DocumentDetail documentDetail, DocumentApprovalStep currentStep, string requesterEmail, string callbackUrl)
             {
                 using (var db = new OCTWEBTESTEntities())
                 {
+
                     string darNo = document.DarNumber ?? "N/A";
                     string wsNo = documentDetail?.WS_number ?? $"WS-{document.LId}";
                     string wsName = documentDetail?.WS_name ?? "(ไม่ระบุชื่อเอกสาร)";
                     string updatedAt = document.Updated_at?.ToString("yyyy-MM-dd") ?? "(ไม่ระบุวันที่)";
-                    string docLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
+                    //string docLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
                     var step2 = db.DocumentApprovalSteps.FirstOrDefault(s => s.LId == document.LId && s.Step == 2);
                     var step2Approver = db.UserDetails.FirstOrDefault(u => u.USE_Usercode == step2.Approver_id);
                     string StepName = StepNameHelper.GetInitialsName(document, currentStep);
@@ -136,7 +216,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             </p>
 
                             <p style='text-indent: 2em;'>
-                                🔗 <a href='{docLink}' target='_blank'>คลิกที่นี่เพื่อเปิดเอกสาร</a>
+                                🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อเปิดเอกสาร</a>
                             </p>
 
                             <br/>
@@ -178,7 +258,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                                 </p>
 
                                 <p style='text-indent: 2em;'>
-                                    🔗 <a href='{docLink}' target='_blank'>คลิกเพื่อเปิดเอกสาร</a>
+                                    🔗 <a href='{callbackUrl}' target='_blank'>คลิกเพื่อเปิดเอกสาร</a>
                                 </p>
 
                                 <br/>
@@ -210,7 +290,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                                 </p>
                                 
                                 <p style='text-indent: 2em;'>
-                                    🔗 <a href='{docLink}' target='_blank'>ดูรายละเอียดเอกสาร</a>
+                                    🔗 <a href='{callbackUrl}' target='_blank'>ดูรายละเอียดเอกสาร</a>
                                 </p>
 
                                 <br/>
@@ -228,7 +308,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
             }
 
-            public static void NotifyAfterReject(DocumentList document, DocumentDetail documentDetail, DocumentApprovalStep currentStep, string requesterEmail, UrlHelper urlHelper, HttpRequestBase request)
+            public static void NotifyAfterReject(DocumentList document, DocumentDetail documentDetail, DocumentApprovalStep currentStep, string requesterEmail, string callbackUrl)
             {
                 using (var db = new OCTWEBTESTEntities())
                 {
@@ -236,7 +316,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     string wsNo = documentDetail?.WS_number ?? $"WS-{document.LId}";
                     string wsName = documentDetail?.WS_name ?? "(ไม่ระบุชื่อเอกสาร)";
                     string updatedAt = document.Updated_at?.ToString("yyyy-MM-dd") ?? "(ไม่ระบุวันที่)";
-                    string docLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
+                    //string docLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
                     var step2 = db.DocumentApprovalSteps.FirstOrDefault(s => s.LId == document.LId && s.Step == 2);
                     var step2Approver = db.UserDetails.FirstOrDefault(u => u.USE_Usercode == step2.Approver_id);
                     string StepName = StepNameHelper.GetInitialsName(document, currentStep);
@@ -262,7 +342,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                                     เหตุผล: <b>{currentStep.Comment}</b>
                                 </p>
                                 <p style='text-indent:2em;'>
-                                    🔗 <a href='{docLink}' target='_blank'>คลิกที่นี่เพื่อดูรายละเอียดเอกสาร</a>
+                                    🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อดูรายละเอียดเอกสาร</a>
                                 </p>
                                 <br/>
                                 <p style='color:gray; font-size:12px;'>**อีเมลฉบับนี้ส่งจากระบบอัตโนมัติ กรุณาอย่าตอบกลับ**</p>
@@ -278,7 +358,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
             }
 
-            public static void NotifyProcessReviewTeamsIfNeeded(DocumentList document, DocumentDetail documentDetail, UrlHelper urlHelper, HttpRequestBase request)
+            public static void NotifyProcessReviewTeamsIfNeeded(DocumentList document, DocumentDetail documentDetail, string callbackUrl)
             {
                 // ตรวจสอบว่าเอกสารนี้ต้องการการ review หรือไม่
                 bool requireFMEA = document.FMEAReview == true;
@@ -314,7 +394,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         string wsName = documentDetail?.WS_name ?? "(ไม่ระบุชื่อเอกสาร)";
                         string darNo = document?.DarNumber ?? "N/A";
                         string registrationDate = document.Updated_at?.ToString("yyyy-MM-dd") ?? "(ไม่ระบุวันที่)";
-                        string documentLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
+                        //string documentLink = urlHelper.Action("Details", "Document", new { id = document.LId }, request.Url.Scheme);
 
                         string subject = $"OCT - DocumentControl | WS No: {wsNo} ต้องการการ Review";
 
@@ -335,7 +415,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             </p>
 
                             <p style='text-indent: 2em;'>
-                                🔗 <a href='{documentLink}' target='_blank'>คลิกที่นี่เพื่อเปิดเอกสาร</a>
+                                🔗 <a href='{callbackUrl}' target='_blank'>คลิกที่นี่เพื่อเปิดเอกสาร</a>
                             </p>
 
                             <br/>
@@ -352,5 +432,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
         #endregion
+
     }
 }

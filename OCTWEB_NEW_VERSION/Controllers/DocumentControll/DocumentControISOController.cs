@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static OCTWEB_NET45.Controllers.DocumentControll.DocumentNotification;
 using static OCTWEB_NET45.Controllers.DocumentControll.DocumentService;
 
 
@@ -22,9 +23,15 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
     public class DocumentControISOController : Controller
     {
 
+        #region Fields
+
         private OCTWEBTESTEntities db = new OCTWEBTESTEntities();
 
         private DocumentService service = new DocumentService();
+
+        private DocumentNotification notification = new DocumentNotification();
+
+        #endregion
 
         #region Document List - Get
 
@@ -169,6 +176,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[Error] Create action failed: {ex}");
                 ViewBag.ErrorMessage = "Error loading form: " + ex.Message;
                 return View(new DocumentMasterModel());
             }
@@ -204,12 +212,25 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
+                        // function to create the document record
                         var document = service.CreateDocumentIsoRecord(model);
                         service.ProcessFileUpload(model, document.LId);
                         service.ProcessDocumentDetail(model, document.LId);
                         service.ProcessSelectedArea(model, document.LId);
                         service.CreateApprovalWorkflow(document,document.LId, document.Requester_id);
 
+                        // Notify approvers of the new request
+                        var redirectUrl = Url.Action("Detail", "DocumentControISO", new { id = document.LId }, Request.Url.Scheme);
+
+                        NotificationService.SendApprovalRequestEmail(
+                            to: null,
+                            subject: "New Request Document Control Pending Approval",
+                            cc: new List<string>(),
+                            callbackUrl: redirectUrl,
+                            session: Session
+                        );
+
+                        // Save changes and commit transaction
                         db.SaveChanges();
                         transaction.Commit();
 
@@ -255,48 +276,6 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
-        private void NotifyApproversOfNewRequest(int documentId, int requesterId)
-        {
-            var currentEmpInfo = db.UserDetails
-                .Join(db.EmpLists, u => u.USE_Usercode, e => e.EmpID, (u, e) => new { u, e })
-                .Where(x => x.u.USE_Usercode == service.GetCurrentUserId(Session))
-                .Select(x => new
-                {
-                    UserId = x.u.USE_Id,
-                    DeptCode = x.e.DeptCode,
-                    Position = x.e.Position,
-                    FirstName = x.u.USE_FName,
-                    LastName = x.u.USE_LName,
-                    Email = x.u.USE_Email,
-                    Dept = x.e.DeptDesc
-                }).FirstOrDefault();
-
-            if (currentEmpInfo == null) return;
-
-            var targetPositions = new[] { "Advisor", "Manager", "Asst. Manager" };
-
-            var potentialRecipients = db.UserRights
-                .Where(r => r.RIH_Id == 74)
-                .Join(db.UserDetails, ur => ur.USE_Id, ud => ud.USE_Id, (ur, ud) => new { ur, ud })
-                .Join(db.EmpLists, x => x.ud.USE_Usercode, e => e.EmpID, (x, e) => new { UserDetail = x.ud, Emp = e })
-                .Where(x => targetPositions.Contains(x.Emp.Position) && x.UserDetail.USE_Id != service.GetCurrentUserId(Session))
-                .Where(x => x.Emp.DeptCode == currentEmpInfo.DeptCode)
-                .Select(x => x.UserDetail.USE_Email)
-                .Where(email => !string.IsNullOrEmpty(email))
-                .Distinct()
-                .ToList();
-
-            if (!potentialRecipients.Any()) return;
-
-            DocumentNotification.NotificationService.SendApprovalRequestEmail(
-                to: potentialRecipients,
-                subject: $"OCT - DocumentControl | A new Document Action Request Form has been submitted",
-                cc: new List<string>(),
-                LId: documentId,
-                url: Url,
-                request: Request
-            );
-        }
         #endregion
 
         #region Document Editing - GET
@@ -304,12 +283,14 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
         {
             try
             {
+                // Check if the document exists
                 var document = db.DocumentLists.Find(id);
                 if (document == null)
                 {
                     return HttpNotFound(); 
                 }
 
+                // Check if the current user is the requester
                 var detail = db.DocumentDetails.FirstOrDefault(d => d.LId == id);
                 var documentDetail = detail != null
                     ? new DocumentDetailModel
@@ -326,23 +307,29 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     : new DocumentDetailModel();
 
                 // Set approval back to waiting if in progress
-                var existingStep = db.DocumentApprovalSteps.FirstOrDefault(s => s.LId == id);
-                if (existingStep != null)
+                var existingSteps = db.DocumentApprovalSteps.Where(s => s.LId == id).ToList();
+                if (existingSteps.Any())
                 {
-                    existingStep.Status = StepStatus.Waiting;
+                    foreach (var step in existingSteps)
+                    {
+                        step.Status = StepStatus.Waiting;
+                    }
+
+                    document.Status = DocumentStatus.Editing;
+                    db.SaveChanges();
                 }
 
-                document.Status = DocumentStatus.Editing;
-                db.SaveChanges();
 
                 var selectedAreaIds = db.DocumentFormAreas 
                     .Where(a => a.LId == id)
                     .Select(a => a.WS_TS_Id)
                     .ToList();
 
+                // Load all available areas and mark selected ones
                 var allAreas = service.LoadAvailableAreas();
                 allAreas.ForEach(a => a.IsSelected = selectedAreaIds.Contains(a.Id));
 
+                // Create the model for the view
                 var model = new DocumentMasterModel
                 {
                     Id = document.LId,
@@ -357,12 +344,11 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     RequestTypes = service.GetRequestTypes()
                 };
 
-
-               
                 return View(model);
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[Error] Edit action failed: {ex}");
                 ViewBag.ErrorMessage = "Error loading form for editing: " + ex.Message;
                 return View("Error");
             }
@@ -381,18 +367,19 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 {
                     try
                     {
+                        // Validate the model state
                         var documentToUpdate = db.DocumentLists.Find(model.Id);
                         if (documentToUpdate == null)
                             return Json(new { success = false, message = "Document not found." });
 
-                        // 1. อัปเดตข้อมูลหลัก
+                        // Check if the current user is the requester
                         documentToUpdate.Request_type = model.Request_type;
                         documentToUpdate.Document_type = model.Document_type;
                         documentToUpdate.Status = DocumentStatus.PendingApproval;
                         documentToUpdate.Effective_date = model.Effective_date;
                         documentToUpdate.Updated_at = DateTime.Now;
 
-                        // 2. อัปเดต DocumentDetail ที่มีอยู่
+                        // 1. Update the main document record
                         var detailToUpdate = db.DocumentDetails.FirstOrDefault(d => d.LId == model.Id);
                         if (detailToUpdate != null)
                         {
@@ -403,7 +390,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             detailToUpdate.Num_copies = model.DocumentDetail.Num_copies;
                             detailToUpdate.Change_detail = model.DocumentDetail.Change_detail;
 
-                            // 3. Process file upload (อัปเดตไฟล์ถ้ามี)
+                            // 2. Process file upload (อัปเดตไฟล์ถ้ามี)
                             service.ProcessFileUpload(model, documentToUpdate.LId);
                         }
                         else
@@ -413,12 +400,24 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             service.ProcessFileUpload(model, documentToUpdate.LId);
                         }
 
-                        // 4. อัปเดต Area ที่เลือก
+                        // 3. Process selected areas
                         db.DocumentFormAreas.RemoveRange(db.DocumentFormAreas.Where(a => a.LId == model.Id));
                         service.ProcessSelectedArea(model, documentToUpdate.LId);
 
-                        // 4. อัปเดต Approval ใหม่
+                        // 4. Update the approval workflow
                         service.UpdateApprovalWorkflow(documentToUpdate,documentToUpdate.LId, documentToUpdate.Requester_id);
+
+                        // 5. Notify approvers of the updated request
+                        var redirectUrl = Url.Action("Detail", "DocumentControISO", new { id = documentToUpdate.LId }, Request.Url.Scheme);
+
+                        NotificationService.SendApprovalRequestEmail(
+                            to: null,
+                            subject: "Updated ISO 14001 Request Pending Review",
+                            cc: new List<string>(),
+                            callbackUrl: redirectUrl,
+                            session: Session
+                        );
+
 
                         db.SaveChanges();
                         transaction.Commit();
@@ -792,7 +791,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         return Json(new { success = false, message = "This step is not in a pending state." });
                     }
 
-
+                    var detailsUrl = Url.Action("Detail", "DocumentControISO", new { id = document.LId }, Request.Url.Scheme);
                     if (model.Action.ToLower() == "reject")
                     {
                         if (string.IsNullOrWhiteSpace(model.Comment))
@@ -802,7 +801,7 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                         db.SaveChanges();
                         transaction.Commit();
 
-                        DocumentNotification.NotificationService.NotifyAfterReject(document, documentdetail, currentStep, requesterEmail, Url, Request);
+                        NotificationService.NotifyAfterReject(document, documentdetail, currentStep, requesterEmail: requesterEmail, callbackUrl: detailsUrl);
 
                         return Json(new { success = true, message = "The request has been rejected and sent back for revision." });
                     }
@@ -813,9 +812,20 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                     db.SaveChanges();
                     transaction.Commit();
 
-                    DocumentNotification.NotificationService.NotifyAfterApproval(document, documentdetail, currentStep, requesterEmail, Url, Request);
+                    // แจ้งหลังอนุมัติ
+                    NotificationService.NotifyAfterApproval(
+                        document: document,
+                        documentDetail: documentdetail,
+                        currentStep: currentStep,
+                        requesterEmail: requesterEmail,
+                        callbackUrl: detailsUrl 
+                    );
 
-                    DocumentNotification.NotificationService.NotifyProcessReviewTeamsIfNeeded(document, documentdetail, Url, Request);
+                    NotificationService.NotifyProcessReviewTeamsIfNeeded(
+                        document: document,
+                        documentDetail: documentdetail,
+                        callbackUrl: detailsUrl
+                    );
 
                     return Json(new { success = true, message = "Approval completed successfully." });
                 }
@@ -1157,7 +1167,9 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
             }
         }
 
-        #endregion 
+        #endregion
+
+        #region View Attach Files
 
         public ActionResult Previewfile(string file)
         {
@@ -1212,6 +1224,8 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                 return new HttpStatusCodeResult(500, "An error occurred while processing the file.");
             }
         }
+
+        #endregion
 
     }
 }
