@@ -35,12 +35,12 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
 
         #region Document List - Get
 
-        public ActionResult List(int? page, string searchTerm = null, string statusFilter = null)
+        public ActionResult List(int? page, string searchString = null, string statusFilter = null)
         {
             try
             {
 
-                ViewBag.CurrentFilter = searchTerm;
+                ViewBag.CurrentFilter = searchString;
                 ViewBag.CurrentStatus = statusFilter;
                
                 IQueryable<DocumentList> documentsQuery = db.DocumentLists.AsQueryable();
@@ -116,13 +116,13 @@ namespace OCTWEB_NET45.Controllers.DocumentControll
                             };
 
                 // Apply search string filter
-                if (!string.IsNullOrEmpty(searchTerm))
+                if (!string.IsNullOrEmpty(searchString))
                 {
                     query = query.Where(d =>
-                        d.LId.ToString().Contains(searchTerm) ||
-                        d.DarNumber.ToString().Contains(searchTerm) ||
-                        d.WS_name.Contains(searchTerm) ||
-                        d.WS_number.Contains(searchTerm));
+                        d.LId.ToString().Contains(searchString) ||
+                        d.DarNumber.ToString().Contains(searchString) ||
+                        d.WS_name.Contains(searchString) ||
+                        d.WS_number.Contains(searchString));
                 }
 
                 // Apply status filter
